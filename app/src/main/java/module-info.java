@@ -5,8 +5,6 @@ module app {
 	requires spring.web;
 	requires spring.context;
 
-	requires lombok;
-
 	requires micrometer.core;
 
 }
