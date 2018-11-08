@@ -1,4 +1,5 @@
 image: "docker.adeo.no:5000/dok/foerstesidegenerator"
+team: teamdokumenthandtering
 replicas:
   min: 1
   max: 2
