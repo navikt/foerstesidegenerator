@@ -44,6 +44,9 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<logstash-logback-encoder.version>5.1</logstash-logback-encoder.version>
+		<!--<lombok.version>1.18.4</lombok.version>-->
+		<metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
+
 	</properties>
 
 	<dependencyManagement>
@@ -175,7 +178,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.20.1</version>
+				<version>2.22.0</version>
 				<reportSets>
 					<reportSet>
 						<id>integration-tests</id>
