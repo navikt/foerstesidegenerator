@@ -7,4 +7,6 @@ module app {
 
 	requires micrometer.core;
 
+	requires javax.inject;
+
 }
