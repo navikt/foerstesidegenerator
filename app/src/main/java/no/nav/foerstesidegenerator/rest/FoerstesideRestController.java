@@ -1,5 +1,7 @@
 package no.nav.foerstesidegenerator.rest;
 
+import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
+import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +37,10 @@ public class FoerstesideRestController {
 
 	@PostMapping
 	@ResponseBody
-	public Object postNew(@RequestBody Object request) {
+	public PostFoerstesideResponse postNew(@RequestBody PostFoerstesideRequest request) {
 //		log.info("foerstesidegenerator - mottatt POST-kall for å opprette ny foersteside-key");
 		// persister basert på request (hvis identiske metadata finnes => returner eksisterende?)
-		Object foersteside = foerstesideService.createFoersteside(request);
+		PostFoerstesideResponse foersteside = foerstesideService.createFoersteside(request);
 
 		// returner key
 		return null;
