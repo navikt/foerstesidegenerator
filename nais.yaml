@@ -21,4 +21,11 @@ resources:
   limits:
     cpu: 3000m
     memory: 1024Mi
-
+fasitResources:
+  used:
+  - alias: foerstesidegeneratordb
+    resourceType: datasource
+    propertyMap:
+      url: SPRING_DATASOURCE_URL
+      username: SPRING_DATASOURCE_USERNAME
+      password: SPRING_DATASOURCE_PASSWORD

@@ -43,7 +43,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<logstash-logback-encoder.version>5.1</logstash-logback-encoder.version>
+		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
 	</properties>
 
 	<dependencyManagement>
@@ -194,7 +194,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.20.1</version>
+				<version>2.22.0</version>
 				<reportSets>
 					<reportSet>
 						<id>integration-tests</id>
