@@ -7,5 +7,7 @@ public interface FoerstesideRepository extends CrudRepository<Foersteside, Long>
 
 	Foersteside findByFoerstesideId(Long foerstesideId);
 
+	Foersteside findByLoepenummer(String loepenummer);
+
 	Foersteside save(Foersteside foersteside);
 }

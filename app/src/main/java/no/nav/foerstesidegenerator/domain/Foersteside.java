@@ -34,8 +34,49 @@ public class Foersteside {
 	@Column(name = "dato_opprettet", nullable = false, updatable = false)
 	private LocalDateTime datoOpprettet;
 
-	@OneToMany(mappedBy = "foersteside_id")
+	@Column(name = "uthentet", nullable = false, updatable = true)
+	private Boolean uthentet;
+
+	@Column(name = "dato_uthentet", nullable = true, updatable = true)
+	private LocalDateTime datoUthentet;
+
+	@OneToMany(mappedBy = "foersteside")
 	@Cascade({CascadeType.PERSIST, CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.DELETE, CascadeType.DETACH})
 	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 
+	public Long getFoerstesideId() {
+		return foerstesideId;
+	}
+
+	public Long getLoepenummer() {
+		return loepenummer;
+	}
+
+	public LocalDateTime getDatoOpprettet() {
+		return datoOpprettet;
+	}
+
+	public void setDatoOpprettet(LocalDateTime datoOpprettet) {
+		this.datoOpprettet = datoOpprettet;
+	}
+
+	public Boolean getUthentet() {
+		return uthentet;
+	}
+
+	public void setUthentet(Boolean uthentet) {
+		this.uthentet = uthentet;
+	}
+
+	public LocalDateTime getDatoUthentet() {
+		return datoUthentet;
+	}
+
+	public void setDatoUthentet(LocalDateTime datoUthentet) {
+		this.datoUthentet = datoUthentet;
+	}
+
+	public Set<FoerstesideMetadata> getFoerstesideMetadata() {
+		return foerstesideMetadata;
+	}
 }

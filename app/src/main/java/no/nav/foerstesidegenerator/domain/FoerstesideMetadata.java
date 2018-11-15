@@ -34,5 +34,27 @@ public class FoerstesideMetadata {
 	@Column(name = "value")
 	private String value;
 
+	public Long getFoerstesideMetadataId() {
+		return foerstesideMetadataId;
+	}
 
+	public Foersteside getFoersteside() {
+		return foersteside;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 }
