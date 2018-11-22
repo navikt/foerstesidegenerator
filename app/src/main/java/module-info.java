@@ -1,4 +1,4 @@
-module app {
+open module app {
 
 	requires spring.boot;
 	requires spring.boot.autoconfigure;
