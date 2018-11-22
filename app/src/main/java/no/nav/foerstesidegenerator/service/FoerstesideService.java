@@ -1,6 +1,6 @@
 package no.nav.foerstesidegenerator.service;
 
-import static no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator.validate;
+//import static no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator.validate;
 
 //import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
 //import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;

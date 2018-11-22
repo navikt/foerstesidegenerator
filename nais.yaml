@@ -21,4 +21,10 @@ resources:
   limits:
     cpu: 3000m
     memory: 1024Mi
-
+fasitresources:
+  used:
+  - alias: srvfoerstesidegenerator
+    resourceType: credential
+    propertyMap:
+      username: SERVICEUSER_USERNAME
+      password: SERVICEUSER_PASSWORD
