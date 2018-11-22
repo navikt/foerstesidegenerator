@@ -5,7 +5,7 @@ open module app {
 	requires spring.web;
 	requires spring.context;
 
-	requires no.nav.dok.tjenester.foerstesidegenerator;
+//	requires no.nav.dok.tjenester.foerstesidegenerator;
 
 	requires org.apache.logging.log4j;
 

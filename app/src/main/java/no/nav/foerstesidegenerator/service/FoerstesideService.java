@@ -2,29 +2,39 @@ package no.nav.foerstesidegenerator.service;
 
 import static no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator.validate;
 
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
+//import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
+//import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
 import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
 
 @Service
 public class FoerstesideService {
 
 	// metaforce-consumer
 	// foerstesideRepository
+	private final LoepenummerGenerator loepenummerGenerator;
 
-	public FoerstesideService() {
+	@Inject
+	public FoerstesideService(final LoepenummerGenerator loepenummerGenerator) {
+		this.loepenummerGenerator = loepenummerGenerator;
 	}
 
 	// returner en response av noe slag
-	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request) {
+	public Object createFoersteside(Object request) {
+		/*
+		 * valider request []
+		 * generer løpenummer []
+		 * transformer til domeneobjekt som kan persisteres
+		 * hvis valid, lagre til db
+		 *
+		 * kall metaforce
+		 *
+		 */
+
 		// valider
-		validate(request);
-
-		// transformer til domeneobjekt som kan persisteres
-
-
-		// hvis valid, lagre til db og hent/generer id
-
+//		validate(request);
+//		String loepenummer = loepenummerGenerator.generateLoepenummer();
 
 		return null;
 	}
