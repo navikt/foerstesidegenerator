@@ -2,8 +2,8 @@ package no.nav.foerstesidegenerator.service;
 
 //import static no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator.validate;
 
-//import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
-//import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
+import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
+import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -21,7 +21,7 @@ public class FoerstesideService {
 	}
 
 	// returner en response av noe slag
-	public Object createFoersteside(Object request) {
+	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request) {
 		/*
 		 * valider request []
 		 * generer løpenummer []
