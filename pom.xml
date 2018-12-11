@@ -32,6 +32,7 @@
 
 		<logstash-logback-encoder.version>5.1</logstash-logback-encoder.version>
 		<metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
+		<apache-cxf.version>3.2.6</apache-cxf.version>
 
 	</properties>
 
@@ -43,12 +44,64 @@
 				<version>1</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.fasterxml.woodstox</groupId>
+				<artifactId>woodstox-core</artifactId>
+				<version>5.1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.santuario</groupId>
+				<artifactId>xmlsec</artifactId>
+				<version>2.1.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jvnet.staxex</groupId>
+				<artifactId>stax-ex</artifactId>
+				<version>1.8</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm</artifactId>
+				<version>6.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.opensaml</groupId>
+				<artifactId>opensaml-saml-api</artifactId>
+				<version>3.3.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.google.code.findbugs</groupId>
+						<artifactId>jsr305</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!--Java EE API replacements for JDK 11-->
+
+			<!-- JAXB for Java 11 -->
+			<dependency>
+				<groupId>org.glassfish.jaxb</groupId>
+				<artifactId>jaxb-runtime</artifactId>
+				<version>2.4.0-b180830.0438</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jaxb</groupId>
+				<artifactId>txw2</artifactId>
+				<version>2.4.0-b180830.0438</version>
+			</dependency>
+			<!-- JAXWS for Java 11 -->
+
 			<!--<dependency>-->
 				<!--<groupId>org.projectlombok</groupId>-->
 				<!--<artifactId>lombok</artifactId>-->
 				<!--<version>${lombok.version}</version>-->
 				<!--<scope>provided</scope>-->
 			<!--</dependency>-->
+
 		</dependencies>
 	</dependencyManagement>
 

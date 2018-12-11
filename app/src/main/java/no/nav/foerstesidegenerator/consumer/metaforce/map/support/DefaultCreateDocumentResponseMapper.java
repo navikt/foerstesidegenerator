@@ -5,12 +5,14 @@ import no.nav.foerstesidegenerator.consumer.metaforce.to.CreateDocumentResponseT
 import no.nav.foerstesidegenerator.consumer.metaforce.to.MetaforceDocumentType;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentFormat;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentReturn;
+import org.springframework.stereotype.Component;
 
 /**
  * Default implementation of CreateDocumentResponseMapper
  *
  * @author Joakim Bjørnstad, Visma Consulting
  */
+@Component
 public class DefaultCreateDocumentResponseMapper implements CreateDocumentResponseMapper {
 
 	@Override

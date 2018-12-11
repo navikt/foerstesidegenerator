@@ -2,6 +2,7 @@ package no.nav.foerstesidegenerator.consumer.metaforce.map.support;
 
 import no.nav.foerstesidegenerator.consumer.metaforce.map.CreateDocumentRequestMapper;
 import no.nav.foerstesidegenerator.consumer.metaforce.to.CreateDocumentRequestTo;
+import org.springframework.stereotype.Component;
 import se.metaforce.services.GSCreateDocument;
 
 /**
@@ -9,7 +10,7 @@ import se.metaforce.services.GSCreateDocument;
  *
  * @author Joakim Bjørnstad, Visma Consulting
  */
-
+@Component
 public class DefaultCreateDocumentRequestMapper implements CreateDocumentRequestMapper {
 
 	@Override

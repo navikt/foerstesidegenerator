@@ -2,9 +2,8 @@ package no.nav.foerstesidegenerator.consumer.metaforce;
 
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentReturn;
-import org.datacontract.schemas._2004._07.metaforce_common.UpdateDocReturn;
-import se.metaforce.services.GSLoadInArchive;
-import se.metaforce.services.GSOpenDocument;
+import org.springframework.stereotype.Component;
+import se.metaforce.services.GSCreateDocument;
 import se.metaforce.services.IGeneralService;
 
 import javax.inject.Inject;
@@ -21,51 +20,37 @@ import javax.inject.Inject;
  *
  * @author Paul Magne Lunde, Visma Consulting
  */
+@Component
 public class MetaforceConsumer {
 
-	@Inject
-	private IGeneralService metaforceEndpoint;
+	private final IGeneralService metaforceEndpoint;
 
-	/**
-	 * GSLoadInArchive
-	 * String metafile, String document, String textRows, Data data, Attachments attachments
-	 */
-	public UpdateDocReturn loadInArchiveRequest(GSLoadInArchive gsLoadInArchive) {
-//		log.info(getProcessName(MDCOperations.getFromMDC(MDC_APP_ID)) + " kaller Metaforce:gsLoadInArchive for forsendelse med forsendelseMottaksId=" + MDCOperations
-//				.getFromMDC(MDC_FORSENDELSE_MOTTAKSID));
-//		Histogram.Timer requestTimer = requestLatency.labels(getProcessName(MDCOperations.getFromMDC(MDC_APP_ID)), "Metaforce::gsLoadInArchive")
-//				.startTimer();
-		try {
-			return metaforceEndpoint.gsLoadInArchive(gsLoadInArchive.getMetaFile(),
-					gsLoadInArchive.getDocument(),
-					gsLoadInArchive.getTextRows(),
-					gsLoadInArchive.getData(),
-					gsLoadInArchive.getAttachments());
-		} catch (Exception e) {
-			throw new FoerstesideGeneratorTechnicalException("Technical error in Metaforce.loadInArchive", e);
-		} finally {
-//			requestTimer.observeDuration();
-		}
+	@Inject
+	public MetaforceConsumer(IGeneralService metaforceEndpoint) {
+		this.metaforceEndpoint = metaforceEndpoint;
 	}
 
 	/**
-	 * GSOpenDocument
-	 * Integer jobId, Integer docId, String printConfig
+	 * GSCreateDocument
+	 * String metafile, String document, String textRows, Data data, String printConfig, Attachments attachments
 	 */
-	public DocumentReturn openDocumentRequest(GSOpenDocument gsOpenDocument) {
-//		log.info(getProcessName(MDCOperations.getFromMDC(MDC_APP_ID)) + " kaller Metaforce:gsOpenDocument for forsendelse med forsendelseMottaksId=" + MDCOperations
+	public DocumentReturn createDocumentRequest(GSCreateDocument gsCreateDocument) {
+//		log.info(getProcessName(MDCOperations.getFromMDC(MDC_APP_ID)) + " kaller Metaforce:createDocument for forsendelse med forsendelseMottaksId=" + MDCOperations
 //				.getFromMDC(MDC_FORSENDELSE_MOTTAKSID));
 //
-//		Histogram.Timer requestTimer = requestLatency.labels(getProcessName(MDCOperations.getFromMDC(MDC_APP_ID)), "Metaforce::gsOpenDocument")
+//		Histogram.Timer requestTimer = requestLatency.labels(getProcessName(MDCOperations.getFromMDC(MDC_APP_ID)), "Metaforce::gsCreateDocument")
 //				.startTimer();
 		try {
-			return metaforceEndpoint.gsOpenDocument(gsOpenDocument.getJobId(),
-					gsOpenDocument.getDocId(),
-					gsOpenDocument.getPrintConfiguration());
+			return metaforceEndpoint.gsCreateDocument(
+					gsCreateDocument.getMetafile(),
+					gsCreateDocument.getDocument(),
+					gsCreateDocument.getData(),
+					gsCreateDocument.getTextRows(),
+					gsCreateDocument.getPrintConfiguration(),
+					gsCreateDocument.getAttachments()
+			);
 		} catch (Exception e) {
-			throw new FoerstesideGeneratorTechnicalException("Technical error in Metaforce.openDocument", e);
-		} finally {
-//			requestTimer.observeDuration();
+			throw new FoerstesideGeneratorTechnicalException("Technical error in Metaforce.createDocument", e);
 		}
 	}
 }
