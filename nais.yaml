@@ -1,4 +1,4 @@
-image: "docker.adeo.no:5000/dok/foerstesidegenerator"
+image: "repo.adeo.no:5443/dok/foerstesidegenerator"
 team: teamdokumenthandtering
 replicas:
   min: 1
@@ -21,4 +21,10 @@ resources:
   limits:
     cpu: 3000m
     memory: 1024Mi
-
+fasitresources:
+  used:
+  - alias: srvfoerstesidegenerator
+    resourceType: credential
+    propertyMap:
+      username: SERVICEUSER_USERNAME
+      password: SERVICEUSER_PASSWORD
