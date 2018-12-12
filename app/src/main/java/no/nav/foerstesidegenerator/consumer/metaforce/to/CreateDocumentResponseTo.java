@@ -8,7 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
  *
  * @author Hans Petter Simonsen - Visma Consulting AS
  */
-public class CreateDocumentResponseTo extends AbtractDocumentResponse {
+public class CreateDocumentResponseTo extends AbstractDocumentResponse {
 
 	private byte[] documentData;
 

@@ -7,7 +7,7 @@ import javax.xml.datatype.Duration;
  *
  * @author Joakim Bjørnstad, Visma Consulting
  */
-public abstract class AbtractDocumentResponse {
+public abstract class AbstractDocumentResponse {
 	private MetaforceDocumentType docFormat;
 	private String extension;
 	private String mimeType;
@@ -16,7 +16,7 @@ public abstract class AbtractDocumentResponse {
 	private Duration executionTime;
 	private Duration executionTimeInternal;
 
-	protected AbtractDocumentResponse(MetaforceDocumentType docFormat, String extension, String mimeType, int length) {
+	protected AbstractDocumentResponse(MetaforceDocumentType docFormat, String extension, String mimeType, int length) {
 		this.docFormat = docFormat;
 		this.extension = extension;
 		this.mimeType = mimeType;
