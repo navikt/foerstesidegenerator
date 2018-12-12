@@ -37,8 +37,8 @@ public class FoerstesideService {
 		// valider
 		postFoerstesideRequestValidator.validate(request);
 
-		// generer loepenummer
-		String loepenummer = loepenummerGenerator.generateLoepenummer();
+		// generer loepenummer. stringify - String.format("%09d", loepenummer)
+		int loepenummer = loepenummerGenerator.generateLoepenummer();
 
 		return null;
 	}
