@@ -1,20 +1,20 @@
 package no.nav.foerstesidegenerator.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 class LoepenummerGeneratorTest {
 
+	private static final int BOUND = 1_000_000_000;
 	private LoepenummerGenerator loepenummerGenerator = new LoepenummerGenerator();
 
 	@Test
-	void loepenummerShouldBeANumericString() {
-		String x = loepenummerGenerator.generateLoepenummer();
+	void loepenummerShouldBeWithinBounds() {
+		int loepenummer = loepenummerGenerator.generateLoepenummer();
 
-		assertEquals(9, x.length());
-		assertTrue(x.matches(".*[0-9].*"));
+		assertTrue(loepenummer < BOUND);
+		assertTrue(loepenummer > 0);
 	}
 
 }

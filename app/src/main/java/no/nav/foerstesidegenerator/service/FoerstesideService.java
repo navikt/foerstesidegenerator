@@ -30,8 +30,8 @@ public class FoerstesideService {
 		// valider request
 		postFoerstesideRequestValidator.validate(request);
 
-		// generer løpenummer
-		loepenummerGenerator.generateLoepenummer();
+		// generer loepenummer. stringify - String.format("%09d", loepenummer)
+		int loepenummer = loepenummerGenerator.generateLoepenummer();
 
 		// Transformer til domeneobjekt. Persister
 
