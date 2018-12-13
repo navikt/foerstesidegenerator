@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>no.nav.tjenester.fim</groupId>
 			<artifactId>no-nav-dok-tjenester-foerstesidegenerator</artifactId>
-			<version>0.0.5</version>
+			<version>${no-nav-dok-tjenester-foerstesidegenerator.version}</version>
 		</dependency>
 
 		<dependency>
