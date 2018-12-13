@@ -82,6 +82,12 @@
 				</exclusions>
 			</dependency>
 
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>20.0</version>
+			</dependency>
+
 			<!--Java EE API replacements for JDK 11-->
 
 			<!-- JAXB for Java 11 -->
