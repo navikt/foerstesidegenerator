@@ -33,6 +33,7 @@
 		<logstash-logback-encoder.version>5.1</logstash-logback-encoder.version>
 		<swagger.version>2.9.2</swagger.version>
 
+		<no-nav-dok-tjenester-foerstesidegenerator.version>0.0.6</no-nav-dok-tjenester-foerstesidegenerator.version>
 	</properties>
 
 	<dependencyManagement>
