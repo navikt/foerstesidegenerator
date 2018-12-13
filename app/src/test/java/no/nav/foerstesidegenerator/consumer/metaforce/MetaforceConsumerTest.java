@@ -1,9 +1,11 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentReturn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +16,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.metaforce.services.GSCreateDocument;
 import se.metaforce.services.IGeneralService;
 
+import java.net.UnknownHostException;
+
 @ExtendWith(MockitoExtension.class)
-public class MetaforceConsumerTest {
+class MetaforceConsumerTest {
 
 	@Mock
 	private IGeneralService metaforceService;
@@ -24,7 +28,7 @@ public class MetaforceConsumerTest {
 	private MetaforceConsumer metaforceConsumer;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		when(metaforceService.gsCreateDocument(any(), any(), any(), any(), any(), any())).thenReturn(new DocumentReturn());
 	}
 
@@ -35,10 +39,10 @@ public class MetaforceConsumerTest {
 		assertNotNull(documentReturn);
 	}
 
-//	@Test
-//	public void shouldThrowTechnicalExceptionWhenCreateDocumentFails() {
-//		when(metaforceService.gsCreateDocument(anyString(), anyString(), any(), anyString(), anyString(), any())).thenThrow(new RuntimeException(new UnknownHostException("Unknown host")));
-//
-//		assertThrows(FoerstesideGeneratorTechnicalException.class, () -> metaforceConsumer.createDocumentRequest(new GSCreateDocument()), "Technical error in Metaforce.createDocument");
-//	}
+	@Test
+	void shouldThrowTechnicalExceptionWhenCreateDocumentFails() {
+		when(metaforceService.gsCreateDocument(any(), any(), any(), any(), any(), any())).thenThrow(new RuntimeException(new UnknownHostException("Unknown host")));
+
+		assertThrows(FoerstesideGeneratorTechnicalException.class, () -> metaforceConsumer.createDocumentRequest(new GSCreateDocument()), "Technical error in Metaforce.createDocument");
+	}
 }
