@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>no.nav.tjenester.fim</groupId>
 			<artifactId>no-nav-dok-tjenester-foerstesidegenerator</artifactId>
-			<version>0.0.5</version>
+			<version>${no-nav-dok-tjenester-foerstesidegenerator.version}</version>
 		</dependency>
 
 		<dependency>
@@ -60,6 +60,23 @@
 			<groupId>net.logstash.logback</groupId>
 			<artifactId>logstash-logback-encoder</artifactId>
 			<version>${logstash-logback-encoder.version}</version>
+		</dependency>
+
+		<!--Swagger-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-bean-validators</artifactId>
+			<version>${springfox.version}</version>
 		</dependency>
 
 		<!-- Test -->

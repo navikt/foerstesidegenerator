@@ -31,7 +31,10 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
+		<springfox.version>2.9.2</springfox.version>
 		<ojdbc8.version>12.2.0.1</ojdbc8.version>
+
+		<no-nav-dok-tjenester-foerstesidegenerator.version>0.0.6</no-nav-dok-tjenester-foerstesidegenerator.version>
 	</properties>
 
 	<dependencyManagement>

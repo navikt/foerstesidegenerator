@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.rest;
 
+import io.swagger.annotations.ApiOperation;
 import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
 import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 
 @RestController
-@RequestMapping("/api/foerstesidegenerator/v1/foersteside")
+@RequestMapping("/api/foerstesidegenerator/v1")
 public class FoerstesideRestController {
 
 	private static final Logger log = LogManager.getLogger(FoerstesideRestController.class);
@@ -28,7 +29,8 @@ public class FoerstesideRestController {
 		this.foerstesideService = foerstesideService;
 	}
 
-	@GetMapping(value = "/{key}")
+	@GetMapping(value = "/foersteside/{key}")
+	@ApiOperation("Hent metadata om generert førsteside")
 	@ResponseBody
 	public Object getDataFromKey(@PathVariable String key) {
 		log.info("foerstesidegenerator - mottatt GET-kall om å hente data fra key={}", key);
@@ -39,7 +41,8 @@ public class FoerstesideRestController {
 		return null;
 	}
 
-	@PostMapping
+	@PostMapping(value = "/foersteside")
+	@ApiOperation("Generer en ny førsteside")
 	@ResponseBody
 	public PostFoerstesideResponse postNew(@RequestBody PostFoerstesideRequest request) {
 		log.info("foerstesidegenerator - mottatt POST-kall for å opprette ny foersteside-key");
