@@ -57,4 +57,10 @@ public class FoerstesideMetadata {
 	public void setValue(String value) {
 		this.value = value;
 	}
+
+	public FoerstesideMetadata(Foersteside foersteside, String key, String value) {
+		this.foersteside = foersteside;
+		this.key = key;
+		this.value = value;
+	}
 }

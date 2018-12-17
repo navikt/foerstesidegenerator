@@ -29,7 +29,7 @@ public class Foersteside {
 	private Long foerstesideId;
 
 	@Column(name = "loepenummer", nullable = false, updatable = false)
-	private Long loepenummer;
+	private String loepenummer;
 
 	@Column(name = "dato_opprettet", nullable = false, updatable = false)
 	private LocalDateTime datoOpprettet;
@@ -48,8 +48,12 @@ public class Foersteside {
 		return foerstesideId;
 	}
 
-	public Long getLoepenummer() {
+	public String getLoepenummer() {
 		return loepenummer;
+	}
+
+	public void setLoepenummer(String loepenummer) {
+		this.loepenummer = loepenummer;
 	}
 
 	public LocalDateTime getDatoOpprettet() {
