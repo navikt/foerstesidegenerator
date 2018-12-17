@@ -33,7 +33,7 @@
 		<logstash-logback-encoder.version>5.1</logstash-logback-encoder.version>
 		<springfox.version>2.9.2</springfox.version>
 
-		<no-nav-dok-tjenester-foerstesidegenerator.version>0.0.6</no-nav-dok-tjenester-foerstesidegenerator.version>
+		<foerstesidegenerator-api.version>0.0.7</foerstesidegenerator-api.version>
 	</properties>
 
 	<dependencyManagement>

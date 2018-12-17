@@ -2,7 +2,7 @@ package no.nav.foerstesidegenerator.service.support;
 
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
 import no.nav.foerstesidegenerator.exceptions.InvalidTemaException;
 import org.springframework.stereotype.Component;

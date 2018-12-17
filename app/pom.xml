@@ -30,9 +30,9 @@
 		<!--</dependency>-->
 
 		<dependency>
-			<groupId>no.nav.tjenester.fim</groupId>
-			<artifactId>no-nav-dok-tjenester-foerstesidegenerator</artifactId>
-			<version>${no-nav-dok-tjenester-foerstesidegenerator.version}</version>
+			<groupId>no.nav.dok</groupId>
+			<artifactId>foerstesidegenerator-api-v1</artifactId>
+			<version>${foerstesidegenerator-api.version}</version>
 		</dependency>
 
 		<dependency>

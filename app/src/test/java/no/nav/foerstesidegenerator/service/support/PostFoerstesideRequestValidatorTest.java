@@ -3,7 +3,7 @@ package no.nav.foerstesidegenerator.service.support;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.exceptions.InvalidTemaException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
