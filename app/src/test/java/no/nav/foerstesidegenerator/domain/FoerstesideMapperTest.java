@@ -41,11 +41,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import no.nav.dok.tjenester.foerstesidegenerator.Bruker;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest.Foerstesidetype;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest.Spraakkode;
-import no.nav.dok.tjenester.foerstesidegenerator.Sak;
+import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest.Foerstesidetype;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest.Spraakkode;
+import no.nav.dok.foerstesidegenerator.api.v1.Sak;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

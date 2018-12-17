@@ -1,10 +1,10 @@
 package no.nav.foerstesidegenerator;
 
-import no.nav.dok.tjenester.foerstesidegenerator.Adresse;
-import no.nav.dok.tjenester.foerstesidegenerator.Avsender;
-import no.nav.dok.tjenester.foerstesidegenerator.Bruker;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
-import no.nav.dok.tjenester.foerstesidegenerator.Sak;
+import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
+import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
+import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.Sak;
 
 import java.util.Arrays;
 

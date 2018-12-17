@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.service;
 
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
 import org.springframework.stereotype.Service;
 

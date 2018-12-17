@@ -1,8 +1,8 @@
 package no.nav.foerstesidegenerator.rest;
 
 import io.swagger.annotations.ApiOperation;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
