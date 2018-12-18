@@ -21,6 +21,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
+import static org.springframework.util.StringUtils.delimitedListToStringArray;
 import static org.springframework.util.StringUtils.isEmpty;
 
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
@@ -34,6 +35,8 @@ import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 public class GetFoerstesideResponseMapper {
@@ -51,7 +54,7 @@ public class GetFoerstesideResponseMapper {
 				.withOverskriftstittel(getValueForKey(domain, OVERSKRIFTSTITTEL))
 				.withSpraakkode(Spraakkode.valueOf(getValueForKey(domain, SPRAAKKODE)))
 				.withFoerstesidetype(GetFoerstesideResponse.Foerstesidetype.fromValue(getValueForKey(domain, FOERSTESIDETYPE)))
-				.withVedleggsliste(Arrays.asList(getValueForKey(domain, VEDLEGG_LISTE).split(";")))
+				.withVedleggsliste(mapVedlegg(domain))
 				.withEnhetsnummer(getValueForKey(domain, ENHETSNUMMER))
 				.withSak(mapSak(domain));
 	}
@@ -90,6 +93,15 @@ public class GetFoerstesideResponseMapper {
 				.withBrukerType(Bruker.BrukerType.valueOf(brukerType));
 	}
 
+	private List<String> mapVedlegg(Foersteside domain) {
+		String vedleggString = getValueForKey(domain, VEDLEGG_LISTE);
+		String[] splitted = delimitedListToStringArray(vedleggString, ";");
+		if (isEmpty(vedleggString) || splitted == null) {
+			return Collections.emptyList();
+		}
+		return Arrays.asList(splitted);
+	}
+
 	private Sak mapSak(Foersteside domain) {
 		String saksystem = getValueForKey(domain, SAKSYSTEM);
 		String saksreferanse = getValueForKey(domain, SAKSREFERANSE);
@@ -101,7 +113,7 @@ public class GetFoerstesideResponseMapper {
 				.withSaksreferanse(saksreferanse);
 	}
 
-	private String getValueForKey(Foersteside domain, String key){
+	private String getValueForKey(Foersteside domain, String key) {
 		return domain.getFoerstesideMetadata().stream().filter(a -> a.getKey().equals(key)).findFirst().map(FoerstesideMetadata::getValue).orElse(null);
 	}
 

@@ -21,7 +21,7 @@ public class FoerstesideMetadata {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
 	@SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 10)
-	@Column(name = "foersteside_metadata_id", nullable = false, updatable = false, unique = true)
+	@Column(name = "foersteside_metadata_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideMetadataId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -33,6 +33,12 @@ public class FoerstesideMetadata {
 
 	@Column(name = "value")
 	private String value;
+
+	public FoerstesideMetadata(Foersteside foersteside, String key, String value) {
+		this.foersteside = foersteside;
+		this.key = key;
+		this.value = value;
+	}
 
 	public Long getFoerstesideMetadataId() {
 		return foerstesideMetadataId;
@@ -55,12 +61,6 @@ public class FoerstesideMetadata {
 	}
 
 	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public FoerstesideMetadata(Foersteside foersteside, String key, String value) {
-		this.foersteside = foersteside;
-		this.key = key;
 		this.value = value;
 	}
 }

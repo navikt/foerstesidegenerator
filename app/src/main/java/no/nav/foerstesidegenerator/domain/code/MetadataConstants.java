@@ -1,10 +1,6 @@
 package no.nav.foerstesidegenerator.domain.code;
 
-public class MetadataConstants {
-
-	private MetadataConstants() {
-		//no-op
-	}
+public final class MetadataConstants {
 
 	public static final String ADRESSELINJE_1 = "adresselinje1";
 	public static final String ADRESSELINJE_2 = "adresselinje2";
@@ -27,4 +23,8 @@ public class MetadataConstants {
 	public static final String ENHETSNUMMER = "enhetsnummer";
 	public static final String SAKSYSTEM = "saksystem";
 	public static final String SAKSREFERANSE = "saksreferanse";
+
+	private MetadataConstants() {
+		//no-op
+	}
 }

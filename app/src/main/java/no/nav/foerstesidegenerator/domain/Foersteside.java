@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class Foersteside {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
 	@SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 10)
-	@Column(name = "foersteside_id", nullable = false, updatable = false, unique = true)
+	@Column(name = "foersteside_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideId;
 
 	@Column(name = "loepenummer", nullable = false, updatable = false)
@@ -81,6 +82,6 @@ public class Foersteside {
 	}
 
 	public Set<FoerstesideMetadata> getFoerstesideMetadata() {
-		return foerstesideMetadata;
+		return Collections.unmodifiableSet(foerstesideMetadata);
 	}
 }
