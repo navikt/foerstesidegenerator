@@ -1,6 +1,7 @@
 package no.nav.foerstesidegenerator.service.support;
 
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -25,16 +26,14 @@ class PostFoerstesideRequestValidatorTest {
 
 	@Test
 	void shouldThrowExceptionIfTemaIsInvalid() {
-		PostFoerstesideRequest request = createRequestWithAdresse();
-		request.setTema("WWW");
+		PostFoerstesideRequest request = createRequestWithTema("WWW");
 
 		assertThrows(InvalidTemaException.class, () -> validator.validate(request));
 	}
 
 	@Test
 	void shouldThrowExceptionIfTemaIsNull() {
-		PostFoerstesideRequest request = createRequestWithAdresse();
-		request.setTema(null);
+		PostFoerstesideRequest request = createRequestWithTema(null);
 
 		assertThrows(InvalidTemaException.class, () -> validator.validate(request));
 	}

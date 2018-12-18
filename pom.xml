@@ -34,7 +34,7 @@
 		<springfox.version>2.9.2</springfox.version>
 		<ojdbc8.version>12.2.0.1</ojdbc8.version>
 
-		<foerstesidegenerator-api.version>0.0.7</foerstesidegenerator-api.version>
+		<foerstesidegenerator-api.version>0.0.8</foerstesidegenerator-api.version>
 	</properties>
 
 	<dependencyManagement>

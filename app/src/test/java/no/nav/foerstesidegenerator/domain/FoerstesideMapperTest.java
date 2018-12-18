@@ -16,6 +16,7 @@ import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostboks;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_3;
@@ -103,9 +104,7 @@ class FoerstesideMapperTest {
 
 	@Test
 	void shouldMapUkjentBrukerPersoninfoIfBrukersIsAbsent() {
-		PostFoerstesideRequest request = createRequestWithNetsPostboks();
-		request.setBruker(null);
-		request.setUkjentBrukerPersoninfo("something");
+		PostFoerstesideRequest request = createRequestWithoutBruker("something");
 
 		Foersteside domain = mapper.map(request);
 		assertNull(getValueForKey(domain, BRUKER_ID));
@@ -116,8 +115,6 @@ class FoerstesideMapperTest {
 	private String getValueForKey(Foersteside domain, String key) {
 		return domain.getFoerstesideMetadata().stream().filter(a -> a.getKey().equals(key)).findFirst().map(FoerstesideMetadata::getValue).orElse(null);
 	}
-
-
 
 
 }

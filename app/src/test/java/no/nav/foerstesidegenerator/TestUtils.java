@@ -84,4 +84,50 @@ public class TestUtils {
 						.withSaksystem(Sak.Saksystem.PSAK)
 						.withSaksreferanse(SAK_REF));
 	}
+
+	public static PostFoerstesideRequest createRequestWithoutBruker(String ukjentBrukerPersoninfo) {
+		return new PostFoerstesideRequest()
+				.withAdresse(null)
+				.withNetsPostboks(NETS)
+				.withAvsender(new Avsender()
+						.withAvsenderId(AVSENDER)
+						.withAvsenderNavn(NAVN))
+				.withBruker(null)
+				.withUkjentBrukerPersoninfo(ukjentBrukerPersoninfo)
+				.withTema(TEMA_FAR)
+				.withArkivtittel(TITTEL)
+				.withBrevkode(BREVKODE_NAV)
+				.withOverskriftstittel(TITTEL)
+				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
+				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
+				.withVedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
+				.withEnhetsnummer(ENHET_9999)
+				.withSak(new Sak()
+						.withSaksystem(Sak.Saksystem.PSAK)
+						.withSaksreferanse(SAK_REF));
+	}
+
+	public static PostFoerstesideRequest createRequestWithTema(String tema) {
+		return new PostFoerstesideRequest()
+				.withAdresse(null)
+				.withNetsPostboks(NETS)
+				.withAvsender(new Avsender()
+						.withAvsenderId(AVSENDER)
+						.withAvsenderNavn(NAVN))
+				.withBruker(new Bruker()
+						.withBrukerId(BRUKER)
+						.withBrukerType(Bruker.BrukerType.PERSON))
+				.withUkjentBrukerPersoninfo(null)
+				.withTema(tema)
+				.withArkivtittel(TITTEL)
+				.withBrevkode(BREVKODE_NAV)
+				.withOverskriftstittel(TITTEL)
+				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
+				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
+				.withVedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
+				.withEnhetsnummer(ENHET_9999)
+				.withSak(new Sak()
+						.withSaksystem(Sak.Saksystem.PSAK)
+						.withSaksreferanse(SAK_REF));
+	}
 }
