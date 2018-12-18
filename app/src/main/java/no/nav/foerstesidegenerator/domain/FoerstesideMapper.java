@@ -103,7 +103,7 @@ public class FoerstesideMapper {
 
 	private void addMetadata(Foersteside foersteside, String key, String value) {
 		if (isNotEmpty(value)) {
-			foersteside.getFoerstesideMetadata().add(new FoerstesideMetadata(foersteside, key, value));
+			foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, key, value));
 		}
 	}
 }

@@ -84,4 +84,10 @@ public class Foersteside {
 	public Set<FoerstesideMetadata> getFoerstesideMetadata() {
 		return Collections.unmodifiableSet(foerstesideMetadata);
 	}
+
+	public void addFoerstesideMetadata(FoerstesideMetadata metadata) {
+		if (metadata != null) {
+			foerstesideMetadata.add(metadata);
+		}
+	}
 }
