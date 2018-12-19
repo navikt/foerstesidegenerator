@@ -28,3 +28,9 @@ fasitresources:
     propertyMap:
       username: SERVICEUSER_USERNAME
       password: SERVICEUSER_PASSWORD
+  - alias: foerstesidegeneratorDB
+    resourceType: DataSource
+    propertyMap:
+      url: spring.datasource.url
+      username: spring.datasource.username
+      password: spring.datasource.password

@@ -9,7 +9,7 @@ public class LoepenummerGenerator {
 
 	private static final int BOUND = 1_000_000_000;
 
-	public LoepenummerGenerator() {
+	LoepenummerGenerator() {
 		// no-op
 	}
 
@@ -20,8 +20,6 @@ public class LoepenummerGenerator {
 	 */
 	public int generateLoepenummer() {
 		SecureRandom secureRandom = new SecureRandom();
-		int loepenummer = secureRandom.nextInt(BOUND);
-
-		return loepenummer;
+		return secureRandom.nextInt(BOUND);
 	}
 }
