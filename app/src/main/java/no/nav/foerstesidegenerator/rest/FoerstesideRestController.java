@@ -1,8 +1,9 @@
 package no.nav.foerstesidegenerator.rest;
 
 import io.swagger.annotations.ApiOperation;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,10 +36,9 @@ public class FoerstesideRestController {
 	public Object getDataFromKey(@PathVariable String key) {
 		log.info("foerstesidegenerator - mottatt GET-kall om å hente data fra key={}", key);
 		// do stuff
-		Object foersteside = foerstesideService.getFoersteside(key);
+		GetFoerstesideResponse foersteside = foerstesideService.getFoersteside(key);
 
-		// returner pdf
-		return null;
+		return foersteside;
 	}
 
 	@PostMapping(value = "/foersteside")

@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,6 +31,11 @@ import java.nio.charset.StandardCharsets;
  * @author Joakim Bjørnstad, Visma Consulting
  */
 public final class DomUtil {
+
+	private DomUtil() {
+		//no-op - utility class
+	}
+
 	public static Element stringToElement(String fletteDataXml) {
 		DocumentBuilder documentBuilder;
 		Document parse;
@@ -46,7 +52,10 @@ public final class DomUtil {
 
 	public static String elementToString(Element xmlElement) {
 		try {
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			TransformerFactory factory = TransformerFactory.newInstance();
+			factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+			Transformer transformer = factory.newTransformer();
 			StringWriter stringWriter = new StringWriter();
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 			transformer.transform(new DOMSource(xmlElement), new StreamResult(stringWriter));

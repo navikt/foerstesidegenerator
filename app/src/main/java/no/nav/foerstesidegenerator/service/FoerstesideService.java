@@ -1,56 +1,110 @@
 package no.nav.foerstesidegenerator.service;
 
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideRequest;
-import no.nav.dok.tjenester.foerstesidegenerator.PostFoerstesideResponse;
+import static java.lang.Integer.parseInt;
+
+import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceConsumerService;
+import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
+import no.nav.foerstesidegenerator.exception.UgyldigLoepenummerException;
+import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
+import no.nav.foerstesidegenerator.service.support.GetFoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class FoerstesideService {
 
-	// foerstesideRepository
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
 	private final LoepenummerGenerator loepenummerGenerator;
+	private final FoerstesideMapper foerstesideMapper;
+	private final FoerstesideRepository foerstesideRepository;
+	private final GetFoerstesideResponseMapper getFoerstesideResponseMapper;
 	private final MetaforceConsumerService metaforceConsumerService;
+
+	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
 
 	@Inject
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
 							  final LoepenummerGenerator loepenummerGenerator,
+							  final FoerstesideMapper foerstesideMapper,
+							  final FoerstesideRepository foerstesideRepository,
+							  final GetFoerstesideResponseMapper getFoerstesideResponseMapper,
 							  final MetaforceConsumerService metaforceConsumerService) {
-		this.postFoerstesideRequestValidator = postFoerstesideRequestValidator;
+		this.postFoerstesideRequestValidator =  postFoerstesideRequestValidator;
 		this.loepenummerGenerator = loepenummerGenerator;
 		this.metaforceConsumerService = metaforceConsumerService;
+		this.foerstesideMapper = foerstesideMapper;
+		this.foerstesideRepository = foerstesideRepository;
+		this.getFoerstesideResponseMapper = getFoerstesideResponseMapper;
 	}
 
 	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request) {
-
 		// valider request
 		postFoerstesideRequestValidator.validate(request);
 
 		// generer loepenummer. stringify - String.format("%09d", loepenummer)
 		int loepenummer = loepenummerGenerator.generateLoepenummer();
 
-		// Transformer til domeneobjekt. Persister
+		// map til domeneobjekt
+		Foersteside foersteside = foerstesideMapper.map(request);
+		foersteside.setLoepenummer(String.format("%09d", loepenummer));
 
-		// Kall metaforce:
+		// persister til db
+		foerstesideRepository.save(foersteside);
+
+		// kall metaforce:
+		// byte[] document = metaforceService.createDocument()
 		metaforceConsumerService.createDocument(null);
 
-		return null;
+		return new PostFoerstesideResponse()
+				.withFoersteside(null);
 	}
 
-	public Object getFoersteside(String key) {
-		// todo: implement
-		return null;
+	public GetFoerstesideResponse getFoersteside(String loepenummer) {
+		validerLoepenummer(loepenummer);
+
+		Optional<Foersteside> foersteside = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, 9));
+		if (foersteside.isPresent()) {
+			Foersteside domain = foersteside.get();
+			domain.setUthentet(true);
+			domain.setDatoUthentet(LocalDateTime.now());
+			return getFoerstesideResponseMapper.map(domain);
+		} else {
+			return null;
+		}
 	}
 
-//	private String generateStrekkode(String loepenummer) {
-//		// String kontrollsiffer1 = loepenummer mod 10
-//		// String kontrollsiffer2 = (loepenummer + kontrollsiffer1 + postnummer) mod 43 ???
-//		// String strekkode = * + loepenummer + kontrollsiffer1 + postnummer + kontrollsiffer2 + *
-//		// totalt 16 tegn.
-//		return "";
-//	}
+	private void validerLoepenummer(String loepenummer) {
+		if (loepenummer.length() < 9 || loepenummer.length() > 10) {
+			throw new UgyldigLoepenummerException("Løpenummer har ugyldig lengde");
+		} else if (loepenummer.length() == 10) {
+			int a = parseInt(loepenummer.substring(0, 9));
+			int b = parseInt(loepenummer.substring(9, 10));
+			if (a % 10 != b) {
+				throw new UgyldigLoepenummerException("Kontrollsiffer oppgitt er feil");
+			}
+		}
+	}
+
+	private String generateStrekkode(int loepenummer, String postboks) {
+		int c1 = loepenummer % 10;
+		String loepenummerString = String.format("%09d", loepenummer);
+
+		String res = loepenummerString + c1 + postboks;
+
+		int total = 0;
+		for (int i = 0; i < res.length(); i++) {
+			total += ALPHABET_STRING.indexOf(res.charAt(i));
+		}
+		char c2 = ALPHABET_STRING.charAt(total % 43);
+
+		return "*" + res + c2 + "*";
+	}
 }

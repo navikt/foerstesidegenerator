@@ -23,12 +23,27 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>${ojdbc8.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ucp</artifactId>
+			<version>${ojdbc8.version}</version>
+		</dependency>
 
 		<!-- Tjenestegrensesnitt -->
 		<dependency>
-			<groupId>no.nav.tjenester.fim</groupId>
-			<artifactId>no-nav-dok-tjenester-foerstesidegenerator</artifactId>
-			<version>${no-nav-dok-tjenester-foerstesidegenerator.version}</version>
+			<groupId>no.nav.dok</groupId>
+			<artifactId>foerstesidegenerator-api-v1</artifactId>
+			<version>${foerstesidegenerator-api.version}</version>
 		</dependency>
 
 		<!-- Metaforce -->
@@ -174,20 +189,31 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.3.1</version>
+			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- and the engine for surefire and failsafe -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.3.1</version>
+			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>2.23.0</version>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-contract-wiremock</artifactId>
+			<version>${spring-cloud-contract-wiremock.version}</version>
 			<scope>test</scope>
 		</dependency>
 

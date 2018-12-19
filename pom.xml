@@ -30,12 +30,18 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<logstash-logback-encoder.version>5.1</logstash-logback-encoder.version>
+		<foerstesidegenerator-api.version>0.0.9</foerstesidegenerator-api.version>
+
+		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
 		<springfox.version>2.9.2</springfox.version>
 		<apache-cxf.version>3.2.6</apache-cxf.version>
-
-		<no-nav-dok-tjenester-foerstesidegenerator.version>0.0.6</no-nav-dok-tjenester-foerstesidegenerator.version>
+		<ojdbc8.version>12.2.0.1</ojdbc8.version>
 		<metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
+
+		<!--Test-->
+		<junit-jupiter.version>5.3.1</junit-jupiter.version>
+		<mockito.version>2.23.0</mockito.version>
+		<spring-cloud-contract-wiremock.version>2.0.1.RELEASE</spring-cloud-contract-wiremock.version>
 	</properties>
 
 	<dependencyManagement>
