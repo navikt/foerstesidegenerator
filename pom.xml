@@ -35,6 +35,7 @@
 		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
 		<springfox.version>2.9.2</springfox.version>
 		<ojdbc8.version>12.2.0.1</ojdbc8.version>
+		<lombok.version>1.18.4</lombok.version>
 
 		<!--Test-->
 		<junit-jupiter.version>5.3.1</junit-jupiter.version>
@@ -50,12 +51,12 @@
 				<version>1</version>
 			</dependency>
 
-			<!--<dependency>-->
-				<!--<groupId>org.projectlombok</groupId>-->
-				<!--<artifactId>lombok</artifactId>-->
-				<!--<version>${lombok.version}</version>-->
-				<!--<scope>provided</scope>-->
-			<!--</dependency>-->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
