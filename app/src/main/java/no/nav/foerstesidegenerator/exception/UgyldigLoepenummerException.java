@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.exceptions;
+package no.nav.foerstesidegenerator.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
