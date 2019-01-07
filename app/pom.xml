@@ -39,6 +39,11 @@
 			<version>${ojdbc8.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
 		<!-- Tjenestegrensesnitt -->
 		<dependency>
 			<groupId>no.nav.dok</groupId>

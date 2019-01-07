@@ -2,12 +2,14 @@ package no.nav.foerstesidegenerator.service;
 
 import static java.lang.Integer.parseInt;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceConsumerService;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
+import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
 import no.nav.foerstesidegenerator.exception.UgyldigLoepenummerException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.foerstesidegenerator.service.support.GetFoerstesideResponseMapper;
@@ -16,19 +18,19 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
+@Slf4j
 @Service
 public class FoerstesideService {
 
+	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
+	// metaforce-consumer
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
 	private final LoepenummerGenerator loepenummerGenerator;
 	private final FoerstesideMapper foerstesideMapper;
 	private final FoerstesideRepository foerstesideRepository;
 	private final GetFoerstesideResponseMapper getFoerstesideResponseMapper;
 	private final MetaforceConsumerService metaforceConsumerService;
-
-	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
 
 	@Inject
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
@@ -58,9 +60,14 @@ public class FoerstesideService {
 
 		// persister til db
 		foerstesideRepository.save(foersteside);
+		log.info("Har validert request og generert loepenummer for ny foersteside");
+
+		// kall dokkat:
+		// log.info(har hentet metadata fra dokkat)
 
 		// kall metaforce:
 		// byte[] document = metaforceService.createDocument()
+		// log.info(har generert ny foersteside-pdf i metaforce)
 		metaforceConsumerService.createDocument(null);
 
 		return new PostFoerstesideResponse()
@@ -69,16 +76,14 @@ public class FoerstesideService {
 
 	public GetFoerstesideResponse getFoersteside(String loepenummer) {
 		validerLoepenummer(loepenummer);
+		log.info("Loepenummer validert ok");
 
-		Optional<Foersteside> foersteside = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, 9));
-		if (foersteside.isPresent()) {
-			Foersteside domain = foersteside.get();
-			domain.setUthentet(true);
-			domain.setDatoUthentet(LocalDateTime.now());
-			return getFoerstesideResponseMapper.map(domain);
-		} else {
-			return null;
-		}
+		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, 9))
+				.orElseThrow(() -> new FoerstesideNotFoundException(String.format("Kan ikke finne foersteside med loepenummer=%s", loepenummer)));
+		domain.setUthentet(true);
+		domain.setDatoUthentet(LocalDateTime.now());
+		return getFoerstesideResponseMapper.map(domain);
+
 	}
 
 	private void validerLoepenummer(String loepenummer) {

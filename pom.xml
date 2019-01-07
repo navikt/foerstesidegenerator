@@ -36,6 +36,7 @@
 		<springfox.version>2.9.2</springfox.version>
 		<apache-cxf.version>3.2.6</apache-cxf.version>
 		<ojdbc8.version>12.2.0.1</ojdbc8.version>
+		<lombok.version>1.18.4</lombok.version>
 		<metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
 
 		<!--Test-->
@@ -109,12 +110,12 @@
 			</dependency>
 			<!-- JAXWS for Java 11 -->
 
-			<!--<dependency>-->
-				<!--<groupId>org.projectlombok</groupId>-->
-				<!--<artifactId>lombok</artifactId>-->
-				<!--<version>${lombok.version}</version>-->
-				<!--<scope>provided</scope>-->
-			<!--</dependency>-->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
