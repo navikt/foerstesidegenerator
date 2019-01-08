@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.exceptions;
+package no.nav.foerstesidegenerator.exception;
 
 public class FoerstesideGeneratorFunctionalException extends RuntimeException {
 

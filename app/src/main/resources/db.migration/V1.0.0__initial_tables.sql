@@ -13,7 +13,7 @@ CREATE TABLE FOERSTESIDE_METADATA
   foersteside_metadata_id   NUMBER(19,0)            NOT NULL,
 	foersteside_id            NUMBER(19,0)            NOT NULL,
   key                       VARCHAR2(50 CHAR)       NOT NULL,
-  value                     VARCHAR2(255 CHAR),
+  value                     VARCHAR2(2000 CHAR),
 	CONSTRAINT PK_FOERSTESIDE_METADATA PRIMARY KEY (foersteside_metadata_id)
 );
 

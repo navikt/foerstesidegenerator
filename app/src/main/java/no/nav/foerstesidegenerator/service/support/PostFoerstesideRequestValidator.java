@@ -6,8 +6,8 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
-import no.nav.foerstesidegenerator.exceptions.FoerstesideGeneratorFunctionalException;
-import no.nav.foerstesidegenerator.exceptions.InvalidTemaException;
+import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
+import no.nav.foerstesidegenerator.exception.InvalidTemaException;
 import org.springframework.stereotype.Component;
 
 @Component

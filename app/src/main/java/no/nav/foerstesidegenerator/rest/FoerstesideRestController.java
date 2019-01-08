@@ -1,12 +1,11 @@
 package no.nav.foerstesidegenerator.rest;
 
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/foerstesidegenerator/v1")
 public class FoerstesideRestController {
-
-	private static final Logger log = LogManager.getLogger(FoerstesideRestController.class);
 
 	private final FoerstesideService foerstesideService;
 
@@ -30,13 +28,13 @@ public class FoerstesideRestController {
 		this.foerstesideService = foerstesideService;
 	}
 
-	@GetMapping(value = "/foersteside/{key}")
+	@GetMapping(value = "/foersteside/{loepenummer}")
 	@ApiOperation("Hent metadata om generert førsteside")
 	@ResponseBody
-	public Object getDataFromKey(@PathVariable String key) {
-		log.info("foerstesidegenerator - mottatt GET-kall om å hente data fra key={}", key);
-		// do stuff
-		GetFoerstesideResponse foersteside = foerstesideService.getFoersteside(key);
+	public Object getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
+		log.info("Har mottatt GET-kall om å hente foerstesidedata fra loepenummer={}", loepenummer);
+
+		GetFoerstesideResponse foersteside = foerstesideService.getFoersteside(loepenummer);
 
 		return foersteside;
 	}
@@ -46,7 +44,7 @@ public class FoerstesideRestController {
 	@ResponseBody
 	public PostFoerstesideResponse postNew(@RequestBody PostFoerstesideRequest request) {
 		log.info("foerstesidegenerator - mottatt POST-kall for å opprette ny foersteside-key");
-		// persister basert på request (hvis identiske metadata finnes => returner eksisterende?)
+
 		PostFoerstesideResponse foersteside = foerstesideService.createFoersteside(request);
 
 		return foersteside;
