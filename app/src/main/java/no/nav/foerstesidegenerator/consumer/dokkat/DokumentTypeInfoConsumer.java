@@ -1,10 +1,11 @@
 package no.nav.foerstesidegenerator.consumer.dokkat;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.dokkat.api.tkat020.v4.DokumentProduksjonsInfoToV4;
 import no.nav.dokkat.api.tkat020.v4.DokumentTypeInfoToV4;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentProduksjonsInfoTo;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
-import no.nav.foerstesidegenerator.exceptions.FoerstesideGeneratorTechnicalException;
+import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -12,19 +13,19 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-//@Slf4j
+@Slf4j
 public class DokumentTypeInfoConsumer {
 
 	private final RestTemplate restTemplate;
 
 	private final String dokumenttypeInfoUrl;
 
-
 	public DokumentTypeInfoConsumer(RestTemplate restTemplate,
 									@Value("${dokumenttypeInfo_v4_url}") String dokumenttypeInfoV4Url) {
 		this.restTemplate = restTemplate;
 		this.dokumenttypeInfoUrl = dokumenttypeInfoV4Url;
 	}
+
 //	@Cacheable(value = HENT_DOKKAT_INFO, key = "#dokumenttypeId+'-dokkat'")
 //	@Retryable(include = FoerstesideGeneratorTechnicalException.class, exclude = {FoerstesideGeneratorFunctionalException.class}, maxAttempts = 5, backoff = @Backoff(delay = 200))
 	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
