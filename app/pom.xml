@@ -49,6 +49,11 @@
 			<artifactId>foerstesidegenerator-api-v1</artifactId>
 			<version>${foerstesidegenerator-api.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>no.nav.dokkat</groupId>
+			<artifactId>dokkat-api</artifactId>
+			<version>${dokkat-api.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.inject</groupId>
