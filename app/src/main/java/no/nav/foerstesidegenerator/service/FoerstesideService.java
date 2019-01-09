@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
-import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceConsumerService;
+import no.nav.foerstesidegenerator.consumer.metaforce.update.MetaforceConsumer;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 
+//import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceConsumerService;
+
 @Slf4j
 @Service
 public class FoerstesideService {
@@ -30,7 +32,7 @@ public class FoerstesideService {
 	private final FoerstesideMapper foerstesideMapper;
 	private final FoerstesideRepository foerstesideRepository;
 	private final GetFoerstesideResponseMapper getFoerstesideResponseMapper;
-	private final MetaforceConsumerService metaforceConsumerService;
+	private final MetaforceConsumer metaforceConsumer;
 
 	@Inject
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
@@ -38,10 +40,10 @@ public class FoerstesideService {
 							  final FoerstesideMapper foerstesideMapper,
 							  final FoerstesideRepository foerstesideRepository,
 							  final GetFoerstesideResponseMapper getFoerstesideResponseMapper,
-							  final MetaforceConsumerService metaforceConsumerService) {
+							  final MetaforceConsumer metaforceConsumer) {
 		this.postFoerstesideRequestValidator =  postFoerstesideRequestValidator;
 		this.loepenummerGenerator = loepenummerGenerator;
-		this.metaforceConsumerService = metaforceConsumerService;
+		this.metaforceConsumer = metaforceConsumer;
 		this.foerstesideMapper = foerstesideMapper;
 		this.foerstesideRepository = foerstesideRepository;
 		this.getFoerstesideResponseMapper = getFoerstesideResponseMapper;
@@ -68,7 +70,7 @@ public class FoerstesideService {
 		// kall metaforce:
 		// byte[] document = metaforceService.createDocument()
 		// log.info(har generert ny foersteside-pdf i metaforce)
-		metaforceConsumerService.createDocument(null);
+		metaforceConsumer.createDocument(null);
 
 		return new PostFoerstesideResponse()
 				.withFoersteside(null);

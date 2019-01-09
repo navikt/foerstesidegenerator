@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.consumer.metaforce.to;
 
+import lombok.Getter;
 import org.w3c.dom.Element;
 
 import javax.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
  * TransterObject for se.metaforce.services.GSCreateDocument request in Metaforce GSCreateDocument webservice
  * @author Hans Petter Simonsen - Visma Consulting AS
  */
+@Getter
 public class CreateDocumentRequestTo {
 	@NotNull
 	private String metafile;
@@ -24,7 +26,7 @@ public class CreateDocumentRequestTo {
 		this.metafile = metafile;
 		this.document = document;
 		this.data = data;
-		this.printConfiguration = MetaforceDocumentType.PREVIEWPDF.value();
+		this.printConfiguration = MetaforceDocumentType.PDF.value();
 	}
 
 	public CreateDocumentRequestTo(String metafile, String document, Element data, String printConfiguration) {
@@ -32,30 +34,6 @@ public class CreateDocumentRequestTo {
 		this.document = document;
 		this.data = data;
 		this.printConfiguration = printConfiguration;
-	}
-
-	public String getMetafile() {
-		return metafile;
-	}
-
-	public String getDocument() {
-		return document;
-	}
-
-	public Object getData() {
-		return data;
-	}
-
-	public String getTextRows() {
-		return textRows;
-	}
-
-	public String getPrintConfiguration() {
-		return printConfiguration;
-	}
-
-	public Object getAttachments() {
-		return attachments;
 	}
 
 	@Override
