@@ -1,0 +1,29 @@
+{
+  "dokumenttypeId": "000124",
+  "dokumentTittel": "Førsteside",
+  "dokumentType": "U",
+  "dokumentKategori": "VB",
+  "sensitivt": true,
+  "dokumentProduksjonsInfo": {
+    "vedlegg": false,
+    "eksternVedlegg": false,
+    "ikkeRedigerbarMalId": "MF_000124",
+    "malLogikkFil": "Foersteside",
+    "malXsdReferanse": "foerstesidebrev/foersteside_000124.xsd",
+    "distribusjonInfo": {
+      "predefinertDistKanal": "VED_DITT_NAV_OGSA_PRINT",
+      "portoklasse": "B",
+      "sikkerhetsnivaa": 4,
+      "distribusjonVarsels": [
+        {
+          "varselForDistribusjonKanal": "SDP",
+          "varseltypeId": "SDP_000004"
+        },
+        {
+          "varselForDistribusjonKanal": "DITT_NAV",
+          "varseltypeId": "DittNAV_000004"
+        }
+      ]
+    }
+  }
+}
