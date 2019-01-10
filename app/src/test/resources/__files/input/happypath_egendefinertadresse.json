@@ -1,0 +1,34 @@
+{
+  "adresse": {
+    "adresselinje1": "gateveien",
+    "adresselinje2": null,
+    "adresselinje3": null,
+    "postnummer": "1234",
+    "poststed": "Oslo"
+  },
+  "netsPostboks": null,
+  "avsender": {
+    "avsenderId": "***gammelt_fnr***",
+    "avsenderNavn": "navn navnesen"
+  },
+  "bruker": {
+    "brukerId": "***gammelt_fnr***",
+    "brukerType": "PERSON"
+  },
+  "ukjentBrukerPersoninfo": null,
+  "tema": "FOR",
+  "arkivtittel": "joark-tittel",
+  "brevkode": "NAV 13.37",
+  "overskriftstittel": "tittel som printes",
+  "spraakkode": "NB",
+  "foerstesidetype": "SKJEMA",
+  "vedleggsliste": [
+    "tittel 1",
+    "tittel 2"
+  ],
+  "enhetsnummer": "9999",
+  "sak": {
+    "saksystem": "GSAK",
+    "saksreferanse": "ref"
+  }
+}

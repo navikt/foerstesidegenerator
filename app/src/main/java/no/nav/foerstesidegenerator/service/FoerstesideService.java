@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
+import no.nav.foerstesidegenerator.consumer.dokkat.DokumentTypeInfoConsumer;
+import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.update.MetaforceConsumer;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
@@ -19,8 +21,6 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 
-//import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceConsumerService;
-
 @Slf4j
 @Service
 public class FoerstesideService {
@@ -32,6 +32,7 @@ public class FoerstesideService {
 	private final FoerstesideMapper foerstesideMapper;
 	private final FoerstesideRepository foerstesideRepository;
 	private final GetFoerstesideResponseMapper getFoerstesideResponseMapper;
+	private final DokumentTypeInfoConsumer dokumentTypeInfoConsumer;
 	private final MetaforceConsumer metaforceConsumer;
 
 	@Inject
@@ -40,13 +41,15 @@ public class FoerstesideService {
 							  final FoerstesideMapper foerstesideMapper,
 							  final FoerstesideRepository foerstesideRepository,
 							  final GetFoerstesideResponseMapper getFoerstesideResponseMapper,
+							  final DokumentTypeInfoConsumer dokumentTypeInfoConsumer,
 							  final MetaforceConsumer metaforceConsumer) {
 		this.postFoerstesideRequestValidator =  postFoerstesideRequestValidator;
 		this.loepenummerGenerator = loepenummerGenerator;
-		this.metaforceConsumer = metaforceConsumer;
 		this.foerstesideMapper = foerstesideMapper;
 		this.foerstesideRepository = foerstesideRepository;
 		this.getFoerstesideResponseMapper = getFoerstesideResponseMapper;
+		this.dokumentTypeInfoConsumer = dokumentTypeInfoConsumer;
+		this.metaforceConsumer = metaforceConsumer;
 	}
 
 	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request) {
@@ -65,7 +68,8 @@ public class FoerstesideService {
 		log.info("Har validert request og generert loepenummer for ny foersteside");
 
 		// kall dokkat:
-		// log.info(har hentet metadata fra dokkat)
+		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo("000124");
+		log.info("Har hentet metadata fra dokkat");
 
 		// kall metaforce:
 		// byte[] document = metaforceService.createDocument()

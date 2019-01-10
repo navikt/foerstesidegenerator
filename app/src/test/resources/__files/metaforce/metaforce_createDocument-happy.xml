@@ -1,0 +1,37 @@
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+	<s:Header>
+		<a:Action s:mustUnderstand="1">http://metaforce.se/services/IGeneralService/GS_CreateDocumentResponse</a:Action>
+		<a:RelatesTo>urn:uuid:956c8421-3132-4c64-91b1-a4735a6fbf89</a:RelatesTo>
+		<o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+			<u:Timestamp u:Id="_0"><u:Created>2018-01-17T12:54:01.685Z</u:Created><u:Expires>2018-01-17T12:59:01.685Z</u:Expires></u:Timestamp>
+		</o:Security>
+	</s:Header>
+	<s:Body>
+		<GS_CreateDocumentResponse xmlns="http://metaforce.se/services/">
+			<GS_CreateDocumentResult xmlns:b="http://schemas.datacontract.org/2004/07/Metaforce.Common.UtilsAndConstants"><b:Data>
+				<Data SkjemaKode="000000" barcode1="NEW" barcode2="0000001442B" barcode3="***gammelt_fnr******gammelt_fnr***00" barcodeNoStartStop="***gammelt_fnr******gammelt_fnr***0" xmlns="">
+					<fag NETS-postboks="4444" arkivtittel="Søknad om foreldrepenger" brevkode="NAVe 14.05-07" enhetsnummer="9999" foerstesideType="SKJEMA" overskriftstittel="overskriftTittel" spraakkode="EN" tema="FOR">
+						<adresse adresselinje1="NAV sannergaten" adresselinje2="404 adresse" adresselinje3="boks 405" postNr="0404" poststed="Oslo"/>
+						<avsender avsenderID="***gammelt_fnr***" avsenderNavn="Erna Solberg"/>
+						<bruker brukerID="***gammelt_fnr***6" brukertype="PERSON"/>
+						<sak saksreferanse="58748859" saksystem="GSAK"/>
+						<vedleggListe>
+							<vedlegg tittel="Dokumentasjon av termindato (lev. kun av mor), fødsel eller dato for omsorgsovertakelse"/>
+							<vedlegg tittel="Dokumentasjon av termindato (lev. kun av mor), fødsel eller dato for omsorgsovertakelse"/>
+						</vedleggListe>
+					</fag>
+				</Data>
+			</b:Data>
+				<b:ErrorDescription/>
+				<b:IsOK>true</b:IsOK>
+				<b:Document>
+					<b:Blob>PDF_document</b:Blob>
+					<b:Format><b:DocFormat>PDF</b:DocFormat><b:Extension>.pdf</b:Extension><b:MimeType>application/pdf</b:MimeType></b:Format>
+					<b:Length>12</b:Length>
+				</b:Document>
+				<b:ExecutionTime>PT2.1760728S</b:ExecutionTime>
+				<b:ExecutionTimeInternal>PT2.176S</b:ExecutionTimeInternal>
+			</GS_CreateDocumentResult>
+		</GS_CreateDocumentResponse>
+	</s:Body>
+</s:Envelope>
