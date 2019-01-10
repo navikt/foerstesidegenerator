@@ -34,6 +34,10 @@ public class FoerstesideMetadata {
 	@Column(name = "value")
 	private String value;
 
+	public FoerstesideMetadata() {
+		// for hibernate
+	}
+
 	public FoerstesideMetadata(Foersteside foersteside, String key, String value) {
 		this.foersteside = foersteside;
 		this.key = key;
