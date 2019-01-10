@@ -12,6 +12,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.inject.Inject;
+
 @Service
 @Slf4j
 public class DokumentTypeInfoConsumer {
@@ -20,6 +22,7 @@ public class DokumentTypeInfoConsumer {
 
 	private final String dokumenttypeInfoUrl;
 
+	@Inject
 	public DokumentTypeInfoConsumer(RestTemplate restTemplate,
 									@Value("${dokumenttypeInfo_v4_url}") String dokumenttypeInfoV4Url) {
 		this.restTemplate = restTemplate;
