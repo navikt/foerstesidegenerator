@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.config;
 
+import no.nav.foerstesidegenerator.config.properties.ServiceuserAlias;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -10,7 +11,6 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
-
 
 /**
  * @author Joakim Bjørnstad, Jbit AS

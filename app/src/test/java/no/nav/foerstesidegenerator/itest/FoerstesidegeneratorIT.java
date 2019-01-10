@@ -8,7 +8,6 @@ import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
 public class FoerstesidegeneratorIT extends AbstractIT {
 
 	private final static String POST_URL = "/api/foerstesidegenerator/v1/foersteside";
