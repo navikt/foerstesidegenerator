@@ -17,12 +17,8 @@
   "spraakkode": "NB",
   "foerstesidetype": "SKJEMA",
   "vedleggsliste": [
-    {
-      "tittel": "tittel 1"
-    },
-    {
-      "tittel": "tittel 2"
-    }
+    "tittel 1",
+    "tittel 2"
   ],
   "enhetsnummer": "9999",
   "sak": {
