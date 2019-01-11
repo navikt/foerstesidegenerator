@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 public class FoerstesideService {
 
 	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
-	// metaforce-consumer
+
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
 	private final LoepenummerGenerator loepenummerGenerator;
 	private final FoerstesideMapper foerstesideMapper;
@@ -49,21 +49,17 @@ public class FoerstesideService {
 	}
 
 	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request) {
-		// valider request
 		postFoerstesideRequestValidator.validate(request);
+		log.info("Request validert OK");
 
-		// generer loepenummer. stringify - String.format("%09d", loepenummer)
 		int loepenummer = loepenummerGenerator.generateLoepenummer();
 
-		// map til domeneobjekt
 		Foersteside foersteside = foerstesideMapper.map(request);
 		foersteside.setLoepenummer(String.format("%09d", loepenummer));
 
-		// persister til db
 		foerstesideRepository.save(foersteside);
 		log.info("Har validert request og generert loepenummer for ny foersteside");
 
-		// kall dokkat:
 		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo("000124");
 		log.info("Har hentet metadata fra dokkat");
 
