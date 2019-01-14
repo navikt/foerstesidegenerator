@@ -11,6 +11,7 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.common.io.Resources;
 import no.nav.foerstesidegenerator.Application;
 import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +32,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {Application.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {Application.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock(port = 0, httpsPort = 8443)
 @ActiveProfiles("itest")
 @AutoConfigureDataJpa
@@ -39,7 +40,7 @@ import java.nio.charset.StandardCharsets;
 @AutoConfigureTestEntityManager
 public abstract class AbstractIT {
 
-	protected ObjectMapper mapper = new ObjectMapper();
+	ObjectMapper mapper = new ObjectMapper();
 
 	@Inject
 	protected TestRestTemplate testRestTemplate;
@@ -65,11 +66,11 @@ public abstract class AbstractIT {
 	}
 
 
-	protected static String classpathToString(String path) {
+	static String classpathToString(String path) {
 		return resourceUrlToString(Resources.getResource(path));
 	}
 
-	protected static String resourceUrlToString(URL url) {
+	private static String resourceUrlToString(URL url) {
 		try {
 			return Resources.toString(url, StandardCharsets.UTF_8);
 		} catch (IOException e) {
@@ -77,7 +78,7 @@ public abstract class AbstractIT {
 		}
 	}
 
-	protected Foersteside getFoersteside() {
+	Foersteside getFoersteside() {
 		return foerstesideRepository.findAll().iterator().next();
 	}
 

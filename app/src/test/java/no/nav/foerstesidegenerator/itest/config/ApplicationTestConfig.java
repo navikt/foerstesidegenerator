@@ -1,9 +1,8 @@
 package no.nav.foerstesidegenerator.itest.config;
 
 import no.nav.foerstesidegenerator.config.properties.ServiceuserAlias;
-import no.nav.foerstesidegenerator.consumer.metaforce.update.CxfTimeoutOutInterceptor;
-import no.nav.foerstesidegenerator.consumer.metaforce.update.MetaforceErrorInterceptor;
-import no.nav.foerstesidegenerator.consumer.metaforce.update.MetaforceTimeouts;
+import no.nav.foerstesidegenerator.consumer.metaforce.CxfTimeoutOutInterceptor;
+import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceTimeouts;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +38,6 @@ public class ApplicationTestConfig {
 		clientFactory.setOutInterceptors(Collections.singletonList(
 				new CxfTimeoutOutInterceptor(timeouts.getDefaultReceiveTimeoutms(), timeouts.getOperationsTimeouts()))
 		);
-		clientFactory.setInInterceptors(Collections.singletonList(new MetaforceErrorInterceptor()));
 		clientFactory.setBindingId(SOAPBinding.SOAP12HTTP_BINDING);
 		clientFactory.setProperties(cxfProperties(serviceuserAlias));
 		return (IGeneralService) clientFactory.create();
