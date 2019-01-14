@@ -21,7 +21,7 @@ resources:
   limits:
     cpu: 3000m
     memory: 1024Mi
-fasitresources:
+fasitResources:
   used:
   - alias: srvfoerstesidegenerator
     resourceType: credential
