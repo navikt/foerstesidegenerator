@@ -2,9 +2,9 @@ CREATE TABLE FOERSTESIDE
 (
   foersteside_id    NUMBER(19,0)                    NOT NULL,
 	loepenummer       VARCHAR2(24 CHAR)               NOT NULL,
-  opprettet_dato    TIMESTAMP                       NOT NULL,
+  dato_opprettet    TIMESTAMP                       NOT NULL,
   uthentet          NUMBER(1,0)         DEFAULT 0,
-  uthentet_dato     TIMESTAMP                       NOT NULL,
+  dato_uthentet     TIMESTAMP,
 	CONSTRAINT PK_FOERSTESIDE PRIMARY KEY (foersteside_id)
 );
 
