@@ -36,7 +36,7 @@
 		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
 		<springfox.version>2.9.2</springfox.version>
 		<ojdbc8.version>12.2.0.1</ojdbc8.version>
-		<flyway.version>5.2.4</flyway.version>
+		<flyway.version>5.1.4</flyway.version>
 		<lombok.version>1.18.4</lombok.version>
 
 		<!--Test-->
@@ -58,6 +58,12 @@
 				<artifactId>lombok</artifactId>
 				<version>${lombok.version}</version>
 				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-core</artifactId>
+				<version>${flyway.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
