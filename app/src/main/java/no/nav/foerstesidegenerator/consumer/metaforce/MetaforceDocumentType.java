@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.consumer.metaforce.to;
+package no.nav.foerstesidegenerator.consumer.metaforce;
 
 /**
  * TransferObject for org.datacontract.schemas._2004._07.metaforce_common.Format in metaforce webservice

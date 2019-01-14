@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.consumer.metaforce.to;
+package no.nav.foerstesidegenerator.consumer.metaforce;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
