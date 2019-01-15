@@ -7,6 +7,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSEL
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
@@ -57,6 +58,7 @@ public class FoerstesideMapper {
 			addMetadata(foersteside, UKJENT_BRUKER_PERSONINFO, request.getUkjentBrukerPersoninfo());
 		}
 		addMetadata(foersteside, TEMA, request.getTema());
+		addMetadata(foersteside, BEHANDLINGSTEMA, request.getBehandlingstema());
 		addMetadata(foersteside, ARKIVTITTEL, request.getArkivtittel());
 		addMetadata(foersteside, NAV_SKJEMA_ID, request.getNavSkjemaId());
 		addMetadata(foersteside, OVERSKRIFTSTITTEL, request.getOverskriftstittel());

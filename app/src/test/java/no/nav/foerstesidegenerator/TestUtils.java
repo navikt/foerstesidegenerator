@@ -22,6 +22,7 @@ public class TestUtils {
 	public static final String BRUKER = "brukerId";
 
 	public static final String TEMA_FAR = "FAR";
+	public static final String BEHANDLINGSTEMA_AB1337 = "ab1337";
 	public static final String TITTEL = "tittel";
 	public static final String SKJEMA_ID = "NAV 13.37";
 
@@ -49,6 +50,7 @@ public class TestUtils {
 						.withBrukerType(Bruker.BrukerType.PERSON))
 				.withUkjentBrukerPersoninfo(null)
 				.withTema(TEMA_FAR)
+				.withBehandlingstema(BEHANDLINGSTEMA_AB1337)
 				.withArkivtittel(TITTEL)
 				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
@@ -73,6 +75,7 @@ public class TestUtils {
 						.withBrukerType(Bruker.BrukerType.PERSON))
 				.withUkjentBrukerPersoninfo(null)
 				.withTema(TEMA_FAR)
+				.withBehandlingstema(BEHANDLINGSTEMA_AB1337)
 				.withArkivtittel(TITTEL)
 				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
@@ -95,6 +98,7 @@ public class TestUtils {
 				.withBruker(null)
 				.withUkjentBrukerPersoninfo(ukjentBrukerPersoninfo)
 				.withTema(TEMA_FAR)
+				.withBehandlingstema(BEHANDLINGSTEMA_AB1337)
 				.withArkivtittel(TITTEL)
 				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
@@ -119,6 +123,7 @@ public class TestUtils {
 						.withBrukerType(Bruker.BrukerType.PERSON))
 				.withUkjentBrukerPersoninfo(null)
 				.withTema(tema)
+				.withBehandlingstema(BEHANDLINGSTEMA_AB1337)
 				.withArkivtittel(TITTEL)
 				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)

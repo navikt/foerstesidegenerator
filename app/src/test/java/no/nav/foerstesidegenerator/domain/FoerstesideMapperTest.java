@@ -2,6 +2,7 @@ package no.nav.foerstesidegenerator.domain;
 
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
+import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
 import static no.nav.foerstesidegenerator.TestUtils.ENHET_9999;
 import static no.nav.foerstesidegenerator.TestUtils.NAVN;
@@ -23,6 +24,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSEL
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
@@ -77,6 +79,7 @@ class FoerstesideMapperTest {
 		assertEquals(Bruker.BrukerType.PERSON.value(), getValueForKey(domain, BRUKER_TYPE));
 		assertNull(getValueForKey(domain, UKJENT_BRUKER_PERSONINFO));
 		assertEquals(TEMA_FAR, getValueForKey(domain, TEMA));
+		assertEquals(BEHANDLINGSTEMA_AB1337, getValueForKey(domain, BEHANDLINGSTEMA));
 		assertEquals(TITTEL, getValueForKey(domain, ARKIVTITTEL));
 		assertEquals(SKJEMA_ID, getValueForKey(domain, NAV_SKJEMA_ID));
 		assertEquals(TITTEL, getValueForKey(domain, OVERSKRIFTSTITTEL));
@@ -93,7 +96,6 @@ class FoerstesideMapperTest {
 		PostFoerstesideRequest request = createRequestWithNetsPostboks();
 
 		Foersteside domain = mapper.map(request);
-		// TODO: skal adressefelter settes til defaultverdier?
 		assertNull(getValueForKey(domain, ADRESSELINJE_1));
 		assertNull(getValueForKey(domain, ADRESSELINJE_2));
 		assertNull(getValueForKey(domain, ADRESSELINJE_3));

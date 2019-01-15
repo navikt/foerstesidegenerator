@@ -6,6 +6,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSEL
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
@@ -49,6 +50,7 @@ public class GetFoerstesideResponseMapper {
 				.withBruker(mapBruker(domain))
 				.withUkjentBrukerPersoninfo(getValueForKey(domain, UKJENT_BRUKER_PERSONINFO))
 				.withTema(getValueForKey(domain, TEMA))
+				.withBehandlingstema(getValueForKey(domain, BEHANDLINGSTEMA))
 				.withArkivtittel(getValueForKey(domain, ARKIVTITTEL))
 				.withNavSkjemaId(getValueForKey(domain, NAV_SKJEMA_ID))
 				.withOverskriftstittel(getValueForKey(domain, OVERSKRIFTSTITTEL))
