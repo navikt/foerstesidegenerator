@@ -2,7 +2,6 @@ package no.nav.foerstesidegenerator.domain;
 
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
-import static no.nav.foerstesidegenerator.TestUtils.BREVKODE_NAV;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
 import static no.nav.foerstesidegenerator.TestUtils.ENHET_9999;
 import static no.nav.foerstesidegenerator.TestUtils.NAVN;
@@ -10,6 +9,7 @@ import static no.nav.foerstesidegenerator.TestUtils.NETS;
 import static no.nav.foerstesidegenerator.TestUtils.OSLO;
 import static no.nav.foerstesidegenerator.TestUtils.POSTNR;
 import static no.nav.foerstesidegenerator.TestUtils.SAK_REF;
+import static no.nav.foerstesidegenerator.TestUtils.SKJEMA_ID;
 import static no.nav.foerstesidegenerator.TestUtils.TEMA_FAR;
 import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
@@ -23,11 +23,11 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSEL
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BREVKODE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POSTBOKS;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMMER;
@@ -78,7 +78,7 @@ class FoerstesideMapperTest {
 		assertNull(getValueForKey(domain, UKJENT_BRUKER_PERSONINFO));
 		assertEquals(TEMA_FAR, getValueForKey(domain, TEMA));
 		assertEquals(TITTEL, getValueForKey(domain, ARKIVTITTEL));
-		assertEquals(BREVKODE_NAV, getValueForKey(domain, BREVKODE));
+		assertEquals(SKJEMA_ID, getValueForKey(domain, NAV_SKJEMA_ID));
 		assertEquals(TITTEL, getValueForKey(domain, OVERSKRIFTSTITTEL));
 		assertEquals(Spraakkode.NB.value(), getValueForKey(domain, SPRAAKKODE));
 		assertEquals(Foerstesidetype.SKJEMA.value(), getValueForKey(domain, FOERSTESIDETYPE));

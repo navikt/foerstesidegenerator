@@ -30,7 +30,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<foerstesidegenerator-api.version>0.0.9</foerstesidegenerator-api.version>
+		<foerstesidegenerator-api.version>0.0.11</foerstesidegenerator-api.version>
 		<dokkat-api.version>10.3.2</dokkat-api.version>
 
 		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>

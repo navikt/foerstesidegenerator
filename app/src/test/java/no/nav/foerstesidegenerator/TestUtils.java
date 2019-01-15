@@ -23,7 +23,7 @@ public class TestUtils {
 
 	public static final String TEMA_FAR = "FAR";
 	public static final String TITTEL = "tittel";
-	public static final String BREVKODE_NAV = "NAV 13.37";
+	public static final String SKJEMA_ID = "NAV 13.37";
 
 	public static final String VEDLEGG_1 = "vedlegg1";
 	public static final String VEDLEGG_2 = "vedlegg2";
@@ -50,7 +50,7 @@ public class TestUtils {
 				.withUkjentBrukerPersoninfo(null)
 				.withTema(TEMA_FAR)
 				.withArkivtittel(TITTEL)
-				.withBrevkode(BREVKODE_NAV)
+				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
 				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
 				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
@@ -74,7 +74,7 @@ public class TestUtils {
 				.withUkjentBrukerPersoninfo(null)
 				.withTema(TEMA_FAR)
 				.withArkivtittel(TITTEL)
-				.withBrevkode(BREVKODE_NAV)
+				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
 				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
 				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
@@ -96,7 +96,7 @@ public class TestUtils {
 				.withUkjentBrukerPersoninfo(ukjentBrukerPersoninfo)
 				.withTema(TEMA_FAR)
 				.withArkivtittel(TITTEL)
-				.withBrevkode(BREVKODE_NAV)
+				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
 				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
 				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
@@ -120,7 +120,7 @@ public class TestUtils {
 				.withUkjentBrukerPersoninfo(null)
 				.withTema(tema)
 				.withArkivtittel(TITTEL)
-				.withBrevkode(BREVKODE_NAV)
+				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
 				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
 				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
