@@ -15,7 +15,7 @@ public final class MetadataConstants {
 	public static final String UKJENT_BRUKER_PERSONINFO = "ukjentBrukerPersoninfo";
 	public static final String TEMA = "tema";
 	public static final String ARKIVTITTEL = "arkivtittel";
-	public static final String BREVKODE = "brevkode";
+	public static final String NAV_SKJEMA_ID = "navSkjemaId";
 	public static final String OVERSKRIFTSTITTEL = "overskriftstittel";
 	public static final String SPRAAKKODE = "spraakkode";
 	public static final String FOERSTESIDETYPE = "foerstesidetype";

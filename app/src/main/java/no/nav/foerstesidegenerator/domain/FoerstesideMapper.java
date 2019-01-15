@@ -7,11 +7,11 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSEL
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BREVKODE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POSTBOKS;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMMER;
@@ -46,13 +46,6 @@ public class FoerstesideMapper {
 		}
 		if (request.getNetsPostboks() != null) {
 			addMetadata(foersteside, NETS_POSTBOKS, request.getNetsPostboks());
-			// TODO: sett default adresse i kode eller i mal ???
-			/*
-				NAV Skanning
-				Postboks ____ Sentrum
-				0109 Oslo
-				Norge / Norway
-			 */
 		}
 		if (request.getAvsender() != null) {
 			mapAvsender(foersteside, request.getAvsender());
@@ -65,7 +58,7 @@ public class FoerstesideMapper {
 		}
 		addMetadata(foersteside, TEMA, request.getTema());
 		addMetadata(foersteside, ARKIVTITTEL, request.getArkivtittel());
-		addMetadata(foersteside, BREVKODE, request.getBrevkode());
+		addMetadata(foersteside, NAV_SKJEMA_ID, request.getNavSkjemaId());
 		addMetadata(foersteside, OVERSKRIFTSTITTEL, request.getOverskriftstittel());
 		addMetadata(foersteside, SPRAAKKODE, request.getSpraakkode().value());
 		addMetadata(foersteside, FOERSTESIDETYPE, request.getFoerstesidetype().value());

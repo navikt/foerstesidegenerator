@@ -6,11 +6,11 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSEL
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BREVKODE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POSTBOKS;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMMER;
@@ -50,7 +50,7 @@ public class GetFoerstesideResponseMapper {
 				.withUkjentBrukerPersoninfo(getValueForKey(domain, UKJENT_BRUKER_PERSONINFO))
 				.withTema(getValueForKey(domain, TEMA))
 				.withArkivtittel(getValueForKey(domain, ARKIVTITTEL))
-				.withBrevkode(getValueForKey(domain, BREVKODE))
+				.withNavSkjemaId(getValueForKey(domain, NAV_SKJEMA_ID))
 				.withOverskriftstittel(getValueForKey(domain, OVERSKRIFTSTITTEL))
 				.withSpraakkode(Spraakkode.valueOf(getValueForKey(domain, SPRAAKKODE)))
 				.withFoerstesidetype(GetFoerstesideResponse.Foerstesidetype.fromValue(getValueForKey(domain, FOERSTESIDETYPE)))

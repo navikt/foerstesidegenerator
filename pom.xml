@@ -30,13 +30,14 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<foerstesidegenerator-api.version>0.0.9</foerstesidegenerator-api.version>
+		<foerstesidegenerator-api.version>0.0.11</foerstesidegenerator-api.version>
 		<dokkat-api.version>10.3.2</dokkat-api.version>
 
 		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
 		<springfox.version>2.9.2</springfox.version>
 		<apache-cxf.version>3.2.6</apache-cxf.version>
 		<ojdbc8.version>12.2.0.1</ojdbc8.version>
+		<flyway.version>5.1.4</flyway.version>
 		<lombok.version>1.18.4</lombok.version>
 		<metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
 
@@ -116,6 +117,12 @@
 				<artifactId>lombok</artifactId>
 				<version>${lombok.version}</version>
 				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-core</artifactId>
+				<version>${flyway.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

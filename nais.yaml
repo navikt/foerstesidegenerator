@@ -19,8 +19,10 @@ prometheus:
   path: /actuator/prometheus
 resources:
   limits:
-    cpu: 3000m
-    memory: 1024Mi
+    cpu: 1000m
+    memory: 512Mi
+  requests:
+    memory: 256Mi
 fasitResources:
   used:
   - alias: srvfoerstesidegenerator
