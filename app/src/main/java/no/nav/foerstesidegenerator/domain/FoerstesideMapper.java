@@ -1,6 +1,7 @@
 package no.nav.foerstesidegenerator.domain;
 
 import static java.lang.String.join;
+import static no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest.Foerstesidetype.ETTERSENDELSE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_3;
@@ -37,6 +38,8 @@ import java.time.LocalDateTime;
 @Component
 public class FoerstesideMapper {
 
+	private static final String NAV_PREFIX = "NAV ";
+
 	public Foersteside map(PostFoerstesideRequest request) {
 		Foersteside foersteside = new Foersteside();
 		foersteside.setDatoOpprettet(LocalDateTime.now());
@@ -60,7 +63,8 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, TEMA, request.getTema());
 		addMetadata(foersteside, BEHANDLINGSTEMA, request.getBehandlingstema());
 		addMetadata(foersteside, ARKIVTITTEL, request.getArkivtittel());
-		addMetadata(foersteside, NAV_SKJEMA_ID, request.getNavSkjemaId());
+//		addMetadata(foersteside, NAV_SKJEMA_ID, request.getNavSkjemaId());
+		mapNavSkjemaId(foersteside, request.getFoerstesidetype(), request.getNavSkjemaId());
 		addMetadata(foersteside, OVERSKRIFTSTITTEL, request.getOverskriftstittel());
 		addMetadata(foersteside, SPRAAKKODE, request.getSpraakkode().value());
 		addMetadata(foersteside, FOERSTESIDETYPE, request.getFoerstesidetype().value());
@@ -94,6 +98,15 @@ public class FoerstesideMapper {
 	private void mapSak(Foersteside foersteside, Sak sak) {
 		addMetadata(foersteside, SAKSYSTEM, sak.getSaksystem().value());
 		addMetadata(foersteside, SAKSREFERANSE, sak.getSaksreferanse());
+	}
+
+	private void mapNavSkjemaId(Foersteside foersteside, PostFoerstesideRequest.Foerstesidetype foerstesidetype, String navSkjemaId){
+		if (ETTERSENDELSE.equals(foerstesidetype) && navSkjemaId.startsWith(NAV_PREFIX)){
+			StringBuilder builder = new StringBuilder(navSkjemaId);
+			builder.insert(3, 'e');
+			navSkjemaId = builder.toString();
+		}
+		addMetadata(foersteside, NAV_SKJEMA_ID, navSkjemaId);
 	}
 
 	private void addMetadata(Foersteside foersteside, String key, String value) {

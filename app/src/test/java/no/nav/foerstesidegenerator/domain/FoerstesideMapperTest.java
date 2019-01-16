@@ -15,6 +15,7 @@ import static no.nav.foerstesidegenerator.TestUtils.TEMA_FAR;
 import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestEttersendelse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostboks;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
@@ -43,6 +44,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
@@ -112,6 +114,15 @@ class FoerstesideMapperTest {
 		assertNull(getValueForKey(domain, BRUKER_ID));
 		assertNull(getValueForKey(domain, BRUKER_TYPE));
 		assertNotNull(getValueForKey(domain, UKJENT_BRUKER_PERSONINFO));
+	}
+
+	@Test
+	void shouldMapEttersendelse() {
+		PostFoerstesideRequest request = createRequestEttersendelse();
+
+		Foersteside domain = mapper.map(request);
+
+		assertTrue(getValueForKey(domain, NAV_SKJEMA_ID).startsWith("NAVe"));
 	}
 
 	private String getValueForKey(Foersteside domain, String key) {
