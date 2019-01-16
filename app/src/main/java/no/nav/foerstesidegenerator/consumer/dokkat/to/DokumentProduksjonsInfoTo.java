@@ -12,7 +12,6 @@ public class DokumentProduksjonsInfoTo {
 	private final Boolean vedlegg;
 	private final Boolean eksternVedlegg;
 	private final String ikkeRedigerbarMalId;
-	private final String redigerbarMalId;
 	private final String malLogikkFil;
 	private final String malXsdReferanse;
 
