@@ -15,6 +15,7 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
+		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -27,7 +28,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.retry</groupId>
+			<artifactId>spring-retry</artifactId>
+		</dependency>
 
+
+		<!-- database -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc8</artifactId>
@@ -44,11 +51,7 @@
 			<version>${flyway.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
-
+		<!-- Tjenestegrensesnitt -->
 		<dependency>
 			<groupId>no.nav.dok</groupId>
 			<artifactId>foerstesidegenerator-api-v1</artifactId>
@@ -60,15 +63,19 @@
 			<version>${dokkat-api.version}</version>
 		</dependency>
 
+		<!--Diverse-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.6</version>
+			<version>${httpclient.version}</version>
 		</dependency>
 
 		<!-- Logging -->
