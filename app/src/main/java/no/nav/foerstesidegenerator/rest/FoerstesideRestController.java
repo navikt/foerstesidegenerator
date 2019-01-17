@@ -6,6 +6,7 @@ import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
+import no.nav.security.oidc.api.Protected;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import javax.inject.Inject;
 @Slf4j
 @RestController
 @RequestMapping("/api/foerstesidegenerator/v1")
+@Protected
 public class FoerstesideRestController {
 
 	private final FoerstesideService foerstesideService;

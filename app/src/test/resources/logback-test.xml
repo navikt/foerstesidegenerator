@@ -15,6 +15,9 @@
 
 	<logger name="no.nav.foerstesidegenerator" level="INFO"/>
 
+	<logger name="no.nav.security.oidc" level="INFO"/>
+	<logger name="no.nav.security.spring" level="INFO"/>
+
 	<logger name="org.apache.cxf.interceptor" additivity="true">
 		    
 		<appender-ref ref="CONSOLE"/>

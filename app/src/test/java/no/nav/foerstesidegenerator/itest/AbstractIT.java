@@ -12,6 +12,7 @@ import com.google.common.io.Resources;
 import no.nav.foerstesidegenerator.Application;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
+import no.nav.security.spring.oidc.test.TokenGeneratorConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEnti
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -37,6 +39,7 @@ import java.nio.charset.StandardCharsets;
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
+@Import(TokenGeneratorConfiguration.class)
 public abstract class AbstractIT {
 
 	protected ObjectMapper mapper = new ObjectMapper();

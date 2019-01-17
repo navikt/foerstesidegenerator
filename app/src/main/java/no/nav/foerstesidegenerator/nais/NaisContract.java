@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.nais;
 
+import no.nav.security.oidc.api.Unprotected;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Unprotected
 public class NaisContract {
 
 	public static final String APPLICATION_ALIVE = "Application is alive!";
