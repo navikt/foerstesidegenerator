@@ -43,11 +43,5 @@ fasitResources:
 
   - alias: security-token-service-openid-configuration
     resourceType: restservice
-      propertyMap:
-        url: NO_NAV_SECURITY_OIDC_ISSUER_RESTSTS_DISCOVERYURL
-
-#  exposed:
-#    - alias: foerstesidegenerator-api
-#      resourceType: restservice
-#      path: /api/foerstesidegenerator/v1
-#      description: Rest-tjeneste til bruk ifm. generering og uthenting av førstesider
+    propertyMap:
+      url: NO_NAV_SECURITY_OIDC_ISSUER_RESTSTS_DISCOVERYURL
