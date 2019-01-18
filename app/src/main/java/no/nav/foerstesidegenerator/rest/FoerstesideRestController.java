@@ -23,6 +23,8 @@ import javax.inject.Inject;
 @Protected
 public class FoerstesideRestController {
 
+	// TODO: tilgangsstyring via abac?
+
 	private final FoerstesideService foerstesideService;
 
 	@Inject
@@ -34,7 +36,7 @@ public class FoerstesideRestController {
 	@ApiOperation("Hent metadata om generert førsteside")
 	@ResponseBody
 	public Object getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
-		log.info("Har mottatt GET-kall om å hente foerstesidedata fra loepenummer={}", loepenummer);
+		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra loepenummer={}", loepenummer);
 
 		GetFoerstesideResponse foersteside = foerstesideService.getFoersteside(loepenummer);
 
@@ -45,7 +47,7 @@ public class FoerstesideRestController {
 	@ApiOperation("Generer en ny førsteside")
 	@ResponseBody
 	public PostFoerstesideResponse postNew(@RequestBody PostFoerstesideRequest request) {
-		log.info("foerstesidegenerator - mottatt POST-kall for å opprette ny foersteside-key");
+		log.info("Har mottatt POST-kall for å opprette ny førsteside");
 
 		PostFoerstesideResponse foersteside = foerstesideService.createFoersteside(request);
 

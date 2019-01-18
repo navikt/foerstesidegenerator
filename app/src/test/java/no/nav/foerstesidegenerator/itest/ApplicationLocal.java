@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Import;
 		ApplicationConfig.class,
 		TokenGeneratorConfiguration.class})
 public class ApplicationLocal {
-	// TODO: egen app instans for test
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
