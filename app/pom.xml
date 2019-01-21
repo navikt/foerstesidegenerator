@@ -41,25 +41,11 @@
 		<dependency>
 			<groupId>no.nav.security</groupId>
 			<artifactId>oidc-spring-support</artifactId>
-			<version>${oidc-spring-support.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>no.nav.security</groupId>
 			<artifactId>oidc-spring-test</artifactId>
-			<version>${oidc-spring-test.version}</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>no.nav.security</groupId>
-					<artifactId>oidc-spring-support</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>no.nav.freg</groupId>-->
-			<!--<artifactId>abac-spring</artifactId>-->
-			<!--<version>${abac-spring.version}</version>-->
-		<!--</dependency>-->
 
 		<!-- database -->
 		<dependency>
