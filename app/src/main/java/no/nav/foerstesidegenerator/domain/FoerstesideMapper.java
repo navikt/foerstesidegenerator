@@ -63,7 +63,6 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, TEMA, request.getTema());
 		addMetadata(foersteside, BEHANDLINGSTEMA, request.getBehandlingstema());
 		addMetadata(foersteside, ARKIVTITTEL, request.getArkivtittel());
-//		addMetadata(foersteside, NAV_SKJEMA_ID, request.getNavSkjemaId());
 		mapNavSkjemaId(foersteside, request.getFoerstesidetype(), request.getNavSkjemaId());
 		addMetadata(foersteside, OVERSKRIFTSTITTEL, request.getOverskriftstittel());
 		addMetadata(foersteside, SPRAAKKODE, request.getSpraakkode().value());

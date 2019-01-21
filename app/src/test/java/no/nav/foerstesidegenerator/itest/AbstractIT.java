@@ -9,9 +9,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.common.io.Resources;
-import no.nav.foerstesidegenerator.Application;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
+import no.nav.security.spring.oidc.test.TokenGeneratorController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -31,7 +34,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {Application.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {ApplicationLocal.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock(port = 0, httpsPort = 8443)
 @ActiveProfiles("itest")
 @AutoConfigureDataJpa
@@ -39,13 +42,26 @@ import java.nio.charset.StandardCharsets;
 @AutoConfigureTestEntityManager
 public abstract class AbstractIT {
 
+	@LocalServerPort
+	public int basePort;
 	protected ObjectMapper mapper = new ObjectMapper();
-
 	@Inject
 	protected TestRestTemplate testRestTemplate;
 
 	@Autowired
 	protected FoerstesideRepository foerstesideRepository;
+
+	protected static String classpathToString(String path) {
+		return resourceUrlToString(Resources.getResource(path));
+	}
+
+	private static String resourceUrlToString(URL url) {
+		try {
+			return Resources.toString(url, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			throw new RuntimeException("Could not convert url to String" + url);
+		}
+	}
 
 	@BeforeEach
 	void setUp() {
@@ -64,17 +80,16 @@ public abstract class AbstractIT {
 		foerstesideRepository.deleteAll();
 	}
 
-
-	protected static String classpathToString(String path) {
-		return resourceUrlToString(Resources.getResource(path));
+	private String getToken() {
+		TokenGeneratorController tokenGeneratorController = new TokenGeneratorController();
+		return tokenGeneratorController.issueToken("test");
 	}
 
-	protected static String resourceUrlToString(URL url) {
-		try {
-			return Resources.toString(url, StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not convert url to String" + url);
-		}
+	protected HttpHeaders createHeaders() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getToken());
+		return headers;
 	}
 
 	protected Foersteside getFoersteside() {
