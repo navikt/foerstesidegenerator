@@ -1,5 +1,28 @@
 package no.nav.foerstesidegenerator.domain;
 
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_3;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POSTBOKS;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMMER;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTSTED;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SAKSREFERANSE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SAKSYSTEM;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKODE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -90,4 +113,100 @@ public class Foersteside {
 			foerstesideMetadata.add(metadata);
 		}
 	}
+
+	// some helpers:
+
+	private String getValueForKey(String key) {
+		return foerstesideMetadata.stream().filter(a -> a.getKey().equals(key)).findFirst().map(FoerstesideMetadata::getValue).orElse(null);
+	}
+
+	public String getAdresselinje1() {
+		return getValueForKey(ADRESSELINJE_1);
+	}
+
+	public String getAdresselinje2() {
+		return getValueForKey(ADRESSELINJE_2);
+	}
+
+	public String getAdresselinje3() {
+		return getValueForKey(ADRESSELINJE_3);
+	}
+
+	public String getPostnummer() {
+		return getValueForKey(POSTNUMMER);
+	}
+
+	public String getPoststed() {
+		return getValueForKey(POSTSTED);
+	}
+
+	public String getNetsPostboks() {
+		return getValueForKey(NETS_POSTBOKS);
+	}
+
+	public String getAvsenderId() {
+		return getValueForKey(AVSENDER_ID);
+	}
+
+	public String getAvsenderNavn() {
+		return getValueForKey(AVSENDER_NAVN);
+	}
+
+	public String getBrukerId() {
+		return getValueForKey(BRUKER_ID);
+	}
+
+	public String getBrukerType() {
+		return getValueForKey(BRUKER_TYPE);
+	}
+
+	public String getUkjentBrukerPersoninfo() {
+		return getValueForKey(UKJENT_BRUKER_PERSONINFO);
+	}
+
+	public String getTema() {
+		return getValueForKey(TEMA);
+	}
+
+	public String getBehandlingstema() {
+		return getValueForKey(BEHANDLINGSTEMA);
+	}
+
+	public String getArkivtittel() {
+		return getValueForKey(ARKIVTITTEL);
+	}
+
+	public String getNavSkjemaId() {
+		return getValueForKey(NAV_SKJEMA_ID);
+	}
+
+	public String getOverskriftstittel() {
+		return getValueForKey(OVERSKRIFTSTITTEL);
+	}
+
+	public String getSpraakkode() {
+		return getValueForKey(SPRAAKKODE);
+	}
+
+	public String getFoerstesidetype() {
+		return getValueForKey(FOERSTESIDETYPE);
+	}
+
+	public String getVedleggListe() {
+		return getValueForKey(VEDLEGG_LISTE);
+	}
+
+	public String getEnhetsnummer() {
+		return getValueForKey(ENHETSNUMMER);
+	}
+
+	public String getSaksystem() {
+		return getValueForKey(SAKSYSTEM);
+	}
+
+	public String getSaksreferanse() {
+		return getValueForKey(SAKSREFERANSE);
+	}
+
+
 }
