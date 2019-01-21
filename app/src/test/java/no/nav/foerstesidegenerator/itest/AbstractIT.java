@@ -13,6 +13,7 @@ import no.nav.foerstesidegenerator.Application;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +58,16 @@ public abstract class AbstractIT {
 
 		stubFor(post("/METAFORCE").willReturn(aResponse().withStatus(HttpStatus.OK.value())
 				.withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
+	}
 
+	@AfterEach
+	void tearDown() {
 		WireMock.reset();
 		WireMock.resetAllRequests();
 		WireMock.removeAllMappings();
 
 		foerstesideRepository.deleteAll();
 	}
-
 
 	static String classpathToString(String path) {
 		return resourceUrlToString(Resources.getResource(path));

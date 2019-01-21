@@ -11,13 +11,13 @@ import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.CreateDocumentRequestTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.CreateDocumentResponseTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceConsumer;
+import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceMapper;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
 import no.nav.foerstesidegenerator.exception.UgyldigLoepenummerException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.foerstesidegenerator.service.support.GetFoerstesideResponseMapper;
-import no.nav.foerstesidegenerator.service.support.MetaforceMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -72,16 +72,16 @@ public class FoerstesideService {
 		log.info("Har hentet metadata fra dokkat");
 
 		// kall metaforce:
-		CreateDocumentResponseTo document = genererPdfFraMetaforce(request, dokumentTypeInfoTo);
+		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
 		log.info("Har generert ny foersteside vha Metaforce");
 
 		return new PostFoerstesideResponse()
 				.withFoersteside(document.getDocumentData().clone());
 	}
 
-	private CreateDocumentResponseTo genererPdfFraMetaforce(PostFoerstesideRequest request, DokumentTypeInfoTo dokumentTypeInfoTo) {
+	private CreateDocumentResponseTo genererPdfFraMetaforce(Foersteside foersteside, DokumentTypeInfoTo dokumentTypeInfoTo) {
 		MetaforceMapper metaforceMapper = new MetaforceMapper();
-		Document doc = metaforceMapper.mapFromRequest(request);
+		Document doc = metaforceMapper.map(foersteside);
 
 		CreateDocumentRequestTo metaforceRequest = new CreateDocumentRequestTo(
 				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalLogikkFil(),

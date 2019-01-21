@@ -8,12 +8,12 @@ import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class FoerstesidegeneratorIT extends AbstractIT {
+class FoerstesidegeneratorIT extends AbstractIT {
 
 	private final static String POST_URL = "/api/foerstesidegenerator/v1/foersteside";
 
 	@Test
-	@DisplayName("Ny førsteside - standard adresse")
+	@DisplayName("POST førsteside - standard adresse")
 	void happyPathStandardAdresse() throws Exception {
 		PostFoerstesideRequest request = mapper.readValue(classpathToString("__files/input/happypath_standardadresse.json"), PostFoerstesideRequest.class);
 
@@ -26,7 +26,7 @@ public class FoerstesidegeneratorIT extends AbstractIT {
 	}
 
 	@Test
-	@DisplayName("Ny førsteside - egendefinert adresse")
+	@DisplayName("POST førsteside - egendefinert adresse")
 	void happyPathEgendefinertAdresse() throws Exception {
 		PostFoerstesideRequest request = mapper.readValue(classpathToString("__files/input/happypath_egendefinertadresse.json"), PostFoerstesideRequest.class);
 
@@ -39,7 +39,7 @@ public class FoerstesidegeneratorIT extends AbstractIT {
 	}
 
 	@Test
-	@DisplayName("Ny førsteside - UkjentBrukerPersoninfo")
+	@DisplayName("POST førsteside - UkjentBrukerPersoninfo")
 	void happyPathUkjentBrukerPersoninfo() throws Exception {
 		PostFoerstesideRequest request = mapper.readValue(classpathToString("__files/input/happypath_ukjentbrukerpersoninfo.json"), PostFoerstesideRequest.class);
 
@@ -51,5 +51,15 @@ public class FoerstesidegeneratorIT extends AbstractIT {
 		// assert stuff
 	}
 
+	@Test
+	@DisplayName("GET førsteside - Ok")
+	void shouldHentFoerstesideGivenLoepenummer() {
+		// implement
+	}
 
+	@Test
+	@DisplayName("GET førsteside - 404 not found")
+	void shouldThrowExceptionWhenNoFoerstesideFoundForLoepenummer() {
+		// implement
+	}
 }

@@ -5,6 +5,8 @@ import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.Sak;
+import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
 
 import java.util.Arrays;
 
@@ -99,7 +101,7 @@ public class TestUtils {
 		return createRequest(PostFoerstesideRequest.Foerstesidetype.ETTERSENDELSE, TEMA_FAR);
 	}
 
-	private static PostFoerstesideRequest createRequest(PostFoerstesideRequest.Foerstesidetype foerstesidetype, String tema){
+	private static PostFoerstesideRequest createRequest(PostFoerstesideRequest.Foerstesidetype foerstesidetype, String tema) {
 		return new PostFoerstesideRequest()
 				.withAdresse(null)
 				.withNetsPostboks(NETS)
@@ -123,4 +125,13 @@ public class TestUtils {
 						.withSaksystem(Sak.Saksystem.PSAK)
 						.withSaksreferanse(SAK_REF));
 	}
+
+	public static Foersteside createFoersteside(String loepenummer) {
+		FoerstesideMapper foerstesideMapper = new FoerstesideMapper();
+		Foersteside foersteside = foerstesideMapper.map(createRequestWithAdresse());
+		foersteside.setLoepenummer(loepenummer);
+		return foersteside;
+	}
+
+
 }
