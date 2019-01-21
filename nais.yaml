@@ -30,13 +30,21 @@ fasitResources:
     propertyMap:
       username: SERVICEUSER_USERNAME
       password: SERVICEUSER_PASSWORD
+
   - alias: foerstesidegeneratorDB
     resourceType: DataSource
     propertyMap:
       url: spring.datasource.url
       username: spring.datasource.username
       password: spring.datasource.password
+
   - alias: DokumenttypeInfo_v4
     resourceType: restservice
+
   - alias: metaforceEndpoint
     resourceType: baseurl
+
+  - alias: security-token-service-openid-configuration
+    resourceType: restservice
+    propertyMap:
+      url: NO_NAV_SECURITY_OIDC_ISSUER_RESTSTS_DISCOVERYURL

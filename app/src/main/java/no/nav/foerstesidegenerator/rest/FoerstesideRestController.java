@@ -6,6 +6,7 @@ import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
+import no.nav.security.oidc.api.Protected;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,10 @@ import javax.inject.Inject;
 @Slf4j
 @RestController
 @RequestMapping("/api/foerstesidegenerator/v1")
+@Protected
 public class FoerstesideRestController {
+
+	// TODO: tilgangsstyring via abac?
 
 	private final FoerstesideService foerstesideService;
 
@@ -32,7 +36,7 @@ public class FoerstesideRestController {
 	@ApiOperation("Hent metadata om generert førsteside")
 	@ResponseBody
 	public Object getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
-		log.info("Har mottatt GET-kall om å hente foerstesidedata fra loepenummer={}", loepenummer);
+		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra loepenummer={}", loepenummer);
 
 		GetFoerstesideResponse foersteside = foerstesideService.getFoersteside(loepenummer);
 
@@ -43,7 +47,7 @@ public class FoerstesideRestController {
 	@ApiOperation("Generer en ny førsteside")
 	@ResponseBody
 	public PostFoerstesideResponse postNew(@RequestBody PostFoerstesideRequest request) {
-		log.info("foerstesidegenerator - mottatt POST-kall for å opprette ny foersteside-key");
+		log.info("Har mottatt POST-kall for å opprette ny førsteside");
 
 		PostFoerstesideResponse foersteside = foerstesideService.createFoersteside(request);
 

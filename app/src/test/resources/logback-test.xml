@@ -15,6 +15,10 @@
 
 	<logger name="no.nav.foerstesidegenerator" level="INFO"/>
 
+	<logger name="no.nav.security.oidc" level="DEBUG"/>
+	<logger name="no.nav.security.spring" level="DEBUG"/>
+	<logger name="org.springframework.security" level="DEBUG"/>
+
 	<logger name="org.apache.cxf.interceptor" additivity="true">
 		    
 		<appender-ref ref="CONSOLE"/>
