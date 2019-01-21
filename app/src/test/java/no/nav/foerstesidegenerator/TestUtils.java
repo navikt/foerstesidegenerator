@@ -22,6 +22,7 @@ public class TestUtils {
 	public static final String BRUKER = "brukerId";
 
 	public static final String TEMA_FAR = "FAR";
+	public static final String BEHANDLINGSTEMA_AB1337 = "ab1337";
 	public static final String TITTEL = "tittel";
 	public static final String SKJEMA_ID = "NAV 13.37";
 
@@ -49,6 +50,7 @@ public class TestUtils {
 						.withBrukerType(Bruker.BrukerType.PERSON))
 				.withUkjentBrukerPersoninfo(null)
 				.withTema(TEMA_FAR)
+				.withBehandlingstema(BEHANDLINGSTEMA_AB1337)
 				.withArkivtittel(TITTEL)
 				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
@@ -62,27 +64,7 @@ public class TestUtils {
 	}
 
 	public static PostFoerstesideRequest createRequestWithNetsPostboks() {
-		return new PostFoerstesideRequest()
-				.withAdresse(null)
-				.withNetsPostboks(NETS)
-				.withAvsender(new Avsender()
-						.withAvsenderId(AVSENDER)
-						.withAvsenderNavn(NAVN))
-				.withBruker(new Bruker()
-						.withBrukerId(BRUKER)
-						.withBrukerType(Bruker.BrukerType.PERSON))
-				.withUkjentBrukerPersoninfo(null)
-				.withTema(TEMA_FAR)
-				.withArkivtittel(TITTEL)
-				.withNavSkjemaId(SKJEMA_ID)
-				.withOverskriftstittel(TITTEL)
-				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
-				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
-				.withVedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
-				.withEnhetsnummer(ENHET_9999)
-				.withSak(new Sak()
-						.withSaksystem(Sak.Saksystem.PSAK)
-						.withSaksreferanse(SAK_REF));
+		return createRequest(PostFoerstesideRequest.Foerstesidetype.SKJEMA, TEMA_FAR);
 	}
 
 	public static PostFoerstesideRequest createRequestWithoutBruker(String ukjentBrukerPersoninfo) {
@@ -95,6 +77,7 @@ public class TestUtils {
 				.withBruker(null)
 				.withUkjentBrukerPersoninfo(ukjentBrukerPersoninfo)
 				.withTema(TEMA_FAR)
+				.withBehandlingstema(BEHANDLINGSTEMA_AB1337)
 				.withArkivtittel(TITTEL)
 				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
@@ -108,6 +91,15 @@ public class TestUtils {
 	}
 
 	public static PostFoerstesideRequest createRequestWithTema(String tema) {
+		return createRequest(PostFoerstesideRequest.Foerstesidetype.SKJEMA, tema);
+
+	}
+
+	public static PostFoerstesideRequest createRequestEttersendelse() {
+		return createRequest(PostFoerstesideRequest.Foerstesidetype.ETTERSENDELSE, TEMA_FAR);
+	}
+
+	private static PostFoerstesideRequest createRequest(PostFoerstesideRequest.Foerstesidetype foerstesidetype, String tema){
 		return new PostFoerstesideRequest()
 				.withAdresse(null)
 				.withNetsPostboks(NETS)
@@ -119,11 +111,12 @@ public class TestUtils {
 						.withBrukerType(Bruker.BrukerType.PERSON))
 				.withUkjentBrukerPersoninfo(null)
 				.withTema(tema)
+				.withBehandlingstema(BEHANDLINGSTEMA_AB1337)
 				.withArkivtittel(TITTEL)
 				.withNavSkjemaId(SKJEMA_ID)
 				.withOverskriftstittel(TITTEL)
 				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
-				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
+				.withFoerstesidetype(foerstesidetype)
 				.withVedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.withEnhetsnummer(ENHET_9999)
 				.withSak(new Sak()

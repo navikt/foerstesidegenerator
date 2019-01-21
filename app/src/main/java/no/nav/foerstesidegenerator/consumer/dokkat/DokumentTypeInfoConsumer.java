@@ -7,6 +7,8 @@ import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentProduksjonsInfoTo;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -29,8 +31,7 @@ public class DokumentTypeInfoConsumer {
 		this.dokumenttypeInfoUrl = dokumenttypeInfoV4Url;
 	}
 
-//	@Cacheable(value = HENT_DOKKAT_INFO, key = "#dokumenttypeId+'-dokkat'")
-//	@Retryable(include = FoerstesideGeneratorTechnicalException.class, exclude = {FoerstesideGeneratorFunctionalException.class}, maxAttempts = 5, backoff = @Backoff(delay = 200))
+	@Retryable(include = FoerstesideGeneratorTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
 	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
 		try {
 			DokumentTypeInfoToV4 response = restTemplate.getForObject(this.dokumenttypeInfoUrl + "/" + dokumenttypeId, DokumentTypeInfoToV4.class);
@@ -42,8 +43,6 @@ public class DokumentTypeInfoConsumer {
 		} catch (HttpServerErrorException e) {
 			throw new FoerstesideGeneratorTechnicalException(String.format("TKAT020 feilet teknisk med statusKode=%s, feilmelding=%s", e.getStatusCode(), e
 					.getResponseBodyAsString()), e);
-		} finally {
-//			requestTimer.observeDuration();
 		}
 	}
 
@@ -55,7 +54,6 @@ public class DokumentTypeInfoConsumer {
 				.eksternVedlegg(produksjonsInfoToV4.getEksternVedlegg())
 				.vedlegg(produksjonsInfoToV4.getVedlegg())
 				.ikkeRedigerbarMalId(produksjonsInfoToV4.getIkkeRedigerbarMalId())
-				.redigerbarMalId(produksjonsInfoToV4.getRedigerbarMalId())
 				.malLogikkFil(produksjonsInfoToV4.getMalLogikkFil())
 				.malXsdReferanse(produksjonsInfoToV4.getMalXsdReferanse())
 				.build();
