@@ -5,13 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.sun.org.apache.xerces.internal.impl.xs.opti.DefaultElement;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.datacontract.schemas._2004._07.metaforce_common.BaseReturn;
 import org.datacontract.schemas._2004._07.metaforce_common.Document;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentFormat;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentReturn;
 import org.datacontract.schemas._2004._07.metaforce_common.Format;
+import org.dom4j.dom.DOMElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,7 +51,7 @@ class MetaforceConsumerTest {
 	}
 
 	private CreateDocumentRequestTo createRequest() {
-		return new CreateDocumentRequestTo("metafile", "document", new DefaultElement());
+		return new CreateDocumentRequestTo("metafile", "document", new DOMElement("hello"));
 	}
 
 	private DocumentReturn createResponse() {
