@@ -88,8 +88,33 @@ public class TestUtils {
 						.withSaksreferanse(SAK_REF));
 	}
 
+	private static PostFoerstesideRequest createRequestWithoutAdresse(String netspostboks, String ukjent, PostFoerstesideRequest.Foerstesidetype type, String tema) {
+		return new PostFoerstesideRequest()
+				.withAdresse(null)
+				.withNetsPostboks(netspostboks)
+				.withAvsender(new Avsender()
+						.withAvsenderId(AVSENDER)
+						.withAvsenderNavn(NAVN))
+				.withBruker(new Bruker()
+						.withBrukerId(BRUKER)
+						.withBrukerType(Bruker.BrukerType.PERSON))
+				.withUkjentBrukerPersoninfo(ukjent)
+				.withTema(tema)
+				.withBehandlingstema(BEHANDLINGSTEMA_AB1337)
+				.withArkivtittel(TITTEL)
+				.withNavSkjemaId(SKJEMA_ID)
+				.withOverskriftstittel(TITTEL)
+				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
+				.withFoerstesidetype(type)
+				.withVedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
+				.withEnhetsnummer(ENHET_9999)
+				.withSak(new Sak()
+						.withSaksystem(Sak.Saksystem.PSAK)
+						.withSaksreferanse(SAK_REF));
+	}
+
 	public static PostFoerstesideRequest createRequestWithNetsPostboks() {
-		return createRequest(PostFoerstesideRequest.Foerstesidetype.SKJEMA, TEMA_FAR);
+		return createRequestWithoutAdresse(NETS, null, PostFoerstesideRequest.Foerstesidetype.SKJEMA, TEMA_FAR);
 	}
 
 	public static PostFoerstesideRequest createRequestWithoutBruker(String ukjentBrukerPersoninfo) {
@@ -115,39 +140,20 @@ public class TestUtils {
 						.withSaksreferanse(SAK_REF));
 	}
 
+	public static PostFoerstesideRequest createRequestWithoutAdresseAndNetsPostboks() {
+		return createRequestWithoutAdresse(null, null, PostFoerstesideRequest.Foerstesidetype.SKJEMA, TEMA_FAR);
+	}
+
 	public static PostFoerstesideRequest createRequestWithTema(String tema) {
-		return createRequest(PostFoerstesideRequest.Foerstesidetype.SKJEMA, tema);
+		return createRequestWithoutAdresse(NETS, null, PostFoerstesideRequest.Foerstesidetype.SKJEMA, tema);
 
 	}
 
 	public static PostFoerstesideRequest createRequestEttersendelse() {
-		return createRequest(PostFoerstesideRequest.Foerstesidetype.ETTERSENDELSE, TEMA_FAR);
+		return createRequestWithoutAdresse(NETS, null, PostFoerstesideRequest.Foerstesidetype.ETTERSENDELSE, TEMA_FAR);
 	}
 
-	private static PostFoerstesideRequest createRequest(PostFoerstesideRequest.Foerstesidetype foerstesidetype, String tema){
-		return new PostFoerstesideRequest()
-				.withAdresse(null)
-				.withNetsPostboks(NETS)
-				.withAvsender(new Avsender()
-						.withAvsenderId(AVSENDER)
-						.withAvsenderNavn(NAVN))
-				.withBruker(new Bruker()
-						.withBrukerId(BRUKER)
-						.withBrukerType(Bruker.BrukerType.PERSON))
-				.withUkjentBrukerPersoninfo(null)
-				.withTema(tema)
-				.withBehandlingstema(BEHANDLINGSTEMA_AB1337)
-				.withArkivtittel(TITTEL)
-				.withNavSkjemaId(SKJEMA_ID)
-				.withOverskriftstittel(TITTEL)
-				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
-				.withFoerstesidetype(foerstesidetype)
-				.withVedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
-				.withEnhetsnummer(ENHET_9999)
-				.withSak(new Sak()
-						.withSaksystem(Sak.Saksystem.PSAK)
-						.withSaksreferanse(SAK_REF));
-	}
+//	Domeneobjekt-metoder
 
 	public static Foersteside createFoersteside(String loepenummer) {
 		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FAR, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
@@ -187,7 +193,7 @@ public class TestUtils {
 		return foersteside;
 	}
 
-	private static void createMetadata(Foersteside foersteside, String key, String value){
+	private static void createMetadata(Foersteside foersteside, String key, String value) {
 		if (value != null) {
 			foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, key, value));
 		}
