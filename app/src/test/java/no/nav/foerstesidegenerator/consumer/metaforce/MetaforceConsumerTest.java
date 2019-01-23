@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
+import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentRequestTo;
+import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResponseTo;
+import no.nav.foerstesidegenerator.exception.MetaforceTechnicalException;
 import org.datacontract.schemas._2004._07.metaforce_common.BaseReturn;
 import org.datacontract.schemas._2004._07.metaforce_common.Document;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentFormat;
@@ -47,7 +49,7 @@ class MetaforceConsumerTest {
 	void shouldThrowTechnicalExceptionWhenCreateDocumentFails() {
 		when(metaforceService.gsCreateDocument(any(), any(), any(), any(), any(), any())).thenThrow(new RuntimeException(new UnknownHostException("Unknown host")));
 
-		assertThrows(FoerstesideGeneratorTechnicalException.class, () -> metaforceConsumer.createDocument(createRequest()), "Technical error in Metaforce.createDocument");
+		assertThrows(MetaforceTechnicalException.class, () -> metaforceConsumer.createDocument(createRequest()));
 	}
 
 	private CreateDocumentRequestTo createRequest() {

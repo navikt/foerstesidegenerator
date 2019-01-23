@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.consumer.metaforce;
+package no.nav.foerstesidegenerator.consumer.metaforce.support;
 
 import lombok.Getter;
 import org.w3c.dom.Element;

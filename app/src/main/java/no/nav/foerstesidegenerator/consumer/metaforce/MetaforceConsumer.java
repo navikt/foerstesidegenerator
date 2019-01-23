@@ -1,7 +1,10 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
-import no.nav.foerstesidegenerator.consumer.metaforce.map.support.DomUtil;
-import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
+import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentRequestTo;
+import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResponseTo;
+import no.nav.foerstesidegenerator.consumer.metaforce.support.DomUtil;
+import no.nav.foerstesidegenerator.consumer.metaforce.support.MetaforceDocumentType;
+import no.nav.foerstesidegenerator.exception.MetaforceTechnicalException;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentReturn;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
@@ -39,7 +42,7 @@ public class MetaforceConsumer {
 					.executionTimeInternal(documentReturn.getExecutionTimeInternal())
 					.build();
 		} catch (Exception e) {
-			throw new FoerstesideGeneratorTechnicalException("Kall mot " + processCalled + " feilet teknisk for ikkeRedigerbarMalId=" + createDocumentRequestTo.getMetafile(), e);
+			throw new MetaforceTechnicalException("Kall mot " + processCalled + " feilet teknisk for ikkeRedigerbarMalId=" + createDocumentRequestTo.getMetafile(), e);
 		}
 	}
 

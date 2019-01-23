@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.consumer.metaforce.map.support;
+package no.nav.foerstesidegenerator.consumer.metaforce.support;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

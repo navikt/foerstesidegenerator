@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.consumer.metaforce;
+package no.nav.foerstesidegenerator.consumer.metaforce.config;
 
 import org.apache.wss4j.common.ext.WSPasswordCallback;
 

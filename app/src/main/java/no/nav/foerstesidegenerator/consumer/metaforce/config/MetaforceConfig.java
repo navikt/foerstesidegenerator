@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.consumer.metaforce;
+package no.nav.foerstesidegenerator.consumer.metaforce.config;
 
 import no.nav.foerstesidegenerator.config.properties.ServiceuserAlias;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
@@ -36,7 +36,6 @@ class MetaforceConfig {
 				new CxfTimeoutOutInterceptor(timeouts.getDefaultReceiveTimeoutms(), timeouts.getOperationsTimeouts()),
 				wss4JOutInterceptor(serviceuserAlias))
 		);
-//		clientFactory.setInInterceptors(Collections.singletonList(new MetaforceErrorInterceptor()));
 
 		clientFactory.setBindingId(SOAPBinding.SOAP12HTTP_BINDING);
 		return (IGeneralService) clientFactory.create();

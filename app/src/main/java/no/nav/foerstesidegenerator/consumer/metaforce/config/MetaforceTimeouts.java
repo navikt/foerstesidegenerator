@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.consumer.metaforce;
+package no.nav.foerstesidegenerator.consumer.metaforce.config;
 
 import static se.metaforce.services.InteractOnlineProcess.SERVICE;
 

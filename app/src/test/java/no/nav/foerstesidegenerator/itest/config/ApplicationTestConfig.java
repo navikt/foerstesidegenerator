@@ -1,8 +1,8 @@
 package no.nav.foerstesidegenerator.itest.config;
 
 import no.nav.foerstesidegenerator.config.properties.ServiceuserAlias;
-import no.nav.foerstesidegenerator.consumer.metaforce.CxfTimeoutOutInterceptor;
-import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceTimeouts;
+import no.nav.foerstesidegenerator.consumer.metaforce.config.CxfTimeoutOutInterceptor;
+import no.nav.foerstesidegenerator.consumer.metaforce.config.MetaforceTimeouts;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Value;
