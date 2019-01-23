@@ -2,10 +2,12 @@ package no.nav.foerstesidegenerator.service.support;
 
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseAndNetsPostboks;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import no.nav.foerstesidegenerator.exception.InvalidTemaException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +40,10 @@ class PostFoerstesideRequestValidatorTest {
 		assertThrows(InvalidTemaException.class, () -> validator.validate(request));
 	}
 
-	// test på netsPostboks && adresse != null
-	// test på netsPostboks && adresse == null
+	@Test
+	void shouldThrowExceptionIfNetsPostboksAndAdresseIsNull() {
+		PostFoerstesideRequest request = createRequestWithoutAdresseAndNetsPostboks();
+
+		assertThrows(FoerstesideGeneratorFunctionalException.class, () -> validator.validate(request));
+	}
 }

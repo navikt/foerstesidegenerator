@@ -15,11 +15,18 @@ public class PostFoerstesideRequestValidator {
 
 	public void validate(PostFoerstesideRequest request) {
 		if (request != null) {
+			validateAdresseFelter(request.getNetsPostboks(), request.getAdresse());
+
 			validateTema(request.getTema());
 
-			validateAdresseFelter(request.getNetsPostboks(), request.getAdresse());
 		}
-		// TODO: flere felter?
+		// flere felter?
+	}
+
+	private void validateAdresseFelter(String netsPostboks, Adresse adresse) {
+		if (isEmpty(netsPostboks) && adresse == null) {
+			throw new FoerstesideGeneratorFunctionalException("NETS-postboks og/eller Adresse må være satt");
+		}
 	}
 
 	private void validateTema(String tema) {
@@ -31,14 +38,6 @@ public class PostFoerstesideRequestValidator {
 			}
 		} else {
 			throw new InvalidTemaException("Tema kan ikke være null");
-		}
-	}
-
-	private void validateAdresseFelter(String netsPostboks, Adresse adresse) {
-		if (isEmpty(netsPostboks) && adresse == null) {
-			throw new FoerstesideGeneratorFunctionalException("NetsPostboks _og_ Adresse kan ikke begge være null");
-		} else if (isNotBlank(netsPostboks) && adresse != null) {
-			throw new FoerstesideGeneratorFunctionalException("NetsPostboks _og_ Adresse kan ikke begge være utfylt");
 		}
 	}
 }
