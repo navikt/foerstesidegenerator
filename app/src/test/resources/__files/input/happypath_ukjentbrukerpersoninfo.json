@@ -4,10 +4,7 @@
     "avsenderId": "***gammelt_fnr***",
     "avsenderNavn": "navn navnesen"
   },
-  "bruker": {
-    "brukerId": "***gammelt_fnr***",
-    "brukerType": "PERSON"
-  },
+  "bruker": null,
   "ukjentBrukerPersoninfo": "her kommer det masse info om personen på en linje",
   "tema": "FOR",
   "behandlingstema": null,

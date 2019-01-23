@@ -9,6 +9,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.common.io.Resources;
+import no.nav.foerstesidegenerator.ApplicationLocal;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
@@ -29,6 +30,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -42,6 +44,7 @@ import java.nio.charset.StandardCharsets;
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
+@Transactional
 public abstract class AbstractIT {
 
 	@LocalServerPort
@@ -64,6 +67,8 @@ public abstract class AbstractIT {
 
 		stubFor(post("/METAFORCE").willReturn(aResponse().withStatus(HttpStatus.OK.value())
 				.withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
+
+		foerstesideRepository.deleteAll();
 	}
 
 	@AfterEach
@@ -71,8 +76,6 @@ public abstract class AbstractIT {
 		WireMock.reset();
 		WireMock.resetAllRequests();
 		WireMock.removeAllMappings();
-
-		foerstesideRepository.deleteAll();
 	}
 
 	private String getToken() {

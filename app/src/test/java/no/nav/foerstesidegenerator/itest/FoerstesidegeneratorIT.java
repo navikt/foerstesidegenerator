@@ -1,5 +1,7 @@
 package no.nav.foerstesidegenerator.itest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
@@ -8,6 +10,7 @@ import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 class FoerstesidegeneratorIT extends AbstractIT {
@@ -23,10 +26,35 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
 
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
 
 		Foersteside foersteside = getFoersteside();
-		// assert stuff
+
+		assertNull(foersteside.getAdresselinje1());
+		assertNull(foersteside.getAdresselinje2());
+		assertNull(foersteside.getAdresselinje3());
+		assertNull(foersteside.getPostnummer());
+		assertNull(foersteside.getPoststed());
+
+		assertEquals("4444", foersteside.getNetsPostboks());
+		assertEquals("***gammelt_fnr***", foersteside.getAvsenderId());
+		assertEquals("navn navnesen", foersteside.getAvsenderNavn());
+		assertEquals("***gammelt_fnr***", foersteside.getBrukerId());
+		assertEquals("PERSON", foersteside.getBrukerType());
+		assertNull(foersteside.getUkjentBrukerPersoninfo());
+		assertEquals("FOR", foersteside.getTema());
+		assertNull(foersteside.getBehandlingstema());
+		assertEquals("joark-tittel", foersteside.getArkivtittel());
+		assertEquals("NAV 13.37", foersteside.getNavSkjemaId());
+		assertEquals("tittel som printes", foersteside.getOverskriftstittel());
+		assertEquals("NB", foersteside.getSpraakkode());
+		assertEquals("SKJEMA", foersteside.getFoerstesidetype());
+		assertEquals("tittel 1;tittel 2", foersteside.getVedleggListe());
+		assertEquals("9999", foersteside.getEnhetsnummer());
+		assertEquals("GSAK", foersteside.getSaksystem());
+		assertEquals("ref", foersteside.getSaksreferanse());
+
 	}
 
 	@Test
@@ -38,10 +66,17 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
 
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
 
 		Foersteside foersteside = getFoersteside();
-		// assert stuff
+
+		assertEquals("gateveien", foersteside.getAdresselinje1());
+		assertNull(foersteside.getAdresselinje2());
+		assertNull(foersteside.getAdresselinje3());
+		assertEquals("1234", foersteside.getPostnummer());
+		assertEquals("Oslo", foersteside.getPoststed());
+
 	}
 
 	@Test
@@ -53,10 +88,11 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
 
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
 
 		Foersteside foersteside = getFoersteside();
-		// assert stuff
+		assertEquals("her kommer det masse info om personen på en linje", foersteside.getUkjentBrukerPersoninfo());
 	}
 
 	@Test
