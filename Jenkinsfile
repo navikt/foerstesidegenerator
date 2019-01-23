@@ -1,5 +1,5 @@
 naisPipeline {
     applicationName = "foerstesidegenerator"
     dockerfileDir = "."
-    deployEnvironmentT = "t8"
+    deployEnvironmentT = "q1"
 }
