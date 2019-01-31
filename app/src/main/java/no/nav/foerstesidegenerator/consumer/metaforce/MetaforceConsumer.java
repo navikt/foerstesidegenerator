@@ -6,6 +6,7 @@ import no.nav.foerstesidegenerator.consumer.metaforce.support.DomUtil;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.MetaforceDocumentType;
 import no.nav.foerstesidegenerator.exception.MetaforceTechnicalException;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentReturn;
+import org.datacontract.schemas._2004._07.metaforce_common.Format;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 import se.metaforce.services.GSCreateDocument;
@@ -53,11 +54,9 @@ public class MetaforceConsumer {
 	}
 
 	private byte[] determineBlob(DocumentReturn documentReturn) {
-		switch (documentReturn.getDocument().getFormat().getDocFormat()) {
-			case NOTSET:
-				return DomUtil.elementToString((Element) documentReturn.getData().getAny()).getBytes(StandardCharsets.UTF_8);
-			default:
-				return documentReturn.getDocument().getBlob();
+		if (documentReturn.getDocument().getFormat().getDocFormat() == Format.NOTSET) {
+			return DomUtil.elementToString((Element) documentReturn.getData().getAny()).getBytes(StandardCharsets.UTF_8);
 		}
+		return documentReturn.getDocument().getBlob();
 	}
 }

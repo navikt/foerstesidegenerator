@@ -85,7 +85,7 @@ public class MetaforceMapper {
 
 	private void addNetsPostboks(Element fag, String nets) {
 		Element netsPostboks;
-		if (isBlank(nets) && fag.getLastChild().getNodeName().equals("adresse")) {
+		if (isBlank(nets) && "adresse".equals(fag.getLastChild().getNodeName())) {
 			netsPostboks = document.createElement("NETS-postboks");
 			netsPostboks.setTextContent(DEFAULT_NETS_POSTBOKS);
 		} else if (isNotBlank(nets)) {
