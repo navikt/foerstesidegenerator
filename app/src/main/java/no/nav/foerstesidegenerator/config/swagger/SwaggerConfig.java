@@ -25,10 +25,7 @@ import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@ConditionalOnProperty(
-		value = {"swagger.enabled"},
-		havingValue = "true"
-)
+@ConditionalOnProperty(value = {"swagger.enabled"}, havingValue = "true")
 @Configuration
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)

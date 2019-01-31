@@ -49,6 +49,9 @@ fasitResources:
     propertyMap:
       url: NO_NAV_SECURITY_OIDC_ISSUER_RESTSTS_DISCOVERYURL
 
+  - alias: foerstesidegenerator-properties
+    resourceType: applicationproperties
+
   exposed:
   - alias: foerstesidegenerator-service
     resourceType: restservice

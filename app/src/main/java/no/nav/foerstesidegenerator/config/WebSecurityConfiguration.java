@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@EnableOIDCTokenValidation(ignore={"org.springframework", "io.springfox"})
+@EnableOIDCTokenValidation(ignore={"org.springframework", "springfox.documentation.swagger.web.ApiResourceController"})
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
