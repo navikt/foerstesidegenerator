@@ -76,6 +76,90 @@
 			<version>${dokkat-api.version}</version>
 		</dependency>
 
+		<!-- Metaforce -->
+		<dependency>
+			<groupId>no.nav.tjenester.metaforce</groupId>
+			<artifactId>metaforce-general-service-tjenestespesifikasjon</artifactId>
+			<version>${metaforce-tjenestespesifikasjon.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jvnet.jaxb2_commons</groupId>
+					<artifactId>jaxb2-basics</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Jaxb -->
+		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>jaxb2-basics-tools</artifactId>
+			<version>0.6.4</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>2.3.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>javax.activation-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- CXF -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+			<version>${apache-cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<version>${apache-cxf.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.woodstox</groupId>
+					<artifactId>woodstox-core-asl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.woodstox</groupId>
+					<artifactId>stax2-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.opensaml</groupId>
+					<artifactId>opensaml-saml-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.opensaml</groupId>
+					<artifactId>opensaml-xacml-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.opensaml</groupId>
+					<artifactId>opensaml-xacml-saml-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.geronimo.javamail</groupId>
+					<artifactId>geronimo-javamail_1.4_mail</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-features-logging</artifactId>
+			<version>${apache-cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opensaml</groupId>
+			<artifactId>opensaml-saml-api</artifactId>
+		</dependency>
+
 		<!--Diverse-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -89,6 +173,15 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>${httpclient.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.23.1-GA</version>
 		</dependency>
 
 		<!-- Logging -->
@@ -160,7 +253,6 @@
 			<version>${spring-cloud-contract-wiremock.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>

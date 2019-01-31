@@ -159,6 +159,10 @@ public class TestUtils {
 		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FAR, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
 	}
 
+	public static Foersteside createFoersteside(String loepenummer, String netspostboks) {
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, netspostboks, TEMA_FAR, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
+	}
+
 	public static Foersteside createFoerstesideWithoutAdresse(String loepenummer) {
 		return createFoersteside(loepenummer, null, null, null, NETS, TEMA_FAR, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
 	}

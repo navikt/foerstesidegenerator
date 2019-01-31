@@ -9,9 +9,13 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.common.io.Resources;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.ApplicationLocal;
 import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.security.spring.oidc.test.TokenGeneratorController;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -34,22 +39,22 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {ApplicationLocal.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {ApplicationLocal.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock(port = 0, httpsPort = 8443)
 @ActiveProfiles("itest")
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
+@Transactional
 public abstract class AbstractIT {
 
 	@LocalServerPort
 	public int basePort;
-	protected ObjectMapper mapper = new ObjectMapper();
 	@Inject
 	protected TestRestTemplate testRestTemplate;
-
 	@Autowired
 	protected FoerstesideRepository foerstesideRepository;
+	ObjectMapper mapper = new ObjectMapper();
 
 	protected static String classpathToString(String path) {
 		return resourceUrlToString(Resources.getResource(path));
@@ -70,14 +75,18 @@ public abstract class AbstractIT {
 						.withHeader("Content-Type", "application/json")
 						.withBodyFile("dokkat/happy-response.json")));
 
-		stubFor(post("/METAFORCE").willReturn(aResponse().withStatus(HttpStatus.OK.value())
-				.withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
+		stubFor(post("/METAFORCE")
+				.willReturn(aResponse().withStatus(HttpStatus.OK.value())
+						.withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
 
+		foerstesideRepository.deleteAll();
+	}
+
+	@AfterEach
+	void tearDown() {
 		WireMock.reset();
 		WireMock.resetAllRequests();
 		WireMock.removeAllMappings();
-
-		foerstesideRepository.deleteAll();
 	}
 
 	private String getToken() {
@@ -92,8 +101,15 @@ public abstract class AbstractIT {
 		return headers;
 	}
 
-	protected Foersteside getFoersteside() {
-		return foerstesideRepository.findAll().iterator().next();
+	protected PostFoerstesideRequest createPostRequest(String filepath) {
+		try {
+			return mapper.readValue(classpathToString(filepath), PostFoerstesideRequest.class);
+		} catch (IOException e) {
+			throw new RuntimeException("Could not convert filepath to PostFoerstesideRequest");
+		}
 	}
 
+	Foersteside getFoersteside() {
+		return foerstesideRepository.findAll().iterator().next();
+	}
 }

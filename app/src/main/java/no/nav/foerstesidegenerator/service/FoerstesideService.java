@@ -8,6 +8,10 @@ import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.consumer.dokkat.DokumentTypeInfoConsumer;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
+import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceConsumer;
+import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceMapper;
+import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentRequestTo;
+import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResponseTo;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
@@ -16,6 +20,7 @@ import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.foerstesidegenerator.service.support.GetFoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
@@ -26,12 +31,15 @@ public class FoerstesideService {
 
 	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
 
+	public static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
+
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
 	private final LoepenummerGenerator loepenummerGenerator;
 	private final FoerstesideMapper foerstesideMapper;
 	private final FoerstesideRepository foerstesideRepository;
 	private final GetFoerstesideResponseMapper getFoerstesideResponseMapper;
 	private final DokumentTypeInfoConsumer dokumentTypeInfoConsumer;
+	private final MetaforceConsumer metaforceConsumer;
 
 	@Inject
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
@@ -39,18 +47,23 @@ public class FoerstesideService {
 							  final FoerstesideMapper foerstesideMapper,
 							  final FoerstesideRepository foerstesideRepository,
 							  final GetFoerstesideResponseMapper getFoerstesideResponseMapper,
-							  final DokumentTypeInfoConsumer dokumentTypeInfoConsumer) {
-		this.postFoerstesideRequestValidator = postFoerstesideRequestValidator;
+							  final DokumentTypeInfoConsumer dokumentTypeInfoConsumer,
+							  final MetaforceConsumer metaforceConsumer) {
+		this.postFoerstesideRequestValidator =  postFoerstesideRequestValidator;
 		this.loepenummerGenerator = loepenummerGenerator;
 		this.foerstesideMapper = foerstesideMapper;
 		this.foerstesideRepository = foerstesideRepository;
 		this.getFoerstesideResponseMapper = getFoerstesideResponseMapper;
 		this.dokumentTypeInfoConsumer = dokumentTypeInfoConsumer;
+		this.metaforceConsumer = metaforceConsumer;
 	}
 
 	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request) {
 		postFoerstesideRequestValidator.validate(request);
 		log.info("Request validert OK");
+
+		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
+		log.info("Har hentet metadata fra dokkat");
 
 		int loepenummer = loepenummerGenerator.generateLoepenummer();
 
@@ -60,15 +73,25 @@ public class FoerstesideService {
 		foerstesideRepository.save(foersteside);
 		log.info("Har validert request og generert loepenummer for ny foersteside");
 
-		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo("000124");
-		log.info("Har hentet metadata fra dokkat");
 
 		// kall metaforce:
-		// byte[] document = metaforceService.createDocument()
-		// log.info(har generert ny foersteside-pdf i metaforce)
+		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
+		log.info("Har generert ny foersteside vha Metaforce");
 
 		return new PostFoerstesideResponse()
-				.withFoersteside(null);
+				.withFoersteside(document.getDocumentData().clone());
+	}
+
+	private CreateDocumentResponseTo genererPdfFraMetaforce(Foersteside foersteside, DokumentTypeInfoTo dokumentTypeInfoTo) {
+		MetaforceMapper metaforceMapper = new MetaforceMapper();
+		Document doc = metaforceMapper.map(foersteside);
+
+		CreateDocumentRequestTo metaforceRequest = new CreateDocumentRequestTo(
+				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalLogikkFil(),
+				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId(),
+				doc.getDocumentElement());
+
+		return metaforceConsumer.createDocument(metaforceRequest);
 	}
 
 	public GetFoerstesideResponse getFoersteside(String loepenummer) {

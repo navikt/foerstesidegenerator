@@ -7,6 +7,7 @@ import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import no.nav.security.oidc.api.Protected;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ public class FoerstesideRestController {
 		this.foerstesideService = foerstesideService;
 	}
 
+	@Transactional(readOnly = true)
 	@GetMapping(value = "/foersteside/{loepenummer}")
 	@ApiOperation("Hent metadata om generert førsteside")
 	@ResponseBody
@@ -43,6 +45,7 @@ public class FoerstesideRestController {
 		return foersteside;
 	}
 
+	@Transactional
 	@PostMapping(value = "/foersteside")
 	@ApiOperation("Generer en ny førsteside")
 	@ResponseBody

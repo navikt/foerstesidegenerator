@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.config;
+package no.nav.foerstesidegenerator.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,9 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 
+/**
+ * @author Joakim Bjørnstad, Jbit AS
+ */
 @Getter
 @Setter
 @ToString
@@ -18,5 +21,4 @@ public class ServiceuserAlias {
 	private String username;
 	@NotEmpty
 	private String password;
-
 }

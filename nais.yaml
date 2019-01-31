@@ -41,6 +41,9 @@ fasitResources:
   - alias: DokumenttypeInfo_v4
     resourceType: restservice
 
+  - alias: metaforceEndpoint
+    resourceType: baseurl
+
   - alias: security-token-service-openid-configuration
     resourceType: restservice
     propertyMap:

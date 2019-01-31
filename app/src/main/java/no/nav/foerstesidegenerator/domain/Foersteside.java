@@ -22,6 +22,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
+import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -35,8 +36,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -45,28 +48,22 @@ public class Foersteside {
 
 	public static final String TABLE_NAME = "FOERSTESIDE";
 	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
-
+	@OneToMany(mappedBy = "foersteside")
+	@Cascade({CascadeType.PERSIST, CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.DELETE, CascadeType.DETACH})
+	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
 	@SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 10)
 	@Column(name = "foersteside_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideId;
-
 	@Column(name = "loepenummer", nullable = false, updatable = false)
 	private String loepenummer;
-
 	@Column(name = "dato_opprettet", nullable = false, updatable = false)
 	private LocalDateTime datoOpprettet;
-
 	@Column(name = "uthentet", nullable = false, updatable = true)
 	private Boolean uthentet;
-
 	@Column(name = "dato_uthentet", nullable = true, updatable = true)
 	private LocalDateTime datoUthentet;
-
-	@OneToMany(mappedBy = "foersteside")
-	@Cascade({CascadeType.PERSIST, CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.DELETE, CascadeType.DETACH})
-	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 
 	public Long getFoerstesideId() {
 		return foerstesideId;
@@ -194,6 +191,11 @@ public class Foersteside {
 
 	public String getVedleggListe() {
 		return getValueForKey(VEDLEGG_LISTE);
+	}
+
+	public List<String> getVedleggListeAsList() {
+		String[] vedleggStringArray = delimitedListToStringArray(getVedleggListe(), ";");
+		return vedleggStringArray.length == 0 ? Collections.emptyList() : Arrays.asList(vedleggStringArray);
 	}
 
 	public String getEnhetsnummer() {

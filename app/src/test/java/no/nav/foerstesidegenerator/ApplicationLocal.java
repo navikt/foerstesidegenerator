@@ -1,6 +1,5 @@
-package no.nav.foerstesidegenerator.itest;
+package no.nav.foerstesidegenerator;
 
-import no.nav.foerstesidegenerator.ApplicationConfig;
 import no.nav.security.spring.oidc.test.TokenGeneratorConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
