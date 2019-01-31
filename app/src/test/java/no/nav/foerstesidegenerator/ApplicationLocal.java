@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
 public class ApplicationLocal {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ApplicationLocal.class, args);
 
 	}
 }
