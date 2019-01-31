@@ -9,6 +9,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.common.io.Resources;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.ApplicationLocal;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;
@@ -49,14 +50,23 @@ public abstract class AbstractIT {
 
 	@LocalServerPort
 	public int basePort;
-
-	ObjectMapper mapper = new ObjectMapper();
-
 	@Inject
 	protected TestRestTemplate testRestTemplate;
-
 	@Autowired
 	protected FoerstesideRepository foerstesideRepository;
+	ObjectMapper mapper = new ObjectMapper();
+
+	protected static String classpathToString(String path) {
+		return resourceUrlToString(Resources.getResource(path));
+	}
+
+	private static String resourceUrlToString(URL url) {
+		try {
+			return Resources.toString(url, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			throw new RuntimeException("Could not convert url to String" + url);
+		}
+	}
 
 	@BeforeEach
 	void setUp() {
@@ -65,8 +75,9 @@ public abstract class AbstractIT {
 						.withHeader("Content-Type", "application/json")
 						.withBodyFile("dokkat/happy-response.json")));
 
-		stubFor(post("/METAFORCE").willReturn(aResponse().withStatus(HttpStatus.OK.value())
-				.withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
+		stubFor(post("/METAFORCE")
+				.willReturn(aResponse().withStatus(HttpStatus.OK.value())
+						.withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
 
 		foerstesideRepository.deleteAll();
 	}
@@ -90,14 +101,11 @@ public abstract class AbstractIT {
 		return headers;
 	}
 
-		static String classpathToString(String path) {
-		return resourceUrlToString(Resources.getResource(path));
-	}
-	private static String resourceUrlToString(URL url) {
+	protected PostFoerstesideRequest createPostRequest(String filepath) {
 		try {
-			return Resources.toString(url, StandardCharsets.UTF_8);
+			return mapper.readValue(classpathToString(filepath), PostFoerstesideRequest.class);
 		} catch (IOException e) {
-			throw new RuntimeException("Could not convert url to String" + url);
+			throw new RuntimeException("Could not convert filepath to PostFoerstesideRequest");
 		}
 	}
 

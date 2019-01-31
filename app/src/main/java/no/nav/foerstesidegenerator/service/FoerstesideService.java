@@ -31,6 +31,8 @@ public class FoerstesideService {
 
 	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
 
+	public static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
+
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
 	private final LoepenummerGenerator loepenummerGenerator;
 	private final FoerstesideMapper foerstesideMapper;
@@ -60,6 +62,9 @@ public class FoerstesideService {
 		postFoerstesideRequestValidator.validate(request);
 		log.info("Request validert OK");
 
+		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
+		log.info("Har hentet metadata fra dokkat");
+
 		int loepenummer = loepenummerGenerator.generateLoepenummer();
 
 		Foersteside foersteside = foerstesideMapper.map(request);
@@ -68,8 +73,6 @@ public class FoerstesideService {
 		foerstesideRepository.save(foersteside);
 		log.info("Har validert request og generert loepenummer for ny foersteside");
 
-		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo("000124");
-		log.info("Har hentet metadata fra dokkat");
 
 		// kall metaforce:
 		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
