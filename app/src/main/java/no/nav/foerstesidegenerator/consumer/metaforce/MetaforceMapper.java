@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
+import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isBlank;
 import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isNotBlank;
 
 import no.nav.foerstesidegenerator.domain.Foersteside;
@@ -13,6 +14,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.util.List;
 
 public class MetaforceMapper {
+
+	public static final String DEFAULT_NETS_POSTBOKS = "8888";
 
 	private Document document;
 
@@ -29,7 +32,7 @@ public class MetaforceMapper {
 
 			addSpraakkode(fag, domain.getSpraakkode());
 			addAdresse(fag, domain);
-			// TODO: HVIS adresse => sett default NETS-postboks til 8888
+			// HVIS adresse er satt OG netsPostboks er null => sett default NETS-postboks til 8888
 			addNetsPostboks(fag, domain.getNetsPostboks());
 			addBruker(fag, domain);
 			addUkjentBrukerPersoninfo(fag, domain.getUkjentBrukerPersoninfo());
@@ -81,11 +84,17 @@ public class MetaforceMapper {
 	}
 
 	private void addNetsPostboks(Element fag, String nets) {
-		if (isNotBlank(nets)) {
-			Element netsPostboks = document.createElement("NETS-postboks");
+		Element netsPostboks;
+		if (isBlank(nets) && fag.getLastChild().getNodeName().equals("adresse")) {
+			netsPostboks = document.createElement("NETS-postboks");
+			netsPostboks.setTextContent(DEFAULT_NETS_POSTBOKS);
+		} else if (isNotBlank(nets)) {
+			netsPostboks = document.createElement("NETS-postboks");
 			netsPostboks.setTextContent(nets);
-			fag.appendChild(netsPostboks);
+		} else {
+			return;
 		}
+		fag.appendChild(netsPostboks);
 	}
 
 	private void addBruker(Element fag, Foersteside domain) {
@@ -95,7 +104,6 @@ public class MetaforceMapper {
 			Element brukerID = document.createElement("brukerID");
 			brukerID.setTextContent(domain.getBrukerId());
 			bruker.appendChild(brukerID);
-			// TODO: brukerType ??
 
 			fag.appendChild(bruker);
 		}
