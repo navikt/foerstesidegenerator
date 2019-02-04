@@ -24,16 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import no.nav.dok.foerstesidegenerator.api.v1.Bruker.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest.Foerstesidetype;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest.Spraakkode;
-import no.nav.dok.foerstesidegenerator.api.v1.Sak.Saksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.Saksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 
 @ExtendWith(MockitoExtension.class)
 class FoerstesideMapperTest {
@@ -56,18 +55,18 @@ class FoerstesideMapperTest {
 		assertEquals(AVSENDER, domain.getAvsenderId());
 		assertEquals(NAVN, domain.getAvsenderNavn());
 		assertEquals(BRUKER, domain.getBrukerId());
-		assertEquals(BrukerType.PERSON.value(), domain.getBrukerType());
+		assertEquals(BrukerType.PERSON.name(), domain.getBrukerType());
 		assertNull(domain.getUkjentBrukerPersoninfo());
 		assertEquals(TEMA_FAR, domain.getTema());
 		assertEquals(BEHANDLINGSTEMA_AB1337, domain.getBehandlingstema());
 		assertEquals(TITTEL, domain.getArkivtittel());
 		assertEquals(SKJEMA_ID, domain.getNavSkjemaId());
 		assertEquals(TITTEL, domain.getOverskriftstittel());
-		assertEquals(Spraakkode.NB.value(), domain.getSpraakkode());
-		assertEquals(Foerstesidetype.SKJEMA.value(), domain.getFoerstesidetype());
+		assertEquals(Spraakkode.NB.name(), domain.getSpraakkode());
+		assertEquals(Foerstesidetype.SKJEMA.name(), domain.getFoerstesidetype());
 		assertEquals(String.join(";", VEDLEGG_1, VEDLEGG_2), domain.getVedleggListe());
 		assertEquals(ENHET_9999, domain.getEnhetsnummer());
-		assertEquals(Saksystem.PSAK.value(), domain.getSaksystem());
+		assertEquals(Saksystem.PSAK.name(), domain.getSaksystem());
 		assertEquals(SAK_REF, domain.getSaksreferanse());
 	}
 

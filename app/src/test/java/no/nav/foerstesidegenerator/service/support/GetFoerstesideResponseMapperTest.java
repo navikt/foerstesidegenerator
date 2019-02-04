@@ -22,11 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import no.nav.dok.foerstesidegenerator.api.v1.Bruker.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
-import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse.Foerstesidetype;
-import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse.Spraakkode;
-import no.nav.dok.foerstesidegenerator.api.v1.Sak.Saksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.Saksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

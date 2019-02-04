@@ -73,13 +73,12 @@ public class FoerstesideService {
 		foerstesideRepository.save(foersteside);
 		log.info("Har validert request og generert loepenummer for ny foersteside");
 
-
-		// kall metaforce:
 		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
 		log.info("Har generert ny foersteside vha Metaforce");
 
-		return new PostFoerstesideResponse()
-				.withFoersteside(document.getDocumentData().clone());
+		return PostFoerstesideResponse.builder()
+				.foersteside(document.getDocumentData().clone())
+				.build();
 	}
 
 	private CreateDocumentResponseTo genererPdfFraMetaforce(Foersteside foersteside, DokumentTypeInfoTo dokumentTypeInfoTo) {

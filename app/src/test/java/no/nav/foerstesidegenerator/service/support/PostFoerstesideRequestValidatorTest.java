@@ -6,10 +6,13 @@ import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseA
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.Sak;
+import no.nav.dok.foerstesidegenerator.api.v1.Saksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
 import no.nav.foerstesidegenerator.exception.InvalidTemaException;
@@ -32,69 +35,76 @@ class PostFoerstesideRequestValidatorTest {
 
 	@Test
 	void shouldThrowExceptionIfSpraakkodeIsNull() {
-		PostFoerstesideRequest request = new PostFoerstesideRequest()
-				.withSpraakkode(null);
+		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
+				.spraakkode(null)
+				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}
 
 	@Test
 	void shouldThrowExceptionIfBrukerIdIsNull() {
-		PostFoerstesideRequest request = new PostFoerstesideRequest()
-				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
-				.withBruker(new Bruker()
-						.withBrukerId(null)
-						.withBrukerType(Bruker.BrukerType.PERSON));
+		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
+				.spraakkode(Spraakkode.NB)
+				.bruker(Bruker.builder()
+						.brukerId(null)
+						.brukerType(BrukerType.PERSON).build())
+				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}
 
 	@Test
 	void shouldThrowExceptionIfBrukerTypeIsNull() {
-		PostFoerstesideRequest request = new PostFoerstesideRequest()
-				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
-				.withBruker(new Bruker()
-						.withBrukerId("abc")
-						.withBrukerType(null));
+		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
+				.spraakkode(Spraakkode.NB)
+				.bruker(Bruker.builder()
+						.brukerId("abc")
+						.brukerType(null).build())
+				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}
 
 	@Test
 	void shouldThrowExceptionIfOverskriftstittelIsNull() {
-		PostFoerstesideRequest request = new PostFoerstesideRequest()
-				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
-				.withOverskriftstittel(null);
+		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
+				.spraakkode(Spraakkode.NB)
+				.overskriftstittel(null)
+				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}
 
 	@Test
 	void shouldThrowExceptionIfFoerstesidetypeIsNull() {
-		PostFoerstesideRequest request = new PostFoerstesideRequest()
-				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
-				.withOverskriftstittel("tittel")
-				.withFoerstesidetype(null);
+		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
+				.spraakkode(Spraakkode.NB)
+				.overskriftstittel("tittel")
+				.foerstesidetype(null)
+				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}
 
 	@Test
 	void shouldThrowExceptionIfSaksystemIsNull() {
-		PostFoerstesideRequest request = new PostFoerstesideRequest()
-				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
-				.withOverskriftstittel("tittel")
-				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
-				.withSak(new Sak()
-						.withSaksystem(null)
-						.withSaksreferanse("ref"));
+		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
+				.spraakkode(Spraakkode.NB)
+				.overskriftstittel("tittel")
+				.foerstesidetype(Foerstesidetype.SKJEMA)
+				.sak(Sak.builder()
+						.saksystem(null)
+						.saksreferanse("ref").build())
+				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}
 
 	@Test
 	void shouldThrowExceptionIfSaksreferanseIsNull() {
-		PostFoerstesideRequest request = new PostFoerstesideRequest()
-				.withSpraakkode(PostFoerstesideRequest.Spraakkode.NB)
-				.withOverskriftstittel("tittel")
-				.withFoerstesidetype(PostFoerstesideRequest.Foerstesidetype.SKJEMA)
-				.withSak(new Sak()
-						.withSaksystem(Sak.Saksystem.PSAK)
-						.withSaksreferanse(null));
+		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
+				.spraakkode(Spraakkode.NB)
+				.overskriftstittel("tittel")
+				.foerstesidetype(Foerstesidetype.SKJEMA)
+				.sak(Sak.builder()
+						.saksystem(Saksystem.PSAK)
+						.saksreferanse(null).build())
+				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}
 
@@ -121,10 +131,22 @@ class PostFoerstesideRequestValidatorTest {
 
 	@Test
 	void shouldThrowExceptionIfAdresselinje1IsNull() {
-		PostFoerstesideRequest request = createRequestWithoutAdresseAndNetsPostboks().withAdresse(new Adresse()
-				.withAdresselinje1(null)
-				.withPostnummer("nr")
-				.withPoststed("oslo"));
+		PostFoerstesideRequest request = createRequestWithAdresse(null, null, null, "nr", "poststed");
+
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+	}
+
+	@Test
+	void shouldThrowExceptionIfPostNrIsNull() {
+		PostFoerstesideRequest request = createRequestWithAdresse("adresse", null, null, null, "poststed");
+
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+	}
+
+	@Test
+	void shouldThrowExceptionIfPoststedIsNull() {
+		PostFoerstesideRequest request = createRequestWithAdresse("adresse", null, null, "nr",null);
+
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}
 }

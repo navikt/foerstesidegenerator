@@ -6,11 +6,12 @@ import static org.springframework.util.StringUtils.isEmpty;
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.Bruker.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
-import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse.Spraakkode;
 import no.nav.dok.foerstesidegenerator.api.v1.Sak;
-import no.nav.dok.foerstesidegenerator.api.v1.Sak.Saksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.Saksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.springframework.stereotype.Component;
 
@@ -22,34 +23,36 @@ import java.util.List;
 public class GetFoerstesideResponseMapper {
 
 	public GetFoerstesideResponse map(Foersteside domain) {
-		return new GetFoerstesideResponse()
-				.withAdresse(mapAdresse(domain))
-				.withNetsPostboks(domain.getNetsPostboks())
-				.withAvsender(mapAvsender(domain))
-				.withBruker(mapBruker(domain))
-				.withUkjentBrukerPersoninfo(domain.getUkjentBrukerPersoninfo())
-				.withTema(domain.getTema())
-				.withBehandlingstema(domain.getBehandlingstema())
-				.withArkivtittel(domain.getArkivtittel())
-				.withNavSkjemaId(domain.getNavSkjemaId())
-				.withOverskriftstittel(domain.getOverskriftstittel())
-				.withSpraakkode(Spraakkode.valueOf(domain.getSpraakkode()))
-				.withFoerstesidetype(GetFoerstesideResponse.Foerstesidetype.fromValue(domain.getFoerstesidetype()))
-				.withVedleggsliste(mapVedlegg(domain))
-				.withEnhetsnummer(domain.getEnhetsnummer())
-				.withSak(mapSak(domain));
+		return GetFoerstesideResponse.builder()
+				.adresse(mapAdresse(domain))
+				.netsPostboks(domain.getNetsPostboks())
+				.avsender(mapAvsender(domain))
+				.bruker(mapBruker(domain))
+				.ukjentBrukerPersoninfo(domain.getUkjentBrukerPersoninfo())
+				.tema(domain.getTema())
+				.behandlingstema(domain.getBehandlingstema())
+				.arkivtittel(domain.getArkivtittel())
+				.navSkjemaId(domain.getNavSkjemaId())
+				.overskriftstittel(domain.getOverskriftstittel())
+				.spraakkode(Spraakkode.valueOf(domain.getSpraakkode()))
+				.foerstesidetype(Foerstesidetype.valueOf(domain.getFoerstesidetype()))
+				.vedleggsliste(mapVedlegg(domain))
+				.enhetsnummer(domain.getEnhetsnummer())
+				.sak(mapSak(domain))
+				.build();
 	}
 
 	private Adresse mapAdresse(Foersteside domain) {
 		if (isEmpty(domain.getAdresselinje1()) || isEmpty(domain.getPostnummer()) || isEmpty(domain.getPoststed())) {
 			return null;
 		}
-		return new Adresse()
-				.withAdresselinje1(domain.getAdresselinje1())
-				.withAdresselinje2(domain.getAdresselinje2())
-				.withAdresselinje3(domain.getAdresselinje3())
-				.withPostnummer(domain.getPostnummer())
-				.withPoststed(domain.getPoststed());
+		return Adresse.builder()
+				.adresselinje1(domain.getAdresselinje1())
+				.adresselinje2(domain.getAdresselinje2())
+				.adresselinje3(domain.getAdresselinje3())
+				.postnummer(domain.getPostnummer())
+				.poststed(domain.getPoststed())
+				.build();
 	}
 
 	private Avsender mapAvsender(Foersteside domain) {
@@ -58,9 +61,10 @@ public class GetFoerstesideResponseMapper {
 		if (isEmpty(avsenderId) && isEmpty(avsenderNavn)) {
 			return null;
 		}
-		return new Avsender()
-				.withAvsenderId(avsenderId)
-				.withAvsenderNavn(avsenderNavn);
+		return Avsender.builder()
+				.avsenderId(avsenderId)
+				.avsenderNavn(avsenderNavn)
+				.build();
 	}
 
 	private Bruker mapBruker(Foersteside domain) {
@@ -69,9 +73,10 @@ public class GetFoerstesideResponseMapper {
 		if (isEmpty(brukerId) || isEmpty(brukerType)) {
 			return null;
 		}
-		return new Bruker()
-				.withBrukerId(brukerId)
-				.withBrukerType(BrukerType.valueOf(brukerType));
+		return Bruker.builder()
+				.brukerId(brukerId)
+				.brukerType(BrukerType.valueOf(brukerType))
+				.build();
 	}
 
 	private List<String> mapVedlegg(Foersteside domain) {
@@ -89,8 +94,9 @@ public class GetFoerstesideResponseMapper {
 		if (isEmpty(saksystem) || isEmpty(saksreferanse)) {
 			return null;
 		}
-		return new Sak()
-				.withSaksystem(Saksystem.valueOf(saksystem))
-				.withSaksreferanse(saksreferanse);
+		return Sak.builder()
+				.saksystem(Saksystem.valueOf(saksystem))
+				.saksreferanse(saksreferanse)
+				.build();
 	}
 }

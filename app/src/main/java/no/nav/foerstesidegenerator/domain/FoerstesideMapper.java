@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.domain;
 
 import static java.lang.String.join;
-import static no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest.Foerstesidetype.ETTERSENDELSE;
+import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.ETTERSENDELSE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_3;
@@ -29,6 +29,7 @@ import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.Sak;
 import org.springframework.stereotype.Component;
@@ -65,8 +66,8 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, ARKIVTITTEL, request.getArkivtittel());
 		mapNavSkjemaId(foersteside, request.getFoerstesidetype(), request.getNavSkjemaId());
 		addMetadata(foersteside, OVERSKRIFTSTITTEL, request.getOverskriftstittel());
-		addMetadata(foersteside, SPRAAKKODE, request.getSpraakkode().value());
-		addMetadata(foersteside, FOERSTESIDETYPE, request.getFoerstesidetype().value());
+		addMetadata(foersteside, SPRAAKKODE, request.getSpraakkode().name());
+		addMetadata(foersteside, FOERSTESIDETYPE, request.getFoerstesidetype().name());
 		addMetadata(foersteside, VEDLEGG_LISTE, join(";", request.getVedleggsliste()));
 		addMetadata(foersteside, ENHETSNUMMER, request.getEnhetsnummer());
 		if (request.getSak() != null) {
@@ -91,15 +92,15 @@ public class FoerstesideMapper {
 
 	private void mapBruker(Foersteside foersteside, Bruker bruker) {
 		addMetadata(foersteside, BRUKER_ID, bruker.getBrukerId());
-		addMetadata(foersteside, BRUKER_TYPE, bruker.getBrukerType().value());
+		addMetadata(foersteside, BRUKER_TYPE, bruker.getBrukerType().name());
 	}
 
 	private void mapSak(Foersteside foersteside, Sak sak) {
-		addMetadata(foersteside, SAKSYSTEM, sak.getSaksystem().value());
+		addMetadata(foersteside, SAKSYSTEM, sak.getSaksystem().name());
 		addMetadata(foersteside, SAKSREFERANSE, sak.getSaksreferanse());
 	}
 
-	private void mapNavSkjemaId(Foersteside foersteside, PostFoerstesideRequest.Foerstesidetype foerstesidetype, String navSkjemaId){
+	private void mapNavSkjemaId(Foersteside foersteside, Foerstesidetype foerstesidetype, String navSkjemaId){
 		if (ETTERSENDELSE.equals(foerstesidetype) && navSkjemaId.startsWith(NAV_PREFIX)){
 			StringBuilder builder = new StringBuilder(navSkjemaId);
 			builder.insert(3, 'e');
