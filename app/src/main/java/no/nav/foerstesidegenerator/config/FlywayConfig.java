@@ -25,9 +25,9 @@ public class FlywayConfig {
 
 	@Bean(initMethod = "migrate")
 	public Flyway flywayManualConfig(DataSource dataSource) {
-		Flyway flyway = new Flyway();
-		flyway.setDataSource(dataSource);
-		return flyway;
+		return Flyway.configure()
+				.dataSource(dataSource)
+				.load();
 	}
 
 	/**
