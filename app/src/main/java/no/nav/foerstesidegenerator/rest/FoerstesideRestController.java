@@ -45,8 +45,7 @@ public class FoerstesideRestController {
 	@ResponseBody
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Hentet metadata fra førsteside", response = GetFoerstesideResponse.class),
-			@ApiResponse(code = 400, message = "Løpenummer har ugyldig lengde"),
-			@ApiResponse(code = 400, message = "Kontrollsiffer oppgitt er feil"),
+			@ApiResponse(code = 400, message = "Ugyldig loepenummer"),
 			@ApiResponse(code = 404, message = "Kan ikke finne foersteside med loepenummer={loepenummer}"),
 			@ApiResponse(code = 500, message = "Internal server error")})
 	public GetFoerstesideResponse getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
@@ -62,8 +61,6 @@ public class FoerstesideRestController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Opprettet førsteside", response = PostFoerstesideResponse.class),
 			@ApiResponse(code = 400, message = "Request validerer ikke"),
-			@ApiResponse(code = 500, message = "Kall mot Dokkat feilet"),
-			@ApiResponse(code = 500, message = "Kall mot Metaforce feilet"),
 			@ApiResponse(code = 500, message = "Internal server error")})
 	public ResponseEntity<PostFoerstesideResponse> postNew(@RequestBody PostFoerstesideRequest request) {
 		log.info("Har mottatt POST-kall for å opprette ny førsteside");

@@ -1,6 +1,7 @@
 package no.nav.foerstesidegenerator.service;
 
 import static java.lang.Integer.parseInt;
+import static no.nav.foerstesidegenerator.consumer.metaforce.support.DomUtil.elementToString;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
@@ -84,6 +85,8 @@ public class FoerstesideService {
 	private CreateDocumentResponseTo genererPdfFraMetaforce(Foersteside foersteside, DokumentTypeInfoTo dokumentTypeInfoTo) {
 		MetaforceMapper metaforceMapper = new MetaforceMapper();
 		Document doc = metaforceMapper.map(foersteside);
+
+		String brevdata = elementToString(doc.getDocumentElement());
 
 		CreateDocumentRequestTo metaforceRequest = new CreateDocumentRequestTo(
 				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalLogikkFil(),
