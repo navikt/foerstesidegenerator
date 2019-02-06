@@ -9,19 +9,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 class FoerstesidegeneratorIT extends AbstractIT {
 
 	private final static String POST_URL = "/api/foerstesidegenerator/v1/foersteside";
+	private final static String GET_URL = "/api/foerstesidegenerator/v1/foersteside/";
 
 	@Test
 	@DisplayName("POST førsteside - standard adresse")
@@ -32,7 +36,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
 
-		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
 
 		Foersteside foersteside = getFoersteside();
@@ -72,7 +76,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
 
-		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
 
 		Foersteside foersteside = getFoersteside();
@@ -82,7 +86,6 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertNull(foersteside.getAdresselinje3());
 		assertEquals("1234", foersteside.getPostnummer());
 		assertEquals("Oslo", foersteside.getPoststed());
-
 	}
 
 	@Test
@@ -94,7 +97,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
 
-		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
 
 		Foersteside foersteside = getFoersteside();
@@ -104,13 +107,28 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	@Test
 	@DisplayName("GET førsteside - Ok")
 	void shouldHentFoerstesideGivenLoepenummer() {
-		// implement
+		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
+		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
+		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
+		Foersteside foersteside = getFoersteside();
+		String loepenummer = foersteside.getLoepenummer();
+
+		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 	}
 
 	@Test
 	@DisplayName("GET førsteside - 404 not found")
 	void shouldThrowExceptionWhenNoFoerstesideFoundForLoepenummer() {
-		// implement
+		String loepenummer = "123456789";
+
+		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.NOT_FOUND, getResponse.getStatusCode());
 	}
 
 	@Test
@@ -124,7 +142,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_ukjentbrukerpersoninfo.json");
 		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
 
-		ResponseEntity<FoerstesideGeneratorTechnicalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, FoerstesideGeneratorTechnicalException.class);
+		ResponseEntity<DokkatConsumerFunctionalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, DokkatConsumerFunctionalException.class);
 
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().startsWith("TKAT020 feilet med statusKode=404 NOT_FOUND"));

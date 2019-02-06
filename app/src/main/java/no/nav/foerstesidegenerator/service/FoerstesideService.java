@@ -15,7 +15,7 @@ import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResp
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
-import no.nav.foerstesidegenerator.exception.UgyldigLoepenummerException;
+import no.nav.foerstesidegenerator.exception.InvalidLoepenummerException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.foerstesidegenerator.service.support.GetFoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
@@ -98,7 +98,7 @@ public class FoerstesideService {
 		log.info("Loepenummer validert ok");
 
 		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, 9))
-				.orElseThrow(() -> new FoerstesideNotFoundException(String.format("Kan ikke finne foersteside med loepenummer=%s", loepenummer)));
+				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
 		domain.setUthentet(true);
 		domain.setDatoUthentet(LocalDateTime.now());
 		return getFoerstesideResponseMapper.map(domain);
@@ -107,12 +107,12 @@ public class FoerstesideService {
 
 	private void validerLoepenummer(String loepenummer) {
 		if (loepenummer.length() < 9 || loepenummer.length() > 10) {
-			throw new UgyldigLoepenummerException("Løpenummer har ugyldig lengde");
+			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
 		} else if (loepenummer.length() == 10) {
 			int a = parseInt(loepenummer.substring(0, 9));
 			int b = parseInt(loepenummer.substring(9, 10));
 			if (a % 10 != b) {
-				throw new UgyldigLoepenummerException("Kontrollsiffer oppgitt er feil");
+				throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil");
 			}
 		}
 	}

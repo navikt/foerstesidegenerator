@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import no.nav.dokkat.api.tkat020.v4.DokumentProduksjonsInfoToV4;
 import no.nav.dokkat.api.tkat020.v4.DokumentTypeInfoToV4;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
+import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,14 +60,20 @@ class DokumentTypeInfoConsumerTest {
 		assertEquals(MAL_ID, dokumentTypeInfoTo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId());
 		assertEquals(MAL_XSD_REF, dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalXsdReferanse());
 		assertEquals(MALFIL, dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalLogikkFil());
-
 	}
 
 	@Test
 	void shouldThrowTechnicalExceptionWhenBadRequest() {
 		when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
 
-		assertThrows(FoerstesideGeneratorTechnicalException.class, () -> dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE));
+		assertThrows(DokkatConsumerFunctionalException.class, () -> dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE));
+	}
+
+	@Test
+	void shouldThrowTechnicalExceptionWhenNotFound() {
+		when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND));
+
+		assertThrows(DokkatConsumerFunctionalException.class, () -> dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE));
 	}
 
 	@Test
@@ -80,7 +87,7 @@ class DokumentTypeInfoConsumerTest {
 	void shouldThrowTechnicalExceptionWhenUnauthorized() {
 		when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpClientErrorException(HttpStatus.UNAUTHORIZED));
 
-		assertThrows(FoerstesideGeneratorTechnicalException.class, () -> dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE));
+		assertThrows(DokkatConsumerFunctionalException.class, () -> dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE));
 	}
 
 	private DokumentTypeInfoToV4 createResponse() {

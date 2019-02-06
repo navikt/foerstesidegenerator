@@ -1,6 +1,8 @@
 package no.nav.foerstesidegenerator.rest;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
@@ -8,6 +10,8 @@ import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import no.nav.security.oidc.api.Protected;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +43,12 @@ public class FoerstesideRestController {
 	@GetMapping(value = "/foersteside/{loepenummer}")
 	@ApiOperation("Hent metadata om generert førsteside")
 	@ResponseBody
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Hentet metadata fra førsteside", response = GetFoerstesideResponse.class),
+			@ApiResponse(code = 400, message = "Løpenummer har ugyldig lengde"),
+			@ApiResponse(code = 400, message = "Kontrollsiffer oppgitt er feil"),
+			@ApiResponse(code = 404, message = "Kan ikke finne foersteside med loepenummer={loepenummer}"),
+			@ApiResponse(code = 500, message = "Internal server error")})
 	public GetFoerstesideResponse getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
 		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra loepenummer={}", loepenummer);
 
@@ -49,9 +59,16 @@ public class FoerstesideRestController {
 	@PostMapping(value = "/foersteside")
 	@ApiOperation("Generer en ny førsteside")
 	@ResponseBody
-	public PostFoerstesideResponse postNew(@RequestBody PostFoerstesideRequest request) {
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Opprettet førsteside", response = PostFoerstesideResponse.class),
+			@ApiResponse(code = 400, message = "Request validerer ikke"),
+			@ApiResponse(code = 500, message = "Kall mot Dokkat feilet"),
+			@ApiResponse(code = 500, message = "Kall mot Metaforce feilet"),
+			@ApiResponse(code = 500, message = "Internal server error")})
+	public ResponseEntity<PostFoerstesideResponse> postNew(@RequestBody PostFoerstesideRequest request) {
 		log.info("Har mottatt POST-kall for å opprette ny førsteside");
 
-		return foerstesideService.createFoersteside(request);
+		PostFoerstesideResponse foersteside = foerstesideService.createFoersteside(request);
+		return new ResponseEntity<>(foersteside, HttpStatus.CREATED);
 	}
 }

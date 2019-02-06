@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class FoerstesideNotFoundException extends FoerstesideGeneratorFunctionalException {
 
-	public FoerstesideNotFoundException(String message) {
-		super(message);
-	}
+	private static final String NOT_FOUND_MSG = "Kan ikke finne foersteside med loepenummer=";
 
-	public FoerstesideNotFoundException(String message, Throwable cause) {
-		super(message, cause);
+	public FoerstesideNotFoundException(String message) {
+		super(NOT_FOUND_MSG + message);
 	}
 }
