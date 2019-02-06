@@ -3,6 +3,8 @@ package no.nav.foerstesidegenerator.domain;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_3;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSNUMMER;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
@@ -16,8 +18,6 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POS
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTSTED;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SAKSREFERANSE;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SAKSYSTEM;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKODE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
@@ -202,12 +202,12 @@ public class Foersteside {
 		return getValueForKey(ENHETSNUMMER);
 	}
 
-	public String getSaksystem() {
-		return getValueForKey(SAKSYSTEM);
+	public String getArkivsaksystem() {
+		return getValueForKey(ARKIVSAKSYSTEM);
 	}
 
-	public String getSaksreferanse() {
-		return getValueForKey(SAKSREFERANSE);
+	public String getArkivsaksnummer() {
+		return getValueForKey(ARKIVSAKSNUMMER);
 	}
 
 

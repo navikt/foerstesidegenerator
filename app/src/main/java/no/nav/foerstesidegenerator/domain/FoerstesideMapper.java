@@ -5,6 +5,8 @@ import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.ETTERSENDEL
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_3;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSNUMMER;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
@@ -18,8 +20,6 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POS
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTSTED;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SAKSREFERANSE;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SAKSYSTEM;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKODE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
@@ -27,11 +27,11 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.Sak;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -70,8 +70,8 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, FOERSTESIDETYPE, request.getFoerstesidetype().name());
 		addMetadata(foersteside, VEDLEGG_LISTE, join(";", request.getVedleggsliste()));
 		addMetadata(foersteside, ENHETSNUMMER, request.getEnhetsnummer());
-		if (request.getSak() != null) {
-			mapSak(foersteside, request.getSak());
+		if (request.getArkivtittel() != null) {
+			mapSak(foersteside, request.getArkivsak());
 		}
 
 		return foersteside;
@@ -95,9 +95,9 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, BRUKER_TYPE, bruker.getBrukerType().name());
 	}
 
-	private void mapSak(Foersteside foersteside, Sak sak) {
-		addMetadata(foersteside, SAKSYSTEM, sak.getSaksystem().name());
-		addMetadata(foersteside, SAKSREFERANSE, sak.getSaksreferanse());
+	private void mapSak(Foersteside foersteside, Arkivsak sak) {
+		addMetadata(foersteside, ARKIVSAKSYSTEM, sak.getArkivsaksystem().name());
+		addMetadata(foersteside, ARKIVSAKSNUMMER, sak.getArkivsaksnummer());
 	}
 
 	private void mapNavSkjemaId(Foersteside foersteside, Foerstesidetype foerstesidetype, String navSkjemaId){

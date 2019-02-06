@@ -1,6 +1,8 @@
 package no.nav.foerstesidegenerator;
 
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSNUMMER;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
@@ -14,21 +16,19 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POS
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTSTED;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SAKSREFERANSE;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SAKSYSTEM;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKODE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
 
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.Sak;
-import no.nav.dok.foerstesidegenerator.api.v1.Saksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
@@ -86,9 +86,9 @@ public class TestUtils {
 				.foerstesidetype(Foerstesidetype.SKJEMA)
 				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.enhetsnummer(ENHET_9999)
-				.sak(Sak.builder()
-						.saksystem(Saksystem.PSAK)
-						.saksreferanse(SAK_REF).build())
+				.arkivsak(Arkivsak.builder()
+						.arkivsaksystem(Arkivsaksystem.PSAK)
+						.arkivsaksnummer(SAK_REF).build())
 				.build();
 	}
 
@@ -112,9 +112,10 @@ public class TestUtils {
 				.foerstesidetype(type)
 				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.enhetsnummer(ENHET_9999)
-				.sak(Sak.builder()
-						.saksystem(Saksystem.PSAK)
-						.saksreferanse(SAK_REF).build()).build();
+				.arkivsak(Arkivsak.builder()
+						.arkivsaksystem(Arkivsaksystem.PSAK)
+						.arkivsaksnummer(SAK_REF).build())
+				.build();
 	}
 
 	public static PostFoerstesideRequest createRequestWithNetsPostboks() {
@@ -139,9 +140,10 @@ public class TestUtils {
 				.foerstesidetype(Foerstesidetype.SKJEMA)
 				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.enhetsnummer(ENHET_9999)
-				.sak(Sak.builder()
-						.saksystem(Saksystem.PSAK)
-						.saksreferanse(SAK_REF).build()).build();
+				.arkivsak(Arkivsak.builder()
+						.arkivsaksystem(Arkivsaksystem.PSAK)
+						.arkivsaksnummer(SAK_REF).build())
+				.build();
 	}
 
 	public static PostFoerstesideRequest createRequestWithoutAdresseAndNetsPostboks() {
@@ -217,8 +219,8 @@ public class TestUtils {
 		createMetadata(foersteside, FOERSTESIDETYPE, Foerstesidetype.SKJEMA.name());
 		createMetadata(foersteside, VEDLEGG_LISTE, VEDLEGG_1 + ";" + VEDLEGG_2);
 		createMetadata(foersteside, ENHETSNUMMER, ENHET_9999);
-		createMetadata(foersteside, SAKSYSTEM, Saksystem.PSAK.name());
-		createMetadata(foersteside, SAKSREFERANSE, SAK_REF);
+		createMetadata(foersteside, ARKIVSAKSYSTEM, Arkivsaksystem.PSAK.name());
+		createMetadata(foersteside, ARKIVSAKSNUMMER, SAK_REF);
 		return foersteside;
 	}
 

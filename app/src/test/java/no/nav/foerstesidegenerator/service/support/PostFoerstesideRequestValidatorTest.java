@@ -6,12 +6,12 @@ import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseA
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.Sak;
-import no.nav.dok.foerstesidegenerator.api.v1.Saksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
@@ -88,22 +88,22 @@ class PostFoerstesideRequestValidatorTest {
 				.spraakkode(Spraakkode.NB)
 				.overskriftstittel("tittel")
 				.foerstesidetype(Foerstesidetype.SKJEMA)
-				.sak(Sak.builder()
-						.saksystem(null)
-						.saksreferanse("ref").build())
+				.arkivsak(Arkivsak.builder()
+						.arkivsaksystem(null)
+						.arkivsaksnummer("ref").build())
 				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}
 
 	@Test
-	void shouldThrowExceptionIfSaksreferanseIsNull() {
+	void shouldThrowExceptionIfArkivsaksnummerIsNull() {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
 				.spraakkode(Spraakkode.NB)
 				.overskriftstittel("tittel")
 				.foerstesidetype(Foerstesidetype.SKJEMA)
-				.sak(Sak.builder()
-						.saksystem(Saksystem.PSAK)
-						.saksreferanse(null).build())
+				.arkivsak(Arkivsak.builder()
+						.arkivsaksystem(Arkivsaksystem.PSAK)
+						.arkivsaksnummer(null).build())
 				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
 	}

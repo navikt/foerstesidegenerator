@@ -22,8 +22,8 @@ public final class MetadataConstants {
 	public static final String FOERSTESIDETYPE = "foerstesidetype";
 	public static final String VEDLEGG_LISTE = "vedleggListe";
 	public static final String ENHETSNUMMER = "enhetsnummer";
-	public static final String SAKSYSTEM = "saksystem";
-	public static final String SAKSREFERANSE = "saksreferanse";
+	public static final String ARKIVSAKSYSTEM = "arkivsaksystem";
+	public static final String ARKIVSAKSNUMMER = "arkivsaksnummer";
 
 	private MetadataConstants() {
 		//no-op

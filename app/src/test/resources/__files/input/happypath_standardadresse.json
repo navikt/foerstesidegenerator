@@ -22,8 +22,8 @@
     "tittel 2"
   ],
   "enhetsnummer": "9999",
-  "sak": {
-    "saksystem": "GSAK",
-    "saksreferanse": "ref"
+  "arkivsak": {
+    "arkivsaksystem": "GSAK",
+    "arkivsaksnummer": "ref"
   }
 }

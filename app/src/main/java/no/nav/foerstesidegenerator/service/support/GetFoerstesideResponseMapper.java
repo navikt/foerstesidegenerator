@@ -3,15 +3,12 @@ package no.nav.foerstesidegenerator.service.support;
 import static org.springframework.util.StringUtils.delimitedListToStringArray;
 import static org.springframework.util.StringUtils.isEmpty;
 
-import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
-import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
-import no.nav.dok.foerstesidegenerator.api.v1.Sak;
-import no.nav.dok.foerstesidegenerator.api.v1.Saksystem;
-import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.springframework.stereotype.Component;
 
@@ -24,34 +21,15 @@ public class GetFoerstesideResponseMapper {
 
 	public GetFoerstesideResponse map(Foersteside domain) {
 		return GetFoerstesideResponse.builder()
-				.adresse(mapAdresse(domain))
-				.netsPostboks(domain.getNetsPostboks())
 				.avsender(mapAvsender(domain))
 				.bruker(mapBruker(domain))
-				.ukjentBrukerPersoninfo(domain.getUkjentBrukerPersoninfo())
 				.tema(domain.getTema())
 				.behandlingstema(domain.getBehandlingstema())
 				.arkivtittel(domain.getArkivtittel())
 				.navSkjemaId(domain.getNavSkjemaId())
-				.overskriftstittel(domain.getOverskriftstittel())
-				.spraakkode(Spraakkode.valueOf(domain.getSpraakkode()))
-				.foerstesidetype(Foerstesidetype.valueOf(domain.getFoerstesidetype()))
 				.vedleggsliste(mapVedlegg(domain))
 				.enhetsnummer(domain.getEnhetsnummer())
-				.sak(mapSak(domain))
-				.build();
-	}
-
-	private Adresse mapAdresse(Foersteside domain) {
-		if (isEmpty(domain.getAdresselinje1()) || isEmpty(domain.getPostnummer()) || isEmpty(domain.getPoststed())) {
-			return null;
-		}
-		return Adresse.builder()
-				.adresselinje1(domain.getAdresselinje1())
-				.adresselinje2(domain.getAdresselinje2())
-				.adresselinje3(domain.getAdresselinje3())
-				.postnummer(domain.getPostnummer())
-				.poststed(domain.getPoststed())
+				.arkivsak(mapArkivsak(domain))
 				.build();
 	}
 
@@ -88,15 +66,15 @@ public class GetFoerstesideResponseMapper {
 		return Arrays.asList(splitted);
 	}
 
-	private Sak mapSak(Foersteside domain) {
-		String saksystem = domain.getSaksystem();
-		String saksreferanse = domain.getSaksreferanse();
+	private Arkivsak mapArkivsak(Foersteside domain) {
+		String saksystem = domain.getArkivsaksystem();
+		String saksreferanse = domain.getArkivsaksnummer();
 		if (isEmpty(saksystem) || isEmpty(saksreferanse)) {
 			return null;
 		}
-		return Sak.builder()
-				.saksystem(Saksystem.valueOf(saksystem))
-				.saksreferanse(saksreferanse)
+		return Arkivsak.builder()
+				.arkivsaksystem(Arkivsaksystem.valueOf(saksystem))
+				.arkivsaksnummer(saksreferanse)
 				.build();
 	}
 }

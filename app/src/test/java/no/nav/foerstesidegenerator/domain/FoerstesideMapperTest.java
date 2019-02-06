@@ -24,10 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.Saksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -66,8 +66,8 @@ class FoerstesideMapperTest {
 		assertEquals(Foerstesidetype.SKJEMA.name(), domain.getFoerstesidetype());
 		assertEquals(String.join(";", VEDLEGG_1, VEDLEGG_2), domain.getVedleggListe());
 		assertEquals(ENHET_9999, domain.getEnhetsnummer());
-		assertEquals(Saksystem.PSAK.name(), domain.getSaksystem());
-		assertEquals(SAK_REF, domain.getSaksreferanse());
+		assertEquals(Arkivsaksystem.PSAK.name(), domain.getArkivsaksystem());
+		assertEquals(SAK_REF, domain.getArkivsaksnummer());
 	}
 
 	@Test

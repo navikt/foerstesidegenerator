@@ -42,8 +42,8 @@ public class PostFoerstesideRequestValidator {
 			throw new InvalidRequestException("Foerstesidetype kan ikke være null.");
 		}
 
-		if (request.getSak() != null && (request.getSak().getSaksystem() == null || request.getSak().getSaksreferanse() == null)) {
-			throw new InvalidRequestException("Hvis Sak oppgis, må Saksystem og Saksreferanse være satt.");
+		if (request.getArkivsak() != null && (request.getArkivsak().getArkivsaksystem() == null || request.getArkivsak().getArkivsaksnummer() == null)) {
+			throw new InvalidRequestException("Hvis Arkivsak oppgis, må Arkivsaksystem og Arkivsaksnummer være satt.");
 		}
 
 	}

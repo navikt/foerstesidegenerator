@@ -58,8 +58,8 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertEquals("SKJEMA", foersteside.getFoerstesidetype());
 		assertEquals("tittel 1;tittel 2", foersteside.getVedleggListe());
 		assertEquals("9999", foersteside.getEnhetsnummer());
-		assertEquals("GSAK", foersteside.getSaksystem());
-		assertEquals("ref", foersteside.getSaksreferanse());
+		assertEquals("GSAK", foersteside.getArkivsaksystem());
+		assertEquals("ref", foersteside.getArkivsaksnummer());
 
 	}
 
