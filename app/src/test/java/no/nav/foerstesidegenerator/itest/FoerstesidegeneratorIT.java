@@ -124,7 +124,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	@Test
 	@DisplayName("GET førsteside - 404 not found")
 	void shouldThrowExceptionWhenNoFoerstesideFoundForLoepenummer() {
-		String loepenummer = "123456789";
+		String loepenummer = "***gammelt_fnr***00";
 
 		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
 
