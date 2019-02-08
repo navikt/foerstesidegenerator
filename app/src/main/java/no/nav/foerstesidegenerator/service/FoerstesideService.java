@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.service;
 
 import static java.lang.Integer.parseInt;
-import static no.nav.foerstesidegenerator.consumer.metaforce.support.DomUtil.elementToString;
+import static org.apache.commons.lang3.StringUtils.leftPad;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
@@ -24,18 +24,20 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Service
 public class FoerstesideService {
 
-	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
-
 	public static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
+	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
+	private static final int LOEPENUMMER_LENGTH = 13;
+	private static final int LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT = 14;
 
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
-	private final LoepenummerGenerator loepenummerGenerator;
 	private final FoerstesideMapper foerstesideMapper;
 	private final FoerstesideRepository foerstesideRepository;
 	private final GetFoerstesideResponseMapper getFoerstesideResponseMapper;
@@ -44,14 +46,12 @@ public class FoerstesideService {
 
 	@Inject
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
-							  final LoepenummerGenerator loepenummerGenerator,
 							  final FoerstesideMapper foerstesideMapper,
 							  final FoerstesideRepository foerstesideRepository,
 							  final GetFoerstesideResponseMapper getFoerstesideResponseMapper,
 							  final DokumentTypeInfoConsumer dokumentTypeInfoConsumer,
 							  final MetaforceConsumer metaforceConsumer) {
-		this.postFoerstesideRequestValidator =  postFoerstesideRequestValidator;
-		this.loepenummerGenerator = loepenummerGenerator;
+		this.postFoerstesideRequestValidator = postFoerstesideRequestValidator;
 		this.foerstesideMapper = foerstesideMapper;
 		this.foerstesideRepository = foerstesideRepository;
 		this.getFoerstesideResponseMapper = getFoerstesideResponseMapper;
@@ -66,10 +66,12 @@ public class FoerstesideService {
 		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
 		log.info("Har hentet metadata fra dokkat");
 
-		int loepenummer = loepenummerGenerator.generateLoepenummer();
+		int count = foerstesideRepository.findNumberOfFoerstesiderGeneratedToday();
+		String loepenummer = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + leftPad(Integer.toString(count + 1), 5, "0");
+		log.info("Nytt løpenummer={}", loepenummer);
 
 		Foersteside foersteside = foerstesideMapper.map(request);
-		foersteside.setLoepenummer(String.format("%09d", loepenummer));
+		foersteside.setLoepenummer(loepenummer);
 
 		foerstesideRepository.save(foersteside);
 		log.info("Har validert request og generert loepenummer for ny foersteside");
@@ -86,8 +88,6 @@ public class FoerstesideService {
 		MetaforceMapper metaforceMapper = new MetaforceMapper();
 		Document doc = metaforceMapper.map(foersteside);
 
-		String brevdata = elementToString(doc.getDocumentElement());
-
 		CreateDocumentRequestTo metaforceRequest = new CreateDocumentRequestTo(
 				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalLogikkFil(),
 				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId(),
@@ -100,7 +100,7 @@ public class FoerstesideService {
 		validerLoepenummer(loepenummer);
 		log.info("Loepenummer validert ok");
 
-		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, 9))
+		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, 13))
 				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
 		domain.setUthentet(true);
 		domain.setDatoUthentet(LocalDateTime.now());
@@ -109,11 +109,11 @@ public class FoerstesideService {
 	}
 
 	private void validerLoepenummer(String loepenummer) {
-		if (loepenummer.length() < 9 || loepenummer.length() > 10) {
+		if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT) {
 			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
-		} else if (loepenummer.length() == 10) {
-			int a = parseInt(loepenummer.substring(0, 9));
-			int b = parseInt(loepenummer.substring(9, 10));
+		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT) {
+			int a = parseInt(loepenummer.substring(0, LOEPENUMMER_LENGTH));
+			int b = parseInt(loepenummer.substring(LOEPENUMMER_LENGTH, LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT));
 			if (a % 10 != b) {
 				throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil");
 			}
