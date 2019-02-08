@@ -41,10 +41,11 @@ public class FoerstesideMapper {
 
 	private static final String NAV_PREFIX = "NAV ";
 
-	public Foersteside map(PostFoerstesideRequest request) {
+	public Foersteside map(PostFoerstesideRequest request, String loepenummer) {
 		Foersteside foersteside = new Foersteside();
 		foersteside.setDatoOpprettet(LocalDateTime.now());
 		foersteside.setUthentet(false);
+		foersteside.setLoepenummer(loepenummer);
 
 		if (request.getAdresse() != null) {
 			mapAdresse(foersteside, request.getAdresse());

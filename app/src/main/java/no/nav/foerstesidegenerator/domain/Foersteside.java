@@ -53,7 +53,7 @@ public class Foersteside {
 	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
-	@SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 10)
+	@SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
 	@Column(name = "foersteside_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideId;
 	@Column(name = "loepenummer", nullable = false, updatable = false)

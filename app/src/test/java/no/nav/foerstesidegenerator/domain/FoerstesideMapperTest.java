@@ -37,6 +37,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class FoerstesideMapperTest {
 
+	private static final String LOEPENUMMER = "***gammelt_fnr***01";
+
 	@InjectMocks
 	private FoerstesideMapper mapper;
 
@@ -44,7 +46,7 @@ class FoerstesideMapperTest {
 	void shouldMapRequestWithAdresse() {
 		PostFoerstesideRequest request = createRequestWithAdresse();
 
-		Foersteside domain = mapper.map(request);
+		Foersteside domain = mapper.map(request, LOEPENUMMER);
 
 		assertEquals(ADR_LINJE_1, domain.getAdresselinje1());
 		assertNull(domain.getAdresselinje2());
@@ -74,7 +76,7 @@ class FoerstesideMapperTest {
 	void shouldMapRequestWithNetsPostboks() {
 		PostFoerstesideRequest request = createRequestWithNetsPostboks();
 
-		Foersteside domain = mapper.map(request);
+		Foersteside domain = mapper.map(request, LOEPENUMMER);
 		assertNull(domain.getAdresselinje1());
 		assertNull(domain.getAdresselinje2());
 		assertNull(domain.getAdresselinje3());
@@ -87,7 +89,7 @@ class FoerstesideMapperTest {
 	void shouldMapUkjentBrukerPersoninfoIfBrukersIsAbsent() {
 		PostFoerstesideRequest request = createRequestWithoutBruker("something");
 
-		Foersteside domain = mapper.map(request);
+		Foersteside domain = mapper.map(request, LOEPENUMMER);
 		assertNull(domain.getBrukerId());
 		assertNull(domain.getBrukerType());
 		assertNotNull(domain.getUkjentBrukerPersoninfo());
@@ -97,7 +99,7 @@ class FoerstesideMapperTest {
 	void shouldMapEttersendelse() {
 		PostFoerstesideRequest request = createRequestEttersendelse();
 
-		Foersteside domain = mapper.map(request);
+		Foersteside domain = mapper.map(request, LOEPENUMMER);
 
 		assertTrue(domain.getNavSkjemaId().startsWith("NAVe"));
 	}

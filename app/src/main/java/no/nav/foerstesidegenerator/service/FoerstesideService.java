@@ -70,8 +70,7 @@ public class FoerstesideService {
 		String loepenummer = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + leftPad(Integer.toString(count + 1), 5, "0");
 		log.info("Nytt løpenummer={}", loepenummer);
 
-		Foersteside foersteside = foerstesideMapper.map(request);
-		foersteside.setLoepenummer(loepenummer);
+		Foersteside foersteside = foerstesideMapper.map(request, loepenummer);
 
 		foerstesideRepository.save(foersteside);
 		log.info("Har validert request og generert loepenummer for ny foersteside");
