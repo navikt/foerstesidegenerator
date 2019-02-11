@@ -33,7 +33,6 @@ import java.time.format.DateTimeFormatter;
 public class FoerstesideService {
 
 	public static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
-	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
 	private static final int LOEPENUMMER_LENGTH = 13;
 	private static final int LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT = 14;
 
@@ -119,18 +118,5 @@ public class FoerstesideService {
 		}
 	}
 
-	private String generateStrekkode(int loepenummer, String postboks) {
-		int c1 = loepenummer % 10;
-		String loepenummerString = String.format("%09d", loepenummer);
 
-		String res = loepenummerString + c1 + postboks;
-
-		int total = 0;
-		for (int i = 0; i < res.length(); i++) {
-			total += ALPHABET_STRING.indexOf(res.charAt(i));
-		}
-		char c2 = ALPHABET_STRING.charAt(total % 43);
-
-		return "*" + res + c2 + "*";
-	}
 }

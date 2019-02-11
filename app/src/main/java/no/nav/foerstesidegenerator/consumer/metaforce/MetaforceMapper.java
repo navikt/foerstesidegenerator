@@ -17,6 +17,8 @@ public class MetaforceMapper {
 
 	public static final String DEFAULT_NETS_POSTBOKS = "8888";
 
+	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
+
 	private Document document;
 
 	public Document map(Foersteside domain) {
@@ -41,6 +43,7 @@ public class MetaforceMapper {
 			addFoerstesideType(fag, domain.getFoerstesidetype());
 			addVedleggListe(fag, domain.getVedleggListeAsList());
 			addLoepenummer(fag, domain.getLoepenummer());
+			addStrekkode2(fag, generateStrekkode2(domain));
 
 			document.appendChild(brevdata);
 			return document;
@@ -140,9 +143,32 @@ public class MetaforceMapper {
 	}
 
 	private void addLoepenummer(Element fag, String loepenummer) {
-		Element loepenummerElement = document.createElement("loepenummer");
+		Element loepenummerElement = document.createElement("løpenummer");
 		loepenummerElement.setTextContent(loepenummer);
 		fag.appendChild(loepenummerElement);
+	}
+
+	private void addStrekkode2(Element fag, String strekkode2) {
+		Element strekkode2Element = document.createElement("strekkode2");
+		strekkode2Element.setTextContent(strekkode2);
+		fag.appendChild(strekkode2Element);
+	}
+
+	private String generateStrekkode2(Foersteside foersteside) {
+		long loepenummer = Long.parseLong(foersteside.getLoepenummer());
+		long c1 = loepenummer % 10;
+
+		String postboks = foersteside.getNetsPostboks() != null ? foersteside.getNetsPostboks() : DEFAULT_NETS_POSTBOKS;
+
+		String res = foersteside.getLoepenummer() + c1 + postboks;
+
+		int total = 0;
+		for (int i = 0; i < res.length(); i++) {
+			total += ALPHABET_STRING.indexOf(res.charAt(i));
+		}
+		char c2 = ALPHABET_STRING.charAt(total % 43);
+
+		return "*" + res + c2 + "*";
 	}
 
 	private void addVedleggListe(Element fag, List<String> vedleggTittelList) {

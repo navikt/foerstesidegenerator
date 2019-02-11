@@ -11,6 +11,7 @@ import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
 import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
 import static no.nav.foerstesidegenerator.consumer.metaforce.MetaforceMapper.DEFAULT_NETS_POSTBOKS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
@@ -21,7 +22,7 @@ import org.w3c.dom.Element;
 
 class MetaforceMapperTest {
 
-	private static final String LOEPENUMMER = "123546789";
+	private static final String LOEPENUMMER = "***gammelt_fnr***01";
 
 	private MetaforceMapper mapper = new MetaforceMapper();
 
@@ -41,9 +42,10 @@ class MetaforceMapperTest {
 		assertEquals(TITTEL, documentElement.getElementsByTagName("arkivtittel").item(0).getTextContent());
 		assertEquals(TITTEL, documentElement.getElementsByTagName("overskriftstittel").item(0).getTextContent());
 		assertEquals(Foerstesidetype.SKJEMA.name(), documentElement.getElementsByTagName("foerstesideType").item(0).getTextContent());
-		assertEquals(LOEPENUMMER, documentElement.getElementsByTagName("loepenummer").item(0).getTextContent());
+		assertEquals(LOEPENUMMER, documentElement.getElementsByTagName("løpenummer").item(0).getTextContent());
 		assertEquals(VEDLEGG_1, documentElement.getElementsByTagName("tittel").item(0).getTextContent());
 		assertEquals(VEDLEGG_2, documentElement.getElementsByTagName("tittel").item(1).getTextContent());
+		assertTrue(document.getElementsByTagName("strekkode2").item(0).getTextContent().contains("*" + LOEPENUMMER));
 	}
 
 	@Test
