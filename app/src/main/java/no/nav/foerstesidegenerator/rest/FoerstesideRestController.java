@@ -45,11 +45,11 @@ public class FoerstesideRestController {
 	@ResponseBody
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Hentet metadata fra førsteside", response = GetFoerstesideResponse.class),
-			@ApiResponse(code = 400, message = "Ugyldig loepenummer"),
-			@ApiResponse(code = 404, message = "Kan ikke finne foersteside med loepenummer={loepenummer}"),
+			@ApiResponse(code = 400, message = "Ugyldig løpenummer"),
+			@ApiResponse(code = 404, message = "Kan ikke finne førsteside med løpenummer={loepenummer}"),
 			@ApiResponse(code = 500, message = "Internal server error")})
 	public GetFoerstesideResponse getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
-		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra loepenummer={}", loepenummer);
+		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra løpenummer={}", loepenummer);
 
 		return foerstesideService.getFoersteside(loepenummer);
 	}
