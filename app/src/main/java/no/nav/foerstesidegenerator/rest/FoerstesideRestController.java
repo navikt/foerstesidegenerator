@@ -63,7 +63,7 @@ public class FoerstesideRestController {
 	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "post-foersteside"}, percentiles = {0.5, 0.95})
 	@ResponseBody
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Opprettet førsteside", response = PostFoerstesideResponse.class),
+			@ApiResponse(code = 201, message = "Opprettet førsteside", response = PostFoerstesideResponse.class),
 			@ApiResponse(code = 400, message = "Request validerer ikke"),
 			@ApiResponse(code = 500, message = "Internal server error")})
 	public ResponseEntity<PostFoerstesideResponse> postNew(@RequestBody PostFoerstesideRequest request) {
