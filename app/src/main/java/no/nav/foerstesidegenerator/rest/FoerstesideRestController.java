@@ -1,5 +1,8 @@
 package no.nav.foerstesidegenerator.rest;
 
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_REQUEST;
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -7,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
+import no.nav.foerstesidegenerator.metrics.Metrics;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import no.nav.security.oidc.api.Protected;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,8 +34,6 @@ import javax.inject.Inject;
 @Protected
 public class FoerstesideRestController {
 
-	// TODO: tilgangsstyring via abac?
-
 	private final FoerstesideService foerstesideService;
 
 	@Inject
@@ -42,6 +44,7 @@ public class FoerstesideRestController {
 	@Transactional(readOnly = true)
 	@GetMapping(value = "/foersteside/{loepenummer}")
 	@ApiOperation("Hent metadata om generert førsteside")
+	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "get-foersteside"}, percentiles = {0.5, 0.95})
 	@ResponseBody
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Hentet metadata fra førsteside", response = GetFoerstesideResponse.class),
@@ -57,6 +60,7 @@ public class FoerstesideRestController {
 	@Transactional
 	@PostMapping(value = "/foersteside")
 	@ApiOperation("Generer en ny førsteside")
+	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "post-foersteside"}, percentiles = {0.5, 0.95})
 	@ResponseBody
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Opprettet førsteside", response = PostFoerstesideResponse.class),

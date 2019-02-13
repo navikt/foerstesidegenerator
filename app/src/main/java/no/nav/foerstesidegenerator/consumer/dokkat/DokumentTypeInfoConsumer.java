@@ -1,5 +1,8 @@
 package no.nav.foerstesidegenerator.consumer.dokkat;
 
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.CONSUMER;
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_REQUEST_CONSUMER;
+
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokkat.api.tkat020.v4.DokumentProduksjonsInfoToV4;
 import no.nav.dokkat.api.tkat020.v4.DokumentTypeInfoToV4;
@@ -7,6 +10,7 @@ import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentProduksjonsInfoTo;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
+import no.nav.foerstesidegenerator.metrics.Metrics;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
@@ -33,6 +37,7 @@ public class DokumentTypeInfoConsumer {
 		this.dokumenttypeInfoUrl = dokumenttypeInfoV4Url;
 	}
 
+	@Metrics(value = DOK_REQUEST_CONSUMER, extraTags = {CONSUMER, "tkat020"}, percentiles = {0.5, 0.95})
 	@Retryable(include = FoerstesideGeneratorTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
 	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
 		DokumentTypeInfoToV4 dokumentTypeInfo;
