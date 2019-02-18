@@ -29,15 +29,15 @@ public class MetaforceConsumer {
 	@Metrics(value = DOK_REQUEST_CONSUMER, extraTags = {CONSUMER, "metaforce_createDocument"}, percentiles = {0.5, 0.95})
 	public CreateDocumentResponseTo createDocument(CreateDocumentRequestTo createDocumentRequestTo) {
 		String processCalled = "Metaforce:GS_CreateDocument";
+		DocumentReturn documentReturn = null;
 		try {
-			DocumentReturn documentReturn = metaforcews.gsCreateDocument(
+			documentReturn = metaforcews.gsCreateDocument(
 					createDocumentRequestTo.getMetafile(),
 					createDocumentRequestTo.getDocument(),
 					getCreateDocumentDataType(createDocumentRequestTo.getData()),
 					createDocumentRequestTo.getTextRows(),
 					createDocumentRequestTo.getPrintConfiguration(),
-					null
-			);
+					null);
 			return CreateDocumentResponseTo.builder()
 					.documentData(determineBlob(documentReturn))
 					.docFormat(MetaforceDocumentType.fromValue(documentReturn.getDocument().getFormat().getDocFormat().name()))
@@ -48,7 +48,10 @@ public class MetaforceConsumer {
 					.executionTimeInternal(documentReturn.getExecutionTimeInternal())
 					.build();
 		} catch (Exception e) {
-			throw new MetaforceTechnicalException("Kall mot " + processCalled + " feilet teknisk for ikkeRedigerbarMalId=" + createDocumentRequestTo.getMetafile(), e);
+			throw new MetaforceTechnicalException(String.format("Kall mot %s feilet teknisk for ikkeRedigerbarMalId=%s.%s",
+					processCalled,
+					createDocumentRequestTo.getMetafile(),
+					documentReturn != null ? " ErrorDescription: " + documentReturn.getErrorDescription() : ""), e);
 		}
 	}
 
