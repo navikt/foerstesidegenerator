@@ -67,16 +67,14 @@ public class FoerstesideService {
 
 		int count = foerstesideRepository.findNumberOfFoerstesiderGeneratedToday();
 		String loepenummer = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + leftPad(Integer.toString(count + 1), 5, "0");
-		log.info("Nytt løpenummer={}", loepenummer);
 
 		Foersteside foersteside = foerstesideMapper.map(request, loepenummer);
-
 		foerstesideRepository.save(foersteside);
-		log.info("Har validert request og generert loepenummer for ny foersteside");
 
 		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
-		log.info("Har generert ny foersteside vha Metaforce");
+		log.info("Førsteside generert vha Metaforce");
 
+		log.info("Ny førsteside har løpenummer={}", loepenummer);
 		return PostFoerstesideResponse.builder()
 				.foersteside(document.getDocumentData().clone())
 				.build();

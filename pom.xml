@@ -41,6 +41,7 @@
 		<flyway.version>5.2.4</flyway.version>
 		<lombok.version>1.18.4</lombok.version>
 		<httpclient.version>4.5.6</httpclient.version>
+		<micrometer.version>1.1.2</micrometer.version>
 
 		<oidc-spring-support.version>0.2.15</oidc-spring-support.version>
 		<oidc-spring-test.version>0.2.5</oidc-spring-test.version>

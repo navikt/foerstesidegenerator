@@ -1,16 +1,22 @@
 package no.nav.foerstesidegenerator.metrics;
 
+import static java.util.Arrays.asList;
+
 import io.micrometer.core.annotation.Incubating;
+import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.Tags;
 import io.micrometer.core.instrument.Timer;
 import io.micrometer.core.lang.NonNullApi;
 import lombok.extern.slf4j.Slf4j;
+import no.nav.foerstesidegenerator.config.MDCConstants;
+import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.MDC;
 
 import java.lang.reflect.Method;
 import java.util.function.Function;
@@ -39,23 +45,55 @@ public class DokMetricsAspect {
 	@Around("execution (@no.nav.foerstesidegenerator.metrics.Metrics * *.*(..))")
 	public Object incrementMetrics(ProceedingJoinPoint pjp) throws Throwable {
 		Method method = ((MethodSignature) pjp.getSignature()).getMethod();
-		Metrics timed = method.getAnnotation(Metrics.class);
 
-		if (timed.value().isEmpty()) {
+		Metrics metrics = method.getAnnotation(Metrics.class);
+		if (metrics.value().isEmpty()) {
 			return pjp.proceed();
 		}
 
 		Timer.Sample sample = Timer.start(registry);
 		try {
 			return pjp.proceed();
-		} finally {
-			sample.stop(Timer.builder(timed.value())
-					.description(timed.description().isEmpty() ? null : timed.description())
-					.tags(timed.extraTags())
+		} catch (Exception e) {
+
+			logException(method, e);
+
+			Counter.builder(metrics.value() + "_exception")
+					.tags("error_type", isFunctionalException(method, e) ? "functional" : "technical")
+					.tags("exception_name", e.getClass().getSimpleName())
+					.tags(metrics.extraTags())
 					.tags(tagsBasedOnJoinpoint.apply(pjp))
-					.publishPercentileHistogram(timed.histogram())
-					.publishPercentiles(timed.percentiles().length == 0 ? null : timed.percentiles())
+					.register(registry)
+					.increment();
+
+			throw e;
+
+		} finally {
+			sample.stop(Timer.builder(metrics.value())
+					.description(metrics.description().isEmpty() ? null : metrics.description())
+					.tags(metrics.extraTags())
+					.tags(tagsBasedOnJoinpoint.apply(pjp))
+					.publishPercentileHistogram(metrics.histogram())
+					.publishPercentiles(metrics.percentiles().length == 0 ? null : metrics.percentiles())
 					.register(registry));
 		}
+	}
+
+	private boolean isFunctionalException(Method method, Exception e) {
+		return asList(method.getExceptionTypes()).contains(e.getClass()) || isFunctionalException(e);
+	}
+
+	private void logException(Method method, Exception e) {
+		String mdcRequestId = (MDC.get(MDCConstants.MDC_REQUEST_ID) == null) ? "" : (MDC.get(MDCConstants.MDC_REQUEST_ID) + " ");
+
+		if (isFunctionalException(method, e)) {
+			log.warn(mdcRequestId + e.getMessage(), e);
+		} else {
+			log.error(mdcRequestId + e.getMessage(), e);
+		}
+	}
+
+	private boolean isFunctionalException(Throwable e) {
+		return e instanceof FoerstesideGeneratorFunctionalException;
 	}
 }

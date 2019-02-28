@@ -89,6 +89,13 @@
 			</exclusions>
 		</dependency>
 
+		<!--prometheus-->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>${micrometer.version}</version>
+		</dependency>
+
 		<!-- Jaxb -->
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
