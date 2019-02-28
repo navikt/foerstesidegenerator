@@ -44,7 +44,7 @@ public class FoerstesideRestController {
 	@Transactional(readOnly = true)
 	@GetMapping(value = "/foersteside/{loepenummer}")
 	@ApiOperation("Hent metadata om generert førsteside")
-	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "get-foersteside"}, percentiles = {0.5, 0.95})
+	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "get-foersteside"}, percentiles = {0.5, 0.95}, histogram = true)
 	@ResponseBody
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Hentet metadata fra førsteside", response = GetFoerstesideResponse.class),
@@ -60,7 +60,7 @@ public class FoerstesideRestController {
 	@Transactional
 	@PostMapping(value = "/foersteside")
 	@ApiOperation("Generer en ny førsteside")
-	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "post-foersteside"}, percentiles = {0.5, 0.95})
+	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "post-foersteside"}, percentiles = {0.5, 0.95}, histogram = true)
 	@ResponseBody
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Opprettet førsteside", response = PostFoerstesideResponse.class),

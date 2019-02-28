@@ -26,7 +26,7 @@ public class MetaforceConsumer {
 		this.metaforcews = metaforce;
 	}
 
-	@Metrics(value = DOK_REQUEST_CONSUMER, extraTags = {CONSUMER, "metaforce_createDocument"}, percentiles = {0.5, 0.95})
+	@Metrics(value = DOK_REQUEST_CONSUMER, extraTags = {CONSUMER, "metaforce_createDocument"}, percentiles = {0.5, 0.95}, histogram = true)
 	public CreateDocumentResponseTo createDocument(CreateDocumentRequestTo createDocumentRequestTo) {
 		String processCalled = "Metaforce:GS_CreateDocument";
 		DocumentReturn documentReturn = null;

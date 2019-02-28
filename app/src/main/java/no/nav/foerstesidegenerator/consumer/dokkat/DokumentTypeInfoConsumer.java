@@ -37,7 +37,7 @@ public class DokumentTypeInfoConsumer {
 		this.dokumenttypeInfoUrl = dokumenttypeInfoV4Url;
 	}
 
-	@Metrics(value = DOK_REQUEST_CONSUMER, extraTags = {CONSUMER, "tkat020"}, percentiles = {0.5, 0.95})
+	@Metrics(value = DOK_REQUEST_CONSUMER, extraTags = {CONSUMER, "tkat020"}, percentiles = {0.5, 0.95}, histogram = true)
 	@Retryable(include = FoerstesideGeneratorTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
 	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
 		DokumentTypeInfoToV4 dokumentTypeInfo;
