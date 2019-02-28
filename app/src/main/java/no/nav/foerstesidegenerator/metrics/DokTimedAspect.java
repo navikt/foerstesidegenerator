@@ -25,19 +25,19 @@ import java.util.function.Function;
 @NonNullApi
 @Incubating(since = "1.0.0")
 @Slf4j
-public class DokMetricsAspect {
+public class DokTimedAspect {
 
 	private final MeterRegistry registry;
 	private final Function<ProceedingJoinPoint, Iterable<Tag>> tagsBasedOnJoinpoint;
 
-	public DokMetricsAspect(MeterRegistry registry) {
+	public DokTimedAspect(MeterRegistry registry) {
 		this(registry, pjp ->
 				Tags.of("class", pjp.getStaticPart().getSignature().getDeclaringTypeName(),
 						"method", pjp.getStaticPart().getSignature().getName())
 		);
 	}
 
-	public DokMetricsAspect(MeterRegistry registry, Function<ProceedingJoinPoint, Iterable<Tag>> tagsBasedOnJoinpoint) {
+	public DokTimedAspect(MeterRegistry registry, Function<ProceedingJoinPoint, Iterable<Tag>> tagsBasedOnJoinpoint) {
 		this.registry = registry;
 		this.tagsBasedOnJoinpoint = tagsBasedOnJoinpoint;
 	}
