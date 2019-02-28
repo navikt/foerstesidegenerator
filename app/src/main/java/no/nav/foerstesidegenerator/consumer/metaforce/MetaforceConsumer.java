@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.CONSUMER;
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_REQUEST_CONSUMER;
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_CONSUMER;
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentRequestTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResponseTo;
@@ -26,7 +26,7 @@ public class MetaforceConsumer {
 		this.metaforcews = metaforce;
 	}
 
-	@Metrics(value = DOK_REQUEST_CONSUMER, extraTags = {CONSUMER, "metaforce_createDocument"}, percentiles = {0.5, 0.95}, histogram = true)
+	@Metrics(value = DOK_CONSUMER, extraTags = {PROCESS_CODE, "metaforce_createDocument"}, percentiles = {0.5, 0.95}, histogram = true)
 	public CreateDocumentResponseTo createDocument(CreateDocumentRequestTo createDocumentRequestTo) {
 		String processCalled = "Metaforce:GS_CreateDocument";
 		DocumentReturn documentReturn = null;

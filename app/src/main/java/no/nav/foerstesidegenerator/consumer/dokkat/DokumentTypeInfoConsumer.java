@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.consumer.dokkat;
 
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.CONSUMER;
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_REQUEST_CONSUMER;
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_CONSUMER;
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokkat.api.tkat020.v4.DokumentProduksjonsInfoToV4;
@@ -37,7 +37,7 @@ public class DokumentTypeInfoConsumer {
 		this.dokumenttypeInfoUrl = dokumenttypeInfoV4Url;
 	}
 
-	@Metrics(value = DOK_REQUEST_CONSUMER, extraTags = {CONSUMER, "tkat020"}, percentiles = {0.5, 0.95}, histogram = true)
+	@Metrics(value = DOK_CONSUMER, extraTags = {PROCESS_CODE, "tkat020"}, percentiles = {0.5, 0.95}, histogram = true)
 	@Retryable(include = FoerstesideGeneratorTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
 	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
 		DokumentTypeInfoToV4 dokumentTypeInfo;
