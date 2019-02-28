@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
 @ComponentScan
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Import;
 		NaisContract.class
 })
 @EnableAutoConfiguration
+@EnableAspectJAutoProxy
 public class ApplicationConfig {
 
 

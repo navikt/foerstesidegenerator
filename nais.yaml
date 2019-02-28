@@ -55,5 +55,5 @@ fasitResources:
   exposed:
   - alias: foerstesidegenerator-service
     resourceType: restservice
-    path: /api/foerstesidegenerator/v1
+    path: /api/foerstesidegenerator/v1/foersteside
     description: Rest-tjeneste for generering og uthenting av førstesider
