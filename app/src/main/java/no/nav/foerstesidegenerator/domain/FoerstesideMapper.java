@@ -71,7 +71,7 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, FOERSTESIDETYPE, request.getFoerstesidetype().name());
 		addMetadata(foersteside, VEDLEGG_LISTE, join(";", request.getVedleggsliste()));
 		addMetadata(foersteside, ENHETSNUMMER, request.getEnhetsnummer());
-		if (request.getArkivtittel() != null) {
+		if (request.getArkivsak() != null) {
 			mapSak(foersteside, request.getArkivsak());
 		}
 
