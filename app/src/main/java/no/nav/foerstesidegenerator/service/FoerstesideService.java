@@ -77,6 +77,7 @@ public class FoerstesideService {
 		log.info("Ny førsteside har løpenummer={}", loepenummer);
 		return PostFoerstesideResponse.builder()
 				.foersteside(document.getDocumentData().clone())
+				.loepenummer(loepenummer)
 				.build();
 	}
 

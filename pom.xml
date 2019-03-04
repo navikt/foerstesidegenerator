@@ -30,7 +30,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<foerstesidegenerator-api.version>0.1.1</foerstesidegenerator-api.version>
+		<foerstesidegenerator-api.version>0.1.2</foerstesidegenerator-api.version>
 		<dokkat-api.version>10.3.2</dokkat-api.version>
 		<metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
 
