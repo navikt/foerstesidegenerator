@@ -272,6 +272,41 @@
 					<finalName>app</finalName>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.13.3</version>
+				<executions>
+					<execution>
+						<id>generate-jaxb-foersteside</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatePackage>no.nav.foerstesidegenerator.xml.jaxb.gen</generatePackage>
+							<schemaDirectory>${project.build.outputDirectory}/foerstesidebrev/</schemaDirectory>
+							<generateDirectory>${project.build.directory}/generated-sources/jaxb/foersteside</generateDirectory>
+							<strict>false</strict>
+							<plugins>
+								<plugin>
+									<groupId>org.jvnet.jaxb2_commons</groupId>
+									<artifactId>jaxb2-basics</artifactId>
+									<version>${jaxb2-commons.version}</version>
+								</plugin>
+								<plugin>
+									<groupId>org.jvnet.jaxb2_commons</groupId>
+									<artifactId>jaxb2-basics-annotate</artifactId>
+									<version>${jaxb2-commons.version}</version>
+								</plugin>
+							</plugins>
+							<args>
+								<arg>-Xannotate</arg>
+							</args>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
