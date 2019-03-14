@@ -44,6 +44,7 @@
 		<lombok.version>1.18.4</lombok.version>
 		<httpclient.version>4.5.6</httpclient.version>
 		<micrometer.version>1.1.2</micrometer.version>
+		<jaxb2-commons.version>0.6.5</jaxb2-commons.version>
 
 		<oidc-spring-support.version>0.2.15</oidc-spring-support.version>
 		<oidc-spring-test.version>0.2.5</oidc-spring-test.version>
@@ -244,7 +245,7 @@
 				<executions>
 					<execution>
 						<id>unpack</id>
-						<phase>prepare-package</phase>
+						<phase>validate</phase>
 						<goals>
 							<goal>unpack</goal>
 						</goals>

@@ -112,4 +112,17 @@ public abstract class AbstractIT {
 	Foersteside getFoersteside() {
 		return foerstesideRepository.findAll().iterator().next();
 	}
+
+	String getControlDigitForLoepenummer(String loepenummer) {
+		return String.valueOf(Long.parseLong(loepenummer) % 10);
+	}
+
+	String modifyControlDigit(String controlDigit) {
+		int c1 = Integer.parseInt(controlDigit);
+		if (c1 > 0 && c1 < 10){
+			return String.valueOf(c1 - 1);
+		} else {
+			return String.valueOf(c1 + 1);
+		}
+	}
 }

@@ -122,6 +122,46 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	}
 
 	@Test
+	@DisplayName("GET førsteside - Ok (løpenummer med kontrollsiffer)")
+	void shouldHentFoerstesideGivenLoepenummerWithControlDigit() {
+		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
+		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
+		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
+		Foersteside foersteside = getFoersteside();
+
+		String loepenummer = foersteside.getLoepenummer();
+		String controlDigit = getControlDigitForLoepenummer(loepenummer);
+		String loepenummerWithControlDigit = loepenummer + controlDigit;
+
+		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithControlDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("GET førsteside - 400 Løpenummer validerer ikke")
+	void shouldThrowExceptionIfGivenLoepenummerDoesNotValidate() {
+		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
+		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
+		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
+		Foersteside foersteside = getFoersteside();
+
+		String loepenummer = foersteside.getLoepenummer();
+		String controlDigit = getControlDigitForLoepenummer(loepenummer);
+		String loepenummerWithWrongControlDigit = loepenummer + modifyControlDigit(controlDigit);
+
+		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithWrongControlDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, getResponse.getStatusCode());
+	}
+
+	@Test
 	@DisplayName("GET førsteside - 404 not found")
 	void shouldThrowExceptionWhenNoFoerstesideFoundForLoepenummer() {
 		String loepenummer = "***gammelt_fnr***00";

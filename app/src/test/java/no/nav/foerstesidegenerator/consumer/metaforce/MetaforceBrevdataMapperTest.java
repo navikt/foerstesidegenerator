@@ -1,0 +1,64 @@
+package no.nav.foerstesidegenerator.consumer.metaforce;
+
+import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
+import static no.nav.foerstesidegenerator.TestUtils.NETS;
+import static no.nav.foerstesidegenerator.TestUtils.OSLO;
+import static no.nav.foerstesidegenerator.TestUtils.POSTNR;
+import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
+import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
+import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
+import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
+import static no.nav.foerstesidegenerator.consumer.metaforce.MetaforceBrevdataMapper.DEFAULT_NETS_POSTBOKS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.FagType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.FoerstesideTypeKode;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
+import org.junit.jupiter.api.Test;
+
+class MetaforceBrevdataMapperTest {
+
+	private static final String LOEPENUMMER = "***gammelt_fnr***01";
+
+	private MetaforceBrevdataMapper mapper = new MetaforceBrevdataMapper();
+
+	@Test
+	void shouldMapDefaultNetsPostboks() {
+		Foersteside foersteside = createFoersteside(LOEPENUMMER);
+		BrevdataType brevdata = mapper.map(foersteside);
+
+		FagType fag = brevdata.getFag();
+
+		assertEquals(SpraakKode.NB, brevdata.getFag().getSpraakkode());
+		assertEquals(ADR_LINJE_1, fag.getAdresse().getAdresselinje1());
+		assertEquals(POSTNR, fag.getAdresse().getPostNr());
+		assertEquals(OSLO, fag.getAdresse().getPoststed());
+		assertEquals(DEFAULT_NETS_POSTBOKS, fag.getNETSPostboks());
+		assertEquals(BRUKER, fag.getBruker().getBrukerID());
+		assertEquals(TITTEL, fag.getArkivtittel());
+		assertEquals(TITTEL, fag.getOverskriftstittel());
+		assertEquals(FoerstesideTypeKode.SKJEMA, fag.getFoerstesideType());
+		assertEquals(LOEPENUMMER, fag.getLøpenummer());
+		assertEquals(VEDLEGG_1, fag.getVedleggListe().getVedlegg().get(0).getTittel());
+		assertEquals(VEDLEGG_2, fag.getVedleggListe().getVedlegg().get(1).getTittel());
+		assertTrue(fag.getStrekkode2().contains("*" + LOEPENUMMER));
+		assertTrue(fag.getStrekkode2().contains(DEFAULT_NETS_POSTBOKS));
+	}
+
+	@Test
+	void shouldMapGivenNetspostboks() {
+		Foersteside foersteside = createFoersteside(LOEPENUMMER, NETS);
+		BrevdataType brevdata = mapper.map(foersteside);
+
+		FagType fag = brevdata.getFag();
+
+		assertEquals(NETS, fag.getNETSPostboks());
+		assertTrue(fag.getStrekkode2().contains("*" + LOEPENUMMER));
+		assertTrue(fag.getStrekkode2().contains(NETS));
+	}
+
+}
