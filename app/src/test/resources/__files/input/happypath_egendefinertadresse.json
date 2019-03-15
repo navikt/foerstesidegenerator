@@ -19,14 +19,18 @@
   "tema": "FOR",
   "behandlingstema": null,
   "arkivtittel": "joark-tittel",
-  "navSkjemaId": "NAV 13.37",
-  "overskriftstittel": "tittel som printes",
-  "spraakkode": "NB",
-  "foerstesidetype": "SKJEMA",
   "vedleggsliste": [
     "tittel 1",
     "tittel 2"
   ],
+  "navSkjemaId": "NAV 13.37",
+  "overskriftstittel": "tittel som printes",
+  "dokumentlisteFoersteside": [
+    "første tittel",
+    "andre tittel"
+  ],
+  "spraakkode": "NB",
+  "foerstesidetype": "SKJEMA",
   "enhetsnummer": "9999",
   "arkivsak": {
     "arkivsaksystem": "GSAK",

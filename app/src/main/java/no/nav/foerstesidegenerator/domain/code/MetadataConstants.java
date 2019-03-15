@@ -24,6 +24,7 @@ public final class MetadataConstants {
 	public static final String ENHETSNUMMER = "enhetsnummer";
 	public static final String ARKIVSAKSYSTEM = "arkivsaksystem";
 	public static final String ARKIVSAKSNUMMER = "arkivsaksnummer";
+	public static final String DOKUMENT_LISTE_FOERSTESIDE = "dokumentlisteFoersteside";
 
 	private MetadataConstants() {
 		//no-op
