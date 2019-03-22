@@ -29,6 +29,7 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,7 +49,7 @@ public class Foersteside {
 
 	static final String TABLE_NAME = "FOERSTESIDE";
 	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
-	@OneToMany(mappedBy = "foersteside")
+	@OneToMany(mappedBy = "foersteside", fetch = FetchType.EAGER)
 	@Cascade({CascadeType.PERSIST, CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.DELETE, CascadeType.DETACH})
 	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 	@Id

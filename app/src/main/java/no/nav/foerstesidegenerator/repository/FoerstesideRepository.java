@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,8 +17,17 @@ public interface FoerstesideRepository extends CrudRepository<Foersteside, Long>
 
 	@Query(value =
 			"select count(*) " +
-			"FROM FOERSTESIDE " +
-			"WHERE TO_CHAR(DATO_OPPRETTET, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')", nativeQuery = true)
+					"FROM FOERSTESIDE " +
+					"WHERE TO_CHAR(DATO_OPPRETTET, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')", nativeQuery = true)
 	int findNumberOfFoerstesiderGeneratedToday();
 
+	@Query(value =
+			"select * " +
+			"from foersteside f " +
+			"inner join FOERSTESIDE_METADATA fm on f.foersteside_id = fm.foersteside_id " +
+				" and fm.key = 'brukerId' and fm.value is not null " +
+			"where " +
+				"f.uthentet = 0 " +
+				"and f.DATO_OPPRETTET < add_months(sysdate, -3)", nativeQuery = true)
+	List<Foersteside> findFoerstesiderDueForMaskering();
 }

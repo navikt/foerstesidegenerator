@@ -50,11 +50,14 @@ public abstract class AbstractIT {
 
 	@LocalServerPort
 	public int basePort;
+
 	@Inject
 	protected TestRestTemplate testRestTemplate;
+
 	@Autowired
 	protected FoerstesideRepository foerstesideRepository;
-	ObjectMapper mapper = new ObjectMapper();
+
+	private ObjectMapper mapper = new ObjectMapper();
 
 	protected static String classpathToString(String path) {
 		return resourceUrlToString(Resources.getResource(path));
