@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.service;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.List;
 
+@Slf4j
 @Component
 @EnableScheduling
 public class ScheduledService {
@@ -28,6 +30,7 @@ public class ScheduledService {
 
 		if (!foerstesiderDueForMaskering.isEmpty()) {
 			foerstesiderDueForMaskering.forEach(Foersteside::clearBrukerId);
+			log.info("Foerstesidegenerator - schedulert jobb: Har maskert {} brukerIder", foerstesiderDueForMaskering.size());
 		}
 	}
 }
