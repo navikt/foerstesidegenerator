@@ -6,6 +6,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -21,6 +22,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.transaction.TestTransaction;
 
 class FoerstesidegeneratorIT extends AbstractIT {
 
@@ -119,6 +121,16 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
 
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+
+		TestTransaction.flagForCommit();
+		TestTransaction.end();
+		TestTransaction.start();
+
+		foersteside = getFoersteside();
+		assertEquals(loepenummer, foersteside.getLoepenummer());
+		assertTrue(foersteside.getUthentet());
+		assertNull(foersteside.getBrukerId());
+		assertNotNull(foersteside.getDatoUthentet());
 	}
 
 	@Test
@@ -185,6 +197,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		ResponseEntity<DokkatConsumerFunctionalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, DokkatConsumerFunctionalException.class);
 
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertNotNull(response.getBody());
 		assertTrue(response.getBody().getMessage().startsWith("TKAT020 feilet med statusKode=404 NOT_FOUND"));
 	}
 
@@ -202,6 +215,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		ResponseEntity<FoerstesideGeneratorTechnicalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, FoerstesideGeneratorTechnicalException.class);
 
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertNotNull(response.getBody());
 		assertTrue(response.getBody().getMessage().startsWith("TKAT020 feilet teknisk med statusKode=500 INTERNAL_SERVER_ERROR"));
 	}
 
@@ -218,6 +232,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		ResponseEntity<FoerstesideGeneratorTechnicalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, FoerstesideGeneratorTechnicalException.class);
 
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertNotNull(response.getBody());
 		assertTrue(response.getBody().getMessage().startsWith("Kall mot Metaforce:GS_CreateDocument feilet teknisk for ikkeRedigerbarMalId=Foersteside"));
 	}
 }

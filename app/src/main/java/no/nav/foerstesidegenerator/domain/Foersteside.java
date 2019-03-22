@@ -46,7 +46,7 @@ import java.util.Set;
 @Table(name = Foersteside.TABLE_NAME)
 public class Foersteside {
 
-	public static final String TABLE_NAME = "FOERSTESIDE";
+	static final String TABLE_NAME = "FOERSTESIDE";
 	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
 	@OneToMany(mappedBy = "foersteside")
 	@Cascade({CascadeType.PERSIST, CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.DELETE, CascadeType.DETACH})
@@ -115,6 +115,10 @@ public class Foersteside {
 
 	private String getValueForKey(String key) {
 		return foerstesideMetadata.stream().filter(a -> a.getKey().equals(key)).findFirst().map(FoerstesideMetadata::getValue).orElse(null);
+	}
+
+	private void setValueForKey(String key, String value) {
+		foerstesideMetadata.stream().filter(a -> a.getKey().equals(key)).findFirst().ifPresent(metadata -> metadata.setValue(value));
 	}
 
 	public String getAdresselinje1() {
@@ -210,5 +214,8 @@ public class Foersteside {
 		return getValueForKey(ARKIVSAKSNUMMER);
 	}
 
+	public void clearBrukerId() {
+		setValueForKey(BRUKER_ID, null);
+	}
 
 }
