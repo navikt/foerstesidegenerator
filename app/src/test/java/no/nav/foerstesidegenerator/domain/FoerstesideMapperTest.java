@@ -4,6 +4,8 @@ import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
 import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
+import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_1;
+import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_2;
 import static no.nav.foerstesidegenerator.TestUtils.ENHET_9999;
 import static no.nav.foerstesidegenerator.TestUtils.NAVN;
 import static no.nav.foerstesidegenerator.TestUtils.NETS;
@@ -67,6 +69,7 @@ class FoerstesideMapperTest {
 		assertEquals(Spraakkode.NB.name(), domain.getSpraakkode());
 		assertEquals(Foerstesidetype.SKJEMA.name(), domain.getFoerstesidetype());
 		assertEquals(String.join(";", VEDLEGG_1, VEDLEGG_2), domain.getVedleggListe());
+		assertEquals(String.join(";", DOKUMENT_1, DOKUMENT_2), domain.getDokumentlisteFoersteside());
 		assertEquals(ENHET_9999, domain.getEnhetsnummer());
 		assertEquals(Arkivsaksystem.PSAK.name(), domain.getArkivsaksystem());
 		assertEquals(SAK_REF, domain.getArkivsaksnummer());

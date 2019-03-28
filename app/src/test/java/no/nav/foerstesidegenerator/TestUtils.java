@@ -9,6 +9,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.DOKUMENT_LISTE_FOERSTESIDE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
@@ -57,6 +58,9 @@ public class TestUtils {
 	public static final String VEDLEGG_1 = "vedlegg1";
 	public static final String VEDLEGG_2 = "vedlegg2";
 
+	public static final String DOKUMENT_1 = "dokument 1";
+	public static final String DOKUMENT_2 = "dokument 2";
+
 	public static final String ENHET_9999 = "9999";
 
 	public static final String SAK_REF = "saksRef";
@@ -80,11 +84,12 @@ public class TestUtils {
 				.tema(TEMA_FAR)
 				.behandlingstema(BEHANDLINGSTEMA_AB1337)
 				.arkivtittel(TITTEL)
+				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
+				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
 				.spraakkode(Spraakkode.NB)
 				.foerstesidetype(Foerstesidetype.SKJEMA)
-				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.enhetsnummer(ENHET_9999)
 				.arkivsak(Arkivsak.builder()
 						.arkivsaksystem(Arkivsaksystem.PSAK)
@@ -106,11 +111,12 @@ public class TestUtils {
 				.tema(tema)
 				.behandlingstema(BEHANDLINGSTEMA_AB1337)
 				.arkivtittel(TITTEL)
+				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
+				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
 				.spraakkode(Spraakkode.NB)
 				.foerstesidetype(type)
-				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.enhetsnummer(ENHET_9999)
 				.arkivsak(Arkivsak.builder()
 						.arkivsaksystem(Arkivsaksystem.PSAK)
@@ -134,11 +140,12 @@ public class TestUtils {
 				.tema(TEMA_FAR)
 				.behandlingstema(BEHANDLINGSTEMA_AB1337)
 				.arkivtittel(TITTEL)
+				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
+				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
 				.spraakkode(Spraakkode.NB)
 				.foerstesidetype(Foerstesidetype.SKJEMA)
-				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.enhetsnummer(ENHET_9999)
 				.arkivsak(Arkivsak.builder()
 						.arkivsaksystem(Arkivsaksystem.PSAK)
@@ -163,11 +170,12 @@ public class TestUtils {
 						.brukerId(BRUKER)
 						.brukerType(BrukerType.PERSON).build())
 				.arkivtittel(TITTEL)
+				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
+				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
 				.spraakkode(Spraakkode.NB)
 				.foerstesidetype(Foerstesidetype.SKJEMA)
-				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.build();
 	}
 
@@ -218,6 +226,7 @@ public class TestUtils {
 		createMetadata(foersteside, SPRAAKKODE, Spraakkode.NB.name());
 		createMetadata(foersteside, FOERSTESIDETYPE, Foerstesidetype.SKJEMA.name());
 		createMetadata(foersteside, VEDLEGG_LISTE, VEDLEGG_1 + ";" + VEDLEGG_2);
+		createMetadata(foersteside, DOKUMENT_LISTE_FOERSTESIDE, DOKUMENT_1 + ";" + DOKUMENT_2);
 		createMetadata(foersteside, ENHETSNUMMER, ENHET_9999);
 		createMetadata(foersteside, ARKIVSAKSYSTEM, Arkivsaksystem.PSAK.name());
 		createMetadata(foersteside, ARKIVSAKSNUMMER, SAK_REF);

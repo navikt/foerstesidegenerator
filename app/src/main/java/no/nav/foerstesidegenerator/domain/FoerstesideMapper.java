@@ -13,6 +13,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.DOKUMENT_LISTE_FOERSTESIDE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
@@ -35,6 +36,7 @@ import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class FoerstesideMapper {
@@ -65,17 +67,30 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, TEMA, request.getTema());
 		addMetadata(foersteside, BEHANDLINGSTEMA, request.getBehandlingstema());
 		addMetadata(foersteside, ARKIVTITTEL, request.getArkivtittel());
+		addVedleggListeIfPresent(foersteside, request.getVedleggsliste());
 		mapNavSkjemaId(foersteside, request.getFoerstesidetype(), request.getNavSkjemaId());
 		addMetadata(foersteside, OVERSKRIFTSTITTEL, request.getOverskriftstittel());
+		addDokumentListeIfPresent(foersteside, request.getDokumentlisteFoersteside());
 		addMetadata(foersteside, SPRAAKKODE, request.getSpraakkode().name());
 		addMetadata(foersteside, FOERSTESIDETYPE, request.getFoerstesidetype().name());
-		addMetadata(foersteside, VEDLEGG_LISTE, join(";", request.getVedleggsliste()));
 		addMetadata(foersteside, ENHETSNUMMER, request.getEnhetsnummer());
 		if (request.getArkivsak() != null) {
 			mapSak(foersteside, request.getArkivsak());
 		}
 
 		return foersteside;
+	}
+
+	private void addVedleggListeIfPresent(Foersteside foersteside, List<String> vedleggListe) {
+		if (vedleggListe != null && !vedleggListe.isEmpty()) {
+			addMetadata(foersteside, VEDLEGG_LISTE, join(";", vedleggListe));
+		}
+	}
+
+	private void addDokumentListeIfPresent(Foersteside foersteside, List<String> dokumentListFoersteside) {
+		if (dokumentListFoersteside != null && !dokumentListFoersteside.isEmpty()) {
+			addMetadata(foersteside, DOKUMENT_LISTE_FOERSTESIDE, join(";", dokumentListFoersteside));
+		}
 	}
 
 	private void mapAdresse(Foersteside foersteside, Adresse adresse) {
@@ -101,8 +116,8 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, ARKIVSAKSNUMMER, sak.getArkivsaksnummer());
 	}
 
-	private void mapNavSkjemaId(Foersteside foersteside, Foerstesidetype foerstesidetype, String navSkjemaId){
-		if (ETTERSENDELSE.equals(foerstesidetype) && navSkjemaId.startsWith(NAV_PREFIX)){
+	private void mapNavSkjemaId(Foersteside foersteside, Foerstesidetype foerstesidetype, String navSkjemaId) {
+		if (ETTERSENDELSE.equals(foerstesidetype) && navSkjemaId.startsWith(NAV_PREFIX)) {
 			StringBuilder builder = new StringBuilder(navSkjemaId);
 			builder.insert(3, 'e');
 			navSkjemaId = builder.toString();

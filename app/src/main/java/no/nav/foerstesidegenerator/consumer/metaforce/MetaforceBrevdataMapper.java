@@ -8,11 +8,11 @@ import no.nav.foerstesidegenerator.xml.jaxb.gen.AdresseType;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.BrukerType;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.BrukertypeType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.DokumentListeType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.DokumentType;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.FagType;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.FoerstesideTypeKode;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
-import no.nav.foerstesidegenerator.xml.jaxb.gen.VedleggListeType;
-import no.nav.foerstesidegenerator.xml.jaxb.gen.VedleggType;
 
 import java.util.List;
 
@@ -32,10 +32,9 @@ public class MetaforceBrevdataMapper {
 		addNetsPostboks(fag, domain.getNetsPostboks());
 		addBruker(fag, domain);
 		fag.setUkjentBrukerPersoninfo(domain.getUkjentBrukerPersoninfo());
-		fag.setArkivtittel(domain.getArkivtittel());
 		fag.setOverskriftstittel(domain.getOverskriftstittel());
 		fag.setFoerstesideType(FoerstesideTypeKode.valueOf(domain.getFoerstesidetype()));
-		addVedleggListe(fag, domain.getVedleggListeAsList());
+		addDokumentListe(fag, domain.getDokumentlisteFoerstesideAsList());
 		fag.setLøpenummer(domain.getLoepenummer());
 		fag.setStrekkode2(generateStrekkode2(domain));
 
@@ -74,15 +73,15 @@ public class MetaforceBrevdataMapper {
 		}
 	}
 
-	private void addVedleggListe(FagType fag, List<String> vedleggList) {
-		if (!vedleggList.isEmpty()) {
-			VedleggListeType vedleggListeType = new VedleggListeType();
-			vedleggList.forEach(s -> {
-				VedleggType vedlegg = new VedleggType();
-				vedlegg.setTittel(s);
-				vedleggListeType.getVedlegg().add(vedlegg);
+	private void addDokumentListe(FagType fag, List<String> dokumentListe) {
+		if (!dokumentListe.isEmpty()) {
+			DokumentListeType vedleggListeType = new DokumentListeType();
+			dokumentListe.forEach(s -> {
+				DokumentType dokument = new DokumentType();
+				dokument.setDokumentTittel(s);
+				vedleggListeType.getDokument().add(dokument);
 			});
-			fag.setVedleggListe(vedleggListeType);
+			fag.setDokumentListe(vedleggListeType);
 		}
 	}
 

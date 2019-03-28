@@ -11,6 +11,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.DOKUMENT_LISTE_FOERSTESIDE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
@@ -196,6 +197,15 @@ public class Foersteside {
 	public List<String> getVedleggListeAsList() {
 		String[] vedleggStringArray = delimitedListToStringArray(getVedleggListe(), ";");
 		return vedleggStringArray.length == 0 ? Collections.emptyList() : Arrays.asList(vedleggStringArray);
+	}
+
+	public String getDokumentlisteFoersteside() {
+		return getValueForKey(DOKUMENT_LISTE_FOERSTESIDE);
+	}
+
+	public List<String> getDokumentlisteFoerstesideAsList() {
+		String[] dokumentlisteStringArray = delimitedListToStringArray(getDokumentlisteFoersteside(), ";");
+		return dokumentlisteStringArray.length == 0 ? Collections.emptyList() : Arrays.asList(dokumentlisteStringArray);
 	}
 
 	public String getEnhetsnummer() {
