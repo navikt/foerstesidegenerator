@@ -9,6 +9,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.DOKUMENT_LISTE_FOERSTESIDE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
@@ -225,6 +226,7 @@ public class TestUtils {
 		createMetadata(foersteside, SPRAAKKODE, Spraakkode.NB.name());
 		createMetadata(foersteside, FOERSTESIDETYPE, Foerstesidetype.SKJEMA.name());
 		createMetadata(foersteside, VEDLEGG_LISTE, VEDLEGG_1 + ";" + VEDLEGG_2);
+		createMetadata(foersteside, DOKUMENT_LISTE_FOERSTESIDE, DOKUMENT_1 + ";" + DOKUMENT_2);
 		createMetadata(foersteside, ENHETSNUMMER, ENHET_9999);
 		createMetadata(foersteside, ARKIVSAKSYSTEM, Arkivsaksystem.PSAK.name());
 		createMetadata(foersteside, ARKIVSAKSNUMMER, SAK_REF);

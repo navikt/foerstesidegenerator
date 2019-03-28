@@ -2,12 +2,12 @@ package no.nav.foerstesidegenerator.consumer.metaforce;
 
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
+import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_1;
+import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_2;
 import static no.nav.foerstesidegenerator.TestUtils.NETS;
 import static no.nav.foerstesidegenerator.TestUtils.OSLO;
 import static no.nav.foerstesidegenerator.TestUtils.POSTNR;
 import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
-import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
-import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
 import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
 import static no.nav.foerstesidegenerator.consumer.metaforce.MetaforceBrevdataMapper.DEFAULT_NETS_POSTBOKS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,12 +39,11 @@ class MetaforceBrevdataMapperTest {
 		assertEquals(OSLO, fag.getAdresse().getPoststed());
 		assertEquals(DEFAULT_NETS_POSTBOKS, fag.getNETSPostboks());
 		assertEquals(BRUKER, fag.getBruker().getBrukerID());
-		assertEquals(TITTEL, fag.getArkivtittel());
 		assertEquals(TITTEL, fag.getOverskriftstittel());
 		assertEquals(FoerstesideTypeKode.SKJEMA, fag.getFoerstesideType());
 		assertEquals(LOEPENUMMER, fag.getLøpenummer());
-		assertEquals(VEDLEGG_1, fag.getVedleggListe().getVedlegg().get(0).getTittel());
-		assertEquals(VEDLEGG_2, fag.getVedleggListe().getVedlegg().get(1).getTittel());
+ 		assertEquals(DOKUMENT_1, fag.getDokumentListe().getDokument().get(0).getDokumentTittel());
+		assertEquals(DOKUMENT_2, fag.getDokumentListe().getDokument().get(1).getDokumentTittel());
 		assertTrue(fag.getStrekkode2().contains("*" + LOEPENUMMER));
 		assertTrue(fag.getStrekkode2().contains(DEFAULT_NETS_POSTBOKS));
 	}
