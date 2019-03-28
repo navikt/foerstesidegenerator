@@ -12,7 +12,7 @@ import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.metrics.Metrics;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
-import no.nav.security.oidc.api.Protected;
+import no.nav.security.oidc.api.Unprotected;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ import javax.inject.Inject;
 @Slf4j
 @RestController
 @RequestMapping("/api/foerstesidegenerator/v1")
-@Protected
+@Unprotected
 public class FoerstesideRestController {
 
 	private final FoerstesideService foerstesideService;
