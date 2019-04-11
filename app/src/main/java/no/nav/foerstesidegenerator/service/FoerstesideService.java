@@ -99,7 +99,7 @@ public class FoerstesideService {
 		validerLoepenummer(loepenummer);
 		log.info("Loepenummer validert ok");
 
-		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, 13))
+		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, LOEPENUMMER_LENGTH))
 				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
 		domain.setUthentet(true);
 		domain.setDatoUthentet(LocalDateTime.now());

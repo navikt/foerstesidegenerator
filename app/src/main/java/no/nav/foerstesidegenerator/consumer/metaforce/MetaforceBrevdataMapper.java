@@ -35,7 +35,7 @@ public class MetaforceBrevdataMapper {
 		fag.setOverskriftstittel(domain.getOverskriftstittel());
 		fag.setFoerstesideType(FoerstesideTypeKode.valueOf(domain.getFoerstesidetype()));
 		addDokumentListe(fag, domain.getDokumentlisteFoerstesideAsList());
-		fag.setLøpenummer(domain.getLoepenummer());
+		fag.setLøpenummer(generateLoepenummerMedKontrollsiffer(domain.getLoepenummer()));
 		fag.setStrekkode2(generateStrekkode2(domain));
 
 		brevdata.setFag(fag);
@@ -85,13 +85,15 @@ public class MetaforceBrevdataMapper {
 		}
 	}
 
-	private String generateStrekkode2(Foersteside foersteside) {
-		long loepenummer = Long.parseLong(foersteside.getLoepenummer());
-		long c1 = loepenummer % 10;
+	private String generateLoepenummerMedKontrollsiffer(String loepenummer) {
+		long loepenummerAsLong = Long.parseLong(loepenummer);
+		return loepenummer + (loepenummerAsLong % 10);
+	}
 
+	private String generateStrekkode2(Foersteside foersteside) {
 		String postboks = foersteside.getNetsPostboks() != null ? foersteside.getNetsPostboks() : DEFAULT_NETS_POSTBOKS;
 
-		String res = foersteside.getLoepenummer() + c1 + postboks;
+		String res = generateLoepenummerMedKontrollsiffer(foersteside.getLoepenummer()) + postboks;
 
 		int total = 0;
 		for (int i = 0; i < res.length(); i++) {

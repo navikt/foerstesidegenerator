@@ -41,7 +41,7 @@ class MetaforceBrevdataMapperTest {
 		assertEquals(BRUKER, fag.getBruker().getBrukerID());
 		assertEquals(TITTEL, fag.getOverskriftstittel());
 		assertEquals(FoerstesideTypeKode.SKJEMA, fag.getFoerstesideType());
-		assertEquals(LOEPENUMMER, fag.getLøpenummer());
+		assertEquals(LOEPENUMMER+"1", fag.getLøpenummer());
  		assertEquals(DOKUMENT_1, fag.getDokumentListe().getDokument().get(0).getDokumentTittel());
 		assertEquals(DOKUMENT_2, fag.getDokumentListe().getDokument().get(1).getDokumentTittel());
 		assertTrue(fag.getStrekkode2().contains("*" + LOEPENUMMER));
