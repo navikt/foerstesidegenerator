@@ -49,7 +49,7 @@ public class Foersteside {
 
 	static final String TABLE_NAME = "FOERSTESIDE";
 	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
-	@OneToMany(mappedBy = "foersteside", fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "foersteside")
 	@Cascade({CascadeType.PERSIST, CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.DELETE, CascadeType.DETACH})
 	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 	@Id
