@@ -219,4 +219,8 @@ public class Foersteside {
 		setValueForKey(BRUKER_ID, null);
 	}
 
+	public void clearUkjentBrukerPersoninfo() {
+		setValueForKey(UKJENT_BRUKER_PERSONINFO, null);
+	}
+
 }

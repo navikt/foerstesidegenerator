@@ -104,6 +104,7 @@ public class FoerstesideService {
 		domain.setUthentet(true);
 		domain.setDatoUthentet(LocalDateTime.now());
 		domain.clearBrukerId();
+		domain.clearUkjentBrukerPersoninfo();
 
 		return getFoerstesideResponseMapper.map(domain);
 	}

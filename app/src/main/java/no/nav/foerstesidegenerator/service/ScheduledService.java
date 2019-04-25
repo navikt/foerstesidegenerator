@@ -30,7 +30,8 @@ public class ScheduledService {
 
 		if (!foerstesiderDueForMaskering.isEmpty()) {
 			foerstesiderDueForMaskering.forEach(Foersteside::clearBrukerId);
-			log.info("Foerstesidegenerator - schedulert jobb: Har maskert {} brukerIder", foerstesiderDueForMaskering.size());
+			foerstesiderDueForMaskering.forEach(Foersteside::clearUkjentBrukerPersoninfo);
+			log.info("Foerstesidegenerator - schedulert jobb: Har maskert {} brukerIder og ukjentBrukerPersoninfoer", foerstesiderDueForMaskering.size());
 		}
 	}
 }
