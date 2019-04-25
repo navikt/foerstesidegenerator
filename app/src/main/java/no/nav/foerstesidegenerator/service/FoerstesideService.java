@@ -33,7 +33,7 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class FoerstesideService {
 
-	public static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
+	private static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
 	private static final int LOEPENUMMER_LENGTH = 13;
 	private static final int LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT = 14;
 
@@ -103,8 +103,10 @@ public class FoerstesideService {
 				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
 		domain.setUthentet(true);
 		domain.setDatoUthentet(LocalDateTime.now());
-		return getFoerstesideResponseMapper.map(domain);
+		domain.clearBrukerId();
+		domain.clearUkjentBrukerPersoninfo();
 
+		return getFoerstesideResponseMapper.map(domain);
 	}
 
 	private void validerLoepenummer(String loepenummer) {

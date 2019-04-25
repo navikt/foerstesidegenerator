@@ -41,7 +41,7 @@ public class FoerstesideRestController {
 		this.foerstesideService = foerstesideService;
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	@GetMapping(value = "/foersteside/{loepenummer}")
 	@ApiOperation("Hent metadata om generert førsteside")
 	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "get-foersteside"}, percentiles = {0.5, 0.95}, histogram = true)

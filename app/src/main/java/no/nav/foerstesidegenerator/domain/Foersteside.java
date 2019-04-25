@@ -30,6 +30,7 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,9 +48,9 @@ import java.util.Set;
 @Table(name = Foersteside.TABLE_NAME)
 public class Foersteside {
 
-	public static final String TABLE_NAME = "FOERSTESIDE";
+	static final String TABLE_NAME = "FOERSTESIDE";
 	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
-	@OneToMany(mappedBy = "foersteside")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "foersteside")
 	@Cascade({CascadeType.PERSIST, CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.DELETE, CascadeType.DETACH})
 	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 	@Id
@@ -116,6 +117,10 @@ public class Foersteside {
 
 	private String getValueForKey(String key) {
 		return foerstesideMetadata.stream().filter(a -> a.getKey().equals(key)).findFirst().map(FoerstesideMetadata::getValue).orElse(null);
+	}
+
+	private void setValueForKey(String key, String value) {
+		foerstesideMetadata.stream().filter(a -> a.getKey().equals(key)).findFirst().ifPresent(metadata -> metadata.setValue(value));
 	}
 
 	public String getAdresselinje1() {
@@ -220,5 +225,12 @@ public class Foersteside {
 		return getValueForKey(ARKIVSAKSNUMMER);
 	}
 
+	public void clearBrukerId() {
+		setValueForKey(BRUKER_ID, null);
+	}
+
+	public void clearUkjentBrukerPersoninfo() {
+		setValueForKey(UKJENT_BRUKER_PERSONINFO, null);
+	}
 
 }
