@@ -101,12 +101,13 @@ public class FoerstesideService {
 
 		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, LOEPENUMMER_LENGTH))
 				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
+		GetFoerstesideResponse response = getFoerstesideResponseMapper.map(domain);
 		domain.setUthentet(true);
 		domain.setDatoUthentet(LocalDateTime.now());
 		domain.clearBrukerId();
 		domain.clearUkjentBrukerPersoninfo();
 
-		return getFoerstesideResponseMapper.map(domain);
+		return response;
 	}
 
 	private void validerLoepenummer(String loepenummer) {

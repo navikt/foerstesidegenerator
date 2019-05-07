@@ -121,6 +121,9 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
 
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+		assertNotNull(getResponse.getBody().getBruker(), "Bruker skal være satt");
+		assertEquals("***gammelt_fnr***", getResponse.getBody().getBruker().getBrukerId());
+		assertEquals("PERSON", getResponse.getBody().getBruker().getBrukerType().name());
 
 		TestTransaction.flagForCommit();
 		TestTransaction.end();
