@@ -1,11 +1,5 @@
 package no.nav.foerstesidegenerator.itest;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.common.io.Resources;
@@ -37,6 +31,12 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ApplicationLocal.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -116,12 +116,8 @@ public abstract class AbstractIT {
 		return foerstesideRepository.findAll().iterator().next();
 	}
 
-	String getControlDigitForLoepenummer(String loepenummer) {
-		return String.valueOf(Long.parseLong(loepenummer) % 10);
-	}
-
-	String modifyControlDigit(String controlDigit) {
-		int c1 = Integer.parseInt(controlDigit);
+	String modifyCheckDigit(String checkDigit) {
+		int c1 = Integer.parseInt(checkDigit);
 		if (c1 > 0 && c1 < 10){
 			return String.valueOf(c1 - 1);
 		} else {

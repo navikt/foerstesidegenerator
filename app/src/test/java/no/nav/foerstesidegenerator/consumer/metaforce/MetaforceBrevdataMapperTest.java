@@ -1,5 +1,12 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
+import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.FagType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.FoerstesideTypeKode;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
+import org.junit.jupiter.api.Test;
+
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_1;
@@ -12,13 +19,6 @@ import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
 import static no.nav.foerstesidegenerator.consumer.metaforce.MetaforceBrevdataMapper.DEFAULT_NETS_POSTBOKS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import no.nav.foerstesidegenerator.domain.Foersteside;
-import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
-import no.nav.foerstesidegenerator.xml.jaxb.gen.FagType;
-import no.nav.foerstesidegenerator.xml.jaxb.gen.FoerstesideTypeKode;
-import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
-import org.junit.jupiter.api.Test;
 
 class MetaforceBrevdataMapperTest {
 
@@ -41,7 +41,7 @@ class MetaforceBrevdataMapperTest {
 		assertEquals(BRUKER, fag.getBruker().getBrukerID());
 		assertEquals(TITTEL, fag.getOverskriftstittel());
 		assertEquals(FoerstesideTypeKode.SKJEMA, fag.getFoerstesideType());
-		assertEquals(LOEPENUMMER+"1", fag.getLøpenummer());
+		assertTrue(fag.getLøpenummer().contains(LOEPENUMMER));
  		assertEquals(DOKUMENT_1, fag.getDokumentListe().getDokument().get(0).getDokumentTittel());
 		assertEquals(DOKUMENT_2, fag.getDokumentListe().getDokument().get(1).getDokumentTittel());
 		assertTrue(fag.getStrekkode2().contains("*" + LOEPENUMMER));

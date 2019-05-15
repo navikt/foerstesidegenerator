@@ -1,8 +1,5 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
-import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isBlank;
-import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isNotBlank;
-
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.AdresseType;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
@@ -15,6 +12,10 @@ import no.nav.foerstesidegenerator.xml.jaxb.gen.FoerstesideTypeKode;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
 
 import java.util.List;
+
+import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isBlank;
+import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isNotBlank;
+import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.calculateCheckDigit;
 
 public class MetaforceBrevdataMapper {
 
@@ -86,8 +87,7 @@ public class MetaforceBrevdataMapper {
 	}
 
 	private String generateLoepenummerMedKontrollsiffer(String loepenummer) {
-		long loepenummerAsLong = Long.parseLong(loepenummer);
-		return loepenummer + (loepenummerAsLong % 10);
+		return loepenummer + calculateCheckDigit(loepenummer);
 	}
 
 	private String generateStrekkode2(Foersteside foersteside) {

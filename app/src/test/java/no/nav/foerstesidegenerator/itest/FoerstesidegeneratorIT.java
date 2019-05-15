@@ -1,15 +1,5 @@
 package no.nav.foerstesidegenerator.itest;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
@@ -23,6 +13,17 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.transaction.TestTransaction;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.calculateCheckDigit;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FoerstesidegeneratorIT extends AbstractIT {
 
@@ -138,7 +139,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 	@Test
 	@DisplayName("GET førsteside - Ok (løpenummer med kontrollsiffer)")
-	void shouldHentFoerstesideGivenLoepenummerWithControlDigit() {
+	void shouldHentFoerstesideGivenLoepenummerWithCheckDigit() {
 		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
 		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
 		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
@@ -148,10 +149,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		Foersteside foersteside = getFoersteside();
 
 		String loepenummer = foersteside.getLoepenummer();
-		String controlDigit = getControlDigitForLoepenummer(loepenummer);
-		String loepenummerWithControlDigit = loepenummer + controlDigit;
+		String checkDigit = calculateCheckDigit(loepenummer);
+		String loepenummerWithCheckDigit = loepenummer + checkDigit;
 
-		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithControlDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
 
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 	}
@@ -168,10 +169,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		Foersteside foersteside = getFoersteside();
 
 		String loepenummer = foersteside.getLoepenummer();
-		String controlDigit = getControlDigitForLoepenummer(loepenummer);
-		String loepenummerWithWrongControlDigit = loepenummer + modifyControlDigit(controlDigit);
+		String checkDigit = calculateCheckDigit(loepenummer);
+		String loepenummerWithWrongCheckDigit = loepenummer + modifyCheckDigit(checkDigit);
 
-		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithWrongControlDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithWrongCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
 
 		assertEquals(HttpStatus.BAD_REQUEST, getResponse.getStatusCode());
 	}

@@ -45,6 +45,7 @@
 		<httpclient.version>4.5.6</httpclient.version>
 		<micrometer.version>1.1.2</micrometer.version>
 		<jaxb2-commons.version>0.6.5</jaxb2-commons.version>
+		<commons-validator.version>1.6</commons-validator.version>
 
 		<oidc-spring-support.version>0.2.15</oidc-spring-support.version>
 		<oidc-spring-test.version>0.2.5</oidc-spring-test.version>

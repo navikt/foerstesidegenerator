@@ -1,8 +1,5 @@
 package no.nav.foerstesidegenerator.service;
 
-import static java.lang.Long.parseLong;
-import static org.apache.commons.lang3.StringUtils.leftPad;
-
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
@@ -29,13 +26,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.validateLoepenummerWithCheckDigit;
+import static org.apache.commons.lang3.StringUtils.leftPad;
+
 @Slf4j
 @Service
 public class FoerstesideService {
 
 	private static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
 	private static final int LOEPENUMMER_LENGTH = 13;
-	private static final int LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT = 14;
+	private static final int LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT = 14;
 
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
 	private final FoerstesideMapper foerstesideMapper;
@@ -111,14 +111,10 @@ public class FoerstesideService {
 	}
 
 	private void validerLoepenummer(String loepenummer) {
-		if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT) {
+		if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT) {
 			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
-		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT) {
-			long a = parseLong(loepenummer.substring(0, LOEPENUMMER_LENGTH));
-			long b = parseLong(loepenummer.substring(LOEPENUMMER_LENGTH, LOEPENUMMER_LENGTH_WITH_CONTROL_DIGIT));
-			if (a % 10 != b) {
-				throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil");
-			}
+		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT && !validateLoepenummerWithCheckDigit(loepenummer)) {
+		    throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil");
 		}
 	}
 
