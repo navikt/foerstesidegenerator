@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 
-@ConditionalOnProperty(value = {"swagger.enabled"}, havingValue = "true")
 @Slf4j
 @RestController
 @RequestMapping("/api/foerstesidegenerator/v1")
