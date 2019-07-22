@@ -68,20 +68,25 @@ public class FoerstesideService {
 		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
 		log.info("Har hentet metadata fra dokkat");
 
+		Foersteside foersteside = incrementLoepenummerAndPersist(request);
+
+		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
+		log.info("Førsteside generert vha Metaforce");
+
+		log.info("Ny førsteside har løpenummer={}", foersteside.getLoepenummer());
+		return PostFoerstesideResponse.builder()
+				.foersteside(document.getDocumentData().clone())
+				.loepenummer(foersteside.getLoepenummer())
+				.build();
+	}
+
+	private synchronized Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request) {
 		int count = foerstesideRepository.findNumberOfFoerstesiderGeneratedToday();
 		String loepenummer = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + leftPad(Integer.toString(count + 1), 5, "0");
 
 		Foersteside foersteside = foerstesideMapper.map(request, loepenummer);
 		foerstesideRepository.save(foersteside);
-
-		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
-		log.info("Førsteside generert vha Metaforce");
-
-		log.info("Ny førsteside har løpenummer={}", loepenummer);
-		return PostFoerstesideResponse.builder()
-				.foersteside(document.getDocumentData().clone())
-				.loepenummer(loepenummer)
-				.build();
+		return foersteside;
 	}
 
 	private CreateDocumentResponseTo genererPdfFraMetaforce(Foersteside foersteside, DokumentTypeInfoTo dokumentTypeInfoTo) {
