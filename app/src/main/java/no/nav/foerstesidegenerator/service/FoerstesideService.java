@@ -36,6 +36,7 @@ public class FoerstesideService {
 	private static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
 	private static final int LOEPENUMMER_LENGTH = 13;
 	private static final int LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT = 14;
+	private static final Object lock = new Object();
 
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
 	private final FoerstesideMapper foerstesideMapper;
@@ -68,7 +69,10 @@ public class FoerstesideService {
 		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
 		log.info("Har hentet metadata fra dokkat");
 
-		Foersteside foersteside = incrementLoepenummerAndPersist(request);
+		Foersteside foersteside;
+		synchronized (lock) {
+		    foersteside = incrementLoepenummerAndPersist(request);
+        }
 
 		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
 		log.info("Førsteside generert vha Metaforce");
@@ -80,7 +84,7 @@ public class FoerstesideService {
 				.build();
 	}
 
-	private synchronized Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request) {
+	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request) {
 		int count = foerstesideRepository.findNumberOfFoerstesiderGeneratedToday();
 		String loepenummer = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + leftPad(Integer.toString(count + 1), 5, "0");
 
