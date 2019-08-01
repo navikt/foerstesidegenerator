@@ -20,7 +20,7 @@ public class FoerstesideCounterService {
         this.repository = repository;
     }
 
-    @SuppressWarnings("squid:S00108")
+    @SuppressWarnings("squid:S2142")
     String hentLoepenummer() {
         FoerstesideCounter currentCounter = repository.getCounterForToday();
         if (currentCounter == null) {
@@ -44,7 +44,9 @@ public class FoerstesideCounterService {
                 log.warn("Tråd {} venter på tur", Thread.currentThread().getId());
                 try {
                     Thread.sleep(500);
-                } catch (InterruptedException e1) { }
+                } catch (InterruptedException e1) {
+                    log.warn("Fikk ikke sove!");
+                }
                 repository.flush();
             } catch (Exception e) {
                 log.error("Ukjent feil!");
