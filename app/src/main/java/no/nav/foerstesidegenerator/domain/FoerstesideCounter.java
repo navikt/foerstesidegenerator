@@ -39,6 +39,7 @@ public class FoerstesideCounter {
     private String date;
 
     @Column(name = "antall")
+    @Getter
     private Integer antall;
 
     public FoerstesideCounter() {
