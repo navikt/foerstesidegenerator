@@ -4,6 +4,7 @@ import no.nav.foerstesidegenerator.domain.FoerstesideCounter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface FoerstesideCounterRepository extends JpaRepository<FoerstesideCounter, Long> {
@@ -11,5 +12,6 @@ public interface FoerstesideCounterRepository extends JpaRepository<FoerstesideC
             "select * " +
                     "FROM " + FoerstesideCounter.TABLE_NAME + " " +
                     "WHERE DATO = to_char(sysdate, 'YYYYMMDD')", nativeQuery = true)
+    @Transactional
     FoerstesideCounter getCounterForToday();
 }

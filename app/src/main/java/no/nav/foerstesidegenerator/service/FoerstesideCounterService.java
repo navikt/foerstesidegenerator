@@ -5,10 +5,7 @@ import no.nav.foerstesidegenerator.domain.FoerstesideCounter;
 import no.nav.foerstesidegenerator.repository.FoerstesideCounterRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
@@ -45,11 +42,15 @@ public class FoerstesideCounterService {
                 short after = existingCounter.getVersion();
                 log.info("Thread {} updated version from {} to {}", Thread.currentThread().getId(), before, after);
                 log.info("Thread {} got {}", Thread.currentThread().getId(), existingCounter.getAntall());
-                Thread.sleep((long) (Math.random()*1000));
                 return existingCounter.generateLoepenummer();
             } catch (ObjectOptimisticLockingFailureException e) {
                 log.warn(e.getMessage());
                 log.warn("Thread {} racing, trying again", Thread.currentThread().getId());
+                try {
+                    Thread.sleep((long) (Math.random()*5000));
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
             } catch (Exception e) {
                 log.error("Ukjent feil!");
                 log.error(e.getMessage(), e);
