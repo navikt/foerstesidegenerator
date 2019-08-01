@@ -43,6 +43,7 @@ public class FoerstesideCounterService {
                                 e.getDate().equalsIgnoreCase(new SimpleDateFormat("yyyyMMdd").format(new Date()))).findFirst();
                 if(optionalExistingCounter.isPresent()) {
                     FoerstesideCounter existingCounter = optionalExistingCounter.get();
+                    existingCounter.count();
                     short before = existingCounter.getVersion();
                     log.info("Thread {} trying to increment version from {}", Thread.currentThread().getId(), before);
                     existingCounter = repository.saveAndFlush(existingCounter);
