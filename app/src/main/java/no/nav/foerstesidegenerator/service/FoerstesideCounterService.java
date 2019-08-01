@@ -36,13 +36,15 @@ public class FoerstesideCounterService {
             try {
                 currentCounter = repository.getCounterForToday();
                 currentCounter.count();
-                repository.save(currentCounter);
-                break;
+                currentCounter = repository.save(currentCounter);
+                return currentCounter.generateLoepenummer();
             } catch (ObjectOptimisticLockingFailureException e) {
                 log.warn(e.getMessage());
                 log.warn("Thread {} racing, trying again", Thread.currentThread().getId());
+            } catch (Exception e) {
+                log.error("Ukjent feil!");
+                log.error(e.getMessage(), e);
             }
         }
-        return currentCounter.generateLoepenummer();
     }
 }

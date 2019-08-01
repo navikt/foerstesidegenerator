@@ -82,6 +82,7 @@ public class FoerstesideService {
 
 	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request) {
 		String loepenummer = foerstesideCounterService.hentLoepenummer();
+		log.info("Har generert løpenummer "+loepenummer);
 		Foersteside foersteside = foerstesideMapper.map(request, loepenummer);
 		foerstesideRepository.save(foersteside);
 		return foersteside;
@@ -100,7 +101,7 @@ public class FoerstesideService {
 
 	public GetFoerstesideResponse getFoersteside(String loepenummer) {
 		validerLoepenummer(loepenummer);
-		log.info("Loepenummer validert ok");
+		log.info("Løpenummer validert ok");
 
 		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, LOEPENUMMER_LENGTH))
 				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
