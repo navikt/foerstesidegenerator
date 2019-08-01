@@ -11,12 +11,12 @@ import javax.persistence.LockModeType;
 
 @Repository
 public interface FoerstesideCounterRepository extends JpaRepository<FoerstesideCounter, Long> {
-//    @Query(value =
-//            "select * " +
-//                    "FROM " + FoerstesideCounter.TABLE_NAME + " " +
-//                    "WHERE DATO = to_char(sysdate, 'YYYYMMDD')", nativeQuery = true)
+    @Query(value =
+            "select * " +
+                    "FROM " + FoerstesideCounter.TABLE_NAME + " " +
+                    "WHERE DATO = to_char(sysdate, 'YYYYMMDD') FOR UPDATE ", nativeQuery = true)
     @Transactional
-    @Query("SELECT fc FROM FoerstesideCounter fc WHERE fc.date = '20190801'")
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    //@Query("SELECT fc FROM FoerstesideCounter fc WHERE fc.date = :date")
+    //@Lock(LockModeType.PESSIMISTIC_WRITE)
     FoerstesideCounter getCounterForToday();
 }
