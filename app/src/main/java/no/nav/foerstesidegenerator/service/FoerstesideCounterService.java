@@ -6,7 +6,6 @@ import no.nav.foerstesidegenerator.repository.FoerstesideCounterRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
@@ -35,7 +34,16 @@ public class FoerstesideCounterService {
         }
         while(true) {
             try {
-                return incrementCounterAndGenerateLoepenummer();
+                log.info("Thread {} trying again", Thread.currentThread().getId());
+                FoerstesideCounter existingCounter = repository.getCounterForToday();
+                existingCounter.count();
+                short before = existingCounter.getVersion();
+                log.info("Thread {} trying to increment version from {}", Thread.currentThread().getId(), before);
+                existingCounter = repository.saveAndFlush(existingCounter);
+                short after = existingCounter.getVersion();
+                log.info("Thread {} updated version from {} to {}", Thread.currentThread().getId(), before, after);
+                log.info("Thread {} got {}", Thread.currentThread().getId(), existingCounter.getAntall());
+                return existingCounter.generateLoepenummer();
             } catch (ObjectOptimisticLockingFailureException e) {
                 log.warn(e.getMessage());
                 log.warn("Thread {} racing, trying again", Thread.currentThread().getId());
@@ -44,23 +52,11 @@ public class FoerstesideCounterService {
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
+                repository.flush();
             } catch (Exception e) {
                 log.error("Ukjent feil!");
                 log.error(e.getMessage(), e);
             }
         }
-    }
-
-    @Transactional
-    String incrementCounterAndGenerateLoepenummer() {
-        FoerstesideCounter existingCounter = repository.getCounterForToday();
-        existingCounter.count();
-        short before = existingCounter.getVersion();
-        log.info("Thread {} trying to increment version from {}", Thread.currentThread().getId(), before);
-        existingCounter = repository.saveAndFlush(existingCounter);
-        short after = existingCounter.getVersion();
-        log.info("Thread {} updated version from {} to {}", Thread.currentThread().getId(), before, after);
-        log.info("Thread {} got {}", Thread.currentThread().getId(), existingCounter.getAntall());
-        return existingCounter.generateLoepenummer();
     }
 }
