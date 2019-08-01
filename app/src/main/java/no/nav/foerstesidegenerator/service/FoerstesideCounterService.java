@@ -39,7 +39,11 @@ public class FoerstesideCounterService {
             try {
                 FoerstesideCounter existingCounter = repository.getCounterForToday();
                 existingCounter.count();
+                short before = existingCounter.getVersion();
                 existingCounter = repository.save(existingCounter);
+                short after = existingCounter.getVersion();
+                log.info("Thread {} updated version from {} to {}", Thread.currentThread().getId(), before, after);
+                log.info("Thread {} got {}", Thread.currentThread().getId(), existingCounter.getDate());
                 return existingCounter.generateLoepenummer();
             } catch (ObjectOptimisticLockingFailureException e) {
                 log.warn(e.getMessage());

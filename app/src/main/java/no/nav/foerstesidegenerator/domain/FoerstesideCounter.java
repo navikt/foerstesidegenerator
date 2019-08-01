@@ -25,6 +25,7 @@ public class FoerstesideCounter {
 
     @Version
     @Column(name = "versjon", nullable = false)
+    @Getter
     private short version;
 
     @Id
