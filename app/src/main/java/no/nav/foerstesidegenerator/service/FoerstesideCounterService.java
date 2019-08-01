@@ -6,6 +6,8 @@ import no.nav.foerstesidegenerator.repository.FoerstesideCounterRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
@@ -20,6 +22,7 @@ public class FoerstesideCounterService {
         this.repository = repository;
     }
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     String hentLoepenummer() {
         FoerstesideCounter currentCounter = repository.getCounterForToday();
         if (currentCounter == null) {
@@ -34,10 +37,10 @@ public class FoerstesideCounterService {
         }
         while(true) {
             try {
-                currentCounter = repository.getCounterForToday();
-                currentCounter.count();
-                currentCounter = repository.save(currentCounter);
-                return currentCounter.generateLoepenummer();
+                FoerstesideCounter existingCounter = repository.getCounterForToday();
+                existingCounter.count();
+                existingCounter = repository.save(existingCounter);
+                return existingCounter.generateLoepenummer();
             } catch (ObjectOptimisticLockingFailureException e) {
                 log.warn(e.getMessage());
                 log.warn("Thread {} racing, trying again", Thread.currentThread().getId());
