@@ -22,12 +22,9 @@ import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.validateLoepenummerWithCheckDigit;
-import static org.apache.commons.lang3.StringUtils.leftPad;
 
 @Slf4j
 @Service
@@ -36,7 +33,6 @@ public class FoerstesideService {
 	private static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
 	private static final int LOEPENUMMER_LENGTH = 13;
 	private static final int LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT = 14;
-	private static final Object lock = new Object();
 
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
 	private final FoerstesideMapper foerstesideMapper;
@@ -45,6 +41,7 @@ public class FoerstesideService {
 	private final DokumentTypeInfoConsumer dokumentTypeInfoConsumer;
 	private final MetaforceConsumer metaforceConsumer;
 	private final MetaforceBrevdataMapper metaforceBrevdataMapper;
+	private final FoerstesideCounterService foerstesideCounterService;
 
 	@Inject
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
@@ -52,6 +49,7 @@ public class FoerstesideService {
 							  final FoerstesideRepository foerstesideRepository,
 							  final GetFoerstesideResponseMapper getFoerstesideResponseMapper,
 							  final DokumentTypeInfoConsumer dokumentTypeInfoConsumer,
+							  final FoerstesideCounterService foerstesideCounterService,
 							  final MetaforceConsumer metaforceConsumer) {
 		this.postFoerstesideRequestValidator = postFoerstesideRequestValidator;
 		this.foerstesideMapper = foerstesideMapper;
@@ -59,6 +57,7 @@ public class FoerstesideService {
 		this.getFoerstesideResponseMapper = getFoerstesideResponseMapper;
 		this.dokumentTypeInfoConsumer = dokumentTypeInfoConsumer;
 		this.metaforceConsumer = metaforceConsumer;
+		this.foerstesideCounterService = foerstesideCounterService;
 		this.metaforceBrevdataMapper = new MetaforceBrevdataMapper();
 	}
 
@@ -69,10 +68,7 @@ public class FoerstesideService {
 		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
 		log.info("Har hentet metadata fra dokkat");
 
-		Foersteside foersteside;
-		synchronized (lock) {
-		    foersteside = incrementLoepenummerAndPersist(request);
-        }
+		Foersteside foersteside = incrementLoepenummerAndPersist(request);
 
 		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
 		log.info("Førsteside generert vha Metaforce");
@@ -85,9 +81,7 @@ public class FoerstesideService {
 	}
 
 	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request) {
-		int count = foerstesideRepository.findNumberOfFoerstesiderGeneratedToday();
-		String loepenummer = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + leftPad(Integer.toString(count + 1), 5, "0");
-
+		String loepenummer = foerstesideCounterService.hentLoepenummer();
 		Foersteside foersteside = foerstesideMapper.map(request, loepenummer);
 		foerstesideRepository.save(foersteside);
 		return foersteside;

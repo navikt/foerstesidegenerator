@@ -25,7 +25,7 @@ public class FoerstesideServiceITest extends AbstractIT {
         PostFoerstesideRequest request = TestUtils.createRequestWithAdresse();
 
         ArrayList<CompletableFuture<PostFoerstesideResponse>> responses = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 100; i++) {
             responses.add(CompletableFuture.supplyAsync(() -> service.createFoersteside(request)));
         }
 
