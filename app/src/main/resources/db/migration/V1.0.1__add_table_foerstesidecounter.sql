@@ -1,11 +1,11 @@
 CREATE TABLE FOERSTESIDECOUNTER
 (
-  foerstesidecounter_id    NUMBER(19)    NOT NULL DEFAULT 1,
-	dato                     NUMBER(8)     NOT NULL DEFAULT to_char(sysdate, 'YYYYMMDD'),
-  antall                   NUMBER(7)     NOT NULL DEFAULT 0,
-  versjon                  NUMBER(5)     NOT NULL DEFAULT 0,
-	CONSTRAINT PK_FOERSTESIDECOUNTER PRIMARY KEY (foerstesidecounter_id),
-	CONSTRAINT UNIQUE_DATO UNIQUE (dato)
+  foerstesidecounter_id    NUMBER(19)    NOT NULL,
+  dato                     NUMBER(8)     NOT NULL,
+  antall                   NUMBER(7)     NOT NULL,
+  versjon                  NUMBER(5)     NOT NULL,
+  CONSTRAINT PK_FOERSTESIDECOUNTER PRIMARY KEY (foerstesidecounter_id),
+  CONSTRAINT UNIQUE_DATO UNIQUE (dato)
 );
 
 CREATE SEQUENCE FOERSTESIDECOUNTER_SEQ START WITH 1000 INCREMENT BY 1 NOMAXVALUE NOCYCLE NOCACHE;
