@@ -20,38 +20,31 @@ public class FoerstesideCounterService {
         this.repository = repository;
     }
 
+    @SuppressWarnings("squid:S00108")
     String hentLoepenummer() {
         FoerstesideCounter currentCounter = repository.getCounterForToday();
         if (currentCounter == null) {
             FoerstesideCounter save = new FoerstesideCounter();
-            log.info("No FoerstesideCounter found, making new for date "+ save.getDate());
+            log.info("Fant ingen FoerstesideCounter for {}. Lager ny!", save.getDate());
             try {
                 repository.saveAndFlush(save);
             }
             catch (DataIntegrityViolationException e) {
-                log.warn("FoerstesideCounter already exists for date "+ save.getDate());
+                log.warn("FoerstesideCounter finnes allerede for dato "+ save.getDate());
             }
         }
         while(true) {
             try {
-                log.info("Thread {} trying again", Thread.currentThread().getId());
                 FoerstesideCounter existingCounter = repository.getCounterForToday();
                 existingCounter.count();
-                short before = existingCounter.getVersion();
-                log.info("Thread {} trying to increment version from {}", Thread.currentThread().getId(), before);
                 existingCounter = repository.saveAndFlush(existingCounter);
-                short after = existingCounter.getVersion();
-                log.info("Thread {} updated version from {} to {}", Thread.currentThread().getId(), before, after);
-                log.info("Thread {} got {}", Thread.currentThread().getId(), existingCounter.getAntall());
                 return existingCounter.generateLoepenummer();
             } catch (ObjectOptimisticLockingFailureException e) {
                 log.warn(e.getMessage());
-                log.warn("Thread {} racing, trying again", Thread.currentThread().getId());
+                log.warn("Tråd {} venter på tur", Thread.currentThread().getId());
                 try {
-                    Thread.sleep((long) (Math.random()*5000));
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
+                    Thread.sleep(500);
+                } catch (InterruptedException e1) { }
                 repository.flush();
             } catch (Exception e) {
                 log.error("Ukjent feil!");
