@@ -29,7 +29,7 @@ public class FoerstesideCounterService {
             FoerstesideCounter save = new FoerstesideCounter();
             log.info("No FoerstesideCounter found, making new for date "+ save.getDate());
             try {
-                repository.save(save);
+                repository.saveAndFlush(save);
             }
             catch (DataIntegrityViolationException e) {
                 log.warn("FoerstesideCounter already exists for date "+ save.getDate());
@@ -40,7 +40,7 @@ public class FoerstesideCounterService {
                 FoerstesideCounter existingCounter = repository.getCounterForToday();
                 existingCounter.count();
                 short before = existingCounter.getVersion();
-                existingCounter = repository.save(existingCounter);
+                existingCounter = repository.saveAndFlush(existingCounter);
                 short after = existingCounter.getVersion();
                 log.info("Thread {} updated version from {} to {}", Thread.currentThread().getId(), before, after);
                 log.info("Thread {} got {}", Thread.currentThread().getId(), existingCounter.getAntall());
