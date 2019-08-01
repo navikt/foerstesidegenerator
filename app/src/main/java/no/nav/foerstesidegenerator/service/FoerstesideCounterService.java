@@ -6,11 +6,9 @@ import no.nav.foerstesidegenerator.repository.FoerstesideCounterRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -37,21 +35,7 @@ public class FoerstesideCounterService {
         }
         while(true) {
             try {
-                repository.flush();
-                //FoerstesideCounter existingCounter = repository.getCounterForToday();
-                Optional<FoerstesideCounter> optionalExistingCounter = repository.findAll().stream().filter(e ->
-                                e.getDate().equalsIgnoreCase(new SimpleDateFormat("yyyyMMdd").format(new Date()))).findFirst();
-                if(optionalExistingCounter.isPresent()) {
-                    FoerstesideCounter existingCounter = optionalExistingCounter.get();
-                    existingCounter.count();
-                    short before = existingCounter.getVersion();
-                    log.info("Thread {} trying to increment version from {}", Thread.currentThread().getId(), before);
-                    existingCounter = repository.saveAndFlush(existingCounter);
-                    short after = existingCounter.getVersion();
-                    log.info("Thread {} updated version from {} to {}", Thread.currentThread().getId(), before, after);
-                    log.info("Thread {} got {}", Thread.currentThread().getId(), existingCounter.getAntall());
-                    return existingCounter.generateLoepenummer();
-                }
+                return incrementCounterAndGenerateLoepenummer();
             } catch (ObjectOptimisticLockingFailureException e) {
                 log.warn(e.getMessage());
                 log.warn("Thread {} racing, trying again", Thread.currentThread().getId());
@@ -60,11 +44,23 @@ public class FoerstesideCounterService {
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-                repository.flush();
             } catch (Exception e) {
                 log.error("Ukjent feil!");
                 log.error(e.getMessage(), e);
             }
         }
+    }
+
+    @Transactional
+    String incrementCounterAndGenerateLoepenummer() {
+        FoerstesideCounter existingCounter = repository.getCounterForToday();
+        existingCounter.count();
+        short before = existingCounter.getVersion();
+        log.info("Thread {} trying to increment version from {}", Thread.currentThread().getId(), before);
+        existingCounter = repository.saveAndFlush(existingCounter);
+        short after = existingCounter.getVersion();
+        log.info("Thread {} updated version from {} to {}", Thread.currentThread().getId(), before, after);
+        log.info("Thread {} got {}", Thread.currentThread().getId(), existingCounter.getAntall());
+        return existingCounter.generateLoepenummer();
     }
 }
