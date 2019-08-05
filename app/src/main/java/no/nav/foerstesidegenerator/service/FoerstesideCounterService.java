@@ -28,9 +28,8 @@ public class FoerstesideCounterService {
             log.info("Fant ingen FoerstesideCounter for {}. Lager ny!", save.getDate());
             try {
                 repository.saveAndFlush(save);
-            }
-            catch (DataIntegrityViolationException e) {
-                log.warn("FoerstesideCounter finnes allerede for dato "+ save.getDate());
+            } catch (DataIntegrityViolationException e) {
+                log.warn("FoerstesideCounter finnes allerede for dato {}", save.getDate());
             }
         }
         while(true) {
