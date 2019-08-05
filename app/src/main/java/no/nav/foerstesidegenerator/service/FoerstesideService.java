@@ -22,12 +22,9 @@ import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.validateLoepenummerWithCheckDigit;
-import static org.apache.commons.lang3.StringUtils.leftPad;
 
 @Slf4j
 @Service
@@ -44,6 +41,7 @@ public class FoerstesideService {
 	private final DokumentTypeInfoConsumer dokumentTypeInfoConsumer;
 	private final MetaforceConsumer metaforceConsumer;
 	private final MetaforceBrevdataMapper metaforceBrevdataMapper;
+	private final FoerstesideCounterService foerstesideCounterService;
 
 	@Inject
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
@@ -51,6 +49,7 @@ public class FoerstesideService {
 							  final FoerstesideRepository foerstesideRepository,
 							  final GetFoerstesideResponseMapper getFoerstesideResponseMapper,
 							  final DokumentTypeInfoConsumer dokumentTypeInfoConsumer,
+							  final FoerstesideCounterService foerstesideCounterService,
 							  final MetaforceConsumer metaforceConsumer) {
 		this.postFoerstesideRequestValidator = postFoerstesideRequestValidator;
 		this.foerstesideMapper = foerstesideMapper;
@@ -58,6 +57,7 @@ public class FoerstesideService {
 		this.getFoerstesideResponseMapper = getFoerstesideResponseMapper;
 		this.dokumentTypeInfoConsumer = dokumentTypeInfoConsumer;
 		this.metaforceConsumer = metaforceConsumer;
+		this.foerstesideCounterService = foerstesideCounterService;
 		this.metaforceBrevdataMapper = new MetaforceBrevdataMapper();
 	}
 
@@ -80,10 +80,9 @@ public class FoerstesideService {
 				.build();
 	}
 
-	private synchronized Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request) {
-		int count = foerstesideRepository.findNumberOfFoerstesiderGeneratedToday();
-		String loepenummer = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + leftPad(Integer.toString(count + 1), 5, "0");
-
+	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request) {
+		String loepenummer = foerstesideCounterService.hentLoepenummer();
+		log.info("Har generert løpenummer "+loepenummer);
 		Foersteside foersteside = foerstesideMapper.map(request, loepenummer);
 		foerstesideRepository.save(foersteside);
 		return foersteside;
@@ -102,7 +101,7 @@ public class FoerstesideService {
 
 	public GetFoerstesideResponse getFoersteside(String loepenummer) {
 		validerLoepenummer(loepenummer);
-		log.info("Loepenummer validert ok");
+		log.info("Løpenummer validert ok");
 
 		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, LOEPENUMMER_LENGTH))
 				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
