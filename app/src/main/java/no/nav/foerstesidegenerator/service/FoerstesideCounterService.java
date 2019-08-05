@@ -38,18 +38,17 @@ public class FoerstesideCounterService {
                 existingCounter.count();
                 existingCounter = repository.saveAndFlush(existingCounter);
                 return existingCounter.generateLoepenummer();
-            } catch (ObjectOptimisticLockingFailureException e) {
-                log.warn(e.getMessage());
+            } catch (ObjectOptimisticLockingFailureException lockingException) {
+                log.warn(lockingException.getMessage());
                 log.warn("Tråd {} venter på tur", Thread.currentThread().getId());
                 try {
                     Thread.sleep(500);
-                } catch (InterruptedException e1) {
-                    log.warn("Fikk ikke sove!");
+                } catch (InterruptedException interruptedException) {
+                    log.warn("Fikk ikke sove! " + interruptedException.getMessage());
                 }
                 repository.flush();
-            } catch (Exception e) {
-                log.error("Ukjent feil!");
-                log.error(e.getMessage(), e);
+            } catch (Exception unknownException) {
+                log.error("Ukjent feil: " + unknownException.getMessage());
             }
         }
     }
