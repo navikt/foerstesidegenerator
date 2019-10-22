@@ -50,7 +50,7 @@ public class TestUtils {
 	public static final String BRUKER = "brukerId";
 	public static final String BRUKER_PERSON = "PERSON";
 
-	public static final String TEMA_FAR = "FAR";
+	public static final String TEMA_FORELDREPENGER = "FOR";
 	public static final String BEHANDLINGSTEMA_AB1337 = "ab1337";
 	public static final String TITTEL = "tittel";
 	public static final String SKJEMA_ID = "NAV 13.37";
@@ -81,7 +81,7 @@ public class TestUtils {
 						.brukerId(BRUKER)
 						.brukerType(BrukerType.PERSON).build())
 				.ukjentBrukerPersoninfo(null)
-				.tema(TEMA_FAR)
+				.tema(TEMA_FORELDREPENGER)
 				.behandlingstema(BEHANDLINGSTEMA_AB1337)
 				.arkivtittel(TITTEL)
 				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
@@ -125,7 +125,7 @@ public class TestUtils {
 	}
 
 	public static PostFoerstesideRequest createRequestWithNetsPostboks() {
-		return createRequestWithoutAdresse(NETS, null, Foerstesidetype.SKJEMA, TEMA_FAR);
+		return createRequestWithoutAdresse(NETS, null, Foerstesidetype.SKJEMA, TEMA_FORELDREPENGER);
 	}
 
 	public static PostFoerstesideRequest createRequestWithoutBruker(String ukjentBrukerPersoninfo) {
@@ -137,7 +137,7 @@ public class TestUtils {
 						.avsenderNavn(NAVN).build())
 				.bruker(null)
 				.ukjentBrukerPersoninfo(ukjentBrukerPersoninfo)
-				.tema(TEMA_FAR)
+				.tema(TEMA_FORELDREPENGER)
 				.behandlingstema(BEHANDLINGSTEMA_AB1337)
 				.arkivtittel(TITTEL)
 				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
@@ -154,7 +154,7 @@ public class TestUtils {
 	}
 
 	public static PostFoerstesideRequest createRequestWithoutAdresseAndNetsPostboks() {
-		return createRequestWithoutAdresse(null, null, Foerstesidetype.SKJEMA, TEMA_FAR);
+		return createRequestWithoutAdresse(null, null, Foerstesidetype.SKJEMA, TEMA_FORELDREPENGER);
 	}
 
 	public static PostFoerstesideRequest createRequestWithAdresse(String adr1, String adr2, String adr3, String postnr, String poststed) {
@@ -185,25 +185,25 @@ public class TestUtils {
 	}
 
 	public static PostFoerstesideRequest createRequestEttersendelse() {
-		return createRequestWithoutAdresse(NETS, null, Foerstesidetype.ETTERSENDELSE, TEMA_FAR);
+		return createRequestWithoutAdresse(NETS, null, Foerstesidetype.ETTERSENDELSE, TEMA_FORELDREPENGER);
 	}
 
 //	Domeneobjekt-metoder
 
 	public static Foersteside createFoersteside(String loepenummer) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FAR, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoersteside(String loepenummer, String netspostboks) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, netspostboks, TEMA_FAR, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, netspostboks, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoerstesideWithoutAdresse(String loepenummer) {
-		return createFoersteside(loepenummer, null, null, null, NETS, TEMA_FAR, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
+		return createFoersteside(loepenummer, null, null, null, NETS, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoerstesideWithoutAvsenderAndBruker(String loepenummer) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, NETS, TEMA_FAR, null, null, null, null, null);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, NETS, TEMA_FORELDREPENGER, null, null, null, null, null);
 	}
 
 	public static Foersteside createFoersteside(String loepenummer, String adresse, String postnr, String poststed, String nets, String tema, String ukjent, String avsenderId, String avsendernavn, String brukerid, String brukertype) {

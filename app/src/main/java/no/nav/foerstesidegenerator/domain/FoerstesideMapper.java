@@ -27,6 +27,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_B
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
@@ -38,10 +39,13 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Component
 public class FoerstesideMapper {
 
 	private static final String NAV_PREFIX = "NAV ";
+	static final String TEMA_BIDRAG = "BID";
+	static final String TEMA_FARSKAP = "FAR";
 
 	public Foersteside map(PostFoerstesideRequest request, String loepenummer) {
 		Foersteside foersteside = new Foersteside();
@@ -64,7 +68,12 @@ public class FoerstesideMapper {
 		if (request.getUkjentBrukerPersoninfo() != null && request.getBruker() == null) {
 			addMetadata(foersteside, UKJENT_BRUKER_PERSONINFO, request.getUkjentBrukerPersoninfo());
 		}
-		addMetadata(foersteside, TEMA, request.getTema());
+		if(TEMA_BIDRAG.equals(request.getTema()) || TEMA_FARSKAP.equals(request.getTema())) {
+			log.info("Førsteside med tema bidrag/farskap forsøkt generert. Setter tema metadata til null da disse ikke skannes hos NETS enda.");
+			foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, TEMA, null));
+		} else {
+			addMetadata(foersteside, TEMA, request.getTema());
+		}
 		addMetadata(foersteside, BEHANDLINGSTEMA, request.getBehandlingstema());
 		addMetadata(foersteside, ARKIVTITTEL, request.getArkivtittel());
 		addVedleggListeIfPresent(foersteside, request.getVedleggsliste());

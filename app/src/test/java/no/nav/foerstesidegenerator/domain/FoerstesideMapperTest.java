@@ -13,14 +13,17 @@ import static no.nav.foerstesidegenerator.TestUtils.OSLO;
 import static no.nav.foerstesidegenerator.TestUtils.POSTNR;
 import static no.nav.foerstesidegenerator.TestUtils.SAK_REF;
 import static no.nav.foerstesidegenerator.TestUtils.SKJEMA_ID;
-import static no.nav.foerstesidegenerator.TestUtils.TEMA_FAR;
+import static no.nav.foerstesidegenerator.TestUtils.TEMA_FORELDREPENGER;
 import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestEttersendelse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostboks;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
+import static no.nav.foerstesidegenerator.domain.FoerstesideMapper.TEMA_BIDRAG;
+import static no.nav.foerstesidegenerator.domain.FoerstesideMapper.TEMA_FARSKAP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -61,7 +64,7 @@ class FoerstesideMapperTest {
 		assertEquals(BRUKER, domain.getBrukerId());
 		assertEquals(BrukerType.PERSON.name(), domain.getBrukerType());
 		assertNull(domain.getUkjentBrukerPersoninfo());
-		assertEquals(TEMA_FAR, domain.getTema());
+		assertEquals(TEMA_FORELDREPENGER, domain.getTema());
 		assertEquals(BEHANDLINGSTEMA_AB1337, domain.getBehandlingstema());
 		assertEquals(TITTEL, domain.getArkivtittel());
 		assertEquals(SKJEMA_ID, domain.getNavSkjemaId());
@@ -105,5 +108,23 @@ class FoerstesideMapperTest {
 		Foersteside domain = mapper.map(request, LOEPENUMMER);
 
 		assertTrue(domain.getNavSkjemaId().startsWith("NAVe"));
+	}
+
+	@Test
+	void shouldMapTemaBIDAsNull() {
+		PostFoerstesideRequest request = createRequestWithTema(TEMA_BIDRAG);
+
+		Foersteside domain = mapper.map(request, LOEPENUMMER);
+
+		assertNull(domain.getTema());
+	}
+
+	@Test
+	void shouldMapTemaFARAsNull() {
+		PostFoerstesideRequest request = createRequestWithTema(TEMA_FARSKAP);
+
+		Foersteside domain = mapper.map(request, LOEPENUMMER);
+
+		assertNull(domain.getTema());
 	}
 }
