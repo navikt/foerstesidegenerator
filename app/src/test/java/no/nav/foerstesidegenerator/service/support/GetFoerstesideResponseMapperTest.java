@@ -8,7 +8,7 @@ import static no.nav.foerstesidegenerator.TestUtils.ENHET_9999;
 import static no.nav.foerstesidegenerator.TestUtils.NAVN;
 import static no.nav.foerstesidegenerator.TestUtils.SAK_REF;
 import static no.nav.foerstesidegenerator.TestUtils.SKJEMA_ID;
-import static no.nav.foerstesidegenerator.TestUtils.TEMA_FAR;
+import static no.nav.foerstesidegenerator.TestUtils.TEMA_FORELDREPENGER;
 import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
@@ -44,7 +44,7 @@ class GetFoerstesideResponseMapperTest {
 		assertEquals(NAVN, response.getAvsender().getAvsenderNavn());
 		assertEquals(BRUKER, response.getBruker().getBrukerId());
 		assertEquals(BrukerType.PERSON, response.getBruker().getBrukerType());
-		assertEquals(TEMA_FAR, response.getTema());
+		assertEquals(TEMA_FORELDREPENGER, response.getTema());
 		assertEquals(BEHANDLINGSTEMA_AB1337, response.getBehandlingstema());
 		assertEquals(TITTEL, response.getArkivtittel());
 		assertEquals(SKJEMA_ID, response.getNavSkjemaId());
