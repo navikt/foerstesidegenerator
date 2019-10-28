@@ -158,6 +158,26 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	}
 
 	@Test
+	@DisplayName("GET førsteside tema BID - Ok (tema = null)")
+	void shouldHentFoerstesideWithTemaNullWhenTemaOpprettetAsBID() {
+		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_tema_bid.json");
+		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
+		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
+		Foersteside foersteside = getFoersteside();
+
+		String loepenummer = foersteside.getLoepenummer();
+		assertNull(foersteside.getTema());
+
+		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+		assertNotNull(getResponse.getBody());
+		assertNull(getResponse.getBody().getTema());
+	}
+
+	@Test
 	@DisplayName("GET førsteside - 400 Løpenummer validerer ikke")
 	void shouldThrowExceptionIfGivenLoepenummerDoesNotValidate() {
 		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");

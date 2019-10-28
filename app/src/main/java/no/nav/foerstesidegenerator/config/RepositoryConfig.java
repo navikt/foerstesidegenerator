@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.config;
 
+import no.nav.foerstesidegenerator.repository.FoerstesideCounterRepository;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import oracle.ucp.jdbc.PoolDataSource;
 import oracle.ucp.jdbc.PoolDataSourceFactory;
@@ -20,7 +21,7 @@ import java.util.Properties;
  * @author Joakim Bjørnstad, Jbit AS
  */
 @EntityScan(basePackages = {"no.nav.foerstesidegenerator.domain"})
-@EnableJpaRepositories(basePackageClasses = {FoerstesideRepository.class})
+@EnableJpaRepositories(basePackageClasses = {FoerstesideRepository.class, FoerstesideCounterRepository.class})
 @EnableTransactionManagement
 @EnableConfigurationProperties(DataSourceProperties.class)
 @Configuration
