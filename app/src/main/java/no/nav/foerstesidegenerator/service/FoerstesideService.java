@@ -114,7 +114,7 @@ public class FoerstesideService {
 		if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT) {
 			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
 		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT && !validateLoepenummerWithCheckDigit(loepenummer)) {
-		    throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil");
+		    throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil: " + loepenummer);
 		}
 	}
 
