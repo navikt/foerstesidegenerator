@@ -7,6 +7,7 @@ import no.nav.foerstesidegenerator.service.FoerstesideService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -21,12 +22,14 @@ public class FoerstesideServiceITest extends AbstractIT {
     @Test
     @DisplayName("Synkroniser alle genereringer av løpenummer")
     void createSeveralFoerstesider() throws Exception {
+        HttpHeaders defaultHeaders = new HttpHeaders();
+        defaultHeaders.add("Nav-Consumer-Id", "MockConsumer");
 
         PostFoerstesideRequest request = TestUtils.createRequestWithAdresse();
 
         ArrayList<CompletableFuture<PostFoerstesideResponse>> responses = new ArrayList<>();
         for(int i = 0; i < 100; i++) {
-            responses.add(CompletableFuture.supplyAsync(() -> service.createFoersteside(request)));
+            responses.add(CompletableFuture.supplyAsync(() -> service.createFoersteside(request, defaultHeaders)));
         }
 
         ArrayList<String> loepenummers = new ArrayList<>();

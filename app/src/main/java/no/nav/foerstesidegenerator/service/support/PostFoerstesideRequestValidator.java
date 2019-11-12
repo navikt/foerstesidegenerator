@@ -8,12 +8,13 @@ import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
 import no.nav.foerstesidegenerator.exception.InvalidTemaException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PostFoerstesideRequestValidator {
 
-	public void validate(PostFoerstesideRequest request) {
+	public void validate(PostFoerstesideRequest request, HttpHeaders headers) {
 		if (request != null) {
 			validateRequiredFields(request);
 
@@ -21,6 +22,7 @@ public class PostFoerstesideRequestValidator {
 
 			validateTema(request.getTema());
 
+			validateConsumerId(headers);
 		}
 		// flere felter?
 	}
@@ -68,5 +70,18 @@ public class PostFoerstesideRequestValidator {
 		} else {
 			throw new InvalidRequestException("Tema kan ikke være null");
 		}
+	}
+
+	private void validateConsumerId(HttpHeaders headers){
+		if(headers.containsKey("Nav-Consumer-Id")){
+			return;
+		}
+		if(headers.containsKey("x_consumerId")){
+			return;
+		}
+		if(headers.containsKey("consumerId")){
+			return;
+		}
+		throw new InvalidRequestException("Mangler Nav-Consumer-Id header");
 	}
 }
