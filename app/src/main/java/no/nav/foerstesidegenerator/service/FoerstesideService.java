@@ -108,8 +108,6 @@ public class FoerstesideService {
 		GetFoerstesideResponse response = getFoerstesideResponseMapper.map(domain);
 		domain.setUthentet(true);
 		domain.setDatoUthentet(LocalDateTime.now());
-		domain.clearBrukerId();
-		domain.clearUkjentBrukerPersoninfo();
 
 		return response;
 	}

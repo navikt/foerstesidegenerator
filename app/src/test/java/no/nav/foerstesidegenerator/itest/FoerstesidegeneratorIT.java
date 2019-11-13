@@ -133,7 +133,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		foersteside = getFoersteside();
 		assertEquals(loepenummer, foersteside.getLoepenummer());
 		assertTrue(foersteside.getUthentet());
-		assertNull(foersteside.getBrukerId());
+		assertEquals("***gammelt_fnr***", foersteside.getBrukerId());
 		assertNotNull(foersteside.getDatoUthentet());
 	}
 
