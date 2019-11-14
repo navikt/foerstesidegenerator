@@ -12,6 +12,7 @@ import static no.nav.foerstesidegenerator.TestUtils.TEMA_FORELDREPENGER;
 import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
+import static no.nav.foerstesidegenerator.TestUtils.CONSUMER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
 import static no.nav.foerstesidegenerator.TestUtils.createFoerstesideWithoutAvsenderAndBruker;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,6 +53,7 @@ class GetFoerstesideResponseMapperTest {
 		assertEquals(ENHET_9999, response.getEnhetsnummer());
 		assertEquals(Arkivsaksystem.PSAK, response.getArkivsak().getArkivsaksystem());
 		assertEquals(SAK_REF, response.getArkivsak().getArkivsaksnummer());
+		assertEquals(CONSUMER_ID, response.getFoersteside_opprettet_av());
 	}
 
 	@Test

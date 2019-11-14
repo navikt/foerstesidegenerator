@@ -21,6 +21,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDE_OPPRETTET_AV;
 
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
@@ -64,6 +65,8 @@ public class TestUtils {
 	public static final String ENHET_9999 = "9999";
 
 	public static final String SAK_REF = "saksRef";
+
+	public static final String CONSUMER_ID = "consumer";
 
 	public static PostFoerstesideRequest createRequestWithAdresse() {
 		return PostFoerstesideRequest.builder()
@@ -230,6 +233,7 @@ public class TestUtils {
 		createMetadata(foersteside, ENHETSNUMMER, ENHET_9999);
 		createMetadata(foersteside, ARKIVSAKSYSTEM, Arkivsaksystem.PSAK.name());
 		createMetadata(foersteside, ARKIVSAKSNUMMER, SAK_REF);
+		createMetadata(foersteside, FOERSTESIDE_OPPRETTET_AV, CONSUMER_ID);
 		return foersteside;
 	}
 
