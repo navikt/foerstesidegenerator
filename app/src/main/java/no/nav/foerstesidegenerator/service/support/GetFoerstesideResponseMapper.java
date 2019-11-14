@@ -30,7 +30,7 @@ public class GetFoerstesideResponseMapper {
 				.vedleggsliste(mapVedlegg(domain))
 				.enhetsnummer(domain.getEnhetsnummer())
 				.arkivsak(mapArkivsak(domain))
-				.foersteside_opprettet_av(domain.getFoerstesideOpprettetAv())
+				.foerstesideOpprettetAv(domain.getFoerstesideOpprettetAv())
 				.build();
 	}
 

@@ -53,7 +53,7 @@ class GetFoerstesideResponseMapperTest {
 		assertEquals(ENHET_9999, response.getEnhetsnummer());
 		assertEquals(Arkivsaksystem.PSAK, response.getArkivsak().getArkivsaksystem());
 		assertEquals(SAK_REF, response.getArkivsak().getArkivsaksnummer());
-		assertEquals(CONSUMER_ID, response.getFoersteside_opprettet_av());
+		assertEquals(CONSUMER_ID, response.getFoerstesideOpprettetAv());
 	}
 
 	@Test
