@@ -23,6 +23,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDE_OPPRETTET_AV;
 import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
 import org.hibernate.annotations.Cascade;
@@ -223,6 +224,10 @@ public class Foersteside {
 
 	public String getArkivsaksnummer() {
 		return getValueForKey(ARKIVSAKSNUMMER);
+	}
+
+	public String getFoerstesideOpprettetAv() {
+		return getValueForKey(FOERSTESIDE_OPPRETTET_AV);
 	}
 
 	public void clearBrukerId() {

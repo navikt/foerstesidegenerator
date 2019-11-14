@@ -20,6 +20,7 @@ import no.nav.foerstesidegenerator.service.support.GetFoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpHeaders;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
@@ -61,14 +62,14 @@ public class FoerstesideService {
 		this.metaforceBrevdataMapper = new MetaforceBrevdataMapper();
 	}
 
-	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request) {
-		postFoerstesideRequestValidator.validate(request);
+	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request, HttpHeaders headers) {
+		postFoerstesideRequestValidator.validate(request, headers);
 		log.info("Request validert OK");
 
 		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
 		log.info("Har hentet metadata fra dokkat");
 
-		Foersteside foersteside = incrementLoepenummerAndPersist(request);
+		Foersteside foersteside = incrementLoepenummerAndPersist(request, headers);
 
 		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
 		log.info("Førsteside generert vha Metaforce");
@@ -80,10 +81,10 @@ public class FoerstesideService {
 				.build();
 	}
 
-	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request) {
+	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request, HttpHeaders headers) {
 		String loepenummer = foerstesideCounterService.hentLoepenummer();
 		log.info("Har generert løpenummer "+loepenummer);
-		Foersteside foersteside = foerstesideMapper.map(request, loepenummer);
+		Foersteside foersteside = foerstesideMapper.map(request, loepenummer, headers);
 		foerstesideRepository.save(foersteside);
 		return foersteside;
 	}

@@ -25,6 +25,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDE_OPPRETTET_AV;
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +36,11 @@ import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.http.HttpHeaders;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -47,7 +50,7 @@ public class FoerstesideMapper {
 	static final String TEMA_BIDRAG = "BID";
 	static final String TEMA_FARSKAP = "FAR";
 
-	public Foersteside map(PostFoerstesideRequest request, String loepenummer) {
+	public Foersteside map(PostFoerstesideRequest request, String loepenummer, HttpHeaders headers) {
 		Foersteside foersteside = new Foersteside();
 		foersteside.setDatoOpprettet(LocalDateTime.now());
 		foersteside.setUthentet(false);
@@ -83,6 +86,7 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, SPRAAKKODE, request.getSpraakkode().name());
 		addMetadata(foersteside, FOERSTESIDETYPE, request.getFoerstesidetype().name());
 		addMetadata(foersteside, ENHETSNUMMER, request.getEnhetsnummer());
+		mapOppretetAv(foersteside, headers);
 		if (request.getArkivsak() != null) {
 			mapSak(foersteside, request.getArkivsak());
 		}
@@ -132,6 +136,18 @@ public class FoerstesideMapper {
 			navSkjemaId = builder.toString();
 		}
 		addMetadata(foersteside, NAV_SKJEMA_ID, navSkjemaId);
+	}
+
+	private void mapOppretetAv(Foersteside foersteside, HttpHeaders headers){
+		Stream.of("Nav-Consumer-Id", "x_consumerId", "consumerId")
+				.filter(headers::containsKey)
+				.map(headers::get)
+				.findFirst()
+				.ifPresent(header -> {
+						if(!header.isEmpty()) {
+							addMetadata(foersteside, FOERSTESIDE_OPPRETTET_AV, header.get(0));
+						}
+				});
 	}
 
 	private void addMetadata(Foersteside foersteside, String key, String value) {

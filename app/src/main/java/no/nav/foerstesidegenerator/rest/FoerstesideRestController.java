@@ -14,6 +14,7 @@ import no.nav.foerstesidegenerator.metrics.Metrics;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import no.nav.security.oidc.api.Protected;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.inject.Inject;
 
@@ -65,10 +67,13 @@ public class FoerstesideRestController {
 			@ApiResponse(code = 201, message = "Opprettet førsteside", response = PostFoerstesideResponse.class),
 			@ApiResponse(code = 400, message = "Request validerer ikke"),
 			@ApiResponse(code = 500, message = "Internal server error")})
-	public ResponseEntity<PostFoerstesideResponse> postNew(@RequestBody PostFoerstesideRequest request) {
+	public ResponseEntity<PostFoerstesideResponse> postNew(
+			@RequestBody PostFoerstesideRequest request,
+			@RequestHeader HttpHeaders headers
+	) {
 		log.info("Har mottatt POST-kall for å opprette ny førsteside");
 
-		PostFoerstesideResponse foersteside = foerstesideService.createFoersteside(request);
+		PostFoerstesideResponse foersteside = foerstesideService.createFoersteside(request, headers);
 		return new ResponseEntity<>(foersteside, HttpStatus.CREATED);
 	}
 }

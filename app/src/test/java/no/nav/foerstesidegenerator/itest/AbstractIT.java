@@ -101,6 +101,7 @@ public abstract class AbstractIT {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getToken());
+		headers.add("Nav-Consumer-Id", "MockConsumer");
 		return headers;
 	}
 

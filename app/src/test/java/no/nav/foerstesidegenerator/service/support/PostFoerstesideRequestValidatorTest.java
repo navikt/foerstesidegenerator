@@ -16,21 +16,34 @@ import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
 import no.nav.foerstesidegenerator.exception.InvalidTemaException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
 
 @ExtendWith(MockitoExtension.class)
 class PostFoerstesideRequestValidatorTest {
 
+	private static HttpHeaders defaultHeaders;
+
 	@InjectMocks
 	private PostFoerstesideRequestValidator validator;
+
+	@BeforeAll
+	static void setup() {
+		defaultHeaders = new HttpHeaders();
+		defaultHeaders.add("Nav-Consumer-Id", "MockConsumer");
+	}
 
 	@Test
 	void shouldValidateOk() {
 		PostFoerstesideRequest request = createRequestWithAdresse();
-		assertDoesNotThrow(() -> validator.validate(request));
+
+		assertDoesNotThrow(() -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
@@ -38,7 +51,8 @@ class PostFoerstesideRequestValidatorTest {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
 				.spraakkode(null)
 				.build();
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
@@ -49,7 +63,7 @@ class PostFoerstesideRequestValidatorTest {
 						.brukerId(null)
 						.brukerType(BrukerType.PERSON).build())
 				.build();
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
@@ -60,7 +74,7 @@ class PostFoerstesideRequestValidatorTest {
 						.brukerId("abc")
 						.brukerType(null).build())
 				.build();
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
@@ -69,7 +83,7 @@ class PostFoerstesideRequestValidatorTest {
 				.spraakkode(Spraakkode.NB)
 				.overskriftstittel(null)
 				.build();
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
@@ -79,7 +93,7 @@ class PostFoerstesideRequestValidatorTest {
 				.overskriftstittel("tittel")
 				.foerstesidetype(null)
 				.build();
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
@@ -92,7 +106,7 @@ class PostFoerstesideRequestValidatorTest {
 						.arkivsaksystem(null)
 						.arkivsaksnummer("ref").build())
 				.build();
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
@@ -105,48 +119,67 @@ class PostFoerstesideRequestValidatorTest {
 						.arkivsaksystem(Arkivsaksystem.PSAK)
 						.arkivsaksnummer(null).build())
 				.build();
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
 	void shouldThrowExceptionIfTemaIsInvalid() {
 		PostFoerstesideRequest request = createRequestWithTema("WWW");
 
-		assertThrows(InvalidTemaException.class, () -> validator.validate(request));
+		assertThrows(InvalidTemaException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
 	void shouldThrowExceptionIfTemaIsNull() {
 		PostFoerstesideRequest request = createRequestWithTema(null);
 
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
 	void shouldThrowExceptionIfNetsPostboksAndAdresseIsNull() {
 		PostFoerstesideRequest request = createRequestWithoutAdresseAndNetsPostboks();
 
-		assertThrows(FoerstesideGeneratorFunctionalException.class, () -> validator.validate(request));
+		assertThrows(FoerstesideGeneratorFunctionalException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
 	void shouldThrowExceptionIfAdresselinje1IsNull() {
 		PostFoerstesideRequest request = createRequestWithAdresse(null, null, null, "nr", "poststed");
 
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
 	void shouldThrowExceptionIfPostNrIsNull() {
 		PostFoerstesideRequest request = createRequestWithAdresse("adresse", null, null, null, "poststed");
 
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
 	void shouldThrowExceptionIfPoststedIsNull() {
 		PostFoerstesideRequest request = createRequestWithAdresse("adresse", null, null, "nr",null);
 
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request));
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId"})
+	void shouldValidateForCommonConsumerIdHeaders(String headerName){
+		PostFoerstesideRequest request = createRequestWithAdresse();
+
+		HttpHeaders parameterizedHeader = new HttpHeaders();
+		parameterizedHeader.add(headerName, "MockConsumer");
+
+		assertDoesNotThrow(() -> validator.validate(request, parameterizedHeader));
+	}
+
+	@Test
+	void shouldThrowExceptionIfMissingCommonConsumerIdHeaders(){
+		PostFoerstesideRequest request = createRequestWithAdresse();
+		HttpHeaders headers = new HttpHeaders();
+
+		assertThrows(InvalidRequestException.class, () -> validator.validate(request, headers));
 	}
 }
