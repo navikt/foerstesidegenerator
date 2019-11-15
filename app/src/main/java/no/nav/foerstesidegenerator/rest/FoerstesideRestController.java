@@ -3,6 +3,7 @@ package no.nav.foerstesidegenerator.rest;
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_REQUEST;
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -61,6 +62,13 @@ public class FoerstesideRestController {
 	@Transactional
 	@PostMapping(value = "/foersteside")
 	@ApiOperation("Generer en ny førsteside")
+	@ApiImplicitParam(
+			name= "Nav-Consumer-Id",
+			value = "Identifikator for konsumenten av denne tjenesten",
+			required = true,
+			paramType = "header",
+			dataTypeClass = String.class,
+			example = "Soknadsveiviser" )
 	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "post-foersteside"}, percentiles = {0.5, 0.95}, histogram = true)
 	@ResponseBody
 	@ApiResponses(value = {
