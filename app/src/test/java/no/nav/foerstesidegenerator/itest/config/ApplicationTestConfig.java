@@ -1,23 +1,17 @@
 package no.nav.foerstesidegenerator.itest.config;
 
-import no.nav.foerstesidegenerator.config.RestOidcTokenInterceptor;
 import no.nav.foerstesidegenerator.config.properties.ServiceuserAlias;
 import no.nav.foerstesidegenerator.consumer.metaforce.config.CxfTimeoutOutInterceptor;
 import no.nav.foerstesidegenerator.consumer.metaforce.config.MetaforceTimeouts;
-import no.nav.security.spring.oidc.test.TokenGeneratorController;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestTemplate;
 import se.metaforce.services.IGeneralService;
 
 import javax.xml.ws.soap.SOAPBinding;
-import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +29,13 @@ public class ApplicationTestConfig {
 	 */
 	private static final int TIMEOUT = 30_000;
 
+	private static Map<String, Object> cxfProperties(ServiceuserAlias serviceuserAlias) {
+		Map<String, Object> props = new HashMap<>();
+		props.put(SecurityConstants.USERNAME, serviceuserAlias.getUsername());
+		props.put(SecurityConstants.PASSWORD, serviceuserAlias.getPassword());
+		return props;
+	}
+
 	@Bean
 	public IGeneralService metaforcews(@Value("${metaforceendpoint_url}") String endpointurl,
 									   final ServiceuserAlias serviceuserAlias,
@@ -49,13 +50,6 @@ public class ApplicationTestConfig {
 		clientFactory.setBindingId(SOAPBinding.SOAP12HTTP_BINDING);
 		clientFactory.setProperties(cxfProperties(serviceuserAlias));
 		return (IGeneralService) clientFactory.create();
-	}
-
-	private static Map<String, Object> cxfProperties(ServiceuserAlias serviceuserAlias) {
-		Map<String, Object> props = new HashMap<>();
-		props.put(SecurityConstants.USERNAME, serviceuserAlias.getUsername());
-		props.put(SecurityConstants.PASSWORD, serviceuserAlias.getPassword());
-		return props;
 	}
 
 }
