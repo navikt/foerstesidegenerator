@@ -141,7 +141,7 @@ class FoerstesideMapperTest {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId"})
+	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId","nav-consumerid"})
 	void shouldMapCommonConsumerIdHeadersToFoerstesideOpprettetAv(String headerName) {
 
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -175,5 +175,18 @@ class FoerstesideMapperTest {
 		Foersteside domain = mapper.map(request, LOEPENUMMER, requestHeaders);
 
 		assertNull(domain.getFoerstesideOpprettetAv());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId","nav-consumerid"})
+	void consumerHeaderValueShouldMapToFoersteSideOpprettetAv(String headerName){
+
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.add(headerName, "MockConsumer");
+		PostFoerstesideRequest request = createRequestWithTema(TEMA_BIDRAG);
+		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
+
+		mapper.mapOppretetAv(domain,requestHeaders);
+		assertEquals("MockConsumer",domain.getFoerstesideOpprettetAv());
 	}
 }

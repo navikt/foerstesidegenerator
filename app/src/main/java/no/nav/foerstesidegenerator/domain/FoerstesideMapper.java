@@ -138,8 +138,8 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, NAV_SKJEMA_ID, navSkjemaId);
 	}
 
-	private void mapOppretetAv(Foersteside foersteside, HttpHeaders headers){
-		Stream.of("Nav-Consumer-Id", "x_consumerId", "consumerId")
+	public void mapOppretetAv(Foersteside foersteside, HttpHeaders headers){
+		Stream.of("Nav-Consumer-Id", "x_consumerId", "consumerId","nav-consumerid")
 				.filter(headers::containsKey)
 				.map(headers::get)
 				.findFirst()

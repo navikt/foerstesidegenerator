@@ -48,9 +48,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 @Transactional
 public abstract class AbstractIT {
 
+	public static final String MDC_CALL_ID = "callId";
+	public static final String MDC_CONSUMER_ID = "Nav-Consumer-Id";
 	@LocalServerPort
 	public int basePort;
-
 	@Inject
 	protected TestRestTemplate testRestTemplate;
 
@@ -101,7 +102,8 @@ public abstract class AbstractIT {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getToken());
-		headers.add("Nav-Consumer-Id", "MockConsumer");
+		headers.add("Nav-Consumer-Id", MDC_CONSUMER_ID);
+		headers.add("Nav-Callid", MDC_CALL_ID);
 		return headers;
 	}
 
@@ -119,7 +121,7 @@ public abstract class AbstractIT {
 
 	String modifyCheckDigit(String checkDigit) {
 		int c1 = Integer.parseInt(checkDigit);
-		if (c1 > 0 && c1 < 10){
+		if (c1 > 0 && c1 < 10) {
 			return String.valueOf(c1 - 1);
 		} else {
 			return String.valueOf(c1 + 1);
