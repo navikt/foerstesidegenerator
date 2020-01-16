@@ -27,7 +27,6 @@ public class ApplicationTestConfig {
 	 * Due to strict security settings in metaforce.wsdl, the mocked metaforce endpoint should use metaforceTest.wsdl instead.
 	 * This allows us to use http instead of https when connecting to the mocked endpoint.
 	 */
-	private static final int TIMEOUT = 30_000;
 
 	private static Map<String, Object> cxfProperties(ServiceuserAlias serviceuserAlias) {
 		Map<String, Object> props = new HashMap<>();
