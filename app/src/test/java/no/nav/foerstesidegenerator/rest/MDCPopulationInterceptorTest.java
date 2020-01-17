@@ -54,7 +54,7 @@ class MDCPopulationInterceptorTest {
 		doReturn(CALL_ID).when(servletRequest).getHeader("Nav-Callid");
 		doReturn(APP_ID).when(servletRequest).getHeader("appId");
 		doReturn(CONSUMER_ID).when(servletRequest).getHeader("nav-consumerid");
-		doReturn(BEARER + APP_TOKEN).when(servletRequest).getHeader("nav-consumer-token");
+		doReturn(BEARER + APP_TOKEN).when(servletRequest).getHeader("Authorization");
 		doReturn(Optional.of(new TokenContext("issuer", USER_TOKEN))).when(validationContext).getFirstValidToken();
 
 		MDCPopulationInterceptor interceptor = new MDCPopulationInterceptor(contextHolder);

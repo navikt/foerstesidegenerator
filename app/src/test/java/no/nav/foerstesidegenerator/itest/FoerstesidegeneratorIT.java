@@ -68,7 +68,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertEquals("GSAK", foersteside.getArkivsaksystem());
 		assertEquals("ref", foersteside.getArkivsaksnummer());
 		assertEquals("første tittel;andre tittel", foersteside.getDokumentlisteFoersteside());
-		assertEquals("Nav-Consumer-Id",foersteside.getFoerstesideOpprettetAv());
+		assertEquals("srvtest", foersteside.getFoerstesideOpprettetAv());
 	}
 
 	@Test
@@ -106,7 +106,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		Foersteside foersteside = getFoersteside();
 		assertEquals("her kommer det masse info om personen på en linje", foersteside.getUkjentBrukerPersoninfo());
-		assertEquals("Nav-Consumer-Id", foersteside.getFoerstesideOpprettetAv());
+		assertEquals("srvtest", foersteside.getFoerstesideOpprettetAv());
 	}
 
 	@Test

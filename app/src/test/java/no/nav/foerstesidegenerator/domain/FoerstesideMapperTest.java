@@ -186,7 +186,7 @@ class FoerstesideMapperTest {
 		PostFoerstesideRequest request = createRequestWithTema(TEMA_BIDRAG);
 		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
 
-		mapper.mapOppretetAv(domain,requestHeaders);
+		mapper.mapOpprettetAv(domain,requestHeaders);
 		assertEquals("MockConsumer",domain.getFoerstesideOpprettetAv());
 	}
 }

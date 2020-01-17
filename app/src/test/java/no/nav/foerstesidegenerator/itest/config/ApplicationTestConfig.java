@@ -27,14 +27,6 @@ public class ApplicationTestConfig {
 	 * Due to strict security settings in metaforce.wsdl, the mocked metaforce endpoint should use metaforceTest.wsdl instead.
 	 * This allows us to use http instead of https when connecting to the mocked endpoint.
 	 */
-
-	private static Map<String, Object> cxfProperties(ServiceuserAlias serviceuserAlias) {
-		Map<String, Object> props = new HashMap<>();
-		props.put(SecurityConstants.USERNAME, serviceuserAlias.getUsername());
-		props.put(SecurityConstants.PASSWORD, serviceuserAlias.getPassword());
-		return props;
-	}
-
 	@Bean
 	public IGeneralService metaforcews(@Value("${metaforceendpoint_url}") String endpointurl,
 									   final ServiceuserAlias serviceuserAlias,
@@ -51,5 +43,11 @@ public class ApplicationTestConfig {
 		return (IGeneralService) clientFactory.create();
 	}
 
+	private static Map<String, Object> cxfProperties(ServiceuserAlias serviceuserAlias) {
+		Map<String, Object> props = new HashMap<>();
+		props.put(SecurityConstants.USERNAME, serviceuserAlias.getUsername());
+		props.put(SecurityConstants.PASSWORD, serviceuserAlias.getPassword());
+		return props;
+	}
 }
 

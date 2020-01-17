@@ -86,7 +86,7 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, SPRAAKKODE, request.getSpraakkode().name());
 		addMetadata(foersteside, FOERSTESIDETYPE, request.getFoerstesidetype().name());
 		addMetadata(foersteside, ENHETSNUMMER, request.getEnhetsnummer());
-		mapOppretetAv(foersteside, headers);
+		mapOpprettetAv(foersteside, headers);
 		if (request.getArkivsak() != null) {
 			mapSak(foersteside, request.getArkivsak());
 		}
@@ -138,7 +138,7 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, NAV_SKJEMA_ID, navSkjemaId);
 	}
 
-	public void mapOppretetAv(Foersteside foersteside, HttpHeaders headers){
+	public void mapOpprettetAv(Foersteside foersteside, HttpHeaders headers){
 		Stream.of("Nav-Consumer-Id", "x_consumerId", "consumerId","nav-consumerid")
 				.filter(headers::containsKey)
 				.map(headers::get)

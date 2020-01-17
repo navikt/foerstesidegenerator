@@ -52,7 +52,7 @@ fasitResources:
   - alias: opam_oidc_discovery
       resourceType: BaseUrl
       propertyMap:
-        url: no.nav.security.jwt.issuer.openam.discoveryUrl
+        url: NO_NAV_SECURITY_OIDC_ISSUER_ISSO_DISCOVERYURL
 
   - alias: foerstesidegenerator-properties
     resourceType: applicationproperties

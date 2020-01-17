@@ -31,6 +31,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -48,8 +49,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 @Transactional
 public abstract class AbstractIT {
 
-	public static final String MDC_CALL_ID = "callId";
-	public static final String MDC_CONSUMER_ID = "Nav-Consumer-Id";
+	public static final String MDC_CALL_ID = UUID.randomUUID().toString();
+	;
+	public static final String MDC_CONSUMER_ID = "srvtest";
 	@LocalServerPort
 	public int basePort;
 	@Inject
@@ -95,7 +97,7 @@ public abstract class AbstractIT {
 
 	private String getToken() {
 		TokenGeneratorController tokenGeneratorController = new TokenGeneratorController();
-		return tokenGeneratorController.issueToken("test");
+		return tokenGeneratorController.issueToken("srvtest");
 	}
 
 	protected HttpHeaders createHeaders() {

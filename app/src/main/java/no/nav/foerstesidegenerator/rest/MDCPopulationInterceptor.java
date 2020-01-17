@@ -84,7 +84,7 @@ public class MDCPopulationInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	public String getConsumerToken(HttpServletRequest request){
-		return Optional.ofNullable(request.getHeader("nav-consumer-token"))
+		return Optional.ofNullable(request.getHeader("Authorization"))
 				.filter(e-> e.startsWith("Bearer "))
 				.map(e -> e.replaceFirst("Bearer ",""))
 				.orElse(null);
