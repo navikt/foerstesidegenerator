@@ -138,7 +138,7 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, NAV_SKJEMA_ID, navSkjemaId);
 	}
 
-	public void mapOpprettetAv(Foersteside foersteside, HttpHeaders headers){
+	private void mapOpprettetAv(Foersteside foersteside, HttpHeaders headers){
 		Stream.of("Nav-Consumer-Id", "x_consumerId", "consumerId","nav-consumerid")
 				.filter(headers::containsKey)
 				.map(headers::get)

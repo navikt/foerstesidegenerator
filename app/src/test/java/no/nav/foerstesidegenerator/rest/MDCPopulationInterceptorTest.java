@@ -80,7 +80,7 @@ class MDCPopulationInterceptorTest {
 	}
 
 	@Test
-	public void returnFlaseWhenConsumerTokenIsEmptyAndNotServiceUser() throws Exception {
+	public void returnFalseWhenConsumerTokenIsEmptyAndNotServiceUser() throws Exception {
 		doReturn(Optional.of(new TokenContext("issuer", USER_TOKEN))).when(validationContext).getFirstValidToken();
 
 		MDCPopulationInterceptor interceptor = new MDCPopulationInterceptor(contextHolder);
