@@ -50,9 +50,9 @@ fasitResources:
       url: NO_NAV_SECURITY_OIDC_ISSUER_RESTSTS_DISCOVERYURL
 
   - alias: opam_oidc_discovery
-      resourceType: BaseUrl
-      propertyMap:
-        url: NO_NAV_SECURITY_OIDC_ISSUER_ISSO_DISCOVERYURL
+    resourceType: BaseUrl
+    propertyMap:
+      url: NO_NAV_SECURITY_OIDC_ISSUER_ISSO_DISCOVERYURL
 
   - alias: foerstesidegenerator-properties
     resourceType: applicationproperties
