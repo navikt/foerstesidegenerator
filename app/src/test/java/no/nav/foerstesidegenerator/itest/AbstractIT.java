@@ -50,7 +50,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 public abstract class AbstractIT {
 
 	public static final String MDC_CALL_ID = UUID.randomUUID().toString();
-	;
 	public static final String MDC_CONSUMER_ID = "srvtest";
 	@LocalServerPort
 	public int basePort;
