@@ -35,28 +35,13 @@ public class MDCPopulationInterceptor extends HandlerInterceptorAdapter {
 				"nav-consumerid","Nav-Consumer-Id" , "x_consumerId", "consumerId");
 		addValueToMDC(consumerId, MDCConstants.MDC_CONSUMER_ID);
 
-		String appId = getHeaderValueFromRequest(request, "foerstesidegenerator","appId");
+		String appId = getHeaderValueFromRequest(request, "foerstesidegenerator",MDCConstants.MDC_APP_ID);
 		addValueToMDC(appId, MDCConstants.MDC_APP_ID);
-		String userId = null;
 		if(oidcRequestContextHolder.getOIDCValidationContext().hasValidToken() &&
 				oidcRequestContextHolder.getOIDCValidationContext().getFirstValidToken().isPresent()) {
 			TokenContext tokenContext = oidcRequestContextHolder.getOIDCValidationContext().getFirstValidToken().get();
 			SignedJWT parsedToken = SignedJWT.parse(tokenContext.getIdToken());
-			userId = parsedToken.getJWTClaimsSet().getSubject();
-			addValueToMDC(userId, MDCConstants.MDC_USER_ID);
-		}
-
-		String consumerToken = getConsumerToken(request);
-		if(isNotBlank(consumerToken)){
-			SignedJWT parsedToken = SignedJWT.parse(consumerToken);
-			addValueToMDC(parsedToken.getJWTClaimsSet().getSubject(),MDCConstants.MDC_CONSUMER_ID);
-		} else if (userId!=null && userId.startsWith("srv")){
-			addValueToMDC(userId,MDCConstants.MDC_CONSUMER_ID);
-		} else {
-			String message = "OIDC token på Authorization header må tilhøre en Servicebruker når Nav-Consumer-Token header ikke er satt";
-			log.warn(message);
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, message);
-			return false;
+			addValueToMDC(parsedToken.getJWTClaimsSet().getSubject(), MDCConstants.MDC_USER_ID);
 		}
 		return true;
 	}
@@ -83,10 +68,4 @@ public class MDCPopulationInterceptor extends HandlerInterceptorAdapter {
 		return false;
 	}
 
-	public String getConsumerToken(HttpServletRequest request){
-		return Optional.ofNullable(request.getHeader("Authorization"))
-				.filter(e-> e.startsWith("Bearer "))
-				.map(e -> e.replaceFirst("Bearer ",""))
-				.orElse(null);
-	}
 }
