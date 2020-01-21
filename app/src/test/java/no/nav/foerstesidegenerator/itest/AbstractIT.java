@@ -31,6 +31,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -48,9 +49,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 @Transactional
 public abstract class AbstractIT {
 
+	public static final String MDC_CALL_ID = UUID.randomUUID().toString();
+	public static final String MDC_CONSUMER_ID = "srvtest";
 	@LocalServerPort
 	public int basePort;
-
 	@Inject
 	protected TestRestTemplate testRestTemplate;
 
@@ -94,14 +96,15 @@ public abstract class AbstractIT {
 
 	private String getToken() {
 		TokenGeneratorController tokenGeneratorController = new TokenGeneratorController();
-		return tokenGeneratorController.issueToken("test");
+		return tokenGeneratorController.issueToken("srvtest");
 	}
 
 	protected HttpHeaders createHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getToken());
-		headers.add("Nav-Consumer-Id", "MockConsumer");
+		headers.add("Nav-Consumer-Id", MDC_CONSUMER_ID);
+		headers.add("Nav-Callid", MDC_CALL_ID);
 		return headers;
 	}
 
@@ -119,7 +122,7 @@ public abstract class AbstractIT {
 
 	String modifyCheckDigit(String checkDigit) {
 		int c1 = Integer.parseInt(checkDigit);
-		if (c1 > 0 && c1 < 10){
+		if (c1 > 0 && c1 < 10) {
 			return String.valueOf(c1 - 1);
 		} else {
 			return String.valueOf(c1 + 1);

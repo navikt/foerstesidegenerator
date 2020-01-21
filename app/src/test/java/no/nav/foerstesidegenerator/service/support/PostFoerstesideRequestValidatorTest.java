@@ -165,7 +165,7 @@ class PostFoerstesideRequestValidatorTest {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId"})
+	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId","nav-consumerid"})
 	void shouldValidateForCommonConsumerIdHeaders(String headerName){
 		PostFoerstesideRequest request = createRequestWithAdresse();
 

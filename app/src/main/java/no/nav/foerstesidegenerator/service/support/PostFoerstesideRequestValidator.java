@@ -82,6 +82,9 @@ public class PostFoerstesideRequestValidator {
 		if(headers.containsKey("consumerId")){
 			return;
 		}
+		if(headers.containsKey("nav-consumerid")){
+			return;
+		}
 		throw new InvalidRequestException("Mangler Nav-Consumer-Id header");
 	}
 }
