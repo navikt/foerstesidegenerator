@@ -16,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.doReturn;
 
@@ -32,7 +31,6 @@ class MDCPopulationInterceptorTest {
 	static final String USER_ID = "Z990761";
 	static final String CALL_ID = "47ecf346-23e9-4442-8a6d-05b48206ae0f";
 	static final String DEFAULT_ID = "foerstesidegenerator";
-	static final String BEARER = "Bearer ";
 	@Mock
 	protected OIDCRequestContextHolder contextHolder;
 	@Mock
@@ -54,7 +52,6 @@ class MDCPopulationInterceptorTest {
 		doReturn(CALL_ID).when(servletRequest).getHeader("Nav-Callid");
 		doReturn(APP_ID).when(servletRequest).getHeader("appId");
 		doReturn(CONSUMER_ID).when(servletRequest).getHeader("nav-consumerid");
-		doReturn(BEARER + APP_TOKEN).when(servletRequest).getHeader("Authorization");
 		doReturn(Optional.of(new TokenContext("issuer", USER_TOKEN))).when(validationContext).getFirstValidToken();
 
 		MDCPopulationInterceptor interceptor = new MDCPopulationInterceptor(contextHolder);
@@ -75,18 +72,10 @@ class MDCPopulationInterceptorTest {
 		interceptor.preHandle(servletRequest, servletResponse, null);
 
 		Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
-		assertEquals(CONSUMER_ID, copyOfContextMap.get(MDCConstants.MDC_CONSUMER_ID));
+		assertEquals(DEFAULT_ID, copyOfContextMap.get(MDCConstants.MDC_CONSUMER_ID));
 		assertEquals(CONSUMER_ID, copyOfContextMap.get(MDCConstants.MDC_USER_ID));
 	}
 
-	@Test
-	public void returnFalseWhenConsumerTokenIsEmptyAndNotServiceUser() throws Exception {
-		doReturn(Optional.of(new TokenContext("issuer", USER_TOKEN))).when(validationContext).getFirstValidToken();
-
-		MDCPopulationInterceptor interceptor = new MDCPopulationInterceptor(contextHolder);
-		assertFalse(interceptor.preHandle(servletRequest, servletResponse,null));
-
-	}
 
 	@Test
 	public void shouldReturnDefaultValues() throws Exception {
