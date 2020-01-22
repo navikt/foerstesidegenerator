@@ -100,6 +100,38 @@ public class TestUtils {
 				.build();
 	}
 
+	public static PostFoerstesideRequest createRequestWithFoerstesideTypeNav_Intern() {
+		return PostFoerstesideRequest.builder()
+				.adresse(Adresse.builder()
+						.adresselinje1(ADR_LINJE_1)
+						.adresselinje2(null)
+						.adresselinje3(null)
+						.postnummer(POSTNR)
+						.poststed(OSLO).build())
+				.netsPostboks(null)
+				.avsender(Avsender.builder()
+						.avsenderId(AVSENDER)
+						.avsenderNavn(NAVN).build())
+				.bruker(Bruker.builder()
+						.brukerId(BRUKER)
+						.brukerType(BrukerType.PERSON).build())
+				.ukjentBrukerPersoninfo(null)
+				.tema(TEMA_FORELDREPENGER)
+				.behandlingstema(BEHANDLINGSTEMA_AB1337)
+				.arkivtittel(TITTEL)
+				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
+				.navSkjemaId(SKJEMA_ID)
+				.overskriftstittel(TITTEL)
+				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
+				.spraakkode(Spraakkode.NB)
+				.foerstesidetype(Foerstesidetype.NAV_INTERN)
+				.enhetsnummer(ENHET_9999)
+				.arkivsak(Arkivsak.builder()
+						.arkivsaksystem(Arkivsaksystem.PSAK)
+						.arkivsaksnummer(SAK_REF).build())
+				.build();
+	}
+
 	private static PostFoerstesideRequest createRequestWithoutAdresse(String netspostboks, String ukjent, Foerstesidetype type, String tema) {
 		return PostFoerstesideRequest.builder()
 				.adresse(null)
