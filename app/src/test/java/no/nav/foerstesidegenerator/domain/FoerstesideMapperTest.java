@@ -1,7 +1,28 @@
 package no.nav.foerstesidegenerator.domain;
 
 import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.NAV_INTERN;
-import static no.nav.foerstesidegenerator.TestUtils.*;
+import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
+import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
+import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
+import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_1;
+import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_2;
+import static no.nav.foerstesidegenerator.TestUtils.ENHET_9999;
+import static no.nav.foerstesidegenerator.TestUtils.NAVN;
+import static no.nav.foerstesidegenerator.TestUtils.NETS;
+import static no.nav.foerstesidegenerator.TestUtils.OSLO;
+import static no.nav.foerstesidegenerator.TestUtils.POSTNR;
+import static no.nav.foerstesidegenerator.TestUtils.SAK_REF;
+import static no.nav.foerstesidegenerator.TestUtils.SKJEMA_ID;
+import static no.nav.foerstesidegenerator.TestUtils.TEMA_FORELDREPENGER;
+import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
+import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
+import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestEttersendelse;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostboks;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
 import static no.nav.foerstesidegenerator.domain.FoerstesideMapper.TEMA_BIDRAG;
 import static no.nav.foerstesidegenerator.domain.FoerstesideMapper.TEMA_FARSKAP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,6 +35,7 @@ import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
+import no.nav.foerstesidegenerator.TestUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -85,7 +107,7 @@ class FoerstesideMapperTest {
 
 	@Test
 	void shouldMapFoerstesideTypeNAV_Intern(){
-		PostFoerstesideRequest request = createRequestWithFoerstesideTypeNav_Intern();
+		PostFoerstesideRequest request = TestUtils.createRequestWithFoerstesideTypeNav_Intern();
 		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
 		assertEquals(NAV_INTERN.name(),domain.getFoerstesidetype());
 	}
