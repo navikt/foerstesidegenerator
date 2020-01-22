@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.domain;
 
+import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.NAV_INTERN;
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
 import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
@@ -34,6 +35,7 @@ import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
+import no.nav.foerstesidegenerator.TestUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -103,6 +105,12 @@ class FoerstesideMapperTest {
 		assertEquals(NETS, domain.getNetsPostboks());
 	}
 
+	@Test
+	void shouldMapFoerstesideTypeNAV_Intern(){
+		PostFoerstesideRequest request = TestUtils.createRequestWithFoerstesideTypeNav_Intern();
+		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
+		assertEquals(NAV_INTERN.name(),domain.getFoerstesidetype());
+	}
 	@Test
 	void shouldMapUkjentBrukerPersoninfoIfBrukersIsAbsent() {
 		PostFoerstesideRequest request = createRequestWithoutBruker("something");

@@ -30,7 +30,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<mal.version>1.0.22</mal.version>
+		<mal.version>1.0.36</mal.version>
 
 		<foerstesidegenerator-api.version>0.2.4</foerstesidegenerator-api.version>
 		<dokkat-api.version>10.3.2</dokkat-api.version>
@@ -258,7 +258,7 @@
 							<groupId>no.nav.dok.metaforcemal</groupId>
 							<artifactId>foerstesidebrev</artifactId>
 							<type>jar</type>
-							<includes>**/foersteside*.xsd</includes>
+							<includes>**/foersteside_000124.xsd</includes>
 							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
 						</artifactItem>
 					</artifactItems>
