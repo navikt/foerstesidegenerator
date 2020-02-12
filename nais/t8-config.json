@@ -8,7 +8,6 @@
 	"SWAGGER_ENABLED": "true",
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/test/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/dev/creds/foerstesidegenerator_t8-user",
-	"VAULT": "/kv/preprod/fss/foerstesidegenerator/t8",
 	"NAMESPACE": "t8",
 	"INGRESSES": [
 		"https://foerstesidegenerator-t8.nais.preprod.local"

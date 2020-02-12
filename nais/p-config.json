@@ -8,7 +8,6 @@
 	"SWAGGER_ENABLED": "false",
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/prod/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/prod/creds/foerstesidegenerator_p-user",
-	"VAULT": "/kv/prod/fss/foerstesidegenerator/default",
 	"NAMESPACE": "default",
 	"INGRESSES": [
 		"https://foerstesidegenerator.nais.adeo.no"
