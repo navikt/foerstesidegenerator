@@ -20,7 +20,7 @@ spec:
     - name: NO_NAV_SECURITY_OIDC_ISSUER_ISSO_DISCOVERYURL
       value: {{ NO_NAV_SECURITY_OIDC_ISSUER_ISSO_DISCOVERYURL }}
     - name: SWAGGER_ENABLED
-      value: {{ SWAGGER_ENABLED }}
+      value: "{{ SWAGGER_ENABLED }}"
   image: {{ image }}
   ingresses:
         {{#each INGRESSES}}
