@@ -1,0 +1,57 @@
+kind: Application
+apiVersion: nais.io/v1alpha1
+metadata:
+  name: foerstesidegenerator
+  namespace: {{ NAMESPACE }}
+  labels:
+    team: teamdokumenthandtering
+spec:
+  env:
+    - name: SPRING_DATASOURCE_URL
+      value: {{ SPRING_DATASOURCE_URL }}
+    - name: DOKUMENTTYPEINFO_V4_URL
+      value: {{ DOKUMENTTYPEINFO_V4_URL }}
+    - name: METAFORCEENDPOINT_URL
+      value: {{ METAFORCEENDPOINT_URL }}
+    - name: NO_NAV_SECURITY_OIDC_ISSUER_RESTSTS_DISCOVERYURL
+      value: {{ NO_NAV_SECURITY_OIDC_ISSUER_RESTSTS_DISCOVERYURL }}
+    - name: NO_NAV_SECURITY_OIDC_ISSUER_ISSO_DISCOVERYURL
+      value: {{ NO_NAV_SECURITY_OIDC_ISSUER_ISSO_DISCOVERYURL }}
+    - name: SWAGGER_ENABLED
+      value: "{{ SWAGGER_ENABLED }}"
+  image: {{ image }}
+  ingresses:
+        {{#each INGRESSES}}
+          - {{this }}
+        {{/each}}
+  liveness:
+    path: /isAlive
+    port: 8080
+    initialDelay: 30
+    failureThreshold: 10
+  port: 8080
+  prometheus:
+    enabled: true
+    path: /actuator/prometheus
+  readiness:
+    path: /isReady
+    port: 8080
+    initialDelay: 30
+    timeout: 3
+  replicas:
+    min: 2
+    max: 4
+    cpuThresholdPercentage: 50
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+    requests:
+      memory: 256Mi
+  vault:
+    enabled: true
+    paths:
+      - kvPath: {{ SRVFOERSTESIDEGENERATOR }}
+        mountPath: /var/run/secrets/nais.io/srvfoerstesidegenerator
+      - kvPath: {{ FOERSTESIDEGENERATORDB }}
+        mountPath: /var/run/secrets/nais.io/foerstesidegeneratorDB

@@ -1,5 +1,6 @@
-naisPipeline {
+naiseratorPipeline {
     applicationName = "foerstesidegenerator"
     dockerfileDir = "."
-    deployEnvironmentT = "q1"
+    deployEnvironmentT = "t8"
+    deployEnvironmentQ = "q1,q2"
 }
