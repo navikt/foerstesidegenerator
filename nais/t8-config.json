@@ -1,5 +1,4 @@
 {
-	"SPRING_DATASOURCE_USERNAME": "FOERSTESIDEGENERATOR_T8",
 	"SPRING_DATASOURCE_URL": "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=d26dbfl029.test.local)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=FOERSTESIDEGENERATORT8)(INSTANCE_NAME=ccf18tb)(UR=A)(SERVER=DEDICATED)))",
 	"DOKUMENTTYPEINFO_V4_URL": "https://app-t8.adeo.no/dokkat/rest/dokumenttypeinfo/v4",
 	"METAFORCEENDPOINT_URL": "https://app-t8.adeo.no/metaforce/Metaforce.Interact.GS_Webservice/Metaforce.Interact.Webservice.svc/ws2007HttpBindingGeneralService",
