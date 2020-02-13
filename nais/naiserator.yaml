@@ -7,8 +7,6 @@ metadata:
     team: teamdokumenthandtering
 spec:
   env:
-    - name: SPRING_DATASOURCE_USERNAME
-      value: {{ SPRING_DATASOURCE_USERNAME }}
     - name: SPRING_DATASOURCE_URL
       value: {{ SPRING_DATASOURCE_URL }}
     - name: DOKUMENTTYPEINFO_V4_URL
