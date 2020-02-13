@@ -15,7 +15,7 @@ fi
 if test -f /var/run/secrets/nais.io/foerstesidegeneratorDB/username;
 then
     echo "Setting SPRING_DATASOURCE_USERNAME"
-    export SPRING_DATASOURCE_USERNAME=$(cat /var/run/secrets/nais.io/foerstesidegeneratorDB/username
+    export SPRING_DATASOURCE_USERNAME=$(cat /var/run/secrets/nais.io/foerstesidegeneratorDB/username)
 fi
 
 if test -f /var/run/secrets/nais.io/foerstesidegeneratorDB/password;
