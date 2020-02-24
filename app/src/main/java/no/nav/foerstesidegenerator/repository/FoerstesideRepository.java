@@ -20,6 +20,6 @@ public interface FoerstesideRepository extends CrudRepository<Foersteside, Long>
 				" and fm.key = 'brukerId' and fm.value is not null " +
 			"where " +
 				"f.uthentet = 0 " +
-				"and f.DATO_OPPRETTET < add_months(sysdate, -3)", nativeQuery = true)
+				"and f.DATO_OPPRETTET < add_months(sysdate, -6)", nativeQuery = true)
 	List<Foersteside> findFoerstesiderDueForMaskering();
 }
