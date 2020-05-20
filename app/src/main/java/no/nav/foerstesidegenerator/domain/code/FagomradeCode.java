@@ -127,5 +127,7 @@ public enum FagomradeCode {
 	/** Retting av personopplysninger */
 	RPO,
 	/** Farskap */
-	FAR
+	FAR,
+	/** Midlertidig kompensasjonsordning for selvstendig næringsdrivende og frilansere*/
+	FRI
 }
