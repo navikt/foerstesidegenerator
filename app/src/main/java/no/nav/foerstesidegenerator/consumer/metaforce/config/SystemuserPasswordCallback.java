@@ -17,12 +17,12 @@ public class SystemuserPasswordCallback implements CallbackHandler {
 	private final String serviceuserPassword;
 
 	public SystemuserPasswordCallback(String serviceuserPassword) {
-		this.serviceuser***passord=gammelt_passord***;
+		this.serviceuserPassword = serviceuserPassword;
 	}
 
 	@Override
 	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
-		WS***passord=gammelt_passord***];
+		WSPasswordCallback wsPasswordCallback = (WSPasswordCallback) callbacks[0];
 
 		wsPasswordCallback.setPassword(serviceuserPassword);
 	}

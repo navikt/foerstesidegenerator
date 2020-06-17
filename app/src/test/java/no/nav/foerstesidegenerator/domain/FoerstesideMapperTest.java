@@ -49,7 +49,7 @@ import org.springframework.http.HttpHeaders;
 @ExtendWith(MockitoExtension.class)
 class FoerstesideMapperTest {
 
-	private static final String LOEPENUMMER = "***gammelt_fnr***01";
+	private static final String LOEPENUMMER = "2019010100001";
 
 	private static HttpHeaders defaultHeaders = new HttpHeaders();
 

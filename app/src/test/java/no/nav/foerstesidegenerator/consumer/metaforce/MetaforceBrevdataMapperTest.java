@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MetaforceBrevdataMapperTest {
 
-	private static final String LOEPENUMMER = "***gammelt_fnr***01";
+	private static final String LOEPENUMMER = "2019010200001";
 
 	private MetaforceBrevdataMapper mapper = new MetaforceBrevdataMapper();
 

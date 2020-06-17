@@ -48,7 +48,7 @@ public class TestUtils {
 	public static final String AVSENDER = "avsenderId";
 	public static final String NAVN = "Navn";
 
-	public static final String BRUKER_ID = "***gammelt_fnr***";
+	public static final String BRUKER_ID = "12345678901";
 	public static final String BRUKER_ID_INVALID = "brukerIdInvalid";
 	public static final String BRUKER_PERSON = "PERSON";
 

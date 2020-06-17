@@ -51,9 +51,9 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertNull(foersteside.getPoststed());
 
 		assertEquals("4444", foersteside.getNetsPostboks());
-		assertEquals("***gammelt_fnr***", foersteside.getAvsenderId());
+		assertEquals("99988812345", foersteside.getAvsenderId());
 		assertEquals("navn navnesen", foersteside.getAvsenderNavn());
-		assertEquals("***gammelt_fnr***", foersteside.getBrukerId());
+		assertEquals("01010177889", foersteside.getBrukerId());
 		assertEquals("PERSON", foersteside.getBrukerType());
 		assertNull(foersteside.getUkjentBrukerPersoninfo());
 		assertEquals("FOR", foersteside.getTema());
@@ -125,7 +125,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 		assertNotNull(getResponse.getBody().getBruker(), "Bruker skal være satt");
-		assertEquals("***gammelt_fnr***", getResponse.getBody().getBruker().getBrukerId());
+		assertEquals("01010177889", getResponse.getBody().getBruker().getBrukerId());
 		assertEquals("PERSON", getResponse.getBody().getBruker().getBrukerType().name());
 
 		TestTransaction.flagForCommit();
@@ -135,7 +135,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		foersteside = getFoersteside();
 		assertEquals(loepenummer, foersteside.getLoepenummer());
 		assertTrue(foersteside.getUthentet());
-		assertEquals("***gammelt_fnr***", foersteside.getBrukerId());
+		assertEquals("01010177889", foersteside.getBrukerId());
 		assertNotNull(foersteside.getDatoUthentet());
 	}
 
@@ -202,7 +202,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	@Test
 	@DisplayName("GET førsteside - 404 not found")
 	void shouldThrowExceptionWhenNoFoerstesideFoundForLoepenummer() {
-		String loepenummer = "***gammelt_fnr***00";
+		String loepenummer = "1234567890000";
 
 		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
 

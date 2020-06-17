@@ -42,12 +42,15 @@ import org.springframework.http.HttpHeaders;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 @Slf4j
 @Component
 public class FoerstesideMapper {
 
+	private static final Pattern BRUKER_ID_PERSON_REGEX = Pattern.compile("[0-9]{11}");
+	private static final Pattern BRUKER_ID_ORGANISASJON_REGEX = Pattern.compile("[0-9]{9}");
 	private static final String NAV_PREFIX = "NAV ";
 	static final String TEMA_BIDRAG = "BID";
 	static final String TEMA_FARSKAP = "FAR";
@@ -161,11 +164,10 @@ public class FoerstesideMapper {
 	}
 
 	private boolean isBrukerIdValid(Bruker bruker) {
-		String brukerId = bruker.getBrukerId();
 		if (BrukerType.PERSON.equals(bruker.getBrukerType())) {
-			return brukerId.length() == 11 && StringUtils.isNumeric(brukerId);
+			return BRUKER_ID_PERSON_REGEX.matcher(bruker.getBrukerId()).matches();
 		} if (BrukerType.ORGANISASJON.equals(bruker.getBrukerType())) {
-			return brukerId.length() == 9 && StringUtils.isNumeric(brukerId);
+			return BRUKER_ID_ORGANISASJON_REGEX.matcher(bruker.getBrukerId()).matches();
 		}
 		return false;
 	}
