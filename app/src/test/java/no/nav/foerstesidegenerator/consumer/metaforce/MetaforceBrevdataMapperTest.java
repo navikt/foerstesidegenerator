@@ -8,7 +8,7 @@ import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
 import org.junit.jupiter.api.Test;
 
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
-import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_1;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_2;
 import static no.nav.foerstesidegenerator.TestUtils.NETS;
@@ -38,7 +38,7 @@ class MetaforceBrevdataMapperTest {
 		assertEquals(POSTNR, fag.getAdresse().getPostNr());
 		assertEquals(OSLO, fag.getAdresse().getPoststed());
 		assertEquals(DEFAULT_NETS_POSTBOKS, fag.getNETSPostboks());
-		assertEquals(BRUKER, fag.getBruker().getBrukerID());
+		assertEquals(BRUKER_ID, fag.getBruker().getBrukerID());
 		assertEquals(TITTEL, fag.getOverskriftstittel());
 		assertEquals(FoerstesideTypeKode.SKJEMA, fag.getFoerstesideType());
 		assertTrue(fag.getLøpenummer().contains(LOEPENUMMER));

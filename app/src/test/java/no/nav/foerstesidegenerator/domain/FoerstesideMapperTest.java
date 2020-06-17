@@ -4,7 +4,7 @@ import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.NAV_INTERN;
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
 import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
-import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_1;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_2;
 import static no.nav.foerstesidegenerator.TestUtils.ENHET_9999;
@@ -20,6 +20,7 @@ import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestEttersendelse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithInvalidBrukerId;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostboks;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
@@ -74,7 +75,7 @@ class FoerstesideMapperTest {
 		assertNull(domain.getNetsPostboks());
 		assertEquals(AVSENDER, domain.getAvsenderId());
 		assertEquals(NAVN, domain.getAvsenderNavn());
-		assertEquals(BRUKER, domain.getBrukerId());
+		assertEquals(BRUKER_ID, domain.getBrukerId());
 		assertEquals(BrukerType.PERSON.name(), domain.getBrukerType());
 		assertNull(domain.getUkjentBrukerPersoninfo());
 		assertEquals(TEMA_FORELDREPENGER, domain.getTema());
@@ -183,5 +184,16 @@ class FoerstesideMapperTest {
 		Foersteside domain = mapper.map(request, LOEPENUMMER, requestHeaders);
 
 		assertNull(domain.getFoerstesideOpprettetAv());
+	}
+
+	@Test
+	void shouldMapBrukerAsNullIfBrukerIdIsInvalid() {
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.add("Nav-Consumer-Id", "");
+		PostFoerstesideRequest request = createRequestWithInvalidBrukerId();
+
+		Foersteside domain = mapper.map(request, LOEPENUMMER, requestHeaders);
+
+		assertNull(domain.getBrukerId());
 	}
 }

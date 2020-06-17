@@ -7,6 +7,7 @@ foerstesidegenerator.iml
 *.iws
 *.idea
 atlassian-ide-plugin.xml
+bash.exe.stackdump
 
 #Eclipse
 .classpath

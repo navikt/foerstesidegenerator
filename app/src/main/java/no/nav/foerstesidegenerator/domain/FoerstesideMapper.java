@@ -33,8 +33,10 @@ import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.http.HttpHeaders;
 
@@ -120,8 +122,10 @@ public class FoerstesideMapper {
 	}
 
 	private void mapBruker(Foersteside foersteside, Bruker bruker) {
-		addMetadata(foersteside, BRUKER_ID, bruker.getBrukerId());
-		addMetadata(foersteside, BRUKER_TYPE, bruker.getBrukerType().name());
+		if (isBrukerIdValid(bruker)) {
+			addMetadata(foersteside, BRUKER_ID, bruker.getBrukerId());
+			addMetadata(foersteside, BRUKER_TYPE, bruker.getBrukerType().name());
+		}
 	}
 
 	private void mapSak(Foersteside foersteside, Arkivsak sak) {
@@ -154,5 +158,15 @@ public class FoerstesideMapper {
 		if (isNotEmpty(value)) {
 			foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, key, value));
 		}
+	}
+
+	private boolean isBrukerIdValid(Bruker bruker) {
+		String brukerId = bruker.getBrukerId();
+		if (BrukerType.PERSON.equals(bruker.getBrukerType())) {
+			return brukerId.length() == 11 && StringUtils.isNumeric(brukerId);
+		} if (BrukerType.ORGANISASJON.equals(bruker.getBrukerType())) {
+			return brukerId.length() == 9 && StringUtils.isNumeric(brukerId);
+		}
+		return false;
 	}
 }
