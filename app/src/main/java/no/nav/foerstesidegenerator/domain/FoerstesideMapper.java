@@ -33,19 +33,24 @@ import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.http.HttpHeaders;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 @Slf4j
 @Component
 public class FoerstesideMapper {
 
+	private static final Pattern BRUKER_ID_PERSON_REGEX = Pattern.compile("[0-9]{11}");
+	private static final Pattern BRUKER_ID_ORGANISASJON_REGEX = Pattern.compile("[0-9]{9}");
 	private static final String NAV_PREFIX = "NAV ";
 	static final String TEMA_BIDRAG = "BID";
 	static final String TEMA_FARSKAP = "FAR";
@@ -120,8 +125,10 @@ public class FoerstesideMapper {
 	}
 
 	private void mapBruker(Foersteside foersteside, Bruker bruker) {
-		addMetadata(foersteside, BRUKER_ID, bruker.getBrukerId());
-		addMetadata(foersteside, BRUKER_TYPE, bruker.getBrukerType().name());
+		if (isBrukerIdValid(bruker)) {
+			addMetadata(foersteside, BRUKER_ID, bruker.getBrukerId());
+			addMetadata(foersteside, BRUKER_TYPE, bruker.getBrukerType().name());
+		}
 	}
 
 	private void mapSak(Foersteside foersteside, Arkivsak sak) {
@@ -154,5 +161,14 @@ public class FoerstesideMapper {
 		if (isNotEmpty(value)) {
 			foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, key, value));
 		}
+	}
+
+	private boolean isBrukerIdValid(Bruker bruker) {
+		if (BrukerType.PERSON.equals(bruker.getBrukerType())) {
+			return BRUKER_ID_PERSON_REGEX.matcher(bruker.getBrukerId()).matches();
+		} if (BrukerType.ORGANISASJON.equals(bruker.getBrukerType())) {
+			return BRUKER_ID_ORGANISASJON_REGEX.matcher(bruker.getBrukerId()).matches();
+		}
+		return false;
 	}
 }

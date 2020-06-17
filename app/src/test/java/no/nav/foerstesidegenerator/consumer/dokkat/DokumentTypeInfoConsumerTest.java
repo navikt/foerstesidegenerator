@@ -26,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
 @ExtendWith(MockitoExtension.class)
 class DokumentTypeInfoConsumerTest {
 
-	private static final String DOKTYPE = "***gammelt_fnr***";
+	private static final String DOKTYPE = "12345678910";
 	private static final String ARKIVSYSTEM = "JOARK";
 	private static final String DOKUMENTKATEGORI = "KATEGORI";
 	private static final String DOKUMENTTITTEL = "TITTEL";

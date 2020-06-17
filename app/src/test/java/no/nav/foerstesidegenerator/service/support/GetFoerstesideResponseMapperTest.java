@@ -3,7 +3,7 @@ package no.nav.foerstesidegenerator.service.support;
 
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
 import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
-import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.ENHET_9999;
 import static no.nav.foerstesidegenerator.TestUtils.NAVN;
 import static no.nav.foerstesidegenerator.TestUtils.SAK_REF;
@@ -43,7 +43,7 @@ class GetFoerstesideResponseMapperTest {
 
 		assertEquals(AVSENDER, response.getAvsender().getAvsenderId());
 		assertEquals(NAVN, response.getAvsender().getAvsenderNavn());
-		assertEquals(BRUKER, response.getBruker().getBrukerId());
+		assertEquals(BRUKER_ID, response.getBruker().getBrukerId());
 		assertEquals(BrukerType.PERSON, response.getBruker().getBrukerType());
 		assertEquals(TEMA_FORELDREPENGER, response.getTema());
 		assertEquals(BEHANDLINGSTEMA_AB1337, response.getBehandlingstema());

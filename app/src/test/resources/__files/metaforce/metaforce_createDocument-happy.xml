@@ -9,11 +9,11 @@
 	<s:Body>
 		<GS_CreateDocumentResponse xmlns="http://metaforce.se/services/">
 			<GS_CreateDocumentResult xmlns:b="http://schemas.datacontract.org/2004/07/Metaforce.Common.UtilsAndConstants"><b:Data>
-				<Data SkjemaKode="000000" barcode1="NEW" barcode2="0000001442B" barcode3="***gammelt_fnr******gammelt_fnr***00" barcodeNoStartStop="***gammelt_fnr******gammelt_fnr***0" xmlns="">
+				<Data SkjemaKode="000000" barcode1="NEW" barcode2="0000001442B" barcode3="000000000000000000000000" barcodeNoStartStop="00000000000000000000000" xmlns="">
 					<fag NETS-postboks="4444" arkivtittel="Søknad om foreldrepenger" brevkode="NAVe 14.05-07" enhetsnummer="9999" foerstesideType="SKJEMA" overskriftstittel="overskriftTittel" spraakkode="EN" tema="FOR">
 						<adresse adresselinje1="NAV sannergaten" adresselinje2="404 adresse" adresselinje3="boks 405" postNr="0404" poststed="Oslo"/>
-						<avsender avsenderID="***gammelt_fnr***" avsenderNavn="Erna Solberg"/>
-						<bruker brukerID="***gammelt_fnr***6" brukertype="PERSON"/>
+						<avsender avsenderID="04048412345" avsenderNavn="Erna Solberg"/>
+						<bruker brukerID="040444123456" brukertype="PERSON"/>
 						<sak saksreferanse="58748859" saksystem="GSAK"/>
 						<vedleggListe>
 							<vedlegg tittel="Dokumentasjon av termindato (lev. kun av mor), fødsel eller dato for omsorgsovertakelse"/>

@@ -9,7 +9,7 @@ fi
 if test -f /var/run/secrets/nais.io/srvfoerstesidegenerator/password;
 then
     echo "Setting SERVICEUSER_PASSWORD"
-    export SERVICEUSER_***passord=gammelt_passord***)
+    export SERVICEUSER_PASSWORD=$(cat /var/run/secrets/nais.io/srvfoerstesidegenerator/password)
 fi
 
 if test -f /var/run/secrets/nais.io/foerstesidegeneratorDB/username;
@@ -21,6 +21,6 @@ fi
 if test -f /var/run/secrets/nais.io/foerstesidegeneratorDB/password;
 then
     echo "Setting SPRING_DATASOURCE_PASSWORD"
-    export SPRING_DATASOURCE_***passord=gammelt_passord***)
+    export SPRING_DATASOURCE_PASSWORD=$(cat /var/run/secrets/nais.io/foerstesidegeneratorDB/password)
 fi
 

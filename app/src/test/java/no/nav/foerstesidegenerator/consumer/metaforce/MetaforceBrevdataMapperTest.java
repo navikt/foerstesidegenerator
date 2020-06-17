@@ -8,7 +8,7 @@ import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
 import org.junit.jupiter.api.Test;
 
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
-import static no.nav.foerstesidegenerator.TestUtils.BRUKER;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_1;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_2;
 import static no.nav.foerstesidegenerator.TestUtils.NETS;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MetaforceBrevdataMapperTest {
 
-	private static final String LOEPENUMMER = "***gammelt_fnr***01";
+	private static final String LOEPENUMMER = "2019010200001";
 
 	private MetaforceBrevdataMapper mapper = new MetaforceBrevdataMapper();
 
@@ -38,7 +38,7 @@ class MetaforceBrevdataMapperTest {
 		assertEquals(POSTNR, fag.getAdresse().getPostNr());
 		assertEquals(OSLO, fag.getAdresse().getPoststed());
 		assertEquals(DEFAULT_NETS_POSTBOKS, fag.getNETSPostboks());
-		assertEquals(BRUKER, fag.getBruker().getBrukerID());
+		assertEquals(BRUKER_ID, fag.getBruker().getBrukerID());
 		assertEquals(TITTEL, fag.getOverskriftstittel());
 		assertEquals(FoerstesideTypeKode.SKJEMA, fag.getFoerstesideType());
 		assertTrue(fag.getLøpenummer().contains(LOEPENUMMER));
