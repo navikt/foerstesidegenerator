@@ -1,8 +1,5 @@
 package no.nav.foerstesidegenerator.rest;
 
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_REQUEST;
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
-
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,8 +10,7 @@ import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.metrics.Metrics;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
-import no.nav.security.oidc.api.Protected;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import no.nav.security.token.support.core.api.Protected;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +19,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.inject.Inject;
+
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_REQUEST;
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 
 @Slf4j
 @RestController

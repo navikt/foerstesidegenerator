@@ -13,9 +13,9 @@ import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
 
 import java.util.List;
 
-import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isBlank;
-import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isNotBlank;
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.calculateCheckDigit;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class MetaforceBrevdataMapper {
 

@@ -8,7 +8,6 @@ import no.nav.foerstesidegenerator.ApplicationLocal;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
-import no.nav.security.spring.oidc.test.TokenGeneratorController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,83 +48,82 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 @Transactional
 public abstract class AbstractIT {
 
-	public static final String MDC_CALL_ID = UUID.randomUUID().toString();
-	public static final String MDC_CONSUMER_ID = "srvtest";
-	@LocalServerPort
-	public int basePort;
-	@Inject
-	protected TestRestTemplate testRestTemplate;
+    public static final String MDC_CALL_ID = UUID.randomUUID().toString();
+    public static final String MDC_CONSUMER_ID = "srvtest";
+    @LocalServerPort
+    public int basePort;
+    @Inject
+    protected TestRestTemplate testRestTemplate;
 
-	@Autowired
-	protected FoerstesideRepository foerstesideRepository;
+    @Autowired
+    protected FoerstesideRepository foerstesideRepository;
 
-	private ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
-	protected static String classpathToString(String path) {
-		return resourceUrlToString(Resources.getResource(path));
-	}
+    protected static String classpathToString(String path) {
+        return resourceUrlToString(Resources.getResource(path));
+    }
 
-	private static String resourceUrlToString(URL url) {
-		try {
-			return Resources.toString(url, StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not convert url to String" + url);
-		}
-	}
+    private static String resourceUrlToString(URL url) {
+        try {
+            return Resources.toString(url, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not convert url to String" + url);
+        }
+    }
 
-	@BeforeEach
-	void setUp() {
-		stubFor(get(urlPathMatching("/DOKUMENTTYPEINFO_V4(.*)"))
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value())
-						.withHeader("Content-Type", "application/json")
-						.withBodyFile("dokkat/happy-response.json")));
+    @BeforeEach
+    void setUp() {
+        stubFor(get(urlPathMatching("/DOKUMENTTYPEINFO_V4(.*)"))
+                .willReturn(aResponse().withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", "application/json")
+                        .withBodyFile("dokkat/happy-response.json")));
 
-		stubFor(post("/METAFORCE")
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value())
-						.withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
+        stubFor(post("/METAFORCE")
+                .willReturn(aResponse().withStatus(HttpStatus.OK.value())
+                        .withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
 
-		foerstesideRepository.deleteAll();
-	}
+        foerstesideRepository.deleteAll();
+    }
 
-	@AfterEach
-	void tearDown() {
-		WireMock.reset();
-		WireMock.resetAllRequests();
-		WireMock.removeAllMappings();
-	}
+    @AfterEach
+    void tearDown() {
+        WireMock.reset();
+        WireMock.resetAllRequests();
+        WireMock.removeAllMappings();
+    }
 
-	private String getToken() {
-		TokenGeneratorController tokenGeneratorController = new TokenGeneratorController();
-		return tokenGeneratorController.issueToken("srvtest");
-	}
+    private String getToken() {
+        return testRestTemplate.getForObject("/local/jwt?subject=srvtest", String.class);
+    }
 
-	protected HttpHeaders createHeaders() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getToken());
-		headers.add("Nav-Consumer-Id", MDC_CONSUMER_ID);
-		headers.add("Nav-Callid", MDC_CALL_ID);
-		return headers;
-	}
+    protected HttpHeaders createHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getToken());
+        headers.add("Nav-Consumer-Id", MDC_CONSUMER_ID);
+        headers.add("Nav-Callid", MDC_CALL_ID);
+        return headers;
+    }
 
-	protected PostFoerstesideRequest createPostRequest(String filepath) {
-		try {
-			return mapper.readValue(classpathToString(filepath), PostFoerstesideRequest.class);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not convert filepath to PostFoerstesideRequest");
-		}
-	}
+    protected PostFoerstesideRequest createPostRequest(String filepath) {
+        try {
+            return mapper.readValue(classpathToString(filepath), PostFoerstesideRequest.class);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not convert filepath to PostFoerstesideRequest");
+        }
+    }
 
-	Foersteside getFoersteside() {
-		return foerstesideRepository.findAll().iterator().next();
-	}
+    Foersteside getFoersteside() {
+        return foerstesideRepository.findAll().iterator().next();
+    }
 
-	String modifyCheckDigit(String checkDigit) {
-		int c1 = Integer.parseInt(checkDigit);
-		if (c1 > 0 && c1 < 10) {
-			return String.valueOf(c1 - 1);
-		} else {
-			return String.valueOf(c1 + 1);
-		}
-	}
+    String modifyCheckDigit(String checkDigit) {
+        int c1 = Integer.parseInt(checkDigit);
+        if (c1 > 0 && c1 < 10) {
+            return String.valueOf(c1 - 1);
+        } else {
+            return String.valueOf(c1 + 1);
+        }
+    }
 }
