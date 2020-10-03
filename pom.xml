@@ -34,7 +34,7 @@
         <apache-cxf.version>3.4.0</apache-cxf.version>
         <jakarta.xml.ws-api.version>2.3.3</jakarta.xml.ws-api.version>
         <saaj-impl.version>1.5.2</saaj-impl.version>
-        <ojdbc8.version>18.3.0.0</ojdbc8.version>
+        <oracle.jdbc.version>18.3.0.0</oracle.jdbc.version>
         <jaxb2-commons.version>0.6.5</jaxb2-commons.version>
         <jaxb2-basics-runtime.version>1.11.1</jaxb2-basics-runtime.version>
         <commons-validator.version>1.7</commons-validator.version>
@@ -50,7 +50,7 @@
         <lombok.version>1.18.12</lombok.version>
         <!-- test -->
         <mockito.version>3.5.13</mockito.version>
-        <spring-cloud-contract-wiremock.version>2.0.1.RELEASE</spring-cloud-contract-wiremock.version>
+        <spring-cloud-contract-wiremock.version>2.2.4.RELEASE</spring-cloud-contract-wiremock.version>
     </properties>
 
     <dependencyManagement>
@@ -58,12 +58,12 @@
             <dependency>
                 <groupId>com.oracle.jdbc</groupId>
                 <artifactId>ojdbc8</artifactId>
-                <version>${ojdbc8.version}</version>
+                <version>${oracle.jdbc.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.oracle.jdbc</groupId>
                 <artifactId>ucp</artifactId>
-                <version>${ojdbc8.version}</version>
+                <version>${oracle.jdbc.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.nav.dok</groupId>
