@@ -38,6 +38,7 @@ public class MetaforceBrevdataMapper {
 		addDokumentListe(fag, domain.getDokumentlisteFoerstesideAsList());
 		fag.setLøpenummer(generateLoepenummerMedKontrollsiffer(domain.getLoepenummer()));
 		fag.setStrekkode2(generateStrekkode2(domain));
+		fag.setTema(domain.getTema());
 
 		brevdata.setFag(fag);
 

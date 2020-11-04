@@ -14,9 +14,11 @@ import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_2;
 import static no.nav.foerstesidegenerator.TestUtils.NETS;
 import static no.nav.foerstesidegenerator.TestUtils.OSLO;
 import static no.nav.foerstesidegenerator.TestUtils.POSTNR;
+import static no.nav.foerstesidegenerator.TestUtils.TEMA_FORELDREPENGER;
 import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
 import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
 import static no.nav.foerstesidegenerator.consumer.metaforce.MetaforceBrevdataMapper.DEFAULT_NETS_POSTBOKS;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -46,6 +48,7 @@ class MetaforceBrevdataMapperTest {
 		assertEquals(DOKUMENT_2, fag.getDokumentListe().getDokument().get(1).getDokumentTittel());
 		assertTrue(fag.getStrekkode2().contains("*" + LOEPENUMMER));
 		assertTrue(fag.getStrekkode2().contains(DEFAULT_NETS_POSTBOKS));
+		assertThat(fag.getTema()).isEqualTo(TEMA_FORELDREPENGER);
 	}
 
 	@Test
