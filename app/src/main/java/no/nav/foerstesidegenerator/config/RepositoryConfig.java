@@ -40,11 +40,12 @@ public class RepositoryConfig {
 		connProperties.setProperty("oracle.net.CONNECT_TIMEOUT", "3000");
 		connProperties.setProperty("oracle.jdbc.thinForceDNSLoadBalancing", "true");
 //		// Optimizing UCP behaviour https://docs.oracle.com/database/121/JJUCP/optimize.htm#JJUCP8143
-		poolDataSource.setInitialPoolSize(5);
+		poolDataSource.setInitialPoolSize(2);
 		poolDataSource.setMinPoolSize(2);
-		poolDataSource.setMaxPoolSize(20);
+		poolDataSource.setMaxPoolSize(8);
 		poolDataSource.setMaxConnectionReuseTime(300); // 5min
 		poolDataSource.setMaxConnectionReuseCount(100);
+		poolDataSource.setValidateConnectionOnBorrow(true);
 		poolDataSource.setConnectionProperties(connProperties);
 		return poolDataSource;
 	}
