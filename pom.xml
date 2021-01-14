@@ -36,7 +36,7 @@
         <saaj-impl.version>1.5.2</saaj-impl.version>
         <oracle.jdbc.version>18.3.0.0</oracle.jdbc.version>
         <jaxb2-commons.version>0.6.5</jaxb2-commons.version>
-        <jaxb2-basics-runtime.version>1.11.1</jaxb2-basics-runtime.version>
+        <jaxb2-basics-runtime.version>1.11.1-PUBLISHED-BY-MISTAKE</jaxb2-basics-runtime.version>
         <commons-validator.version>1.7</commons-validator.version>
         <guava.version>23.0</guava.version>
         <json-smart.version>2.3</json-smart.version>
