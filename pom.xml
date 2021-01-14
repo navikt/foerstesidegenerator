@@ -29,7 +29,7 @@
         <foerstesidegenerator-api.version>0.2.4</foerstesidegenerator-api.version>
         <dokkat-api.version>11.0.6</dokkat-api.version>
         <metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
-        <logstash-logback-encoder.version>6.4</logstash-logback-encoder.version>
+        <logstash-logback-encoder.version>6.5</logstash-logback-encoder.version>
         <springfox.version>3.0.0</springfox.version>
         <apache-cxf.version>3.4.1</apache-cxf.version>
         <jakarta.xml.ws-api.version>2.3.3</jakarta.xml.ws-api.version>
