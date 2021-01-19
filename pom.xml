@@ -31,7 +31,7 @@
         <metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
         <logstash-logback-encoder.version>6.4</logstash-logback-encoder.version>
         <springfox.version>3.0.0</springfox.version>
-        <apache-cxf.version>3.4.1</apache-cxf.version>
+        <apache-cxf.version>3.4.2</apache-cxf.version>
         <jakarta.xml.ws-api.version>2.3.3</jakarta.xml.ws-api.version>
         <saaj-impl.version>1.5.2</saaj-impl.version>
         <oracle.jdbc.version>18.3.0.0</oracle.jdbc.version>
