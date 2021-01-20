@@ -57,7 +57,7 @@ public class FoerstesideMapper {
 	public Foersteside map(PostFoerstesideRequest request, String loepenummer, HttpHeaders headers) {
 		Foersteside foersteside = new Foersteside();
 		foersteside.setDatoOpprettet(LocalDateTime.now());
-		foersteside.setUthentet(false);
+		foersteside.setUthentet(0);
 		foersteside.setLoepenummer(loepenummer);
 
 		if (request.getAdresse() != null) {
