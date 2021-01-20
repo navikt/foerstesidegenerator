@@ -134,7 +134,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		foersteside = getFoersteside();
 		assertEquals(loepenummer, foersteside.getLoepenummer());
-		assertTrue(foersteside.getUthentet());
+		assertEquals(foersteside.getUthentet(), 1);
 		assertEquals("01010177889", foersteside.getBrukerId());
 		assertNotNull(foersteside.getDatoUthentet());
 	}

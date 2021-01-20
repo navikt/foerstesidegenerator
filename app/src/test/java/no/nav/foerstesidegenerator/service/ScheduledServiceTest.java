@@ -35,16 +35,16 @@ class ScheduledServiceTest {
 	void setUp() {
 		LocalDateTime now = LocalDateTime.now();
 		foerstesideToMask.setDatoOpprettet(now.minusMonths(3).minusSeconds(1));
-		foerstesideToMask.setUthentet(false);
+		foerstesideToMask.setUthentet(0);
 
 		foerstesideToMaskOld.setDatoOpprettet(now.minusYears(1));
-		foerstesideToMaskOld.setUthentet(false);
+		foerstesideToMaskOld.setUthentet(0);
 
 		foersteside3MonthsPlus1Minute.setDatoOpprettet(now.minusMonths(3).plusSeconds(1));
-		foersteside3MonthsPlus1Minute.setUthentet(false);
+		foersteside3MonthsPlus1Minute.setUthentet(0);
 
 		foerstesideNow.setDatoOpprettet(now);
-		foerstesideNow.setUthentet(false);
+		foerstesideNow.setUthentet(0);
 
 		when(repository.findFoerstesiderDueForMaskering()).thenReturn(Arrays.asList(foerstesideToMask, foerstesideToMaskOld));
 		when(repository.findAll()).thenReturn(Arrays.asList(foerstesideToMask, foerstesideToMaskOld, foersteside3MonthsPlus1Minute, foerstesideNow));

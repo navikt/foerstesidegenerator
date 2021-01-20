@@ -51,6 +51,7 @@ public class Foersteside {
 
 	static final String TABLE_NAME = "FOERSTESIDE";
 	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
+	private static final int MAX_COUNTING_UTHENTET = 9;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "foersteside")
 	@Cascade({CascadeType.PERSIST, CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.DELETE, CascadeType.DETACH})
 	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
@@ -64,7 +65,7 @@ public class Foersteside {
 	@Column(name = "dato_opprettet", nullable = false, updatable = false)
 	private LocalDateTime datoOpprettet;
 	@Column(name = "uthentet", nullable = false, updatable = true)
-	private Boolean uthentet;
+	private int uthentet;
 	@Column(name = "dato_uthentet", nullable = true, updatable = true)
 	private LocalDateTime datoUthentet;
 
@@ -88,12 +89,16 @@ public class Foersteside {
 		this.datoOpprettet = datoOpprettet;
 	}
 
-	public Boolean getUthentet() {
+	public int getUthentet() {
 		return uthentet;
 	}
 
-	public void setUthentet(Boolean uthentet) {
+	public void setUthentet(int uthentet) {
 		this.uthentet = uthentet;
+	}
+
+	public void addUthenting() {
+		if (uthentet < MAX_COUNTING_UTHENTET) uthentet++;
 	}
 
 	public LocalDateTime getDatoUthentet() {
