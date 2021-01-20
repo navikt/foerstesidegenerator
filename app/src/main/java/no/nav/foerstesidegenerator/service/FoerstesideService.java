@@ -107,7 +107,7 @@ public class FoerstesideService {
 		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, LOEPENUMMER_LENGTH))
 				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
 		GetFoerstesideResponse response = getFoerstesideResponseMapper.map(domain);
-		domain.addUthenting();
+		domain.incrementUthenting();
 		domain.setDatoUthentet(LocalDateTime.now());
 
 		return response;

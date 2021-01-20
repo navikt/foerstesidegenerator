@@ -97,7 +97,7 @@ public class Foersteside {
 		this.uthentet = uthentet;
 	}
 
-	public void addUthenting() {
+	public void incrementUthenting() {
 		if (uthentet < MAX_COUNTING_UTHENTET) uthentet++;
 	}
 
