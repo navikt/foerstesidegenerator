@@ -110,6 +110,8 @@ public class FoerstesideService {
 		domain.incrementUthenting();
 		domain.setDatoUthentet(LocalDateTime.now());
 
+		log.info("Test get uthentet", domain.getUthentet());
+
 		return response;
 	}
 
