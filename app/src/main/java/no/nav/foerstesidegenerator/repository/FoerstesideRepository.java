@@ -19,7 +19,6 @@ public interface FoerstesideRepository extends CrudRepository<Foersteside, Long>
 			"inner join FOERSTESIDE_METADATA fm on f.foersteside_id = fm.foersteside_id " +
 				" and fm.key = 'brukerId' and fm.value is not null " +
 			"where " +
-				"f.uthentet = 0 " +
-				"and f.DATO_OPPRETTET < add_months(sysdate, -6)", nativeQuery = true)
+				" f.DATO_OPPRETTET < add_months(sysdate, -6)", nativeQuery = true)
 	List<Foersteside> findFoerstesiderDueForMaskering();
 }
