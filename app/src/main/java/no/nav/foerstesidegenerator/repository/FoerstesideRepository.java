@@ -20,5 +20,16 @@ public interface FoerstesideRepository extends CrudRepository<Foersteside, Long>
 				" and fm.key = 'brukerId' and fm.value is not null " +
 			"where " +
 				" f.DATO_OPPRETTET < add_months(sysdate, -6)", nativeQuery = true)
-	List<Foersteside> findFoerstesiderDueForMaskering();
+	List<Foersteside> findFoerstesiderDueForMaskeringBrukerId();
+
+	@Query(value =
+			"select * " +
+					"from foersteside f " +
+					"inner join FOERSTESIDE_METADATA fm on f.foersteside_id = fm.foersteside_id " +
+					" and fm.key = 'ukjentBrukerPersoninfo' and fm.value is not null " +
+					"where " +
+					" f.DATO_OPPRETTET < add_months(sysdate, -6)", nativeQuery = true)
+	List<Foersteside> findFoerstesiderDueForMaskeringUkjentBrukerPersonInfo();
+
+
 }

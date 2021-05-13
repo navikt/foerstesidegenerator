@@ -26,12 +26,16 @@ public class ScheduledService {
 	@Transactional
 	@Scheduled(cron = "${maskering.fnr.rate}")
 	public void execute() {
-		List<Foersteside> foerstesiderDueForMaskering = foerstesideRepository.findFoerstesiderDueForMaskering();
+		List<Foersteside> foerstesiderDueForMaskeringBrukerId = foerstesideRepository.findFoerstesiderDueForMaskeringBrukerId();
+		if (!foerstesiderDueForMaskeringBrukerId.isEmpty()) {
+			foerstesiderDueForMaskeringBrukerId.forEach(Foersteside::clearBrukerId);
+			log.info("Foerstesidegenerator - schedulert jobb: Har maskert {} brukerIder", foerstesiderDueForMaskeringBrukerId.size());
+		}
 
-		if (!foerstesiderDueForMaskering.isEmpty()) {
-			foerstesiderDueForMaskering.forEach(Foersteside::clearBrukerId);
-			foerstesiderDueForMaskering.forEach(Foersteside::clearUkjentBrukerPersoninfo);
-			log.info("Foerstesidegenerator - schedulert jobb: Har maskert {} brukerIder og ukjentBrukerPersoninfoer", foerstesiderDueForMaskering.size());
+		List<Foersteside> foerstesiderDueForMaskeringUkjentBrukerPersonInfo = foerstesideRepository.findFoerstesiderDueForMaskeringUkjentBrukerPersonInfo();
+		if (!foerstesiderDueForMaskeringUkjentBrukerPersonInfo.isEmpty()) {
+			foerstesiderDueForMaskeringUkjentBrukerPersonInfo.forEach(Foersteside::clearUkjentBrukerPersoninfo);
+			log.info("Foerstesidegenerator - schedulert jobb: Har maskert {} ukjent brukerInfo", foerstesiderDueForMaskeringUkjentBrukerPersonInfo.size());
 		}
 	}
 }
