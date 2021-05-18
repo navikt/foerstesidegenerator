@@ -46,7 +46,7 @@ class ScheduledServiceTest {
 		foerstesideNow.setDatoOpprettet(now);
 		foerstesideNow.setUthentet(0);
 
-		when(repository.findFoerstesiderDueForMaskering()).thenReturn(Arrays.asList(foerstesideToMask, foerstesideToMaskOld));
+		when(repository.findFoerstesiderDueForMaskeringBrukerId()).thenReturn(Arrays.asList(foerstesideToMask, foerstesideToMaskOld));
 		when(repository.findAll()).thenReturn(Arrays.asList(foerstesideToMask, foerstesideToMaskOld, foersteside3MonthsPlus1Minute, foerstesideNow));
 	}
 
