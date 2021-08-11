@@ -12,6 +12,7 @@
 	"NAMESPACE": "q2",
 	"INGRESSES": [
 		"https://foerstesidegenerator-q2.nais.preprod.local",
-		"https://foerstesidegenerator-q2.dev.adeo.no"
+		"https://foerstesidegenerator-q2.dev.adeo.no",
+		"https://foerstesidegenerator-q2.dev.intern.nav.no"
 	]
 }
