@@ -192,12 +192,12 @@
 								<plugin>
 									<groupId>org.jvnet.jaxb2_commons</groupId>
 									<artifactId>jaxb2-basics</artifactId>
-									<version>${jaxb2-commons.version}</version>
+									<version>0.6.5</version>
 								</plugin>
 								<plugin>
 									<groupId>org.jvnet.jaxb2_commons</groupId>
 									<artifactId>jaxb2-basics-annotate</artifactId>
-									<version>${jaxb2-commons.version}</version>
+									<version>0.6.5</version>
 								</plugin>
 							</plugins>
 							<args>
