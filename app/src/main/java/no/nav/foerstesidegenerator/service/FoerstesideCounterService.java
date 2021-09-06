@@ -53,6 +53,7 @@ public class FoerstesideCounterService {
                 throw e;
             } catch (Exception unknownException) {
                 log.error("Ukjent feil: " + unknownException.getMessage());
+                throw unknownException;
             }
         }
     }

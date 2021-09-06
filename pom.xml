@@ -43,6 +43,11 @@
 
         <!-- test -->
         <spring-cloud-contract-wiremock.version>3.0.3</spring-cloud-contract-wiremock.version>
+
+        <!-- Plugins brukt i app pom -->
+        <maven-jaxb2-plugin.version>0.13.3</maven-jaxb2-plugin.version>
+        <jaxb2-basics.version>0.6.5</jaxb2-basics.version>
+
     </properties>
 
     <dependencyManagement>
