@@ -176,7 +176,7 @@
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.13.3</version>
+				<version>${maven-jaxb2-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>generate-jaxb-foersteside</id>
@@ -192,12 +192,12 @@
 								<plugin>
 									<groupId>org.jvnet.jaxb2_commons</groupId>
 									<artifactId>jaxb2-basics</artifactId>
-									<version>${jaxb2-commons.version}</version>
+									<version>${jaxb2-basics.version}</version>
 								</plugin>
 								<plugin>
 									<groupId>org.jvnet.jaxb2_commons</groupId>
 									<artifactId>jaxb2-basics-annotate</artifactId>
-									<version>${jaxb2-commons.version}</version>
+									<version>${jaxb2-basics.version}</version>
 								</plugin>
 							</plugins>
 							<args>

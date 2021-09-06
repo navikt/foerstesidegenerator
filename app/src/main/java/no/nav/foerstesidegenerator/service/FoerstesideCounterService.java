@@ -3,6 +3,7 @@ package no.nav.foerstesidegenerator.service;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.domain.FoerstesideCounter;
 import no.nav.foerstesidegenerator.repository.FoerstesideCounterRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,12 @@ public class FoerstesideCounterService {
                     log.warn("Fikk ikke sove! " + interruptedException.getMessage());
                 }
                 repository.flush();
+            } catch (ConstraintViolationException e) {
+                log.error("En annen tråd har laget en ny counter som denne tråden ikke får benyttet: " + e.getMessage());
+                throw e;
             } catch (Exception unknownException) {
                 log.error("Ukjent feil: " + unknownException.getMessage());
+                throw unknownException;
             }
         }
     }
