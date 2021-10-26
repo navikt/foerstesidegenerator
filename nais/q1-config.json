@@ -10,6 +10,8 @@
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/dev/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/dev/creds/foerstesidegenerator_q1-user",
 	"NAMESPACE": "q1",
+	"MIN_REPLICAS": "1",
+	"MAX_REPLICAS": "2",
 	"INGRESSES": [
 		"https://foerstesidegenerator-q1.nais.preprod.local",
 		"https://foerstesidegenerator-q1.dev.adeo.no",
