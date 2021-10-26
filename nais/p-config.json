@@ -10,8 +10,8 @@
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/prod/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/prod/creds/foerstesidegenerator_p-user",
 	"NAMESPACE": "teamdokumenthandtering",
-	"MIN_REPLICAS": "2",
-	"MAX_REPLICAS": "4",
+	"MIN_REPLICAS": 2,
+	"MAX_REPLICAS": 4,
 	"INGRESSES": [
 		"https://foerstesidegenerator.nais.adeo.no",
 		"https://foerstesidegenerator.intern.nav.no"
