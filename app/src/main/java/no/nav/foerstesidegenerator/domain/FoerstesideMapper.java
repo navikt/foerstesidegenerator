@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static java.lang.Integer.parseInt;
 import static java.lang.String.join;
 import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.ETTERSENDELSE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
@@ -69,7 +70,7 @@ public class FoerstesideMapper {
 		if (request.getAvsender() != null) {
 			mapAvsender(foersteside, request.getAvsender());
 		}
-		if (request.getBruker() != null) {
+		if (request.getBruker() != null && isModElevenNull(request.getBruker().getBrukerId())) {
 			mapBruker(foersteside, request.getBruker());
 		}
 		if (request.getUkjentBrukerPersoninfo() != null && request.getBruker() == null) {
@@ -169,5 +170,9 @@ public class FoerstesideMapper {
 			return BRUKER_ID_ORGANISASJON_REGEX.matcher(bruker.getBrukerId()).matches();
 		}
 		return false;
+	}
+
+	private boolean isModElevenNull(String brukerId) {
+		return parseInt(brukerId.strip()) % 11 == 0;
 	}
 }
