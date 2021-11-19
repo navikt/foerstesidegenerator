@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.service.support;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.springframework.util.StringUtils.delimitedListToStringArray;
-import static org.springframework.util.StringUtils.isEmpty;
 
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;

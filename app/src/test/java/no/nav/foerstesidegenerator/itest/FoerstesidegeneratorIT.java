@@ -19,6 +19,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_PERSON;
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.calculateCheckDigit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -53,8 +55,8 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertEquals("4444", foersteside.getNetsPostboks());
 		assertEquals("99988812345", foersteside.getAvsenderId());
 		assertEquals("navn navnesen", foersteside.getAvsenderNavn());
-		assertEquals("01010177889", foersteside.getBrukerId());
-		assertEquals("PERSON", foersteside.getBrukerType());
+		assertEquals(BRUKER_ID, foersteside.getBrukerId());
+		assertEquals(BRUKER_PERSON, foersteside.getBrukerType());
 		assertNull(foersteside.getUkjentBrukerPersoninfo());
 		assertEquals("FOR", foersteside.getTema());
 		assertNull(foersteside.getBehandlingstema());
@@ -125,8 +127,8 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 		assertNotNull(getResponse.getBody().getBruker(), "Bruker skal være satt");
-		assertEquals("01010177889", getResponse.getBody().getBruker().getBrukerId());
-		assertEquals("PERSON", getResponse.getBody().getBruker().getBrukerType().name());
+		assertEquals(BRUKER_ID, getResponse.getBody().getBruker().getBrukerId());
+		assertEquals(BRUKER_PERSON, getResponse.getBody().getBruker().getBrukerType().name());
 
 		TestTransaction.flagForCommit();
 		TestTransaction.end();
@@ -135,7 +137,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		foersteside = getFoersteside();
 		assertEquals(loepenummer, foersteside.getLoepenummer());
 		assertEquals(foersteside.getUthentet(), 1);
-		assertEquals("01010177889", foersteside.getBrukerId());
+		assertEquals(BRUKER_ID, foersteside.getBrukerId());
 		assertNotNull(foersteside.getDatoUthentet());
 	}
 
@@ -207,6 +209,17 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
 
 		assertEquals(HttpStatus.NOT_FOUND, getResponse.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("GET førsteside - 400 Bad Request")
+	void shouldThrowBadRequestExceptionWhenBrukerIdErUgyldig() {
+		PostFoerstesideRequest request = createPostRequest("__files/input/ugyldig_brukerid.json");
+		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+
+		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 	}
 
 	@Test
