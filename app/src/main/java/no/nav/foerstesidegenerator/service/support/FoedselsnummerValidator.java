@@ -22,9 +22,6 @@ import static org.apache.commons.lang3.StringUtils.isNumeric;
  * <p>
  * NB! FoedselsnummerValidator is and should always be immutable.
  *
- * @author Morten Andersen-Gott (Accenture)
- * @author Kjetil Kristiansen
- * @author Odin Hole Standal
  */
 public final class FoedselsnummerValidator {
 	private FoedselsnummerValidator() {

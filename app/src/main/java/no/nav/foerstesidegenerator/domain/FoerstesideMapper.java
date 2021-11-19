@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static java.lang.String.join;
+import static no.nav.dok.foerstesidegenerator.api.v1.BrukerType.ORGANISASJON;
 import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.ETTERSENDELSE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
@@ -172,7 +173,7 @@ public class FoerstesideMapper {
 	private boolean isBrukerIdValid(Bruker bruker) {
 		if (BrukerType.PERSON.equals(bruker.getBrukerType())) {
 			return isValidPid(bruker.getBrukerId(), true);
-		} else if (BrukerType.ORGANISASJON.equals(bruker.getBrukerType())) {
+		} else if (ORGANISASJON.equals(bruker.getBrukerType())) {
 			return BRUKER_ID_ORGANISASJON_REGEX.matcher(bruker.getBrukerId()).matches();
 		}
 		return false;
