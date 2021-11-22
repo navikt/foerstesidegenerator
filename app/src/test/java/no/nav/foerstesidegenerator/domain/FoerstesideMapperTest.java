@@ -1,11 +1,25 @@
 package no.nav.foerstesidegenerator.domain;
 
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
+import no.nav.foerstesidegenerator.TestUtils;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
+
 import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.NAV_INTERN;
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
 import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
-import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_10_DIGIT;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_INVALID;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_1;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_2;
@@ -31,24 +45,7 @@ import static no.nav.foerstesidegenerator.domain.FoerstesideMapper.TEMA_FARSKAP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
-import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
-import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
-import no.nav.foerstesidegenerator.TestUtils;
-import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpHeaders;
 
 @ExtendWith(MockitoExtension.class)
 class FoerstesideMapperTest {
@@ -111,11 +108,12 @@ class FoerstesideMapperTest {
 	}
 
 	@Test
-	void shouldMapFoerstesideTypeNAV_Intern(){
+	void shouldMapFoerstesideTypeNAV_Intern() {
 		PostFoerstesideRequest request = TestUtils.createRequestWithFoerstesideTypeNav_Intern();
 		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
-		assertEquals(NAV_INTERN.name(),domain.getFoerstesidetype());
+		assertEquals(NAV_INTERN.name(), domain.getFoerstesidetype());
 	}
+
 	@Test
 	void shouldMapUkjentBrukerPersoninfoIfBrukersIsAbsent() {
 		PostFoerstesideRequest request = createRequestWithoutBruker("something");
@@ -169,7 +167,7 @@ class FoerstesideMapperTest {
 
 	@ParameterizedTest
 	@ValueSource(strings = {"Nav-callid", "x-callid", "authorization"})
-	void otherHeadersShouldNotMapToFoerstesideOpprettetAv(String headerName){
+	void otherHeadersShouldNotMapToFoerstesideOpprettetAv(String headerName) {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.add(headerName, "MockConsumer");
 		PostFoerstesideRequest request = createRequestWithAdresse();
@@ -196,19 +194,9 @@ class FoerstesideMapperTest {
 		requestHeaders.add("Nav-Consumer-Id", "");
 		PostFoerstesideRequest request = createRequestWithInvalidBrukerId(BRUKER_ID_INVALID);
 
-		BrukerIdIkkeValidException e = assertThrows(BrukerIdIkkeValidException.class, () ->  mapper.map(request, LOEPENUMMER, requestHeaders));
+		Foersteside map = mapper.map(request, LOEPENUMMER, requestHeaders);
 
-		assertEquals("Ugyldig brukerId, Kunne ikke opprette forsteside", e.getMessage());
+		assertNotNull(map);
 	}
 
-	@Test
-	void shouldThrowExceptionIfIfBrukerIdIsNotElevenDigit() {
-		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.add("Nav-Consumer-Id", "");
-		PostFoerstesideRequest request = createRequestWithInvalidBrukerId(BRUKER_ID_10_DIGIT);
-
-		BrukerIdIkkeValidException e = assertThrows(BrukerIdIkkeValidException.class, () ->  mapper.map(request, LOEPENUMMER, requestHeaders));
-
-		assertEquals("Ugyldig brukerId, Kunne ikke opprette forsteside", e.getMessage());
-	}
 }

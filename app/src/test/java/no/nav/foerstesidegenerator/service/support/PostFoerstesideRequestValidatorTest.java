@@ -1,18 +1,12 @@
 package no.nav.foerstesidegenerator.service.support;
 
-import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
-import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
-import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseAndNetsPostboks;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
+import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
 import no.nav.foerstesidegenerator.exception.InvalidTemaException;
@@ -24,6 +18,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
+
+import static no.nav.dok.foerstesidegenerator.api.v1.BrukerType.PERSON;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseAndNetsPostboks;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class PostFoerstesideRequestValidatorTest {
@@ -61,9 +63,9 @@ class PostFoerstesideRequestValidatorTest {
 				.spraakkode(Spraakkode.NB)
 				.bruker(Bruker.builder()
 						.brukerId(null)
-						.brukerType(BrukerType.PERSON).build())
+						.brukerType(PERSON).build())
 				.build();
-		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
+		assertThrows(BrukerIdIkkeValidException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@Test
@@ -71,8 +73,8 @@ class PostFoerstesideRequestValidatorTest {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
 				.spraakkode(Spraakkode.NB)
 				.bruker(Bruker.builder()
-						.brukerId("abc")
-						.brukerType(null).build())
+						.brukerId(BRUKER_ID)
+						.brukerType(PERSON).build())
 				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
@@ -159,14 +161,14 @@ class PostFoerstesideRequestValidatorTest {
 
 	@Test
 	void shouldThrowExceptionIfPoststedIsNull() {
-		PostFoerstesideRequest request = createRequestWithAdresse("adresse", null, null, "nr",null);
+		PostFoerstesideRequest request = createRequestWithAdresse("adresse", null, null, "nr", null);
 
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId","nav-consumerid"})
-	void shouldValidateForCommonConsumerIdHeaders(String headerName){
+	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId", "nav-consumerid"})
+	void shouldValidateForCommonConsumerIdHeaders(String headerName) {
 		PostFoerstesideRequest request = createRequestWithAdresse();
 
 		HttpHeaders parameterizedHeader = new HttpHeaders();
@@ -176,7 +178,7 @@ class PostFoerstesideRequestValidatorTest {
 	}
 
 	@Test
-	void shouldThrowExceptionIfMissingCommonConsumerIdHeaders(){
+	void shouldThrowExceptionIfMissingCommonConsumerIdHeaders() {
 		PostFoerstesideRequest request = createRequestWithAdresse();
 		HttpHeaders headers = new HttpHeaders();
 

@@ -1,21 +1,36 @@
 package no.nav.foerstesidegenerator.service.support;
 
-import static org.apache.logging.log4j.util.Strings.isEmpty;
-import static org.apache.logging.log4j.util.Strings.isNotBlank;
-
+import lombok.extern.slf4j.Slf4j;
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
+import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
+import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
 import no.nav.foerstesidegenerator.exception.InvalidTemaException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
+import java.util.regex.Pattern;
+
+import static java.util.Objects.nonNull;
+import static no.nav.dok.foerstesidegenerator.api.v1.BrukerType.ORGANISASJON;
+import static no.nav.foerstesidegenerator.service.support.FoedselsnummerValidator.isValidPid;
+import static org.apache.logging.log4j.util.Strings.isEmpty;
+import static org.apache.logging.log4j.util.Strings.isNotBlank;
+
+@Slf4j
 @Component
 public class PostFoerstesideRequestValidator {
 
+	private static final Pattern BRUKER_ID_ORGANISASJON_REGEX = Pattern.compile("[0-9]{9}");
+
 	public void validate(PostFoerstesideRequest request, HttpHeaders headers) {
 		if (request != null) {
+			if (nonNull(request.getBruker())) {
+				validateBruker(request);
+			}
 			validateRequiredFields(request);
 
 			validateAdresseAndNetsPostboks(request.getNetsPostboks(), request.getAdresse());
@@ -25,6 +40,22 @@ public class PostFoerstesideRequestValidator {
 			validateConsumerId(headers);
 		}
 		// flere felter?
+	}
+
+	private void validateBruker(PostFoerstesideRequest request) {
+		if (!isBrukerIdValid(request.getBruker())) {
+			log.warn("Ugyldig brukerId, Kunne ikke opprette forsteside");
+			throw new BrukerIdIkkeValidException("Ugyldig brukerId, Kunne ikke opprette forsteside");
+		}
+	}
+
+	private boolean isBrukerIdValid(Bruker bruker) {
+		if (BrukerType.PERSON.equals(bruker.getBrukerType())) {
+			return isValidPid(bruker.getBrukerId(), true);
+		} else if (ORGANISASJON.equals(bruker.getBrukerType())) {
+			return BRUKER_ID_ORGANISASJON_REGEX.matcher(bruker.getBrukerId()).matches();
+		}
+		return false;
 	}
 
 	private void validateRequiredFields(PostFoerstesideRequest request) {
@@ -72,17 +103,17 @@ public class PostFoerstesideRequestValidator {
 		}
 	}
 
-	private void validateConsumerId(HttpHeaders headers){
-		if(headers.containsKey("Nav-Consumer-Id")){
+	private void validateConsumerId(HttpHeaders headers) {
+		if (headers.containsKey("Nav-Consumer-Id")) {
 			return;
 		}
-		if(headers.containsKey("x_consumerId")){
+		if (headers.containsKey("x_consumerId")) {
 			return;
 		}
-		if(headers.containsKey("consumerId")){
+		if (headers.containsKey("consumerId")) {
 			return;
 		}
-		if(headers.containsKey("nav-consumerid")){
+		if (headers.containsKey("nav-consumerid")) {
 			return;
 		}
 		throw new InvalidRequestException("Mangler Nav-Consumer-Id header");

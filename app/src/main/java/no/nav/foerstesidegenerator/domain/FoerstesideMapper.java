@@ -5,20 +5,16 @@ import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static java.lang.String.join;
-import static no.nav.dok.foerstesidegenerator.api.v1.BrukerType.ORGANISASJON;
 import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.ETTERSENDELSE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
@@ -44,14 +40,12 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
-import static no.nav.foerstesidegenerator.service.support.FoedselsnummerValidator.isValidPid;
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 
 @Slf4j
 @Component
 public class FoerstesideMapper {
 
-	private static final Pattern BRUKER_ID_ORGANISASJON_REGEX = Pattern.compile("[0-9]{9}");
 	private static final String NAV_PREFIX = "NAV ";
 	static final String TEMA_BIDRAG = "BID";
 	static final String TEMA_FARSKAP = "FAR";
@@ -72,13 +66,12 @@ public class FoerstesideMapper {
 			mapAvsender(foersteside, request.getAvsender());
 		}
 		if (request.getBruker() != null) {
-			validateBruker(request);
 			mapBruker(foersteside, request.getBruker());
 		}
 		if (request.getUkjentBrukerPersoninfo() != null && request.getBruker() == null) {
 			addMetadata(foersteside, UKJENT_BRUKER_PERSONINFO, request.getUkjentBrukerPersoninfo());
 		}
-		if(TEMA_BIDRAG.equals(request.getTema()) || TEMA_FARSKAP.equals(request.getTema())) {
+		if (TEMA_BIDRAG.equals(request.getTema()) || TEMA_FARSKAP.equals(request.getTema())) {
 			log.info("Førsteside med tema bidrag/farskap forsøkt generert. Setter tema metadata til null da disse ikke skannes hos NETS enda.");
 			foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, TEMA, null));
 		} else {
@@ -145,15 +138,15 @@ public class FoerstesideMapper {
 		addMetadata(foersteside, NAV_SKJEMA_ID, navSkjemaId);
 	}
 
-	private void mapOpprettetAv(Foersteside foersteside, HttpHeaders headers){
-		Stream.of("Nav-Consumer-Id", "x_consumerId", "consumerId","nav-consumerid")
+	private void mapOpprettetAv(Foersteside foersteside, HttpHeaders headers) {
+		Stream.of("Nav-Consumer-Id", "x_consumerId", "consumerId", "nav-consumerid")
 				.filter(headers::containsKey)
 				.map(headers::get)
 				.findFirst()
 				.ifPresent(header -> {
-						if(!header.isEmpty()) {
-							addMetadata(foersteside, FOERSTESIDE_OPPRETTET_AV, header.get(0));
-						}
+					if (!header.isEmpty()) {
+						addMetadata(foersteside, FOERSTESIDE_OPPRETTET_AV, header.get(0));
+					}
 				});
 	}
 
@@ -161,21 +154,5 @@ public class FoerstesideMapper {
 		if (isNotEmpty(value)) {
 			foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, key, value));
 		}
-	}
-
-	private void validateBruker(PostFoerstesideRequest request) {
-		if (!isBrukerIdValid(request.getBruker())) {
-			log.warn("Ugyldig brukerId, Kunne ikke opprette forsteside");
-			throw new BrukerIdIkkeValidException("Ugyldig brukerId, Kunne ikke opprette forsteside");
-		}
-	}
-
-	private boolean isBrukerIdValid(Bruker bruker) {
-		if (BrukerType.PERSON.equals(bruker.getBrukerType())) {
-			return isValidPid(bruker.getBrukerId(), true);
-		} else if (ORGANISASJON.equals(bruker.getBrukerType())) {
-			return BRUKER_ID_ORGANISASJON_REGEX.matcher(bruker.getBrukerId()).matches();
-		}
-		return false;
 	}
 }
