@@ -5,9 +5,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
 import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
+import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
+import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
 import no.nav.foerstesidegenerator.metrics.Metrics;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import no.nav.security.token.support.core.api.Protected;
@@ -26,6 +30,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 
+import java.util.Objects;
+import java.util.regex.Pattern;
+
+import static java.lang.Integer.parseInt;
+import static java.util.Objects.nonNull;
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_REQUEST;
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 
@@ -83,4 +92,5 @@ public class FoerstesideRestController {
 		PostFoerstesideResponse foersteside = foerstesideService.createFoersteside(request, headers);
 		return new ResponseEntity<>(foersteside, HttpStatus.CREATED);
 	}
+
 }

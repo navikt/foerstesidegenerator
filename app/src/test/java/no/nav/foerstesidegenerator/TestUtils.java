@@ -48,8 +48,9 @@ public class TestUtils {
 	public static final String AVSENDER = "avsenderId";
 	public static final String NAVN = "Navn";
 
-	public static final String BRUKER_ID = "12345678901";
-	public static final String BRUKER_ID_INVALID = "brukerIdInvalid";
+	public static final String BRUKER_ID = "14036609142";
+	public static final String BRUKER_ID_INVALID = "00000000111";
+	public static final String BRUKER_ID_10_DIGIT = "1403660914";
 	public static final String BRUKER_PERSON = "PERSON";
 
 	public static final String TEMA_FORELDREPENGER = "FOR";
@@ -224,7 +225,7 @@ public class TestUtils {
 		return createRequestWithoutAdresse(NETS, null, Foerstesidetype.ETTERSENDELSE, TEMA_FORELDREPENGER);
 	}
 
-	public static PostFoerstesideRequest createRequestWithInvalidBrukerId() {
+	public static PostFoerstesideRequest createRequestWithInvalidBrukerId(String brukerId) {
 		return PostFoerstesideRequest.builder()
 				.adresse(Adresse.builder()
 						.adresselinje1(ADR_LINJE_1)
@@ -237,7 +238,7 @@ public class TestUtils {
 						.avsenderId(AVSENDER)
 						.avsenderNavn(NAVN).build())
 				.bruker(Bruker.builder()
-						.brukerId(BRUKER_ID_INVALID)
+						.brukerId(brukerId)
 						.brukerType(BrukerType.PERSON).build())
 				.ukjentBrukerPersoninfo(null)
 				.tema(TEMA_FORELDREPENGER)
