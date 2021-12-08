@@ -21,7 +21,6 @@ import static org.apache.commons.lang3.StringUtils.isNumeric;
  * has a special value like 00000 or 00001
  * <p>
  * NB! FoedselsnummerValidator is and should always be immutable.
- *
  */
 public final class FoedselsnummerValidator {
 	private FoedselsnummerValidator() {
@@ -81,17 +80,15 @@ public final class FoedselsnummerValidator {
 					// strict validation
 				} else if (isDnummer(value)) {
 					isValid = isMod11Compliant(value);
-
+				} else if (isHnummer(value)) {
+					isValid = isMod11Compliant(value);
 				} else {
 					isValid = isMod11Compliant(value) && !isSpecialCircumstance(value);
 				}
 
 				if (isValid) {
 					String fnr = makeDnrOrBostnrAdjustments(value);
-
-					if (isFnrDateValid(fnr, isDnummer(value))) {
-						return true;
-					}
+					return isFnrDateValid(fnr, isDnummer(value), isHnummer(value));
 				}
 			}
 		}
@@ -99,13 +96,24 @@ public final class FoedselsnummerValidator {
 	}
 
 	/**
-	 * Calculates wether the FoedselsnummerValidator parameter is representing a D-nummer.
+	 * Calculates whether the FoedselsnummerValidator parameter is representing a D-nummer.
 	 *
 	 * @param pidValue The FoedselsnummerValidator to check
 	 * @return true if it is a D-nummer
 	 */
 	private static boolean isDnummer(String pidValue) {
 		return isDnrDay(getDay(pidValue));
+	}
+
+	/**
+	 * Calculates whether the FoedselsnummerValidator parameter is representing a H-nummer.
+	 * Used in electronic pasient journals, where the person has no fnr or d-nummer.
+	 *
+	 * @param pidValue The FoedselsnummerValidator to check
+	 * @return true if it is a H-nummer
+	 */
+	private static boolean isHnummer(String pidValue) {
+		return isHnrMonth(getMonth(pidValue));
 	}
 
 	/**
@@ -190,13 +198,25 @@ public final class FoedselsnummerValidator {
 	}
 
 	/**
+	 * Checks that a month may be a H-nummer.
+	 *
+	 * @param month Month part of the FoedselsnummerValidator
+	 * @return <code>true</code> if Day could be a H-number, otherwise <code>false</code>
+	 */
+	private static boolean isHnrMonth(int month) {
+		// In a H-nummer 40 is added to the month part.
+		return (month > 40 && month <= 52);
+	}
+
+	/**
 	 * Validates that the first six digits of a fnr represents a valid birth date.
 	 *
 	 * @param dnrOrBnrAdjustedFnr - 11 digit fødselsnummer, ajdusted if bnr or fnr
 	 * @param isDnummer           indicates if the dnrOrBnrAdjusteFnr is a Dnr
+	 * @param isHnummer           indicates if the dnrOrBnrAdjusteFnr is a Hnr
 	 * @return <code>true</code> if fnr can be converted to a valid date, otherwise <code>false</code>
 	 */
-	private static boolean isFnrDateValid(String dnrOrBnrAdjustedFnr, boolean isDnummer) {
+	private static boolean isFnrDateValid(String dnrOrBnrAdjustedFnr, boolean isDnummer, boolean isHnummer) {
 		boolean validDate = true;
 
 		// fnr format is <DDMMAAXXXYY>
@@ -217,23 +237,47 @@ public final class FoedselsnummerValidator {
 
 		switch (month) {
 			case 1: // january
+			case 41: // january h-nummer
 			case 3: // march
+			case 43: // march h-nummer
 			case 5: // may
+			case 45: // may h-nummer
 			case 7: // july
+			case 47: // july h-nummer
 			case 8: // august
+			case 48: // august h-nummer
 			case 10: // october
+			case 50: // october h-nummer
 			case 12: // december
+			case 52: // december
+				if(isHnrMonth(month) && !isHnummer) {
+					validDate = false;
+					break;
+				}
 				validDate &= (day <= 31);
 				break;
 
 			case 4: // april
+			case 44: // april h-nummer
 			case 6: // june
+			case 46: // june h-nummer
 			case 9: // september
+			case 49: // september h-nummer
 			case 11: // november
+			case 51: // november h-nummer
+				if(isHnrMonth(month) && !isHnummer) {
+					validDate = false;
+					break;
+				}
 				validDate &= (day <= 30);
 				break;
 
 			case 2: // february
+			case 42: // february h-nummer
+				if(isHnrMonth(month) && !isHnummer) {
+					validDate = false;
+					break;
+				}
 				/*
 				 * Leap year calculation:
 				 *
