@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
 
+import static java.lang.String.format;
 import static java.util.Objects.nonNull;
 import static no.nav.dok.foerstesidegenerator.api.v1.BrukerType.ORGANISASJON;
 import static no.nav.foerstesidegenerator.service.support.FoedselsnummerValidator.isValidPid;
@@ -39,13 +40,15 @@ public class PostFoerstesideRequestValidator {
 
 			validateConsumerId(headers);
 		}
-		// flere felter?
 	}
 
 	private void validateBruker(PostFoerstesideRequest request) {
 		if (!isBrukerIdValid(request.getBruker())) {
-			log.warn("Ugyldig brukerId, Kunne ikke opprette forsteside");
-			throw new BrukerIdIkkeValidException("Ugyldig brukerId, Kunne ikke opprette forsteside");
+			String brukerId = request.getBruker().getBrukerId();
+			BrukerType brukerType = request.getBruker().getBrukerType();
+			String feilmelding = format("Validering av ident feilet. brukerId=%s, brukerType=%s. Kunne ikke opprette førsteside.", brukerId, brukerType);
+			log.warn(feilmelding);
+			throw new BrukerIdIkkeValidException(feilmelding);
 		}
 	}
 
