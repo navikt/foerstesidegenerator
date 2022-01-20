@@ -43,7 +43,7 @@
 
         <!-- test -->
         <spring-cloud-contract-wiremock.version>3.0.3</spring-cloud-contract-wiremock.version>
-        <dom4j.version>2.1.3</dom4j.version>
+        <spring-cloud-contract-wiremock.version>3.0.3</spring-cloud-contract-wiremock.version>
 
         <!-- Plugins brukt i app pom -->
         <maven-jaxb2-plugin.version>0.13.3</maven-jaxb2-plugin.version>
@@ -182,12 +182,6 @@
                         <artifactId>spring-boot-starter-jersey</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.dom4j</groupId>
-                <artifactId>dom4j</artifactId>
-                <version>${dom4j.version}</version>
-                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
