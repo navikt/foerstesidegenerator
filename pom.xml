@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.3</version>
+        <version>2.5.8</version>
     </parent>
 
     <groupId>no.nav.dok</groupId>
@@ -23,7 +23,7 @@
     </modules>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
 
         <mal.version>1.0.36</mal.version>
         <foerstesidegenerator-api.version>0.2.4</foerstesidegenerator-api.version>
@@ -47,7 +47,6 @@
         <!-- Plugins brukt i app pom -->
         <maven-jaxb2-plugin.version>0.13.3</maven-jaxb2-plugin.version>
         <jaxb2-basics.version>0.6.5</jaxb2-basics.version>
-
     </properties>
 
     <dependencyManagement>
@@ -202,27 +201,11 @@
                 <configuration>
                     <toolchains>
                         <jdk>
-                            <version>11</version>
+                            <version>17</version>
                             <vendor>openjdk</vendor>
                         </jdk>
                     </toolchains>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <dependencyConvergence/>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
