@@ -40,7 +40,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ApplicationLocal.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWireMock(port = 0, httpsPort = 8443)
+@AutoConfigureWireMock(port = 0)
 @ActiveProfiles("itest")
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase
