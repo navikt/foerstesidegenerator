@@ -9,7 +9,7 @@
 	"SWAGGER_ENABLED": "true",
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/dev/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/dev/creds/foerstesidegenerator_q1-user",
-	"NAMESPACE": "q1",
+	"APPNAVN": "foerstesidegenerator-q1",
 	"MIN_REPLICAS": 1,
 	"MAX_REPLICAS": 2,
 	"INGRESSES": [

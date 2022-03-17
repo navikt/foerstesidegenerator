@@ -9,7 +9,7 @@
 	"SWAGGER_ENABLED": "false",
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/prod/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/prod/creds/foerstesidegenerator_p-user",
-	"NAMESPACE": "teamdokumenthandtering",
+	"APPNAVN": "foerstesidegenerator",
 	"MIN_REPLICAS": 2,
 	"MAX_REPLICAS": 4,
 	"INGRESSES": [
