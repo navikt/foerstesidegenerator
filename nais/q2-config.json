@@ -6,7 +6,6 @@
 	"NO_NAV_SECURITY_JWT_ISSUER_OPENAM_DISCOVERYURL": "https://isso-q.adeo.no:443/isso/oauth2/.well-known/openid-configuration",
 	"NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_ACCEPTED_AUDIENCE": "srvdokmot,srvsoknadsveiviser,srvskanmotreferanse,srvfamilie-ks-opps",
 	"NO_NAV_SECURITY_JWT_ISSUER_OPENAM_ACCEPTED_AUDIENCE": "gosys-dokument-auth-proxy-q2,gosys-nais-q2,gosys-q2",
-	"SWAGGER_ENABLED": "true",
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/dev/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/dev/creds/foerstesidegenerator_q2-user",
 	"APPNAVN": "foerstesidegenerator",

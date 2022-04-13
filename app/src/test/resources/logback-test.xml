@@ -9,7 +9,7 @@
 
     <logger name="org.apache.cxf.common.logging" level="WARN" additivity="false"/>
 
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="CONSOLE"/>
     </root>
 

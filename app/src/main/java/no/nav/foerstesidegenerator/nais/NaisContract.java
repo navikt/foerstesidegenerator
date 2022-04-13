@@ -3,6 +3,7 @@ package no.nav.foerstesidegenerator.nais;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import no.nav.security.token.support.core.api.Unprotected;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
@@ -22,7 +22,7 @@ public class NaisContract {
 	private static final String APPLICATION_NOT_READY = "Application is not ready for traffic :-(";
 	private static AtomicInteger isReady = new AtomicInteger(1);
 
-	@Inject
+	@Autowired
 	public NaisContract(MeterRegistry meterRegistry) {
 		Gauge.builder("dok_app_is_ready", isReady, AtomicInteger::get).register(meterRegistry);
 	}
