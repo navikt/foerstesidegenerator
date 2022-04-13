@@ -3,12 +3,12 @@ package no.nav.foerstesidegenerator.service;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.List;
 
 @Slf4j
@@ -18,7 +18,7 @@ public class ScheduledService {
 
 	private final FoerstesideRepository foerstesideRepository;
 
-	@Inject
+	@Autowired
 	public ScheduledService(final FoerstesideRepository foerstesideRepository) {
 		this.foerstesideRepository = foerstesideRepository;
 	}

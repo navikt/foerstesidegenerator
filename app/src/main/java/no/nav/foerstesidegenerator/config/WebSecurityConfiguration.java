@@ -8,9 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@EnableJwtTokenValidation(ignore={"org.springframework",
-		"springfox.documentation.swagger2.web.Swagger2ControllerWebMvc",
-		"springfox.documentation.swagger.web.ApiResourceController"})
+@EnableJwtTokenValidation
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {

@@ -1,10 +1,5 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentRequestTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResponseTo;
 import no.nav.foerstesidegenerator.exception.MetaforceTechnicalException;
@@ -13,16 +8,22 @@ import org.datacontract.schemas._2004._07.metaforce_common.Document;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentFormat;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentReturn;
 import org.datacontract.schemas._2004._07.metaforce_common.Format;
-import org.dom4j.dom.DOMElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.w3c.dom.Element;
 import se.metaforce.services.IGeneralService;
 
 import java.net.UnknownHostException;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MetaforceConsumerTest {
@@ -53,7 +54,7 @@ class MetaforceConsumerTest {
 	}
 
 	private CreateDocumentRequestTo createRequest() {
-		return new CreateDocumentRequestTo("metafile", "document", new DOMElement("hello"));
+		return new CreateDocumentRequestTo("metafile", "document", mock(Element.class));
 	}
 
 	private DocumentReturn createResponse() {

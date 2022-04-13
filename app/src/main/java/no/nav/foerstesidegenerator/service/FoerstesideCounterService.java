@@ -4,11 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.domain.FoerstesideCounter;
 import no.nav.foerstesidegenerator.repository.FoerstesideCounterRepository;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
 
 @Slf4j
 @Service
@@ -16,7 +15,7 @@ public class FoerstesideCounterService {
 
     private final FoerstesideCounterRepository repository;
 
-    @Inject
+    @Autowired
     public FoerstesideCounterService(final FoerstesideCounterRepository repository) {
         this.repository = repository;
     }

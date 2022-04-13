@@ -19,10 +19,10 @@ import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.foerstesidegenerator.service.support.GetFoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.time.LocalDateTime;
 
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.validateLoepenummerWithCheckDigit;
@@ -44,7 +44,7 @@ public class FoerstesideService {
 	private final MetaforceBrevdataMapper metaforceBrevdataMapper;
 	private final FoerstesideCounterService foerstesideCounterService;
 
-	@Inject
+	@Autowired
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
 							  final FoerstesideMapper foerstesideMapper,
 							  final FoerstesideRepository foerstesideRepository,

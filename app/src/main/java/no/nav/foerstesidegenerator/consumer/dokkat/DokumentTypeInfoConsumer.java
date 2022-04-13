@@ -1,8 +1,5 @@
 package no.nav.foerstesidegenerator.consumer.dokkat;
 
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_CONSUMER;
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
-
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokkat.api.tkat020.v4.DokumentProduksjonsInfoToV4;
 import no.nav.dokkat.api.tkat020.v4.DokumentTypeInfoToV4;
@@ -11,6 +8,7 @@ import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import no.nav.foerstesidegenerator.metrics.Metrics;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
@@ -20,7 +18,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.inject.Inject;
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_CONSUMER;
+import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 
 @Service
 @Slf4j
@@ -30,7 +29,7 @@ public class DokumentTypeInfoConsumer {
 
 	private final String dokumenttypeInfoUrl;
 
-	@Inject
+	@Autowired
 	public DokumentTypeInfoConsumer(RestTemplate restTemplate,
 									@Value("${dokumenttypeInfo_v4_url}") String dokumenttypeInfoV4Url) {
 		this.restTemplate = restTemplate;

@@ -26,7 +26,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -52,7 +51,7 @@ public abstract class AbstractIT {
     public static final String MDC_CONSUMER_ID = "srvtest";
     @LocalServerPort
     public int basePort;
-    @Inject
+    @Autowired
     protected TestRestTemplate testRestTemplate;
 
     @Autowired
