@@ -5,7 +5,7 @@
 	"NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_DISCOVERYURL": "https://security-token-service.nais.preprod.local/rest/v1/sts/.well-known/openid-configuration",
 	"NO_NAV_SECURITY_JWT_ISSUER_OPENAM_DISCOVERYURL": "https://isso-q.adeo.no:443/isso/oauth2/.well-known/openid-configuration",
 	"NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_ACCEPTED_AUDIENCE": "srvdokmot,srvsoknadsveiviser,srvskanmotreferanse,srvfamilie-ks-opps",
-	"NO_NAV_SECURITY_JWT_ISSUER_OPENAM_ACCEPTED_AUDIENCE": "gosys-dokument-auth-proxy-q1,gosys-nais-q1,gosys-q1",
+	"NO_NAV_SECURITY_JWT_ISSUER_OPENAM_ACCEPTED_AUDIENCE": "gosys-dokument-auth-proxy-q1,gosys-nais-q1,gosys-q1,bidrag-ui-feature-q1",
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/dev/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/dev/creds/foerstesidegenerator_q1-user",
 	"APPNAVN": "foerstesidegenerator-q1",
