@@ -4,6 +4,7 @@ import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
 import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +23,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_PERSON;
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.calculateCheckDigit;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -162,7 +164,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	}
 
 	@Test
-	@DisplayName("GET førsteside tema BID - Ok (tema = null)")
+	@DisplayName("GET førsteside tema BID - Ok (tema = BID)")
 	void shouldHentFoerstesideWithTemaNullWhenTemaOpprettetAsBID() {
 		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_tema_bid.json");
 		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
@@ -173,12 +175,12 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		Foersteside foersteside = getFoersteside();
 
 		String loepenummer = foersteside.getLoepenummer();
-		assertNull(foersteside.getTema());
+		assertThat(foersteside.getTema()).isEqualTo(FagomradeCode.BID.name());
 
 		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 		assertNotNull(getResponse.getBody());
-		assertNull(getResponse.getBody().getTema());
+		assertThat(getResponse.getBody().getTema()).isEqualTo(FagomradeCode.BID.name());
 	}
 
 	@Test
