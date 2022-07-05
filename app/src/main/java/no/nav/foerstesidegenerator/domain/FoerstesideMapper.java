@@ -71,8 +71,8 @@ public class FoerstesideMapper {
 		if (request.getUkjentBrukerPersoninfo() != null && request.getBruker() == null) {
 			addMetadata(foersteside, UKJENT_BRUKER_PERSONINFO, request.getUkjentBrukerPersoninfo());
 		}
-		if (TEMA_BIDRAG.equals(request.getTema()) || TEMA_FARSKAP.equals(request.getTema())) {
-			log.info("Førsteside med tema bidrag/farskap forsøkt generert. Setter tema metadata til null da disse ikke skannes hos NETS enda.");
+		if (TEMA_FARSKAP.equals(request.getTema())) {
+			log.info("Førsteside med tema farskap forsøkt generert. Setter tema metadata til null da disse ikke skannes hos NETS enda.");
 			foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, TEMA, null));
 		} else {
 			addMetadata(foersteside, TEMA, request.getTema());
