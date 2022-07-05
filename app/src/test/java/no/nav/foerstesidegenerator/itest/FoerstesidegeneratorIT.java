@@ -165,7 +165,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 	@Test
 	@DisplayName("GET førsteside tema BID - Ok (tema = BID)")
-	void shouldHentFoerstesideWithTemaNullWhenTemaOpprettetAsBID() {
+	void shouldHentFoerstesideWithTemaBIDWhenTemaOpprettetAsBID() {
 		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_tema_bid.json");
 		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
 		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
