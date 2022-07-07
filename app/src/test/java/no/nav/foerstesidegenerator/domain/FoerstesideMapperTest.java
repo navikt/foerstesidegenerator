@@ -36,6 +36,7 @@ import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestEttersendelse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithBrukerId;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithInvalidBrukerId;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostboks;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
@@ -53,21 +54,21 @@ class FoerstesideMapperTest {
 
 	private static final String LOEPENUMMER = "2019010100001";
 
-	private static HttpHeaders defaultHeaders = new HttpHeaders();
+	private static final HttpHeaders DEFAULT_HEADERS = new HttpHeaders();
 
 	@InjectMocks
 	private FoerstesideMapper mapper;
 
 	@BeforeAll
 	static void setup() {
-		defaultHeaders.add("Nav-Consumer-Id", "MockConsumer");
+		DEFAULT_HEADERS.add("Nav-Consumer-Id", "MockConsumer");
 	}
 
 	@Test
 	void shouldMapRequestWithAdresse() {
 		PostFoerstesideRequest request = createRequestWithAdresse();
 
-		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
+		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 
 		assertEquals(ADR_LINJE_1, domain.getAdresselinje1());
 		assertNull(domain.getAdresselinje2());
@@ -99,7 +100,7 @@ class FoerstesideMapperTest {
 	void shouldMapRequestWithNetsPostboks() {
 		PostFoerstesideRequest request = createRequestWithNetsPostboks();
 
-		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
+		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 		assertNull(domain.getAdresselinje1());
 		assertNull(domain.getAdresselinje2());
 		assertNull(domain.getAdresselinje3());
@@ -111,7 +112,7 @@ class FoerstesideMapperTest {
 	@Test
 	void shouldMapFoerstesideTypeNAV_Intern() {
 		PostFoerstesideRequest request = TestUtils.createRequestWithFoerstesideTypeNav_Intern();
-		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
+		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 		assertEquals(NAV_INTERN.name(), domain.getFoerstesidetype());
 	}
 
@@ -119,7 +120,7 @@ class FoerstesideMapperTest {
 	void shouldMapUkjentBrukerPersoninfoIfBrukersIsAbsent() {
 		PostFoerstesideRequest request = createRequestWithoutBruker("something");
 
-		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
+		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 		assertNull(domain.getBrukerId());
 		assertNull(domain.getBrukerType());
 		assertNotNull(domain.getUkjentBrukerPersoninfo());
@@ -129,7 +130,7 @@ class FoerstesideMapperTest {
 	void shouldMapEttersendelse() {
 		PostFoerstesideRequest request = createRequestEttersendelse();
 
-		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
+		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 
 		assertTrue(domain.getNavSkjemaId().startsWith("NAVe"));
 	}
@@ -138,7 +139,7 @@ class FoerstesideMapperTest {
 	void shouldMapTemaBIDAsNormal() {
 		PostFoerstesideRequest request = createRequestWithTema(TEMA_BIDRAG);
 
-		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
+		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 
 		assertThat(domain.getTema()).isEqualTo(TEMA_BIDRAG);
 	}
@@ -147,7 +148,7 @@ class FoerstesideMapperTest {
 	void shouldMapTemaFARAsNull() {
 		PostFoerstesideRequest request = createRequestWithTema(TEMA_FARSKAP);
 
-		Foersteside domain = mapper.map(request, LOEPENUMMER, defaultHeaders);
+		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 
 		assertNull(domain.getTema());
 	}
@@ -200,4 +201,14 @@ class FoerstesideMapperTest {
 		assertNotNull(map);
 	}
 
+	@Test
+	void shouldMapBrukerIdWhenValidAndContainsSpace() {
+		PostFoerstesideRequest request = createRequestWithBrukerId("140366 09142");
+
+		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
+
+		assertEquals(BRUKER_ID, domain.getBrukerId());
+		assertEquals(BrukerType.PERSON.name(), domain.getBrukerType());
+		assertNull(domain.getUkjentBrukerPersoninfo());
+	}
 }

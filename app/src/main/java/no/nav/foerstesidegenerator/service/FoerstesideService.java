@@ -83,7 +83,7 @@ public class FoerstesideService {
 
 	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request, HttpHeaders headers) {
 		String loepenummer = foerstesideCounterService.hentLoepenummer();
-		log.info("Har generert løpenummer "+loepenummer);
+		log.info("Har generert løpenummer " + loepenummer);
 		Foersteside foersteside = foerstesideMapper.map(request, loepenummer, headers);
 		foerstesideRepository.save(foersteside);
 		return foersteside;
@@ -117,7 +117,7 @@ public class FoerstesideService {
 		if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT) {
 			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
 		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT && !validateLoepenummerWithCheckDigit(loepenummer)) {
-		    throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil: " + loepenummer);
+			throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil: " + loepenummer);
 		}
 	}
 

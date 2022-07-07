@@ -1,0 +1,33 @@
+{
+  "adresse": null,
+  "netsPostboks": "4444",
+  "avsender": {
+    "avsenderId": "99988812345",
+    "avsenderNavn": "navn navnesen"
+  },
+  "bruker": {
+    "brukerId": "140366 09142",
+    "brukerType": "PERSON"
+  },
+  "ukjentBrukerPersoninfo": null,
+  "tema": "FOR",
+  "behandlingstema": null,
+  "arkivtittel": "joark-tittel",
+  "vedleggsliste": [
+    "tittel 1",
+    "tittel 2"
+  ],
+  "navSkjemaId": "NAV 13.37",
+  "overskriftstittel": "tittel som printes",
+  "dokumentlisteFoersteside": [
+    "første tittel",
+    "andre tittel"
+  ],
+  "spraakkode": "NB",
+  "foerstesidetype": "SKJEMA",
+  "enhetsnummer": "9999",
+  "arkivsak": {
+    "arkivsaksystem": "GSAK",
+    "arkivsaksnummer": "ref"
+  }
+}
