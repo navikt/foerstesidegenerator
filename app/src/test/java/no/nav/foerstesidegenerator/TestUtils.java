@@ -1,27 +1,5 @@
 package no.nav.foerstesidegenerator;
 
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSNUMMER;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.DOKUMENT_LISTE_FOERSTESIDE;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POSTBOKS;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMMER;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTSTED;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKODE;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDE_OPPRETTET_AV;
-
 import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
@@ -36,6 +14,28 @@ import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
 import no.nav.foerstesidegenerator.domain.code.MetadataConstants;
 
 import java.util.Arrays;
+
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSNUMMER;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.DOKUMENT_LISTE_FOERSTESIDE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDE_OPPRETTET_AV;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POSTBOKS;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMMER;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTSTED;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKODE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
 
 public class TestUtils {
 
@@ -71,6 +71,20 @@ public class TestUtils {
 	public static final String CONSUMER_ID = "consumer";
 
 	public static PostFoerstesideRequest createRequestWithAdresse() {
+		return createBaseRequest()
+				.build();
+	}
+
+	public static PostFoerstesideRequest createRequestWithBrukerId(String brukerId) {
+		return createBaseRequest()
+				.bruker(Bruker.builder()
+						.brukerId(brukerId)
+						.brukerType(BrukerType.PERSON)
+						.build())
+				.build();
+	}
+
+	private static PostFoerstesideRequest.PostFoerstesideRequestBuilder createBaseRequest() {
 		return PostFoerstesideRequest.builder()
 				.adresse(Adresse.builder()
 						.adresselinje1(ADR_LINJE_1)
@@ -98,8 +112,7 @@ public class TestUtils {
 				.enhetsnummer(ENHET_9999)
 				.arkivsak(Arkivsak.builder()
 						.arkivsaksystem(Arkivsaksystem.PSAK)
-						.arkivsaksnummer(SAK_REF).build())
-				.build();
+						.arkivsaksnummer(SAK_REF).build());
 	}
 
 	public static PostFoerstesideRequest createRequestWithFoerstesideTypeNav_Intern() {

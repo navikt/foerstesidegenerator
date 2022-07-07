@@ -40,6 +40,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
+import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 
 @Slf4j
@@ -120,8 +121,12 @@ public class FoerstesideMapper {
 	}
 
 	private void mapBruker(Foersteside foersteside, Bruker bruker) {
-		addMetadata(foersteside, BRUKER_ID, bruker.getBrukerId());
+		addMetadata(foersteside, BRUKER_ID, mapBrukerId(bruker.getBrukerId()));
 		addMetadata(foersteside, BRUKER_TYPE, bruker.getBrukerType().name());
+	}
+
+	private String mapBrukerId(String brukerId) {
+		return deleteWhitespace(brukerId);
 	}
 
 	private void mapSak(Foersteside foersteside, Arkivsak sak) {

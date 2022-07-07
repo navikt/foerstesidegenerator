@@ -114,6 +114,24 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	}
 
 	@Test
+	@DisplayName("POST førsteside - brukerId med mellomrom. Eksempel: 140366 09142")
+	void shouldOpprettFoerstesideWithNoSpaceBrukerIdWhenBrukerIdContainsSpace() {
+		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_brukerid_mellomrom.json");
+
+		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+
+		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
+
+		Foersteside foersteside = getFoersteside();
+		assertEquals(BRUKER_ID, foersteside.getBrukerId());
+		assertEquals(BRUKER_PERSON, foersteside.getBrukerType());
+		assertNull(foersteside.getUkjentBrukerPersoninfo());
+	}
+
+	@Test
 	@DisplayName("GET førsteside - Ok")
 	void shouldHentFoerstesideGivenLoepenummer() {
 		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
