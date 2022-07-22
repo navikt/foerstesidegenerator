@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class FoedselsnummerValidatorTest {
 
 	@ParameterizedTest
-	@ValueSource(strings = {"01117400200", "011174 00200"})
+	@ValueSource(strings = {"01117400200", "011174 00200", "27857798800"})
 	void shouldValidateFnr(String fnr) {
 		final boolean validPid = isValidPid(fnr);
 		assertTrue(validPid);
