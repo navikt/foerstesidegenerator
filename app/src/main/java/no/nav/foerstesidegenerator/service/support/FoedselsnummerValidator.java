@@ -43,7 +43,7 @@ public final class FoedselsnummerValidator {
 	 * @return Month in birth date part of FoedselsnummerValidator
 	 */
 	private static int getMonth(String validPid) {
-		return parseInt(validPid.substring(2, 4));
+		return Integer.parseInt(validPid.substring(2, 4)) % 20;
 	}
 
 	/**
