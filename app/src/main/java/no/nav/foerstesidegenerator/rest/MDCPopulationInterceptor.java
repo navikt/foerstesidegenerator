@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.config.MDCConstants;
 import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
-public class MDCPopulationInterceptor extends HandlerInterceptorAdapter {
+public class MDCPopulationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

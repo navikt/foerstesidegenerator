@@ -8,6 +8,9 @@ import no.nav.foerstesidegenerator.ApplicationLocal;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
+import no.nav.security.mock.oauth2.MockOAuth2Server;
+import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback;
+import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +20,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
@@ -45,19 +49,21 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @Transactional
+@EnableMockOAuth2Server
 public abstract class AbstractIT {
 
     public static final String MDC_CALL_ID = UUID.randomUUID().toString();
     public static final String MDC_CONSUMER_ID = "srvtest";
-    @LocalServerPort
-    public int basePort;
     @Autowired
     protected TestRestTemplate testRestTemplate;
 
     @Autowired
     protected FoerstesideRepository foerstesideRepository;
 
-    private ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    private MockOAuth2Server server;
+
+    private final ObjectMapper mapper = new ObjectMapper();
 
     protected static String classpathToString(String path) {
         return resourceUrlToString(Resources.getResource(path));
@@ -93,7 +99,24 @@ public abstract class AbstractIT {
     }
 
     private String getToken() {
-        return testRestTemplate.getForObject("/local/jwt?subject=srvtest", String.class);
+        return token("srvtest");
+    }
+
+    protected String token(String subject) {
+        String issuerId = "reststs";
+        String audience = "audience-itest";
+        return server.issueToken(
+                issuerId,
+                "foerstesidegenerator",
+                new DefaultOAuth2TokenCallback(
+                        issuerId,
+                        subject,
+                        "JWT",
+                        List.of(audience),
+                        new HashMap<>(),
+                        3600
+                )
+        ).serialize();
     }
 
     protected HttpHeaders createHeaders() {
