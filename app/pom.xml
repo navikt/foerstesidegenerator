@@ -161,6 +161,13 @@
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
 				<version>${maven-jaxb2-plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.glassfish.jaxb</groupId>
+						<artifactId>jaxb-runtime</artifactId>
+						<version>${jaxb-runtime.version}</version>
+					</dependency>
+				</dependencies>
 				<executions>
 					<execution>
 						<id>generate-jaxb-foersteside</id>
@@ -176,12 +183,12 @@
 								<plugin>
 									<groupId>org.jvnet.jaxb2_commons</groupId>
 									<artifactId>jaxb2-basics</artifactId>
-									<version>${jaxb2-basics.version}</version>
+									<version>${jaxb2-basics-runtime.version}</version>
 								</plugin>
 								<plugin>
 									<groupId>org.jvnet.jaxb2_commons</groupId>
 									<artifactId>jaxb2-basics-annotate</artifactId>
-									<version>${jaxb2-basics.version}</version>
+									<version>${jaxb2-basics-annotate.version}</version>
 								</plugin>
 							</plugins>
 							<args>

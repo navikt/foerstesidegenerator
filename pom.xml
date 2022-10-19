@@ -42,8 +42,10 @@
         <spring-cloud-contract-wiremock.version>3.0.3</spring-cloud-contract-wiremock.version>
 
         <!-- Plugins brukt i app pom -->
-        <maven-jaxb2-plugin.version>0.13.3</maven-jaxb2-plugin.version>
-        <jaxb2-basics.version>0.6.5</jaxb2-basics.version>
+        <maven-jaxb2-plugin.version>0.14.0</maven-jaxb2-plugin.version>
+        <jaxb2-basics-runtime.version>0.13.1</jaxb2-basics-runtime.version>
+        <jaxb2-basics-annotate.version>1.1.0</jaxb2-basics-annotate.version>
+        <jaxb-runtime.version>2.3.6</jaxb-runtime.version>
         <!-- Overstyrer og nedgraderer H2 database versjon i test scope - inkompatibel flyway script.
         Ny versjon av H2 i Spring Boot 2.7.x se https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#h2-21 -->
         <h2.version>1.4.200</h2.version>
