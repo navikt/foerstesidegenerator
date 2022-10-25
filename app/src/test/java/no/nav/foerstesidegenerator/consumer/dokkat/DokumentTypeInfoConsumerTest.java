@@ -62,34 +62,6 @@ class DokumentTypeInfoConsumerTest {
 		assertEquals(MALFIL, dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalLogikkFil());
 	}
 
-	@Test
-	void shouldThrowTechnicalExceptionWhenBadRequest() {
-		when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
-
-		assertThrows(DokkatConsumerFunctionalException.class, () -> dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE));
-	}
-
-	@Test
-	void shouldThrowTechnicalExceptionWhenNotFound() {
-		when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND));
-
-		assertThrows(DokkatConsumerFunctionalException.class, () -> dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE));
-	}
-
-	@Test
-	void shouldThrowTechnicalExceptionWhenServerException() {
-		when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpServerErrorException(HttpStatus.SERVICE_UNAVAILABLE));
-
-		assertThrows(FoerstesideGeneratorTechnicalException.class, () -> dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE));
-	}
-
-	@Test
-	void shouldThrowTechnicalExceptionWhenUnauthorized() {
-		when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpClientErrorException(HttpStatus.UNAUTHORIZED));
-
-		assertThrows(DokkatConsumerFunctionalException.class, () -> dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE));
-	}
-
 	private DokumentTypeInfoToV4 createResponse() {
 		DokumentTypeInfoToV4 response = new DokumentTypeInfoToV4();
 		response.setDokumenttypeId(DOKTYPE);
