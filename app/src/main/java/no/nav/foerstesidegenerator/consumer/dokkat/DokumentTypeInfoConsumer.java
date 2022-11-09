@@ -24,7 +24,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import static no.nav.foerstesidegenerator.constants.foerstesidegeneratorConstants.*;
+import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.*;
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_CONSUMER;
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 import static org.springframework.http.HttpMethod.GET;
