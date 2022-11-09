@@ -40,7 +40,7 @@ public class DokumentTypeInfoConsumer {
 
 	@Autowired
 	public DokumentTypeInfoConsumer(RestTemplate restTemplate,
-									@Value("{dokmet_scope}") String dokmetScope,
+									@Value("${dokmet_scope}") String dokmetScope,
 									@Value("${dokumenttypeInfo_url}") String dokumenttypeInfoUrl,
 									AzureTokenConsumer tokenConsumer) {
 		this.restTemplate = restTemplate;
@@ -54,10 +54,10 @@ public class DokumentTypeInfoConsumer {
 	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
 		HttpHeaders headers = createHeaders();
 
-		DokumentTypeInfoToV4 dokumentTypeInfo;
+		DokumentTypeInfoToV4 response;
 		try {
 			HttpEntity<String> request = new HttpEntity<>(headers);
-			dokumentTypeInfo = restTemplate.exchange(this.dokumenttypeInfoUrl + "/" + dokumenttypeId, GET, request, DokumentTypeInfoToV4.class).getBody();
+			response = restTemplate.exchange(this.dokumenttypeInfoUrl + "/" + dokumenttypeId, GET, request, DokumentTypeInfoToV4.class).getBody();
 		} catch (HttpClientErrorException e) {
 			throw new DokkatConsumerFunctionalException(String.format("TKAT020 feilet med statusKode=%s. Fant ingen dokumenttypeInfo med dokumenttypeId=%s. Feilmelding=%s",
 					e.getStatusCode(), dokumenttypeId, e.getResponseBodyAsString()), e);
@@ -65,7 +65,7 @@ public class DokumentTypeInfoConsumer {
 			throw new FoerstesideGeneratorTechnicalException(String.format("TKAT020 feilet teknisk med statusKode=%s, feilmelding=%s",
 					e.getStatusCode(), e.getResponseBodyAsString()), e);
 		}
-		return mapResponse(dokumentTypeInfo);
+		return mapResponse(response);
 	}
 
 	private DokumentTypeInfoTo mapResponse(final DokumentTypeInfoToV4 dokumentTypeInfo) {

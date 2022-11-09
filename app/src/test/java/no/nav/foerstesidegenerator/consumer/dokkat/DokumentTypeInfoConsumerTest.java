@@ -54,10 +54,6 @@ public class DokumentTypeInfoConsumerTest {
 		ResponseEntity<DokumentTypeInfoToV4> responseEntity = new ResponseEntity<DokumentTypeInfoToV4>(response,HttpStatus.ACCEPTED);
 		response.getDokumentProduksjonsInfo().setDistribusjonInfo(null);
 
-
-//		when(tokenConsumer.getClientCredentialToken(any(String.class)))
-//				.thenReturn(getTokenResponse());
-
 		when(restTemplate.exchange(
 				anyString(),
 				any(HttpMethod.class),
