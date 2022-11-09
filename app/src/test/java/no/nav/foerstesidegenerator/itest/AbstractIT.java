@@ -15,6 +15,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
@@ -50,6 +51,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 @AutoConfigureTestEntityManager
 @Transactional
 @EnableMockOAuth2Server
+@AutoConfigureCache
 public abstract class AbstractIT {
 
     public static final String MDC_CALL_ID = UUID.randomUUID().toString();
@@ -88,6 +90,7 @@ public abstract class AbstractIT {
                 .willReturn(aResponse().withStatus(HttpStatus.OK.value())
                         .withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
 
+        stubAzureToken();
         foerstesideRepository.deleteAll();
     }
 
@@ -147,5 +150,13 @@ public abstract class AbstractIT {
         } else {
             return String.valueOf(c1 + 1);
         }
+    }
+
+    protected void stubAzureToken() {
+        stubFor(post("/azure_token")
+                .willReturn(aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withBodyFile("azure/token_response_dummy.json")));
     }
 }

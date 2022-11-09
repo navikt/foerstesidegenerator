@@ -1,6 +1,7 @@
 package no.nav.foerstesidegenerator;
 
 import io.micrometer.core.instrument.MeterRegistry;
+import no.nav.foerstesidegenerator.azure.AzureProperties;
 import no.nav.foerstesidegenerator.config.RepositoryConfig;
 import no.nav.foerstesidegenerator.config.properties.ServiceuserAlias;
 import no.nav.foerstesidegenerator.metrics.DokTimedAspect;
@@ -16,7 +17,8 @@ import org.springframework.context.annotation.Import;
 
 @ComponentScan
 @EnableConfigurationProperties({
-		ServiceuserAlias.class
+		ServiceuserAlias.class,
+		AzureProperties.class
 })
 @Configuration
 @Import(value = {

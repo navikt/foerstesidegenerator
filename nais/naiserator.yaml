@@ -7,12 +7,16 @@ metadata:
     team: teamdokumenthandtering
 spec:
   env:
+    - name: AZURE_APP_TOKEN_URL
+      value: {{AZURE_APP_TOKEN_URL}}
     - name: SPRING_DATASOURCE_URL
       value: {{ SPRING_DATASOURCE_URL }}
-    - name: DOKUMENTTYPEINFO_V4_URL
-      value: {{ DOKUMENTTYPEINFO_V4_URL }}
+    - name: DOKUMENTTYPEINFO_URL
+      value: {{ DOKUMENTTYPEINFO_URL }}
     - name: METAFORCEENDPOINT_URL
       value: {{ METAFORCEENDPOINT_URL }}
+    - name: DOKMET_SCOPE
+      value: {{ DOKMET_SCOPE }}
     - name: NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_DISCOVERYURL
       value: {{ NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_DISCOVERYURL }}
     - name: NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_ACCEPTED_AUDIENCE
@@ -57,3 +61,7 @@ spec:
         mountPath: /var/run/secrets/nais.io/srvfoerstesidegenerator
       - kvPath: {{ FOERSTESIDEGENERATORDB }}
         mountPath: /var/run/secrets/nais.io/foerstesidegeneratorDB
+  azure:
+    application:
+      enabled: true
+  webproxy: true

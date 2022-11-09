@@ -1,6 +1,7 @@
 {
 	"SPRING_DATASOURCE_URL": "jdbc:oracle:thin:@a01dbfl042.adeo.no:1521/FOERSTESIDEGENERATOR_Q1",
-	"DOKUMENTTYPEINFO_V4_URL": "https://app-q1.adeo.no/dokkat/rest/dokumenttypeinfo/v4",
+	"DOKUMENTTYPEINFO_URL": "https://dokmet-q1.dev.intern.nav.no/rest/dokumenttypeinfo",
+	"DOKMET_SCOPE": "api://dev-fss.teamdokumenthandtering.dokmet-q1/.default",
 	"METAFORCEENDPOINT_URL": "https://app-q1.adeo.no/metaforce/Metaforce.Interact.GS_Webservice/Metaforce.Interact.Webservice.svc/ws2007HttpBindingGeneralService",
 	"NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_DISCOVERYURL": "https://security-token-service.nais.preprod.local/rest/v1/sts/.well-known/openid-configuration",
 	"NO_NAV_SECURITY_JWT_ISSUER_OPENAM_DISCOVERYURL": "https://isso-q.adeo.no:443/isso/oauth2/.well-known/openid-configuration",
