@@ -15,5 +15,23 @@
 	"INGRESSES": [
 		"https://foerstesidegenerator.nais.adeo.no",
 		"https://foerstesidegenerator.intern.nav.no"
+	],
+	"AZURE_IAC_RULES": [
+		{
+			"app": "soknadsveiviser",
+			"namespace": "skjemadigitalisering",
+			"cluster": "prod-gcp"
+		},
+		{
+			"app": "skanmotreferanse",
+			"namespace": "teamdokumenthandtering",
+			"cluster": "prod-fss"
+		},
+		{
+			"app": "familie-integrasjoner",
+			"namespace": "teamfamilie",
+			"cluster": "prod-fss"
+		}
 	]
 }
+
