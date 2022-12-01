@@ -16,5 +16,17 @@
 		"https://foerstesidegenerator-q1.nais.preprod.local",
 		"https://foerstesidegenerator-q1.dev.adeo.no",
 		"https://foerstesidegenerator-q1.dev.intern.nav.no"
+	],
+	"AZURE_IAC_RULES": [
+		{
+			"app": "soknadsveiviser",
+			"namespace": "skjemadigitalisering",
+			"cluster": "dev-gcp"
+		},
+		{
+			"app": "familie-integrasjoner",
+			"namespace": "teamfamilie",
+			"cluster": "dev-fss"
+		}
 	]
 }
