@@ -24,11 +24,6 @@
 			"cluster": "dev-gcp"
 		},
 		{
-			"app": "skanmotreferanse",
-			"namespace": "teamdokumenthandtering",
-			"cluster": "dev-fss"
-		},
-		{
 			"app": "familie-integrasjoner",
 			"namespace": "teamfamilie",
 			"cluster": "dev-fss"

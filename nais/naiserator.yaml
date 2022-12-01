@@ -72,7 +72,7 @@ spec:
     inbound:
       rules:
       {{#each AZURE_IAC_RULES}}
-        - application: {{app } }
+        - application: {{app}}
           namespace: {{namespace}}
           cluster: {{cluster}}
   webproxy: true
