@@ -75,4 +75,5 @@ spec:
         - application: {{app}}
           namespace: {{namespace}}
           cluster: {{cluster}}
+      {{/each}}
   webproxy: true
