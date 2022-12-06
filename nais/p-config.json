@@ -14,7 +14,8 @@
 	"MAX_REPLICAS": 4,
 	"INGRESSES": [
 		"https://foerstesidegenerator.nais.adeo.no",
-		"https://foerstesidegenerator.intern.nav.no"
+		"https://foerstesidegenerator.intern.nav.no",
+		"https://foerstesidegenerator.prod-fss-pub.nais.io"
 	],
 	"AZURE_IAC_RULES": [
 		{

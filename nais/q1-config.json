@@ -15,7 +15,8 @@
 	"INGRESSES": [
 		"https://foerstesidegenerator-q1.nais.preprod.local",
 		"https://foerstesidegenerator-q1.dev.adeo.no",
-		"https://foerstesidegenerator-q1.dev.intern.nav.no"
+		"https://foerstesidegenerator-q1.dev.intern.nav.no",
+		"https://foerstesidegenerator-q1.dev-fss-pub.nais.io"
 	],
 	"AZURE_IAC_RULES": [
 		{
