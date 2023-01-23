@@ -11,7 +11,6 @@ import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import no.nav.foerstesidegenerator.metrics.Metrics;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +23,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.*;
+import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.APP_NAME;
+import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.CALL_ID;
+import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.NAV_CALL_ID;
+import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_CONSUMER;
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 import static org.springframework.http.HttpMethod.GET;
@@ -38,7 +40,6 @@ public class DokumentTypeInfoConsumer {
 	private final String dokumenttypeInfoUrl;
 	private final AzureTokenConsumer tokenConsumer;
 
-	@Autowired
 	public DokumentTypeInfoConsumer(RestTemplate restTemplate,
 									@Value("${dokmet_scope}") String dokmetScope,
 									@Value("${dokumenttypeInfo_url}") String dokumenttypeInfoUrl,
