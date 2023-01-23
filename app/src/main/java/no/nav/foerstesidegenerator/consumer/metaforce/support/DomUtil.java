@@ -11,11 +11,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 
-/**
- * Utility for doing Dom operations
- *
- * @author Joakim Bjørnstad, Visma Consulting
- */
 public final class DomUtil {
 
 	private DomUtil() {

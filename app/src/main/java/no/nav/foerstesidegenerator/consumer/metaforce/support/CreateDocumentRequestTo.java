@@ -5,20 +5,16 @@ import org.w3c.dom.Element;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * TransterObject for se.metaforce.services.GSCreateDocument request in Metaforce GSCreateDocument webservice
- * @author Hans Petter Simonsen - Visma Consulting AS
- */
 @Getter
 public class CreateDocumentRequestTo {
 	@NotNull
-	private String metafile;
+	private final String metafile;
 	@NotNull
-	private String document;
+	private final String document;
 	@NotNull
-	private Object data;
+	private final Object data;
 	@NotNull
-	private String printConfiguration;
+	private final String printConfiguration;
 	private String textRows;
 	private Object attachments;
 
