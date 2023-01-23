@@ -1,21 +1,6 @@
-#Maven
-target
+# Maven
+target/
 
-#IntelliJ
-app/app.iml
-foerstesidegenerator.iml
-*.iws
-*.idea
-atlassian-ide-plugin.xml
-bash.exe.stackdump
-
-#Eclipse
-.classpath
-.project
-.settings
-
-*.tm*.epoch
-*.lck
-*.log
-testDb.properties
-application-local.properties
+# IntelliJ
+.idea/
+*.iml
