@@ -1,8 +1,5 @@
 package no.nav.foerstesidegenerator.config;
 
-/**
- * @author Ugur Alpay Cenar, Visma Consulting.
- */
 public class MDCConstants {
 
 	private MDCConstants() {

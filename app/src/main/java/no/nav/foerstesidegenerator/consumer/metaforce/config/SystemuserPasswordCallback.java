@@ -7,11 +7,6 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import java.io.IOException;
 
-/**
- * Sets the password for the Usernametoken WS-Security
- *
- * @author Joakim Bjørnstad, Visma Consulting
- */
 public class SystemuserPasswordCallback implements CallbackHandler {
 
 	private final String serviceuserPassword;
@@ -21,7 +16,7 @@ public class SystemuserPasswordCallback implements CallbackHandler {
 	}
 
 	@Override
-	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+	public void handle(Callback[] callbacks) {
 		WSPasswordCallback wsPasswordCallback = (WSPasswordCallback) callbacks[0];
 
 		wsPasswordCallback.setPassword(serviceuserPassword);

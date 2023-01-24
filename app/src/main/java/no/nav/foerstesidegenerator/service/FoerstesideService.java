@@ -19,7 +19,6 @@ import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.foerstesidegenerator.service.support.GetFoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,6 @@ public class FoerstesideService {
 	private final MetaforceBrevdataMapper metaforceBrevdataMapper;
 	private final FoerstesideCounterService foerstesideCounterService;
 
-	@Autowired
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
 							  final FoerstesideMapper foerstesideMapper,
 							  final FoerstesideRepository foerstesideRepository,

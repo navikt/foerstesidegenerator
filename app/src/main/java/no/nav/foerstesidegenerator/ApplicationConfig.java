@@ -14,12 +14,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
-@ComponentScan
+@Configuration
 @EnableConfigurationProperties({
 		ServiceuserAlias.class,
 		AzureProperties.class
 })
-@Configuration
 @Import(value = {
 		RepositoryConfig.class
 })

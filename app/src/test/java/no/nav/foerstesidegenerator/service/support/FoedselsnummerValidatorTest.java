@@ -6,9 +6,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static no.nav.foerstesidegenerator.service.support.FoedselsnummerValidator.isValidPid;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * @author Joakim Bjørnstad, Jbit AS
- */
 class FoedselsnummerValidatorTest {
 
 	@ParameterizedTest

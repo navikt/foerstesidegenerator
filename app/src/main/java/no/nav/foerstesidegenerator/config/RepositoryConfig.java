@@ -17,9 +17,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- * @author Joakim Bjørnstad, Jbit AS
- */
 @EntityScan(basePackages = {"no.nav.foerstesidegenerator.domain"})
 @EnableJpaRepositories(basePackageClasses = {FoerstesideRepository.class, FoerstesideCounterRepository.class})
 @EnableTransactionManagement

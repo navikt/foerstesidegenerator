@@ -12,9 +12,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
 
-/**
- * @author Joakim Bjørnstad, Jbit AS
- */
 @Configuration
 public class RestConfig {
 	@Bean

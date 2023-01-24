@@ -1,10 +1,5 @@
 package no.nav.foerstesidegenerator.domain.code;
 
-/**
- * Kodeverk for Fagområde
- *
- * @author Joakim Bjørnstad, Visma Consulting
- */
 public enum FagomradeCode {
 	/** Bidrag */
 	BID,

@@ -7,7 +7,6 @@ import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.metrics.Metrics;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import no.nav.security.token.support.core.api.Protected;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,6 @@ public class FoerstesideRestController {
 
 	private final FoerstesideService foerstesideService;
 
-	@Autowired
 	public FoerstesideRestController(FoerstesideService foerstesideService) {
 		this.foerstesideService = foerstesideService;
 	}

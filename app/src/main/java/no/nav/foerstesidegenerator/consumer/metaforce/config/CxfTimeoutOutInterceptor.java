@@ -8,11 +8,6 @@ import org.apache.cxf.phase.Phase;
 import javax.xml.namespace.QName;
 import java.util.Map;
 
-/**
- * An {@link AbstractPhaseInterceptor} that applies a call-specific timeout based on the QName of the operation.
- *
- * @author Hans Petter Simonsen, Miles AS
- */
 public class CxfTimeoutOutInterceptor extends AbstractPhaseInterceptor<Message> {
 
 	private final long defaultReceiveTimeoutForService;

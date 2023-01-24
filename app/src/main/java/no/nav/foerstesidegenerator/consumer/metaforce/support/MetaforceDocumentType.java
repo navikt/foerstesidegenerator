@@ -1,10 +1,5 @@
 package no.nav.foerstesidegenerator.consumer.metaforce.support;
 
-/**
- * TransferObject for org.datacontract.schemas._2004._07.metaforce_common.Format in metaforce webservice
- *
- * @author Hans Petter Simonsen - Visma Consulting AS
- */
 public enum MetaforceDocumentType {
 	NOTSET("NOTSET"),
 	PDF("PDF"),
