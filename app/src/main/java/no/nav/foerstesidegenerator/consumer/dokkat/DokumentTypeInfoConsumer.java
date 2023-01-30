@@ -12,6 +12,7 @@ import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalExcept
 import no.nav.foerstesidegenerator.metrics.Metrics;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import static no.nav.foerstesidegenerator.config.cache.CacheConfig.DOKMET_DOKUMENT_TYPE_INFO_CACHE;
 import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.APP_NAME;
 import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.CALL_ID;
 import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.NAV_CALL_ID;
@@ -52,6 +54,7 @@ public class DokumentTypeInfoConsumer {
 
 	@Metrics(value = DOK_CONSUMER, extraTags = {PROCESS_CODE, "tkat020"}, percentiles = {0.5, 0.95}, histogram = true)
 	@Retryable(include = FoerstesideGeneratorTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
+	@Cacheable(DOKMET_DOKUMENT_TYPE_INFO_CACHE)
 	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
 		HttpHeaders headers = createHeaders();
 
@@ -59,6 +62,7 @@ public class DokumentTypeInfoConsumer {
 		try {
 			HttpEntity<String> request = new HttpEntity<>(headers);
 			response = restTemplate.exchange(this.dokumenttypeInfoUrl + "/" + dokumenttypeId, GET, request, DokumentTypeInfoToV4.class).getBody();
+			log.info("hentDokumenttypeInfo har hentet dokumenttypeinfo fra dokmet for dokumenttypeId={}", dokumenttypeId);
 		} catch (HttpClientErrorException e) {
 			throw new DokkatConsumerFunctionalException(String.format("TKAT020 feilet med statusKode=%s. Fant ingen dokumenttypeInfo med dokumenttypeId=%s. Feilmelding=%s",
 					e.getStatusCode(), dokumenttypeId, e.getResponseBodyAsString()), e);
