@@ -62,17 +62,12 @@ public class FoerstesideService {
 
 	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request, HttpHeaders headers) {
 		postFoerstesideRequestValidator.validate(request, headers);
-		log.info("Request validert OK");
 
 		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
-		log.info("Har hentet metadata fra dokkat");
-
 		Foersteside foersteside = incrementLoepenummerAndPersist(request, headers);
-
 		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
-		log.info("Førsteside generert vha Metaforce");
 
-		log.info("Ny førsteside har løpenummer={}", foersteside.getLoepenummer());
+		log.info("Ny førsteside med løpenummer={} og dokumenttypeId={} har blitt generert vha Metaforce", foersteside.getLoepenummer(), FOERSTESIDE_DOKUMENTTYPE_ID);
 		return PostFoerstesideResponse.builder()
 				.foersteside(document.getDocumentData().clone())
 				.loepenummer(foersteside.getLoepenummer())
@@ -81,7 +76,6 @@ public class FoerstesideService {
 
 	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request, HttpHeaders headers) {
 		String loepenummer = foerstesideCounterService.hentLoepenummer();
-		log.info("Har generert løpenummer " + loepenummer);
 		Foersteside foersteside = foerstesideMapper.map(request, loepenummer, headers);
 		foerstesideRepository.save(foersteside);
 		return foersteside;
