@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Profile;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static no.nav.foerstesidegenerator.config.cache.CacheConfig.DOKMET_DOKUMENT_TYPE_INFO_CACHE;
+
 @Configuration
 @EnableCaching
 @Profile("itest")
@@ -23,6 +25,10 @@ public class LocalTestCacheConfig {
 		SimpleCacheManager manager = new SimpleCacheManager();
 		manager.setCaches(List.of(
 				new CaffeineCache(AZURE_TOKEN_CACHE, Caffeine.newBuilder()
+						.expireAfterWrite(0, TimeUnit.MINUTES)
+						.maximumSize(0)
+						.build()),
+				new CaffeineCache(DOKMET_DOKUMENT_TYPE_INFO_CACHE, Caffeine.newBuilder()
 						.expireAfterWrite(0, TimeUnit.MINUTES)
 						.maximumSize(0)
 						.build())));

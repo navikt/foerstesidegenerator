@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 @EnableCaching
 public class CacheConfig {
 
+	public static final String DOKMET_DOKUMENT_TYPE_INFO_CACHE = "DOKUMENT_TYPE_INFO";
 	public static final String AZURE_CLIENT_CREDENTIAL_TOKEN_CACHE = "AZUREAD";
 
 	@Bean
@@ -26,7 +27,9 @@ public class CacheConfig {
 		SimpleCacheManager manager = new SimpleCacheManager();
 		manager.setCaches(Arrays.asList(
 				new CaffeineCache(AZURE_CLIENT_CREDENTIAL_TOKEN_CACHE, Caffeine.newBuilder()
-						.expireAfterWrite(50, TimeUnit.MINUTES).build())
+						.expireAfterWrite(50, TimeUnit.MINUTES).build()),
+				new CaffeineCache(DOKMET_DOKUMENT_TYPE_INFO_CACHE, Caffeine.newBuilder()
+						.expireAfterWrite(60, TimeUnit.MINUTES).build())
 		));
 		return manager;
 	}
