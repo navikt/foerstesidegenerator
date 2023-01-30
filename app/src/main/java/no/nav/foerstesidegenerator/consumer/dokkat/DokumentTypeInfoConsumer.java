@@ -62,7 +62,7 @@ public class DokumentTypeInfoConsumer {
 		try {
 			HttpEntity<String> request = new HttpEntity<>(headers);
 			response = restTemplate.exchange(this.dokumenttypeInfoUrl + "/" + dokumenttypeId, GET, request, DokumentTypeInfoToV4.class).getBody();
-			log.info("hentDokumenttypeInfo har hentet dokumenttypeinfo fra dokmet for dokumenttypeId=" + dokumenttypeId);
+			log.info("hentDokumenttypeInfo har hentet dokumenttypeinfo fra dokmet for dokumenttypeId={}", dokumenttypeId);
 		} catch (HttpClientErrorException e) {
 			throw new DokkatConsumerFunctionalException(String.format("TKAT020 feilet med statusKode=%s. Fant ingen dokumenttypeInfo med dokumenttypeId=%s. Feilmelding=%s",
 					e.getStatusCode(), dokumenttypeId, e.getResponseBodyAsString()), e);

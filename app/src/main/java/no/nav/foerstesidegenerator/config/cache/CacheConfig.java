@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 @Configuration
 @EnableCaching
@@ -27,9 +28,9 @@ public class CacheConfig {
 		SimpleCacheManager manager = new SimpleCacheManager();
 		manager.setCaches(Arrays.asList(
 				new CaffeineCache(AZURE_CLIENT_CREDENTIAL_TOKEN_CACHE, Caffeine.newBuilder()
-						.expireAfterWrite(50, TimeUnit.MINUTES).build()),
+						.expireAfterWrite(50, MINUTES).build()),
 				new CaffeineCache(DOKMET_DOKUMENT_TYPE_INFO_CACHE, Caffeine.newBuilder()
-						.expireAfterWrite(60, TimeUnit.MINUTES).build())
+						.expireAfterWrite(60, MINUTES).build())
 		));
 		return manager;
 	}
