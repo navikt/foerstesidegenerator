@@ -1,128 +1,142 @@
 package no.nav.foerstesidegenerator.domain.code;
 
 public enum FagomradeCode {
-	/** Bidrag */
-	BID,
-	/** Pensjon */
-	PEN,
-	/** Øvrig */
-	OVR,
-	/** Skanning */
-	MOT,
-	/** Okonomi */
-	OKO,
-	/** Bidrag innkreving */
-	BII,
-	/** GOSYS */
-	FS22,
-	/** Bil */
-	BIL,
-	/** Hjelpemidler */
-	HJE,
+	/** Arbeidsavklaringspenger */
+	AAP,
+	/** AA-registeret */
+	AAR,
+	/** Ajourhold - Grunnopplysninger */
+	AGR,
+	/** Arbeidsrådgivning psykologtester */
+	ARP,
+	/** Arbeidsrådgivning skjermet */
+	ARS,
 	/** Barnetrygd */
 	BAR,
+	/** Bidrag */
+	BID,
+	/** Bidrag innkreving */
+	BII,
+	/** Bil */
+	BIL,
+	/** Condictio indebiti */
+	CON,
+	/** Dagpenger */
+	DAG,
+	/** Enslig forsørger */
+	ENF,
+	/** Erstatning */
+	ERS,
+	/** Barnepensjon */
+	EYB,
+	/** Omstillingsstønad */
+	EYO,
+	/** Farskap */
+	FAR,
+	/** Feilutbetaling (Arenaytelser) */
+	FEI,
+	/** Fiskerpensjon */
+	FIP,
 	/** Foreldre- og svangerskapspenger */
 	FOR,
+	/** Forsikring */
+	FOS,
+	/** Midlertidig kompensasjonsordning for selvstendig næringsdrivende og frilansere*/
+	FRI,
+	/** GOSYS */
+	FS22,
+	/** Fullmakt */
+	FUL,
+	/** Generell */
+	GEN,
 	/** Gravferdsstønad */
 	GRA,
 	/** Grunn- og hjelpestønad */
 	GRU,
-	/** Kontantstøtte */
-	KON,
-	/** Omsorgspenger, Pleiepenger og opplæringspenger */
-	OMS,
-	/** Supplerende stønad */
-	SUP,
-	/** Yrkesskade / Menerstatning */
-	YRK,
-	/** Enslig forsørger */
-	ENF,
-	/** Stønadsregnskap */
-	STO,
-	/** Forsikring */
-	FOS,
-	/** Erstatning */
-	ERS,
-	/** Saksomkostning */
-	SAK,
-	/** Dagpenger */
-	DAG,
-	/** Individstønad */
-	IND,
-	/** Mob.stønad */
-	MOB,
-	/** Oppfølging */
-	OPP,
-	/** Ventelønn */
-	VEN,
-	/** Yrkesrettet attføring */
-	YRA,
-	/** Rehabilitering */
-	REH,
-	/** Uføreytelser */
-	UFO,
-	/** Sykepenger */
-	SYK,
-	/** Sykemelding */
-	SYM,
-	/** Feilutbetaling (Arenaytelser) */
-	FEI,
-	/** Klage/Anke */
-	KLA,
-	/** Generell */
-	GEN,
-	/** Arbeidsavklaringspenger */
-	AAP,
-	/** Fullmakt */
-	FUL,
 	/** Helsetjenester og ort. Hjelpemidler */
 	HEL,
-	/** Condictio indebiti */
-	CON,
-	/** Medlemskap */
-	MED,
-	/** Ukjent */
-	UKJ,
-	/** Tiltak */
-	TIL,
-	/** Rekruttering og Stilling */
-	REK,
+	/** Hjelpemidler */
+	HJE,
 	/** Inkluderende Arbeidsliv */
 	IAR,
-	/** Ajourhold - Grunnopplysninger */
-	AGR,
-	/** Trekk */
-	TRK,
+	/** Individstønad */
+	IND,
+	/** Klage/Anke */
+	KLA,
+	/** Klage lønnsgaranti */
+	KLL,
+	/** Kontantstøtte */
+	KON,
+	/** Kontroll anmeldelse */
+	KTA,
 	/** Kontroll */
 	KTR,
-	/** Permittering og masseoppsigelser */
-	PER,
-	/** AA-registeret */
-	AAR,
-	/** Trygdeavgift */
-	TRY,
-	/** Sanksjon - Arbeidsgiver */
-	SAA,
-	/** Sanksjon - Person */
-	SAP,
+	/** Medlemskap */
+	MED,
+	/** Mob.stønad */
+	MOB,
+	/** Skanning */
+	MOT,
+	/** Okonomi */
+	OKO,
+	/** Omsorgspenger, Pleiepenger og opplæringspenger */
+	OMS,
 	/** Oppfølging */
 	OPA,
-	/** Serviceklager */
-	SER,
-	/** Sikkerhetstiltak */
-	SIK,
-	/** Unntak fra medlemskap */
-	UFM,
-	/** Tilleggsstønad arbeidsøkere */
-	TSR,
-	/** Tilleggsstønad */
-	TSO,
+	/** Oppfølging */
+	OPP,
+	/** Øvrig */
+	OVR,
+	/** Pensjon */
+	PEN,
+	/** Permittering og masseoppsigelser */
+	PER,
+	/** Rehabilitering */
+	REH,
+	/** Rekruttering og Stilling */
+	REK,
 	/** Rettferdsvederlag */
 	RVE,
 	/** Retting av personopplysninger */
 	RPO,
-	/** Farskap */
-	FAR,
-	/** Midlertidig kompensasjonsordning for selvstendig næringsdrivende og frilansere*/
-	FRI
+	/** Sanksjon - Arbeidsgiver */
+	SAA,
+	/** Saksomkostning */
+	SAK,
+	/** Sanksjon - Person */
+	SAP,
+	/** Serviceklager */
+	SER,
+	/** Sikkerhetstiltak */
+	SIK,
+	/** Stønadsregnskap */
+	STO,
+	/** Supplerende stønad */
+	SUP,
+	/** Sykepenger */
+	SYK,
+	/** Sykemelding */
+	SYM,
+	/** Tiltak */
+	TIL,
+	/** Trekk */
+	TRK,
+	/** Trygdeavgift */
+	TRY,
+	/** Tilleggsstønad arbeidsøkere */
+	TSR,
+	/** Tilleggsstønad */
+	TSO,
+	/** Uføreytelser */
+	UFO,
+	/** Unntak fra medlemskap */
+	UFM,
+	/** Ukjent */
+	UKJ,
+	/** Ventelønn */
+	VEN,
+	/** Yrkesrettet attføring */
+	YRA,
+	/** Yrkesskade / Menerstatning */
+	YRK
 }

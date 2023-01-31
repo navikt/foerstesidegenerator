@@ -6,10 +6,12 @@ import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import no.nav.foerstesidegenerator.TestUtils;
+import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -41,8 +43,7 @@ import static no.nav.foerstesidegenerator.TestUtils.createRequestWithInvalidBruk
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostboks;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
-import static no.nav.foerstesidegenerator.domain.FoerstesideMapper.TEMA_BIDRAG;
-import static no.nav.foerstesidegenerator.domain.FoerstesideMapper.TEMA_FARSKAP;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -135,22 +136,14 @@ class FoerstesideMapperTest {
 		assertTrue(domain.getNavSkjemaId().startsWith("NAVe"));
 	}
 
-	@Test
-	void shouldMapTemaBIDAsNormal() {
-		PostFoerstesideRequest request = createRequestWithTema(TEMA_BIDRAG);
+	@ParameterizedTest
+	@EnumSource(value = FagomradeCode.class)
+	void shouldMapFagomraade(FagomradeCode tema){
+		PostFoerstesideRequest request = createRequestWithTema(tema.name());
 
 		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 
-		assertThat(domain.getTema()).isEqualTo(TEMA_BIDRAG);
-	}
-
-	@Test
-	void shouldMapTemaFARAsNull() {
-		PostFoerstesideRequest request = createRequestWithTema(TEMA_FARSKAP);
-
-		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
-
-		assertNull(domain.getTema());
+		assertThat(domain.getTema()).isEqualTo(tema.name());
 	}
 
 	@ParameterizedTest
