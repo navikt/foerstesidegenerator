@@ -9,7 +9,7 @@ public enum FagomradeCode {
 	AGR,
 	/** Arbeidsrådgivning psykologtester */
 	ARP,
-	/** Arbeidsrådgivning skjermet gi */
+	/** Arbeidsrådgivning skjermet */
 	ARS,
 	/** Barnetrygd */
 	BAR,

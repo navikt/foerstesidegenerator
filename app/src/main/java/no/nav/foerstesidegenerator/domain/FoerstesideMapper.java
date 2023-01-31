@@ -48,7 +48,6 @@ import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 public class FoerstesideMapper {
 
 	private static final String NAV_PREFIX = "NAV ";
-	static final String TEMA_BIDRAG = "BID";
 
 	public Foersteside map(PostFoerstesideRequest request, String loepenummer, HttpHeaders headers) {
 		Foersteside foersteside = new Foersteside();
