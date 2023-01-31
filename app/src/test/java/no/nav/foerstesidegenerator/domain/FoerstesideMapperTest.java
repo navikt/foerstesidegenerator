@@ -42,7 +42,7 @@ import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostbok
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
 import static no.nav.foerstesidegenerator.domain.FoerstesideMapper.TEMA_BIDRAG;
-import static no.nav.foerstesidegenerator.domain.FoerstesideMapper.TEMA_FARSKAP;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -142,15 +142,6 @@ class FoerstesideMapperTest {
 		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 
 		assertThat(domain.getTema()).isEqualTo(TEMA_BIDRAG);
-	}
-
-	@Test
-	void shouldMapTemaFARAsNull() {
-		PostFoerstesideRequest request = createRequestWithTema(TEMA_FARSKAP);
-
-		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
-
-		assertNull(domain.getTema());
 	}
 
 	@ParameterizedTest

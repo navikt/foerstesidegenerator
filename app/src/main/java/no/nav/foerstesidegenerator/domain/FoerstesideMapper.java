@@ -49,7 +49,6 @@ public class FoerstesideMapper {
 
 	private static final String NAV_PREFIX = "NAV ";
 	static final String TEMA_BIDRAG = "BID";
-	static final String TEMA_FARSKAP = "FAR";
 
 	public Foersteside map(PostFoerstesideRequest request, String loepenummer, HttpHeaders headers) {
 		Foersteside foersteside = new Foersteside();
@@ -71,10 +70,6 @@ public class FoerstesideMapper {
 		}
 		if (request.getUkjentBrukerPersoninfo() != null && request.getBruker() == null) {
 			addMetadata(foersteside, UKJENT_BRUKER_PERSONINFO, request.getUkjentBrukerPersoninfo());
-		}
-		if (TEMA_FARSKAP.equals(request.getTema())) {
-			log.info("Førsteside med tema farskap forsøkt generert. Setter tema metadata til null da disse ikke skannes hos NETS enda.");
-			foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, TEMA, null));
 		} else {
 			addMetadata(foersteside, TEMA, request.getTema());
 		}
