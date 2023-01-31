@@ -138,7 +138,7 @@ class FoerstesideMapperTest {
 
 	@ParameterizedTest
 	@EnumSource(value = FagomradeCode.class)
-	void testAllTema(FagomradeCode tema){
+	void shouldMapFagomraade(FagomradeCode tema){
 		PostFoerstesideRequest request = createRequestWithTema(tema.name());
 
 		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
