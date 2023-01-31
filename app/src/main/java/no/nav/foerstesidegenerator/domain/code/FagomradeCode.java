@@ -1,6 +1,10 @@
 package no.nav.foerstesidegenerator.domain.code;
 
 public enum FagomradeCode {
+	/** Arbeidsrådgivning psykologtester */
+	ARP,
+	/** Arbeidsrådgivning skjermet */
+	ARS,
 	/** Bidrag */
 	BID,
 	/** Pensjon */
@@ -37,8 +41,14 @@ public enum FagomradeCode {
 	YRK,
 	/** Enslig forsørger */
 	ENF,
+	/** Barnepensjon */
+	EYB,
+	/** Omstillingsstønad */
+	EYO,
 	/** Stønadsregnskap */
 	STO,
+	/** Fiskerpensjon */
+	FIP,
 	/** Forsikring */
 	FOS,
 	/** Erstatning */
@@ -69,6 +79,10 @@ public enum FagomradeCode {
 	FEI,
 	/** Klage/Anke */
 	KLA,
+	/** Klage lønnsgaranti */
+	KLL,
+	/** Kontroll anmeldelse */
+	KTA,
 	/** Generell */
 	GEN,
 	/** Arbeidsavklaringspenger */
