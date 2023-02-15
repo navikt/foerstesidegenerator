@@ -69,9 +69,9 @@ public class FoerstesideMapper {
 		}
 		if (request.getUkjentBrukerPersoninfo() != null && request.getBruker() == null) {
 			addMetadata(foersteside, UKJENT_BRUKER_PERSONINFO, request.getUkjentBrukerPersoninfo());
-		} else {
-			addMetadata(foersteside, TEMA, request.getTema());
 		}
+
+		addMetadata(foersteside, TEMA, request.getTema());
 		addMetadata(foersteside, BEHANDLINGSTEMA, request.getBehandlingstema());
 		addMetadata(foersteside, ARKIVTITTEL, request.getArkivtittel());
 		addVedleggListeIfPresent(foersteside, request.getVedleggsliste());

@@ -43,7 +43,6 @@ import static no.nav.foerstesidegenerator.TestUtils.createRequestWithInvalidBruk
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostboks;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -125,6 +124,7 @@ class FoerstesideMapperTest {
 		assertNull(domain.getBrukerId());
 		assertNull(domain.getBrukerType());
 		assertNotNull(domain.getUkjentBrukerPersoninfo());
+		assertThat(domain.getTema()).isEqualTo(TEMA_FORELDREPENGER);
 	}
 
 	@Test
@@ -138,7 +138,7 @@ class FoerstesideMapperTest {
 
 	@ParameterizedTest
 	@EnumSource(value = FagomradeCode.class)
-	void shouldMapFagomraade(FagomradeCode tema){
+	void shouldMapFagomraade(FagomradeCode tema) {
 		PostFoerstesideRequest request = createRequestWithTema(tema.name());
 
 		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
