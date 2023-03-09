@@ -1,12 +1,7 @@
 package no.nav.foerstesidegenerator.domain;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
-import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
-import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
-import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.domain.code.Foerstesidetype;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +10,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static java.lang.String.join;
-import static no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype.ETTERSENDELSE;
+import static no.nav.foerstesidegenerator.domain.code.Foerstesidetype.ETTERSENDELSE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_3;

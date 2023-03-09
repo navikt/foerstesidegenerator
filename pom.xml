@@ -31,9 +31,10 @@
         <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
         <apache-cxf.version>3.5.5</apache-cxf.version>
         <commons-validator.version>1.7</commons-validator.version>
-        <token-support.version>2.1.9</token-support.version>
+        <token-support.version>2.1.4</token-support.version>
         <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
         <xmlsec.version>2.3.0</xmlsec.version>
+        <springdoc-openapi-ui.version>1.6.14</springdoc-openapi-ui.version>
 
         <!-- test -->
         <spring-cloud-contract-wiremock.version>3.1.5</spring-cloud-contract-wiremock.version>
@@ -55,9 +56,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>no.nav.dok</groupId>
-                <artifactId>foerstesidegenerator-api-v1</artifactId>
-                <version>${foerstesidegenerator-api.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc-openapi-ui.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.nav.dokkat</groupId>

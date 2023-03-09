@@ -1,20 +1,20 @@
 package no.nav.foerstesidegenerator;
 
-import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
-import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
-import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
-import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
-import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
-import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
+import no.nav.foerstesidegenerator.domain.Adresse;
+import no.nav.foerstesidegenerator.domain.Arkivsak;
+import no.nav.foerstesidegenerator.domain.Avsender;
+import no.nav.foerstesidegenerator.domain.Bruker;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
+import no.nav.foerstesidegenerator.domain.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.domain.code.Arkivsaksystem;
+import no.nav.foerstesidegenerator.domain.code.Foerstesidetype;
 import no.nav.foerstesidegenerator.domain.code.MetadataConstants;
 
 import java.util.Arrays;
 
+import static no.nav.foerstesidegenerator.domain.code.BrukerType.PERSON;
+import static no.nav.foerstesidegenerator.domain.code.Foerstesidetype.SKJEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
@@ -36,6 +36,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
+import static no.nav.foerstesidegenerator.domain.code.Spraakkode.NB;
 
 public class TestUtils {
 
@@ -79,7 +80,7 @@ public class TestUtils {
 		return createBaseRequest()
 				.bruker(Bruker.builder()
 						.brukerId(brukerId)
-						.brukerType(BrukerType.PERSON)
+						.brukerType(PERSON)
 						.build())
 				.build();
 	}
@@ -98,7 +99,7 @@ public class TestUtils {
 						.avsenderNavn(NAVN).build())
 				.bruker(Bruker.builder()
 						.brukerId(BRUKER_ID)
-						.brukerType(BrukerType.PERSON).build())
+						.brukerType(PERSON).build())
 				.ukjentBrukerPersoninfo(null)
 				.tema(TEMA_FORELDREPENGER)
 				.behandlingstema(BEHANDLINGSTEMA_AB1337)
@@ -107,8 +108,8 @@ public class TestUtils {
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
 				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
-				.spraakkode(Spraakkode.NB)
-				.foerstesidetype(Foerstesidetype.SKJEMA)
+				.spraakkode(NB)
+				.foerstesidetype(SKJEMA)
 				.enhetsnummer(ENHET_9999)
 				.arkivsak(Arkivsak.builder()
 						.arkivsaksystem(Arkivsaksystem.PSAK)
@@ -129,7 +130,7 @@ public class TestUtils {
 						.avsenderNavn(NAVN).build())
 				.bruker(Bruker.builder()
 						.brukerId(BRUKER_ID)
-						.brukerType(BrukerType.PERSON).build())
+						.brukerType(PERSON).build())
 				.ukjentBrukerPersoninfo(null)
 				.tema(TEMA_FORELDREPENGER)
 				.behandlingstema(BEHANDLINGSTEMA_AB1337)
@@ -138,7 +139,7 @@ public class TestUtils {
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
 				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
-				.spraakkode(Spraakkode.NB)
+				.spraakkode(NB)
 				.foerstesidetype(Foerstesidetype.NAV_INTERN)
 				.enhetsnummer(ENHET_9999)
 				.arkivsak(Arkivsak.builder()
@@ -156,7 +157,7 @@ public class TestUtils {
 						.avsenderNavn(NAVN).build())
 				.bruker(Bruker.builder()
 						.brukerId(BRUKER_ID)
-						.brukerType(BrukerType.PERSON).build())
+						.brukerType(PERSON).build())
 				.ukjentBrukerPersoninfo(ukjent)
 				.tema(tema)
 				.behandlingstema(BEHANDLINGSTEMA_AB1337)
@@ -165,7 +166,7 @@ public class TestUtils {
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
 				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
-				.spraakkode(Spraakkode.NB)
+				.spraakkode(NB)
 				.foerstesidetype(type)
 				.enhetsnummer(ENHET_9999)
 				.arkivsak(Arkivsak.builder()
@@ -175,7 +176,7 @@ public class TestUtils {
 	}
 
 	public static PostFoerstesideRequest createRequestWithNetsPostboks() {
-		return createRequestWithoutAdresse(NETS, null, Foerstesidetype.SKJEMA, TEMA_FORELDREPENGER);
+		return createRequestWithoutAdresse(NETS, null, SKJEMA, TEMA_FORELDREPENGER);
 	}
 
 	public static PostFoerstesideRequest createRequestWithoutBruker(String ukjentBrukerPersoninfo) {
@@ -194,8 +195,8 @@ public class TestUtils {
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
 				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
-				.spraakkode(Spraakkode.NB)
-				.foerstesidetype(Foerstesidetype.SKJEMA)
+				.spraakkode(NB)
+				.foerstesidetype(SKJEMA)
 				.enhetsnummer(ENHET_9999)
 				.arkivsak(Arkivsak.builder()
 						.arkivsaksystem(Arkivsaksystem.PSAK)
@@ -204,7 +205,7 @@ public class TestUtils {
 	}
 
 	public static PostFoerstesideRequest createRequestWithoutAdresseAndNetsPostboks() {
-		return createRequestWithoutAdresse(null, null, Foerstesidetype.SKJEMA, TEMA_FORELDREPENGER);
+		return createRequestWithoutAdresse(null, null, SKJEMA, TEMA_FORELDREPENGER);
 	}
 
 	public static PostFoerstesideRequest createRequestWithAdresse(String adr1, String adr2, String adr3, String postnr, String poststed) {
@@ -218,19 +219,19 @@ public class TestUtils {
 				.netsPostboks(null)
 				.bruker(Bruker.builder()
 						.brukerId(BRUKER_ID)
-						.brukerType(BrukerType.PERSON).build())
+						.brukerType(PERSON).build())
 				.arkivtittel(TITTEL)
 				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
 				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
-				.spraakkode(Spraakkode.NB)
-				.foerstesidetype(Foerstesidetype.SKJEMA)
+				.spraakkode(NB)
+				.foerstesidetype(SKJEMA)
 				.build();
 	}
 
 	public static PostFoerstesideRequest createRequestWithTema(String tema) {
-		return createRequestWithoutAdresse(NETS, null, Foerstesidetype.SKJEMA, tema);
+		return createRequestWithoutAdresse(NETS, null, SKJEMA, tema);
 
 	}
 
@@ -252,7 +253,7 @@ public class TestUtils {
 						.avsenderNavn(NAVN).build())
 				.bruker(Bruker.builder()
 						.brukerId(brukerId)
-						.brukerType(BrukerType.PERSON).build())
+						.brukerType(PERSON).build())
 				.ukjentBrukerPersoninfo(null)
 				.tema(TEMA_FORELDREPENGER)
 				.behandlingstema(BEHANDLINGSTEMA_AB1337)
@@ -261,8 +262,8 @@ public class TestUtils {
 				.navSkjemaId(SKJEMA_ID)
 				.overskriftstittel(TITTEL)
 				.dokumentlisteFoersteside(Arrays.asList(DOKUMENT_1, DOKUMENT_2))
-				.spraakkode(Spraakkode.NB)
-				.foerstesidetype(Foerstesidetype.SKJEMA)
+				.spraakkode(NB)
+				.foerstesidetype(SKJEMA)
 				.enhetsnummer(ENHET_9999)
 				.arkivsak(Arkivsak.builder()
 						.arkivsaksystem(Arkivsaksystem.PSAK)
@@ -305,8 +306,8 @@ public class TestUtils {
 		createMetadata(foersteside, ARKIVTITTEL, TITTEL);
 		createMetadata(foersteside, NAV_SKJEMA_ID, SKJEMA_ID);
 		createMetadata(foersteside, OVERSKRIFTSTITTEL, TITTEL);
-		createMetadata(foersteside, SPRAAKKODE, Spraakkode.NB.name());
-		createMetadata(foersteside, FOERSTESIDETYPE, Foerstesidetype.SKJEMA.name());
+		createMetadata(foersteside, SPRAAKKODE, NB.name());
+		createMetadata(foersteside, FOERSTESIDETYPE, SKJEMA.name());
 		createMetadata(foersteside, VEDLEGG_LISTE, VEDLEGG_1 + ";" + VEDLEGG_2);
 		createMetadata(foersteside, DOKUMENT_LISTE_FOERSTESIDE, DOKUMENT_1 + ";" + DOKUMENT_2);
 		createMetadata(foersteside, ENHETSNUMMER, ENHET_9999);

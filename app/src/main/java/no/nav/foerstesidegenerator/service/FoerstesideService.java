@@ -1,9 +1,6 @@
 package no.nav.foerstesidegenerator.service;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.consumer.dokkat.DokumentTypeInfoConsumer;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceBrevdataMapper;
@@ -13,10 +10,13 @@ import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResp
 import no.nav.foerstesidegenerator.consumer.metaforce.support.XMLTransformer;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
+import no.nav.foerstesidegenerator.domain.FoerstesideResponse;
+import no.nav.foerstesidegenerator.domain.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.domain.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
 import no.nav.foerstesidegenerator.exception.InvalidLoepenummerException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
-import no.nav.foerstesidegenerator.service.support.GetFoerstesideResponseMapper;
+import no.nav.foerstesidegenerator.service.support.FoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
 import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
 import org.springframework.http.HttpHeaders;
@@ -37,7 +37,7 @@ public class FoerstesideService {
 	private final PostFoerstesideRequestValidator postFoerstesideRequestValidator;
 	private final FoerstesideMapper foerstesideMapper;
 	private final FoerstesideRepository foerstesideRepository;
-	private final GetFoerstesideResponseMapper getFoerstesideResponseMapper;
+	private final FoerstesideResponseMapper foerstesideResponseMapper;
 	private final DokumentTypeInfoConsumer dokumentTypeInfoConsumer;
 	private final MetaforceConsumer metaforceConsumer;
 	private final MetaforceBrevdataMapper metaforceBrevdataMapper;
@@ -46,14 +46,14 @@ public class FoerstesideService {
 	public FoerstesideService(final PostFoerstesideRequestValidator postFoerstesideRequestValidator,
 							  final FoerstesideMapper foerstesideMapper,
 							  final FoerstesideRepository foerstesideRepository,
-							  final GetFoerstesideResponseMapper getFoerstesideResponseMapper,
+							  final FoerstesideResponseMapper foerstesideResponseMapper,
 							  final DokumentTypeInfoConsumer dokumentTypeInfoConsumer,
 							  final FoerstesideCounterService foerstesideCounterService,
 							  final MetaforceConsumer metaforceConsumer) {
 		this.postFoerstesideRequestValidator = postFoerstesideRequestValidator;
 		this.foerstesideMapper = foerstesideMapper;
 		this.foerstesideRepository = foerstesideRepository;
-		this.getFoerstesideResponseMapper = getFoerstesideResponseMapper;
+		this.foerstesideResponseMapper = foerstesideResponseMapper;
 		this.dokumentTypeInfoConsumer = dokumentTypeInfoConsumer;
 		this.metaforceConsumer = metaforceConsumer;
 		this.foerstesideCounterService = foerstesideCounterService;
@@ -92,13 +92,13 @@ public class FoerstesideService {
 		return metaforceConsumer.createDocument(metaforceRequest);
 	}
 
-	public GetFoerstesideResponse getFoersteside(String loepenummer) {
+	public FoerstesideResponse getFoersteside(String loepenummer) {
 		validerLoepenummer(loepenummer);
 		log.info("Løpenummer validert ok");
 
 		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, LOEPENUMMER_LENGTH))
 				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
-		GetFoerstesideResponse response = getFoerstesideResponseMapper.map(domain);
+		FoerstesideResponse response = foerstesideResponseMapper.map(domain);
 		domain.incrementUthenting();
 		domain.setDatoUthentet(LocalDateTime.now());
 

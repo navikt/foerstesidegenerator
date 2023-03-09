@@ -1,9 +1,9 @@
 package no.nav.foerstesidegenerator.itest;
 
-import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.domain.FoerstesideResponse;
+import no.nav.foerstesidegenerator.domain.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.domain.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
 import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
@@ -143,7 +143,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		Foersteside foersteside = getFoersteside();
 		String loepenummer = foersteside.getLoepenummer();
 
-		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
 
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 		assertNotNull(getResponse.getBody().getBruker(), "Bruker skal være satt");
@@ -176,7 +176,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		String checkDigit = calculateCheckDigit(loepenummer);
 		String loepenummerWithCheckDigit = loepenummer + checkDigit;
 
-		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
 
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 	}
@@ -195,7 +195,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		String loepenummer = foersteside.getLoepenummer();
 		assertThat(foersteside.getTema()).isEqualTo(FagomradeCode.BID.name());
 
-		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 		assertNotNull(getResponse.getBody());
 		assertThat(getResponse.getBody().getTema()).isEqualTo(FagomradeCode.BID.name());
@@ -216,7 +216,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		String checkDigit = calculateCheckDigit(loepenummer);
 		String loepenummerWithWrongCheckDigit = loepenummer + modifyCheckDigit(checkDigit);
 
-		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithWrongCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithWrongCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
 
 		assertEquals(HttpStatus.BAD_REQUEST, getResponse.getStatusCode());
 	}
@@ -226,7 +226,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void shouldThrowExceptionWhenNoFoerstesideFoundForLoepenummer() {
 		String loepenummer = "1234567890000";
 
-		ResponseEntity<GetFoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), GetFoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
 
 		assertEquals(HttpStatus.NOT_FOUND, getResponse.getStatusCode());
 	}

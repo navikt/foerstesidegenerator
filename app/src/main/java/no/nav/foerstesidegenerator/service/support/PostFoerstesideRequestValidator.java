@@ -1,10 +1,10 @@
 package no.nav.foerstesidegenerator.service.support;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
-import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.domain.Adresse;
+import no.nav.foerstesidegenerator.domain.Bruker;
+import no.nav.foerstesidegenerator.domain.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.domain.code.BrukerType;
 import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
 import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 import static java.util.Objects.nonNull;
-import static no.nav.dok.foerstesidegenerator.api.v1.BrukerType.ORGANISASJON;
+import static no.nav.foerstesidegenerator.domain.code.BrukerType.ORGANISASJON;
 import static no.nav.foerstesidegenerator.service.support.FoedselsnummerValidator.isValidPid;
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
