@@ -1,11 +1,12 @@
 package no.nav.foerstesidegenerator.domain;
 
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.TestUtils;
-import no.nav.foerstesidegenerator.domain.code.Arkivsaksystem;
-import no.nav.foerstesidegenerator.domain.code.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType;
 import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
-import no.nav.foerstesidegenerator.domain.code.Foerstesidetype;
-import no.nav.foerstesidegenerator.domain.code.Spraakkode;
+import no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype;
+import no.nav.dok.foerstesidegenerator.api.v1.code.Spraakkode;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +42,7 @@ import static no.nav.foerstesidegenerator.TestUtils.createRequestWithInvalidBruk
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostboks;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
-import static no.nav.foerstesidegenerator.domain.code.Foerstesidetype.NAV_INTERN;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype.NAV_INTERN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

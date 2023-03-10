@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.domain;
+package no.nav.dok.foerstesidegenerator.api.v1;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

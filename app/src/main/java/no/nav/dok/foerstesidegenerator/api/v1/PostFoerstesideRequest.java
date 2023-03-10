@@ -1,12 +1,12 @@
-package no.nav.foerstesidegenerator.domain;
+package no.nav.dok.foerstesidegenerator.api.v1;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import no.nav.foerstesidegenerator.domain.code.Foerstesidetype;
-import no.nav.foerstesidegenerator.domain.code.Spraakkode;
+import no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype;
+import no.nav.dok.foerstesidegenerator.api.v1.code.Spraakkode;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;

@@ -10,9 +10,9 @@ import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResp
 import no.nav.foerstesidegenerator.consumer.metaforce.support.XMLTransformer;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
-import no.nav.foerstesidegenerator.domain.FoerstesideResponse;
-import no.nav.foerstesidegenerator.domain.PostFoerstesideRequest;
-import no.nav.foerstesidegenerator.domain.PostFoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
 import no.nav.foerstesidegenerator.exception.InvalidLoepenummerException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;

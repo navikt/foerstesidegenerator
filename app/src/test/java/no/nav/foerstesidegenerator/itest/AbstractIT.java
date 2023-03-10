@@ -3,7 +3,7 @@ package no.nav.foerstesidegenerator.itest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.common.io.Resources;
-import no.nav.foerstesidegenerator.domain.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.ApplicationLocal;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;

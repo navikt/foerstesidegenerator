@@ -1,10 +1,13 @@
-package no.nav.foerstesidegenerator.domain;
+package no.nav.dok.foerstesidegenerator.api.v1;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
+import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
+import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 
 import java.util.ArrayList;
 import java.util.List;

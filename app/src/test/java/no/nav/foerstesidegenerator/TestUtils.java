@@ -1,20 +1,20 @@
 package no.nav.foerstesidegenerator;
 
-import no.nav.foerstesidegenerator.domain.Adresse;
-import no.nav.foerstesidegenerator.domain.Arkivsak;
-import no.nav.foerstesidegenerator.domain.Avsender;
-import no.nav.foerstesidegenerator.domain.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
+import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
+import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
-import no.nav.foerstesidegenerator.domain.PostFoerstesideRequest;
-import no.nav.foerstesidegenerator.domain.code.Arkivsaksystem;
-import no.nav.foerstesidegenerator.domain.code.Foerstesidetype;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype;
 import no.nav.foerstesidegenerator.domain.code.MetadataConstants;
 
 import java.util.Arrays;
 
-import static no.nav.foerstesidegenerator.domain.code.BrukerType.PERSON;
-import static no.nav.foerstesidegenerator.domain.code.Foerstesidetype.SKJEMA;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype.SKJEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
@@ -36,7 +36,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
-import static no.nav.foerstesidegenerator.domain.code.Spraakkode.NB;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Spraakkode.NB;
 
 public class TestUtils {
 

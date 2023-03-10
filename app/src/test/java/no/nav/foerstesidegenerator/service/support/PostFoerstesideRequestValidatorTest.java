@@ -1,8 +1,8 @@
 package no.nav.foerstesidegenerator.service.support;
 
-import no.nav.foerstesidegenerator.domain.Arkivsak;
-import no.nav.foerstesidegenerator.domain.Bruker;
-import no.nav.foerstesidegenerator.domain.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
+import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
@@ -20,10 +20,10 @@ import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseAndNetsPostboks;
-import static no.nav.foerstesidegenerator.domain.code.Arkivsaksystem.PSAK;
-import static no.nav.foerstesidegenerator.domain.code.BrukerType.PERSON;
-import static no.nav.foerstesidegenerator.domain.code.Foerstesidetype.SKJEMA;
-import static no.nav.foerstesidegenerator.domain.code.Spraakkode.NB;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem.PSAK;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype.SKJEMA;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Spraakkode.NB;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

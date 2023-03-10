@@ -2,7 +2,7 @@ package no.nav.foerstesidegenerator.service.support;
 
 
 import no.nav.foerstesidegenerator.domain.Foersteside;
-import no.nav.foerstesidegenerator.domain.FoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,8 +24,8 @@ import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
 import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
 import static no.nav.foerstesidegenerator.TestUtils.createFoerstesideWithoutAvsenderAndBruker;
-import static no.nav.foerstesidegenerator.domain.code.Arkivsaksystem.PSAK;
-import static no.nav.foerstesidegenerator.domain.code.BrukerType.PERSON;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem.PSAK;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 

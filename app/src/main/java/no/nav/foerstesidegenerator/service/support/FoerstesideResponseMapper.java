@@ -3,13 +3,13 @@ package no.nav.foerstesidegenerator.service.support;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
-import no.nav.foerstesidegenerator.domain.Arkivsak;
-import no.nav.foerstesidegenerator.domain.Avsender;
-import no.nav.foerstesidegenerator.domain.Bruker;
+import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
+import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
+import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
 import no.nav.foerstesidegenerator.domain.Foersteside;
-import no.nav.foerstesidegenerator.domain.FoerstesideResponse;
-import no.nav.foerstesidegenerator.domain.code.Arkivsaksystem;
-import no.nav.foerstesidegenerator.domain.code.BrukerType;
+import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
