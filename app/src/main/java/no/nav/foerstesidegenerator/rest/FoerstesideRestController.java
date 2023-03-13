@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.rest;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.metrics.Metrics;
@@ -39,7 +39,7 @@ public class FoerstesideRestController {
 	@GetMapping(value = "/foersteside/{loepenummer}")
 	@Metrics(value = DOK_REQUEST, extraTags = {PROCESS_CODE, "get-foersteside"}, percentiles = {0.5, 0.95}, histogram = true)
 	@ResponseBody
-	public GetFoerstesideResponse getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
+	public FoerstesideResponse getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
 		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra løpenummer={}", loepenummer);
 
 		return foerstesideService.getFoersteside(loepenummer);

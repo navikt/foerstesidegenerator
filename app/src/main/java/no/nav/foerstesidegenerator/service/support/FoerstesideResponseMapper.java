@@ -4,12 +4,12 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
-import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.BrukerType;
-import no.nav.dok.foerstesidegenerator.api.v1.GetFoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem;
+import no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -17,10 +17,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class GetFoerstesideResponseMapper {
+public class FoerstesideResponseMapper {
 
-	public GetFoerstesideResponse map(Foersteside domain) {
-		return GetFoerstesideResponse.builder()
+	public FoerstesideResponse map(Foersteside domain) {
+		return FoerstesideResponse.builder()
 				.avsender(mapAvsender(domain))
 				.bruker(mapBruker(domain))
 				.tema(domain.getTema())

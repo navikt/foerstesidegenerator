@@ -1,8 +1,8 @@
 package no.nav.foerstesidegenerator.itest;
 
+import no.nav.foerstesidegenerator.TestUtils;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
-import no.nav.foerstesidegenerator.TestUtils;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -57,12 +57,15 @@
 
 		<!-- Tjenestegrensesnitt -->
 		<dependency>
-			<groupId>no.nav.dok</groupId>
-			<artifactId>foerstesidegenerator-api-v1</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>no.nav.dokkat</groupId>
 			<artifactId>dokkat-api</artifactId>
+		</dependency>
+
+		<!--Vi bruker ikke swagger i appen, men drar den inn for å beholde gammel dokumentasjon i domain på en ryddig måte-->
+		<!--Swagger-->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
 		</dependency>
 
 		<!-- Metaforce -->

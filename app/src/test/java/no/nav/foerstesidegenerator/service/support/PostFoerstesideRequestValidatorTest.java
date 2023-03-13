@@ -1,11 +1,8 @@
 package no.nav.foerstesidegenerator.service.support;
 
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
-import no.nav.dok.foerstesidegenerator.api.v1.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.Foerstesidetype;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.Spraakkode;
 import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
@@ -19,11 +16,14 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
-import static no.nav.dok.foerstesidegenerator.api.v1.BrukerType.PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseAndNetsPostboks;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem.PSAK;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype.SKJEMA;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Spraakkode.NB;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -60,7 +60,7 @@ class PostFoerstesideRequestValidatorTest {
 	@Test
 	void shouldThrowExceptionIfBrukerIdIsNull() {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
-				.spraakkode(Spraakkode.NB)
+				.spraakkode(NB)
 				.bruker(Bruker.builder()
 						.brukerId(null)
 						.brukerType(PERSON).build())
@@ -71,7 +71,7 @@ class PostFoerstesideRequestValidatorTest {
 	@Test
 	void shouldThrowExceptionIfBrukerTypeIsNull() {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
-				.spraakkode(Spraakkode.NB)
+				.spraakkode(NB)
 				.bruker(Bruker.builder()
 						.brukerId(BRUKER_ID)
 						.brukerType(PERSON).build())
@@ -82,7 +82,7 @@ class PostFoerstesideRequestValidatorTest {
 	@Test
 	void shouldThrowExceptionIfOverskriftstittelIsNull() {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
-				.spraakkode(Spraakkode.NB)
+				.spraakkode(NB)
 				.overskriftstittel(null)
 				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
@@ -91,7 +91,7 @@ class PostFoerstesideRequestValidatorTest {
 	@Test
 	void shouldThrowExceptionIfFoerstesidetypeIsNull() {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
-				.spraakkode(Spraakkode.NB)
+				.spraakkode(NB)
 				.overskriftstittel("tittel")
 				.foerstesidetype(null)
 				.build();
@@ -101,9 +101,9 @@ class PostFoerstesideRequestValidatorTest {
 	@Test
 	void shouldThrowExceptionIfSaksystemIsNull() {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
-				.spraakkode(Spraakkode.NB)
+				.spraakkode(NB)
 				.overskriftstittel("tittel")
-				.foerstesidetype(Foerstesidetype.SKJEMA)
+				.foerstesidetype(SKJEMA)
 				.arkivsak(Arkivsak.builder()
 						.arkivsaksystem(null)
 						.arkivsaksnummer("ref").build())
@@ -114,11 +114,11 @@ class PostFoerstesideRequestValidatorTest {
 	@Test
 	void shouldThrowExceptionIfArkivsaksnummerIsNull() {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
-				.spraakkode(Spraakkode.NB)
+				.spraakkode(NB)
 				.overskriftstittel("tittel")
-				.foerstesidetype(Foerstesidetype.SKJEMA)
+				.foerstesidetype(SKJEMA)
 				.arkivsak(Arkivsak.builder()
-						.arkivsaksystem(Arkivsaksystem.PSAK)
+						.arkivsaksystem(PSAK)
 						.arkivsaksnummer(null).build())
 				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
