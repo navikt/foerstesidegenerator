@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,7 @@ import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstant
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_CONSUMER;
 import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Service
 @Slf4j
@@ -99,7 +99,7 @@ public class DokumentTypeInfoConsumer {
 	private HttpHeaders createHeaders() {
 		TokenResponse clientCredentialToken = tokenConsumer.getClientCredentialToken(dokmetScope);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setContentType(APPLICATION_JSON);
 		headers.setBearerAuth(clientCredentialToken.getAccess_token());
 		headers.add(NAV_CONSUMER_ID, APP_NAME);
 		headers.add(NAV_CALL_ID, MDC.get(CALL_ID));
