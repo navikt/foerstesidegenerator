@@ -24,7 +24,6 @@
 
         <!-- Interne NAV-avhengigheter -->
         <mal.version>1.0.36</mal.version>
-        <foerstesidegenerator-api.version>0.2.4</foerstesidegenerator-api.version>
         <dokkat-api.version>11.0.6</dokkat-api.version>
         <metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
 

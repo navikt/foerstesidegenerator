@@ -12,13 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostFoerstesideResponse {
 
-	@Schema(
-			description = "Førsteside pdf",
-			required = false)
+	@Schema(description = "Førsteside pdf")
 	private byte[] foersteside;
 
-	@Schema(
-			description = "Løpenummer for førsteside",
-			required = false)
+	@Schema(description = "Løpenummer for førsteside")
 	private String loepenummer;
 }
