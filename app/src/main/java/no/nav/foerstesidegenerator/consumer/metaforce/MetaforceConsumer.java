@@ -1,14 +1,10 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_CONSUMER;
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
-
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentRequestTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResponseTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.DomUtil;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.MetaforceDocumentType;
 import no.nav.foerstesidegenerator.exception.MetaforceTechnicalException;
-import no.nav.foerstesidegenerator.metrics.Metrics;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentReturn;
 import org.datacontract.schemas._2004._07.metaforce_common.Format;
 import org.springframework.stereotype.Component;
@@ -26,7 +22,6 @@ public class MetaforceConsumer {
 		this.metaforcews = metaforce;
 	}
 
-	@Metrics(value = DOK_CONSUMER, extraTags = {PROCESS_CODE, "metaforce_createDocument"}, percentiles = {0.5, 0.95}, histogram = true)
 	public CreateDocumentResponseTo createDocument(CreateDocumentRequestTo createDocumentRequestTo) {
 		String processCalled = "Metaforce:GS_CreateDocument";
 		DocumentReturn documentReturn = null;

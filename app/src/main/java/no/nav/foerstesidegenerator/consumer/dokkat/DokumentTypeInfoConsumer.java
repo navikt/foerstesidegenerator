@@ -9,7 +9,6 @@ import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentProduksjonsInfoTo;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
-import no.nav.foerstesidegenerator.metrics.Metrics;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,8 +27,6 @@ import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstant
 import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.CALL_ID;
 import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.NAV_CALL_ID;
 import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.NAV_CONSUMER_ID;
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.DOK_CONSUMER;
-import static no.nav.foerstesidegenerator.metrics.MetricLabels.PROCESS_CODE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -52,7 +49,6 @@ public class DokumentTypeInfoConsumer {
 		this.tokenConsumer = tokenConsumer;
 	}
 
-	@Metrics(value = DOK_CONSUMER, extraTags = {PROCESS_CODE, "tkat020"}, percentiles = {0.5, 0.95}, histogram = true)
 	@Retryable(include = FoerstesideGeneratorTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
 	@Cacheable(DOKMET_DOKUMENT_TYPE_INFO_CACHE)
 	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
