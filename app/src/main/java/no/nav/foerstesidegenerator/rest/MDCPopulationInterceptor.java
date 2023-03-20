@@ -2,39 +2,42 @@ package no.nav.foerstesidegenerator.rest;
 
 import com.nimbusds.jwt.SignedJWT;
 import lombok.extern.slf4j.Slf4j;
-import no.nav.foerstesidegenerator.config.MDCConstants;
 import org.slf4j.MDC;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
+import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_APP_ID;
+import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CALL_ID;
+import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CONSUMER_ID;
+import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_USER_ID;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
 public class MDCPopulationInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String callId = getHeaderValueFromRequest(request, UUID.randomUUID().toString(),
                 "Nav-Callid", "callId", "x_callId");
-        addValueToMDC(callId, MDCConstants.MDC_CALL_ID);
+        addValueToMDC(callId, MDC_CALL_ID);
 
         String consumerId = getHeaderValueFromRequest(request, "foerstesidegenerator",
                 "nav-consumerid", "Nav-Consumer-Id", "x_consumerId", "consumerId");
-        addValueToMDC(consumerId, MDCConstants.MDC_CONSUMER_ID);
+        addValueToMDC(consumerId, MDC_CONSUMER_ID);
 
-        String appId = getHeaderValueFromRequest(request, "foerstesidegenerator", MDCConstants.MDC_APP_ID);
-        addValueToMDC(appId, MDCConstants.MDC_APP_ID);
-        final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String appId = getHeaderValueFromRequest(request, "foerstesidegenerator", MDC_APP_ID);
+        addValueToMDC(appId, MDC_APP_ID);
+        final String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (isNotBlank(authorizationHeader)) {
             try {
                 final String bearerToken = authorizationHeader.split(" ")[1];
                 SignedJWT parsedToken = SignedJWT.parse(bearerToken);
-                addValueToMDC(parsedToken.getJWTClaimsSet().getSubject(), MDCConstants.MDC_USER_ID);
+                addValueToMDC(parsedToken.getJWTClaimsSet().getSubject(), MDC_USER_ID);
             } catch (Exception e) {
                 // noop
             }

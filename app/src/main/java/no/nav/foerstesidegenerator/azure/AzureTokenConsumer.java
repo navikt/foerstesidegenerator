@@ -12,8 +12,8 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
-import java.util.Collections;
 
+import static java.util.Collections.singletonList;
 import static no.nav.foerstesidegenerator.config.cache.CacheConfig.AZURE_CLIENT_CREDENTIAL_TOKEN_CACHE;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
@@ -27,11 +27,11 @@ public class AzureTokenConsumer {
 
 	public AzureTokenConsumer(AzureProperties azureProperties,
                               RestTemplateBuilder restTemplateBuilder) {
+		this.azureProperties = azureProperties;
 		this.restTemplate = restTemplateBuilder
 				.setConnectTimeout(Duration.ofSeconds(3))
 				.setReadTimeout(Duration.ofSeconds(20))
 				.build();
-		this.azureProperties = azureProperties;
 	}
 
 	@Retryable(include = AzureTokenException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
@@ -53,7 +53,7 @@ public class AzureTokenConsumer {
 	private HttpHeaders createHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(APPLICATION_FORM_URLENCODED);
-		headers.setAccept(Collections.singletonList(APPLICATION_JSON));
+		headers.setAccept(singletonList(APPLICATION_JSON));
 		return headers;
 	}
 }

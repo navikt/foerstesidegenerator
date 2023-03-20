@@ -15,6 +15,7 @@
 		"https://foerstesidegenerator.intern.nav.no",
 		"https://foerstesidegenerator.prod-fss-pub.nais.io"
 	],
+	"APPDYNAMICS": "/apikey/appdynamics/prod",
 	"AZURE_IAC_RULES": [
 		{
 			"app": "soknadsveiviser",

@@ -4,19 +4,24 @@ import no.nav.foerstesidegenerator.config.properties.ServiceuserAlias;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-import org.apache.wss4j.dom.WSConstants;
-import org.apache.wss4j.dom.handler.WSHandlerConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import se.metaforce.services.IGeneralService;
 
-import javax.xml.ws.soap.SOAPBinding;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING;
+import static org.apache.wss4j.common.ConfigurationConstants.ACTION;
+import static org.apache.wss4j.common.ConfigurationConstants.PASSWORD_TYPE;
+import static org.apache.wss4j.common.ConfigurationConstants.PW_CALLBACK_REF;
+import static org.apache.wss4j.common.ConfigurationConstants.USER;
+import static org.apache.wss4j.common.ConfigurationConstants.USERNAME_TOKEN;
+import static org.apache.wss4j.common.WSS4JConstants.PW_TEXT;
 
 @Configuration
 @Profile("nais")
@@ -34,16 +39,16 @@ class MetaforceConfig {
 				wss4JOutInterceptor(serviceuserAlias))
 		);
 
-		clientFactory.setBindingId(SOAPBinding.SOAP12HTTP_BINDING);
+		clientFactory.setBindingId(SOAP12HTTP_BINDING);
 		return (IGeneralService) clientFactory.create();
 	}
 
 	private WSS4JOutInterceptor wss4JOutInterceptor(ServiceuserAlias serviceuserAlias) {
 		Map<String, Object> properties = new HashMap<>();
-		properties.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
-		properties.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
-		properties.put(WSHandlerConstants.USER, serviceuserAlias.getUsername());
-		properties.put(WSHandlerConstants.PW_CALLBACK_REF, new SystemuserPasswordCallback(serviceuserAlias.getPassword()));
+		properties.put(ACTION, USERNAME_TOKEN);
+		properties.put(PASSWORD_TYPE, PW_TEXT);
+		properties.put(USER, serviceuserAlias.getUsername());
+		properties.put(PW_CALLBACK_REF, new SystemuserPasswordCallback(serviceuserAlias.getPassword()));
 		return new WSS4JOutInterceptor(properties);
 	}
 }
