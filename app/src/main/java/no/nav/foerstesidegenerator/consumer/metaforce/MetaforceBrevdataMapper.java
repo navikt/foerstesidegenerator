@@ -19,7 +19,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class MetaforceBrevdataMapper {
 
-	public static final String DEFAULT_NETS_POSTBOKS = "8888";
+	public static final String DEFAULT_NETS_POSTBOKS = "1400";
 
 	private static final String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
 
@@ -29,7 +29,7 @@ public class MetaforceBrevdataMapper {
 		FagType fag = new FagType();
 		fag.setSpraakkode(SpraakKode.valueOf(domain.getSpraakkode()));
 		mapAdresse(fag, domain);
-		// HVIS adresse er satt OG netsPostboks er null => sett default NETS-postboks til 8888
+		// HVIS adresse er satt OG netsPostboks er null => sett default NETS-postboks til DEFAULT_NETS_POSTBOKS
 		addNetsPostboks(fag, domain.getNetsPostboks());
 		addBruker(fag, domain);
 		fag.setUkjentBrukerPersoninfo(domain.getUkjentBrukerPersoninfo());
