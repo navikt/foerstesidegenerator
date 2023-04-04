@@ -57,8 +57,8 @@
 
 		<!-- Tjenestegrensesnitt -->
 		<dependency>
-			<groupId>no.nav.dokkat</groupId>
-			<artifactId>dokkat-api</artifactId>
+			<groupId>no.nav.dokmet</groupId>
+			<artifactId>api</artifactId>
 		</dependency>
 
 		<!--Vi bruker ikke swagger i appen, men drar den inn for å beholde gammel dokumentasjon i domain på en ryddig måte-->
