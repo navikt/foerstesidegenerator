@@ -18,7 +18,7 @@ import no.nav.foerstesidegenerator.exception.InvalidLoepenummerException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.foerstesidegenerator.service.support.FoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
-import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
+import no.nav.foerstesidegenerator.foerstesidebrev.BrevdataType;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 

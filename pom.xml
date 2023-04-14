@@ -17,13 +17,13 @@
 
     <modules>
         <module>app</module>
+        <module>foerstesideschema</module>
     </modules>
 
     <properties>
         <java.version>17</java.version>
 
         <!-- Interne NAV-avhengigheter -->
-        <mal.version>1.0.36</mal.version>
         <dokmet.api.version>13-5459a4f</dokmet.api.version>
         <metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
 
@@ -52,6 +52,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>no.nav.dok</groupId>
+                <artifactId>foerstesideschema</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
@@ -96,11 +101,6 @@
                 <version>${apache-cxf.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.dok.metaforcemal</groupId>
-                <artifactId>foerstesidebrev</artifactId>
-                <version>${mal.version}</version>
             </dependency>
 
             <dependency>
@@ -165,31 +165,6 @@
                             <vendor>openjdk</vendor>
                         </jdk>
                     </toolchains>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <artifactItems>
-                        <artifactItem>
-                            <groupId>no.nav.dok.metaforcemal</groupId>
-                            <artifactId>foerstesidebrev</artifactId>
-                            <version>${mal.version}</version>
-                            <type>jar</type>
-                            <includes>**/foersteside_000124.xsd</includes>
-                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                        </artifactItem>
-                    </artifactItems>
                 </configuration>
             </plugin>
         </plugins>

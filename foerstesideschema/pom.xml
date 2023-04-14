@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>foerstesidegenerator</artifactId>
+		<groupId>no.nav.dok</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>foerstesideschema</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>${maven-jaxb2-plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.glassfish.jaxb</groupId>
+						<artifactId>jaxb-runtime</artifactId>
+						<version>${jaxb-runtime.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>generate-jaxb-foersteside</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generateDirectory>${project.build.directory}/generated-sources/foersteside</generateDirectory>
+							<schemaDirectory>${basedir}/src/main/resources/brevpakke</schemaDirectory>
+							<schemaIncludes>
+								<include>foersteside_000124.xsd</include>
+							</schemaIncludes>
+							<bindingDirectory>
+								${basedir}/src/main/resources/brevpakke
+							</bindingDirectory>
+							<strict>false</strict>
+							<plugins>
+								<plugin>
+									<groupId>org.jvnet.jaxb2_commons</groupId>
+									<artifactId>jaxb2-basics</artifactId>
+									<version>${jaxb2-basics-runtime.version}</version>
+								</plugin>
+								<plugin>
+									<groupId>org.jvnet.jaxb2_commons</groupId>
+									<artifactId>jaxb2-basics-annotate</artifactId>
+									<version>${jaxb2-basics-annotate.version}</version>
+								</plugin>
+							</plugins>
+							<args>
+								<arg>-Xannotate</arg>
+							</args>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+		   elementFormDefault="qualified"
+		   targetNamespace="http://foerstesidegenerator.nav.no/foerstesidebrev"
+		   xmlns="http://foerstesidegenerator.nav.no/foerstesidebrev"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="brevdata" type="brevdataType"/>
+
+	<xs:complexType name="brevdataType">
+		<xs:sequence>
+			<xs:element type="fagType" name="fag"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="fagType">
+		<xs:all>
+			<xs:element type="spraakKode" name="spraakkode"/>
+			<xs:element type="adresseType" name="adresse" minOccurs="0"/>
+			<xs:element type="nonEmptyStringType" name="NETS-postboks" minOccurs="0"/>
+			<xs:element type="brukerType" name="bruker" minOccurs="0"/>
+			<xs:element type="nonEmptyStringType" name="ukjentBrukerPersoninfo" minOccurs="0"/>
+			<xs:element type="nonEmptyStringType" name="arkivtittel" minOccurs="0"/>
+			<xs:element type="nonEmptyStringType" name="overskriftstittel"/>
+			<xs:element type="foerstesideTypeKode" name="foerstesideType"/>
+			<xs:element type="nonEmptyStringType" name="navSkjemaId" minOccurs="0"/>
+			<xs:element type="dokumentListeType" name="dokumentListe" minOccurs="0"/>
+			<xs:element type="nonEmptyStringType" name="enhetsnummer" minOccurs="0"/>
+			<xs:element type="nonEmptyStringType" name="løpenummer"/>
+			<xs:element type="nonEmptyStringType" name="strekkode2"/>
+
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="adresseType">
+		<xs:all>
+			<xs:element type="nonEmptyStringType" name="adresselinje1"/>
+			<xs:element type="nonEmptyStringType" name="adresselinje2" minOccurs="0"/>
+			<xs:element type="nonEmptyStringType" name="adresselinje3" minOccurs="0"/>
+			<xs:element type="nonEmptyStringType" name="postNr"/>
+			<xs:element type="nonEmptyStringType" name="poststed"/>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="avsenderType">
+		<xs:all>
+			<xs:element type="nonEmptyStringType" name="avsenderID" minOccurs="0"/>
+			<xs:element type="nonEmptyStringType" name="avsenderNavn" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="brukerType">
+		<xs:all>
+			<xs:element type="nonEmptyStringType" name="brukerID"/>
+			<xs:element type="brukertypeType" name="brukertype"/>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="dokumentListeType">
+		<xs:sequence>
+			<xs:element type="dokumentType" name="dokument" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="dokumentType">
+		<xs:all>
+			<xs:element type="nonEmptyStringType" name="dokumentTittel"/>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:simpleType name="brukertypeType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="PERSON">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ORGANISASJON">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="spraakKode">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="NB"/>
+			<xs:enumeration value="NN"/>
+			<xs:enumeration value="EN"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="foerstesideTypeKode">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="LOESPOST">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ETTERSENDELSE">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SKJEMA">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NAV_INTERN">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="nonEmptyStringType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
