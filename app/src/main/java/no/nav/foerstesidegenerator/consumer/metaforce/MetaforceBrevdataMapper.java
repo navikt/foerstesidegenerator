@@ -1,15 +1,15 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
 import no.nav.foerstesidegenerator.domain.Foersteside;
-import no.nav.foerstesidegenerator.foerstesidebrev.AdresseType;
-import no.nav.foerstesidegenerator.foerstesidebrev.BrevdataType;
-import no.nav.foerstesidegenerator.foerstesidebrev.BrukerType;
-import no.nav.foerstesidegenerator.foerstesidebrev.BrukertypeType;
-import no.nav.foerstesidegenerator.foerstesidebrev.DokumentListeType;
-import no.nav.foerstesidegenerator.foerstesidebrev.DokumentType;
-import no.nav.foerstesidegenerator.foerstesidebrev.FagType;
-import no.nav.foerstesidegenerator.foerstesidebrev.FoerstesideTypeKode;
-import no.nav.foerstesidegenerator.foerstesidebrev.SpraakKode;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.AdresseType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.BrukerType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.BrukertypeType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.DokumentListeType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.DokumentType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.FagType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.FoerstesideTypeKode;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
 
 import java.util.List;
 

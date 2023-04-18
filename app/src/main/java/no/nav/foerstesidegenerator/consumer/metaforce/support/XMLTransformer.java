@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.consumer.metaforce.support;
 
-import no.nav.foerstesidegenerator.foerstesidebrev.BrevdataType;
-import no.nav.foerstesidegenerator.foerstesidebrev.ObjectFactory;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.ObjectFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

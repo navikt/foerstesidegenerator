@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema attributeFormDefault="unqualified"
 		   elementFormDefault="qualified"
-		   targetNamespace="http://foerstesidegenerator.nav.no/foerstesidebrev"
-		   xmlns="http://foerstesidegenerator.nav.no/foerstesidebrev"
 		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<xs:element name="brevdata" type="brevdataType"/>
@@ -22,6 +20,7 @@
 			<xs:element type="nonEmptyStringType" name="ukjentBrukerPersoninfo" minOccurs="0"/>
 			<xs:element type="nonEmptyStringType" name="arkivtittel" minOccurs="0"/>
 			<xs:element type="nonEmptyStringType" name="overskriftstittel"/>
+			<xs:element type="nonEmptyStringType" name="tema" minOccurs="0"/>
 			<xs:element type="foerstesideTypeKode" name="foerstesideType"/>
 			<xs:element type="nonEmptyStringType" name="navSkjemaId" minOccurs="0"/>
 			<xs:element type="dokumentListeType" name="dokumentListe" minOccurs="0"/>
