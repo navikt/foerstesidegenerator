@@ -78,7 +78,6 @@ public class FoerstesideService {
 		String loepenummer = foerstesideCounterService.hentLoepenummer();
 		Foersteside foersteside = foerstesideMapper.map(request, loepenummer, headers);
 		foerstesideRepository.save(foersteside);
-		log.info("Opprettet føsrsteside med foerstesideId={} i database", foersteside.getFoerstesideId());
 		return foersteside;
 	}
 
