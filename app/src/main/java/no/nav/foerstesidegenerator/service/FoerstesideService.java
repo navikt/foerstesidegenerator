@@ -90,8 +90,7 @@ public class FoerstesideService {
 				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId(),
 				XMLTransformer.transformXML(brevdata));
 
-		log.info("Mottatt kall til å generere førsteside vha metaforce");
-
+		log.info("Mottatt kall til å generere førsteside med løpenummer={} vha metaforce", foersteside.getLoepenummer());
 		return metaforceConsumer.createDocument(metaforceRequest);
 	}
 
