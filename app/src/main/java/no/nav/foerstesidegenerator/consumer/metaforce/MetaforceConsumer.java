@@ -5,6 +5,7 @@ import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentRequ
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResponseTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.DomUtil;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.MetaforceDocumentType;
+import no.nav.foerstesidegenerator.exception.MetaforceFunctionalException;
 import no.nav.foerstesidegenerator.exception.MetaforceTechnicalException;
 import org.datacontract.schemas._2004._07.metaforce_common.DocumentReturn;
 import org.datacontract.schemas._2004._07.metaforce_common.Format;
@@ -14,6 +15,9 @@ import se.metaforce.services.GSCreateDocument;
 import se.metaforce.services.IGeneralService;
 
 import java.nio.charset.StandardCharsets;
+
+import static java.lang.String.format;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Component
@@ -45,8 +49,13 @@ public class MetaforceConsumer {
 					.executionTimeInternal(documentReturn.getExecutionTimeInternal())
 					.build();
 		} catch (Exception e) {
+			if (nonNull(documentReturn) && documentReturn.getErrorDescription() != null) {
+				log.error("Metaforce:GS_CreateDocument feilet funksjonell med feilmelding={}", documentReturn.getErrorDescription());
+				throw new MetaforceFunctionalException(format("Metaforce:GS_CreateDocument feilet funksjonell med ikkeRedigerbarMalId=%s, feilmelding=%s",
+						createDocumentRequestTo.getMetafile(), documentReturn.getErrorDescription()));
+			}
 			log.error("Metaforce:GS_CreateDocument feilet med feilmelding={}", e.getMessage());
-			throw new MetaforceTechnicalException(String.format("Kall mot %s feilet teknisk for ikkeRedigerbarMalId=%s.%s",
+			throw new MetaforceTechnicalException(format("Kall mot %s feilet teknisk for ikkeRedigerbarMalId=%s.%s",
 					processCalled,
 					createDocumentRequestTo.getMetafile(),
 					documentReturn != null ? " ErrorDescription: " + documentReturn.getErrorDescription() : ""), e);
