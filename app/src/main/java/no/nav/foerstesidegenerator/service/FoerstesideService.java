@@ -1,6 +1,9 @@
 package no.nav.foerstesidegenerator.service;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.consumer.dokkat.DokumentTypeInfoConsumer;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceBrevdataMapper;
@@ -10,9 +13,8 @@ import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResp
 import no.nav.foerstesidegenerator.consumer.metaforce.support.XMLTransformer;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
-import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
+import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
+import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
 import no.nav.foerstesidegenerator.exception.InvalidLoepenummerException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
@@ -61,17 +63,27 @@ public class FoerstesideService {
 	}
 
 	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request, HttpHeaders headers) {
-		postFoerstesideRequestValidator.validate(request, headers);
 
-		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
-		Foersteside foersteside = incrementLoepenummerAndPersist(request, headers);
-		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
+		try {
+			postFoerstesideRequestValidator.validate(request, headers);
 
-		log.info("Ny førsteside med løpenummer={} og dokumenttypeId={} har blitt generert vha Metaforce", foersteside.getLoepenummer(), FOERSTESIDE_DOKUMENTTYPE_ID);
-		return PostFoerstesideResponse.builder()
-				.foersteside(document.getDocumentData().clone())
-				.loepenummer(foersteside.getLoepenummer())
-				.build();
+			DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
+			Foersteside foersteside = incrementLoepenummerAndPersist(request, headers);
+			CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
+
+			log.info("Ny førsteside med løpenummer={} og dokumenttypeId={} har blitt generert vha Metaforce", foersteside.getLoepenummer(), FOERSTESIDE_DOKUMENTTYPE_ID);
+			return PostFoerstesideResponse.builder()
+					.foersteside(document.getDocumentData().clone())
+					.loepenummer(foersteside.getLoepenummer())
+					.build();
+		} catch (Exception e) {
+			if (e instanceof FoerstesideGeneratorFunctionalException) {
+				log.error("Feilet funksjonnel med feilmelding={}", e.getMessage());
+				throw (FoerstesideGeneratorFunctionalException) e;
+			}
+			log.error("Feilet teknisk med feilmelding={}", e.getMessage());
+			throw (FoerstesideGeneratorTechnicalException) e;
+		}
 	}
 
 	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request, HttpHeaders headers) {
@@ -108,11 +120,11 @@ public class FoerstesideService {
 
 	private void validerLoepenummer(String loepenummer) {
 		if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT) {
+			log.warn("Løpenummer har ugyldig lengde");
 			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
 		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT && !validateLoepenummerWithCheckDigit(loepenummer)) {
-			throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil: " + loepenummer);
+			log.warn("Kontrollsiffer oppgitt er feil loepenummer={} " + loepenummer);
+			throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil loepenummer=: " + loepenummer);
 		}
 	}
-
-
 }
