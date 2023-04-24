@@ -13,8 +13,6 @@ import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResp
 import no.nav.foerstesidegenerator.consumer.metaforce.support.XMLTransformer;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
-import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
-import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
 import no.nav.foerstesidegenerator.exception.InvalidLoepenummerException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
@@ -63,27 +61,17 @@ public class FoerstesideService {
 	}
 
 	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request, HttpHeaders headers) {
+		postFoerstesideRequestValidator.validate(request, headers);
 
-		try {
-			postFoerstesideRequestValidator.validate(request, headers);
+		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
+		Foersteside foersteside = incrementLoepenummerAndPersist(request, headers);
+		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
 
-			DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
-			Foersteside foersteside = incrementLoepenummerAndPersist(request, headers);
-			CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
-
-			log.info("Ny førsteside med løpenummer={} og dokumenttypeId={} har blitt generert vha Metaforce", foersteside.getLoepenummer(), FOERSTESIDE_DOKUMENTTYPE_ID);
-			return PostFoerstesideResponse.builder()
-					.foersteside(document.getDocumentData().clone())
-					.loepenummer(foersteside.getLoepenummer())
-					.build();
-		} catch (Exception e) {
-			if (e instanceof FoerstesideGeneratorFunctionalException) {
-				log.error("Feilet funksjonnel med feilmelding={}", e.getMessage());
-				throw (FoerstesideGeneratorFunctionalException) e;
-			}
-			log.error("Feilet teknisk med feilmelding={}", e.getMessage());
-			throw (FoerstesideGeneratorTechnicalException) e;
-		}
+		log.info("Ny førsteside med løpenummer={} og dokumenttypeId={} har blitt generert vha Metaforce", foersteside.getLoepenummer(), FOERSTESIDE_DOKUMENTTYPE_ID);
+		return PostFoerstesideResponse.builder()
+				.foersteside(document.getDocumentData().clone())
+				.loepenummer(foersteside.getLoepenummer())
+				.build();
 	}
 
 	private Foersteside incrementLoepenummerAndPersist(PostFoerstesideRequest request, HttpHeaders headers) {
