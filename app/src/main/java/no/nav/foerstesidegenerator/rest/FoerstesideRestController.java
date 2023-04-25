@@ -36,7 +36,6 @@ public class FoerstesideRestController {
 	@ResponseBody
 	public FoerstesideResponse getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
 		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra løpenummer={}", loepenummer);
-
 		return foerstesideService.getFoersteside(loepenummer);
 	}
 

@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentRequestTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResponseTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.DomUtil;
@@ -14,6 +15,9 @@ import se.metaforce.services.IGeneralService;
 
 import java.nio.charset.StandardCharsets;
 
+import static java.lang.String.format;
+
+@Slf4j
 @Component
 public class MetaforceConsumer {
 	private final IGeneralService metaforcews;
@@ -43,7 +47,8 @@ public class MetaforceConsumer {
 					.executionTimeInternal(documentReturn.getExecutionTimeInternal())
 					.build();
 		} catch (Exception e) {
-			throw new MetaforceTechnicalException(String.format("Kall mot %s feilet teknisk for ikkeRedigerbarMalId=%s.%s",
+			log.error("Metaforce:GS_CreateDocument feilet med feilmelding={}", e.getMessage());
+			throw new MetaforceTechnicalException(format("Kall mot %s feilet teknisk for ikkeRedigerbarMalId=%s.%s",
 					processCalled,
 					createDocumentRequestTo.getMetafile(),
 					documentReturn != null ? " ErrorDescription: " + documentReturn.getErrorDescription() : ""), e);

@@ -1,6 +1,9 @@
 package no.nav.foerstesidegenerator.service;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.consumer.dokkat.DokumentTypeInfoConsumer;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceBrevdataMapper;
@@ -10,15 +13,12 @@ import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentResp
 import no.nav.foerstesidegenerator.consumer.metaforce.support.XMLTransformer;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
-import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
 import no.nav.foerstesidegenerator.exception.InvalidLoepenummerException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.foerstesidegenerator.service.support.FoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
-import no.nav.foerstesidegenerator.foerstesidebrev.BrevdataType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +89,7 @@ public class FoerstesideService {
 				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId(),
 				XMLTransformer.transformXML(brevdata));
 
+		log.info("Mottatt kall til å generere førsteside med løpenummer={} vha metaforce", foersteside.getLoepenummer());
 		return metaforceConsumer.createDocument(metaforceRequest);
 	}
 
@@ -107,11 +108,11 @@ public class FoerstesideService {
 
 	private void validerLoepenummer(String loepenummer) {
 		if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT) {
+			log.warn("Løpenummer har ugyldig lengde");
 			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
 		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT && !validateLoepenummerWithCheckDigit(loepenummer)) {
-			throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil: " + loepenummer);
+			log.warn("Kontrollsiffer oppgitt er feil loepenummer={} " + loepenummer);
+			throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil loepenummer=: " + loepenummer);
 		}
 	}
-
-
 }

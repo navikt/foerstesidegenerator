@@ -1,10 +1,10 @@
 package no.nav.foerstesidegenerator.consumer.metaforce;
 
 import no.nav.foerstesidegenerator.domain.Foersteside;
-import no.nav.foerstesidegenerator.foerstesidebrev.BrevdataType;
-import no.nav.foerstesidegenerator.foerstesidebrev.FagType;
-import no.nav.foerstesidegenerator.foerstesidebrev.FoerstesideTypeKode;
-import no.nav.foerstesidegenerator.foerstesidebrev.SpraakKode;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.BrevdataType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.FagType;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.FoerstesideTypeKode;
+import no.nav.foerstesidegenerator.xml.jaxb.gen.SpraakKode;
 import org.junit.jupiter.api.Test;
 
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;

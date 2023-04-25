@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 class FoerstesidegeneratorIT extends AbstractIT {
 
@@ -228,7 +229,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
 
-		assertEquals(HttpStatus.NOT_FOUND, getResponse.getStatusCode());
+		assertEquals(NOT_FOUND, getResponse.getStatusCode());
 	}
 
 	@Test
@@ -246,7 +247,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	@DisplayName("POST førsteside - Dokkat returns 404 not found")
 	void shouldThrowExceptionIfDokkatReturns404NotFound() {
 		stubFor(get(urlPathMatching("/DOKUMENTTYPEINFO_V4(.*)"))
-				.willReturn(aResponse().withStatus(HttpStatus.NOT_FOUND.value())
+				.willReturn(aResponse().withStatus(NOT_FOUND.value())
 						.withHeader("Content-Type", "application/json")
 						.withBody("Could not find dokumenttypeId: DOKTYPENOTFOUND in repository")));
 
@@ -255,7 +256,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		ResponseEntity<DokkatConsumerFunctionalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, DokkatConsumerFunctionalException.class);
 
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(NOT_FOUND, response.getStatusCode());
 		assertNotNull(response.getBody());
 		assertTrue(response.getBody().getMessage().startsWith("TKAT020 feilet med statusKode=404 NOT_FOUND"));
 	}

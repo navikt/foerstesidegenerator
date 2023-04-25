@@ -38,7 +38,8 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<generateDirectory>${project.build.directory}/generated-sources/foersteside</generateDirectory>
+							<generatePackage>no.nav.foerstesidegenerator.xml.jaxb.gen</generatePackage>
+							<generateDirectory>${project.build.directory}/generated-sources/jaxb/foersteside</generateDirectory>
 							<schemaDirectory>${basedir}/src/main/resources/brevpakke</schemaDirectory>
 							<schemaIncludes>
 								<include>foersteside_000124.xsd</include>
