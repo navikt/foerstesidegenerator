@@ -8,6 +8,7 @@ import no.nav.foerstesidegenerator.azure.TokenResponse;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentProduksjonsInfoTo;
 import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
 import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
+import no.nav.foerstesidegenerator.exception.DokkatConsumerTechnicalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +64,7 @@ public class DokumentTypeInfoConsumer {
 			throw new DokkatConsumerFunctionalException(String.format("TKAT020 feilet med statusKode=%s. Fant ingen dokumenttypeInfo med dokumenttypeId=%s. Feilmelding=%s",
 					e.getStatusCode(), dokumenttypeId, e.getResponseBodyAsString()), e);
 		} catch (HttpServerErrorException e) {
-			throw new FoerstesideGeneratorTechnicalException(String.format("TKAT020 feilet teknisk med statusKode=%s, feilmelding=%s",
+			throw new DokkatConsumerTechnicalException(String.format("TKAT020 feilet teknisk med statusKode=%s, feilmelding=%s",
 					e.getStatusCode(), e.getResponseBodyAsString()), e);
 		}
 		return mapResponse(response);
