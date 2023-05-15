@@ -25,13 +25,13 @@
 
         <!-- Interne NAV-avhengigheter -->
         <dokmet.api.version>13-5459a4f</dokmet.api.version>
-        <metaforce-tjenestespesifikasjon.version>9.1.1</metaforce-tjenestespesifikasjon.version>
+        <metaforce-tjenestespesifikasjon.version>2-3adc79e</metaforce-tjenestespesifikasjon.version>
 
         <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
         <apache-cxf.version>3.5.5</apache-cxf.version>
         <commons-validator.version>1.7</commons-validator.version>
         <token-support.version>2.1.9</token-support.version>
-        <springdoc-openapi-ui.version>1.6.14</springdoc-openapi-ui.version>
+        <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
 
         <!-- Test -->
         <spring-cloud-contract-wiremock.version>3.1.6</spring-cloud-contract-wiremock.version>
@@ -83,16 +83,6 @@
                 <groupId>no.nav.tjenester.metaforce</groupId>
                 <artifactId>metaforce-general-service-tjenestespesifikasjon</artifactId>
                 <version>${metaforce-tjenestespesifikasjon.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>joda-time</groupId>
-                        <artifactId>joda-time</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <!-- CXF -->
             <dependency>
