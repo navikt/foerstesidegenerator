@@ -25,7 +25,7 @@
 
         <!-- Interne NAV-avhengigheter -->
         <dokmet.api.version>13-5459a4f</dokmet.api.version>
-        <metaforce-tjenestespesifikasjon.version>2-3adc79e</metaforce-tjenestespesifikasjon.version>
+        <metaforce-tjenestespesifikasjon.version>3-13b6a2c</metaforce-tjenestespesifikasjon.version>
 
         <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
         <apache-cxf.version>3.5.5</apache-cxf.version>
