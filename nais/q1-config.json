@@ -32,6 +32,6 @@
 			"app": "hm-joark-sink",
 			"namespace": "teamdigihot",
 			"cluster": "dev-gcp"
-		},
+		}
 	]
 }
