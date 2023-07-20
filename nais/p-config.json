@@ -36,6 +36,11 @@
 			"app": "forstesidegenerator",
 			"namespace": "isa",
 			"cluster": "prod-gcp"
+		},
+                {
+			"app": "hm-joark-sink",
+			"namespace": "teamdigihot",
+			"cluster": "prod-gcp"
 		}
 	]
 }
