@@ -4,17 +4,18 @@ import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.foerstesidegenerator.domain.Foersteside;
-import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
 import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype;
+import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
 import no.nav.foerstesidegenerator.domain.code.MetadataConstants;
 
 import java.util.Arrays;
 
 import static no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
 import static no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype.SKJEMA;
+import static no.nav.dok.foerstesidegenerator.api.v1.code.Spraakkode.NB;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
@@ -36,7 +37,6 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
-import static no.nav.dok.foerstesidegenerator.api.v1.code.Spraakkode.NB;
 
 public class TestUtils {
 
@@ -271,10 +271,12 @@ public class TestUtils {
 				.build();
 	}
 
-//	Domeneobjekt-metoder
-
 	public static Foersteside createFoersteside(String loepenummer) {
 		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
+	}
+
+	public static Foersteside createFoerstesideWithTemaOKO(String loepenummer) {
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, "OKO", null, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoersteside(String loepenummer, String netspostboks) {

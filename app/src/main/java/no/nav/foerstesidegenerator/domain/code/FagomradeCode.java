@@ -19,8 +19,6 @@ public enum FagomradeCode {
 	BII,
 	/** Bil */
 	BIL,
-	/** Condictio indebiti */
-	CON,
 	/** Dagpenger */
 	DAG,
 	/** Enslig forsørger */
@@ -77,8 +75,6 @@ public enum FagomradeCode {
 	MOB,
 	/** Skanning */
 	MOT,
-	/** Okonomi */
-	OKO,
 	/** Omsorgspenger, Pleiepenger og opplæringspenger */
 	OMS,
 	/** Oppfølging */
@@ -107,8 +103,6 @@ public enum FagomradeCode {
 	SAP,
 	/** Serviceklager */
 	SER,
-	/** Sikkerhetstiltak */
-	SIK,
 	/** Stønadsregnskap */
 	STO,
 	/** Supplerende stønad */
