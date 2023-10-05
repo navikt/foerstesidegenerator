@@ -23,7 +23,6 @@ public class RestInvalidExceptionHandler extends ResponseEntityExceptionHandler 
 		Map<String, Object> responseBody = new HashMap<>();
 		logger.warn("Feilet funksjonell med feilmelding=" + e.getMessage(), e);
 		responseBody.put("message", e.getMessage());
-		responseBody.put("error", e);
 		if (e.getMessage().contains(NOT_FOUND.toString())) {
 			responseBody.put("status", NOT_FOUND);
 			return new ResponseEntity<>(responseBody, NOT_FOUND);
@@ -38,7 +37,6 @@ public class RestInvalidExceptionHandler extends ResponseEntityExceptionHandler 
 		Map<String, Object> responseBody = new HashMap<>();
 		logger.warn("Feilet funksjonell med feilmelding=" + e.getMessage(), e);
 		responseBody.put("message", e.getMessage());
-		responseBody.put("error", e);
 		return new ResponseEntity<>(responseBody, NOT_FOUND);
 	}
 
@@ -48,7 +46,6 @@ public class RestInvalidExceptionHandler extends ResponseEntityExceptionHandler 
 		Map<String, Object> responseBody = new HashMap<>();
 		logger.error("Feilet teknisk med feilmelding=" + e.getMessage(), e);
 		responseBody.put("message", e.getMessage());
-		responseBody.put("error", e);
 		return new ResponseEntity<>(responseBody, INTERNAL_SERVER_ERROR);
 	}
 }

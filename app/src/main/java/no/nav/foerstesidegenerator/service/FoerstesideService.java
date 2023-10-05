@@ -95,7 +95,7 @@ public class FoerstesideService {
 
 	public FoerstesideResponse getFoersteside(String loepenummer) {
 		validerLoepenummer(loepenummer);
-		log.info("Løpenummer validert ok");
+		log.info("Løpenummer={} validert ok", loepenummer);
 
 		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, LOEPENUMMER_LENGTH))
 				.orElseThrow(() -> new FoerstesideNotFoundException(loepenummer));
@@ -108,11 +108,11 @@ public class FoerstesideService {
 
 	private void validerLoepenummer(String loepenummer) {
 		if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT) {
-			log.warn("Løpenummer har ugyldig lengde");
+			log.warn("Løpenummer har ugyldig lengde. løpenummer={}", loepenummer);
 			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
 		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT && !validateLoepenummerWithCheckDigit(loepenummer)) {
-			log.warn("Kontrollsiffer oppgitt er feil loepenummer={} " + loepenummer);
-			throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil loepenummer=: " + loepenummer);
+			log.warn("Kontrollsiffer oppgitt er feil løpenummer={}", loepenummer);
+			throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil løpenummer=" + loepenummer);
 		}
 	}
 }

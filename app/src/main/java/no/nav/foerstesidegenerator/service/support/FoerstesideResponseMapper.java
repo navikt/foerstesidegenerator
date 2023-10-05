@@ -1,20 +1,21 @@
 package no.nav.foerstesidegenerator.service.support;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.springframework.util.StringUtils.delimitedListToStringArray;
-
 import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
 import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType;
+import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static no.nav.foerstesidegenerator.domain.code.FagomradeCode.STO;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
 @Component
 public class FoerstesideResponseMapper {
@@ -23,7 +24,7 @@ public class FoerstesideResponseMapper {
 		return FoerstesideResponse.builder()
 				.avsender(mapAvsender(domain))
 				.bruker(mapBruker(domain))
-				.tema(domain.getTema())
+				.tema(mapTema(domain))
 				.behandlingstema(domain.getBehandlingstema())
 				.arkivtittel(domain.getArkivtittel())
 				.navSkjemaId(domain.getNavSkjemaId())
@@ -32,6 +33,13 @@ public class FoerstesideResponseMapper {
 				.arkivsak(mapArkivsak(domain))
 				.foerstesideOpprettetAv(domain.getFoerstesideOpprettetAv())
 				.build();
+	}
+
+	private static String mapTema(Foersteside domain) {
+		if ("OKO".equals(domain.getTema())) {
+			return STO.name();
+		}
+		return domain.getTema();
 	}
 
 	private Avsender mapAvsender(Foersteside domain) {
