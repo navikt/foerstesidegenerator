@@ -7,13 +7,13 @@ import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
 import no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem;
 import no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType;
 import no.nav.foerstesidegenerator.domain.Foersteside;
-import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static no.nav.foerstesidegenerator.domain.code.FagomradeCode.STO;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
@@ -37,7 +37,7 @@ public class FoerstesideResponseMapper {
 
 	private static String mapTema(Foersteside domain) {
 		if ("OKO".equals(domain.getTema())) {
-			return FagomradeCode.STO.name();
+			return STO.name();
 		}
 		return domain.getTema();
 	}

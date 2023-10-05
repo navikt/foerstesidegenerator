@@ -111,8 +111,8 @@ public class FoerstesideService {
 			log.warn("Løpenummer har ugyldig lengde. løpenummer={}", loepenummer);
 			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
 		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT && !validateLoepenummerWithCheckDigit(loepenummer)) {
-			log.warn("Kontrollsiffer oppgitt er feil løpenummer={} ", loepenummer);
-			throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil løpenummer=: " + loepenummer);
+			log.warn("Kontrollsiffer oppgitt er feil løpenummer={}", loepenummer);
+			throw new InvalidLoepenummerException("Kontrollsiffer oppgitt er feil løpenummer=" + loepenummer);
 		}
 	}
 }
