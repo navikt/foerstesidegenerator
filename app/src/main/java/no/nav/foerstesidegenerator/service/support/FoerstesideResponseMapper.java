@@ -1,11 +1,11 @@
 package no.nav.foerstesidegenerator.service.support;
 
-import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
-import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
-import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
-import no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem;
-import no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType;
+import no.nav.foerstesidegenerator.api.v1.Arkivsak;
+import no.nav.foerstesidegenerator.api.v1.Avsender;
+import no.nav.foerstesidegenerator.api.v1.Bruker;
+import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
+import no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem;
+import no.nav.foerstesidegenerator.api.v1.code.BrukerType;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.springframework.stereotype.Component;
 
@@ -69,7 +69,7 @@ public class FoerstesideResponseMapper {
 	private List<String> mapVedlegg(Foersteside domain) {
 		String vedleggString = domain.getVedleggListe();
 		String[] splitted = delimitedListToStringArray(vedleggString, ";");
-		if (isEmpty(vedleggString) || splitted == null) {
+		if (isEmpty(vedleggString)) {
 			return Collections.emptyList();
 		}
 		return Arrays.asList(splitted);

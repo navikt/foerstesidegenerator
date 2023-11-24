@@ -1,4 +1,4 @@
-package no.nav.dok.foerstesidegenerator.api.v1.code;
+package no.nav.foerstesidegenerator.api.v1.code;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

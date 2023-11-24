@@ -1,9 +1,9 @@
 package no.nav.foerstesidegenerator.rest;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideResponse;
+import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
+import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import no.nav.security.token.support.core.api.Protected;
 import org.springframework.http.HttpHeaders;
