@@ -1,21 +1,21 @@
 package no.nav.foerstesidegenerator;
 
-import no.nav.dok.foerstesidegenerator.api.v1.Adresse;
-import no.nav.dok.foerstesidegenerator.api.v1.Arkivsak;
-import no.nav.dok.foerstesidegenerator.api.v1.Avsender;
-import no.nav.dok.foerstesidegenerator.api.v1.Bruker;
-import no.nav.dok.foerstesidegenerator.api.v1.PostFoerstesideRequest;
-import no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem;
-import no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype;
+import no.nav.foerstesidegenerator.api.v1.Adresse;
+import no.nav.foerstesidegenerator.api.v1.Arkivsak;
+import no.nav.foerstesidegenerator.api.v1.Avsender;
+import no.nav.foerstesidegenerator.api.v1.Bruker;
+import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem;
+import no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
 import no.nav.foerstesidegenerator.domain.code.MetadataConstants;
 
 import java.util.Arrays;
 
-import static no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
-import static no.nav.dok.foerstesidegenerator.api.v1.code.Foerstesidetype.SKJEMA;
-import static no.nav.dok.foerstesidegenerator.api.v1.code.Spraakkode.NB;
+import static no.nav.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
+import static no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype.SKJEMA;
+import static no.nav.foerstesidegenerator.api.v1.code.Spraakkode.NB;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
@@ -51,7 +51,6 @@ public class TestUtils {
 
 	public static final String BRUKER_ID = "14036609142";
 	public static final String BRUKER_ID_INVALID = "00000000111";
-	public static final String BRUKER_ID_10_DIGIT = "1403660914";
 	public static final String BRUKER_PERSON = "PERSON";
 
 	public static final String TEMA_FORELDREPENGER = "FOR";
@@ -281,10 +280,6 @@ public class TestUtils {
 
 	public static Foersteside createFoersteside(String loepenummer, String netspostboks) {
 		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, netspostboks, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
-	}
-
-	public static Foersteside createFoerstesideWithoutAdresse(String loepenummer) {
-		return createFoersteside(loepenummer, null, null, null, NETS, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoerstesideWithoutAvsenderAndBruker(String loepenummer) {

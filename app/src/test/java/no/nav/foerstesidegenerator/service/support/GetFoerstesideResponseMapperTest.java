@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.service.support;
 
 
-import no.nav.dok.foerstesidegenerator.api.v1.FoerstesideResponse;
+import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,8 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 
-import static no.nav.dok.foerstesidegenerator.api.v1.code.Arkivsaksystem.PSAK;
-import static no.nav.dok.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
 import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
@@ -27,6 +25,8 @@ import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
 import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
 import static no.nav.foerstesidegenerator.TestUtils.createFoerstesideWithTemaOKO;
 import static no.nav.foerstesidegenerator.TestUtils.createFoerstesideWithoutAvsenderAndBruker;
+import static no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem.PSAK;
+import static no.nav.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
