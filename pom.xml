@@ -26,9 +26,10 @@
         <!-- Interne NAV-avhengigheter -->
         <dokmet.api.version>23-5fe145a</dokmet.api.version>
         <metaforce-tjenestespesifikasjon.version>29-af3d66d</metaforce-tjenestespesifikasjon.version>
+        <joda-time.version>2.12.5</joda-time.version>
 
-        <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
-        <apache-cxf.version>4.0.1</apache-cxf.version>
+        <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
+        <apache-cxf.version>4.0.3</apache-cxf.version>
         <commons-validator.version>1.7</commons-validator.version>
         <token-support.version>3.2.0</token-support.version>
         <springdoc-openapi-webmvc-ui.version>2.3.0</springdoc-openapi-webmvc-ui.version>
@@ -40,7 +41,7 @@
         <maven-toolchains-plugin.version>3.1.0</maven-toolchains-plugin.version>
 
         <!-- Plugins brukt i app pom -->
-		<patrodyne-basicjaxb.version>2.1.1</patrodyne-basicjaxb.version>
+        <patrodyne-basicjaxb.version>2.1.1</patrodyne-basicjaxb.version>
         <jaxb-runtime.version>4.0.4</jaxb-runtime.version>
         <!-- Overstyrer og nedgraderer H2 database versjon i test scope - inkompatibel flyway script.
         Ny versjon av H2 i Spring Boot 2.7.x se https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#h2-21 -->
@@ -53,7 +54,7 @@
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
-                <version>2.12.5</version>
+                <version>${joda-time.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.nav.dok</groupId>
