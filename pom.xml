@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
+        <version>3.2.1</version>
     </parent>
 
     <groupId>no.nav.dok</groupId>
@@ -24,26 +24,25 @@
         <java.version>17</java.version>
 
         <!-- Interne NAV-avhengigheter -->
-        <dokmet.api.version>13-5459a4f</dokmet.api.version>
-        <metaforce-tjenestespesifikasjon.version>3-13b6a2c</metaforce-tjenestespesifikasjon.version>
+        <dokmet.api.version>23-5fe145a</dokmet.api.version>
+        <metaforce-tjenestespesifikasjon.version>29-af3d66d</metaforce-tjenestespesifikasjon.version>
+        <joda-time.version>2.12.5</joda-time.version>
 
-        <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
-        <apache-cxf.version>3.5.7</apache-cxf.version>
+        <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
+        <apache-cxf.version>4.0.3</apache-cxf.version>
         <commons-validator.version>1.7</commons-validator.version>
-        <token-support.version>2.1.9</token-support.version>
-        <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
+        <token-support.version>3.2.0</token-support.version>
+        <springdoc-openapi-webmvc-ui.version>2.3.0</springdoc-openapi-webmvc-ui.version>
 
         <!-- Test -->
-        <spring-cloud-contract-wiremock.version>3.1.6</spring-cloud-contract-wiremock.version>
+        <spring-cloud-contract-wiremock.version>4.1.0</spring-cloud-contract-wiremock.version>
 
         <!-- Plugins -->
         <maven-toolchains-plugin.version>3.1.0</maven-toolchains-plugin.version>
 
         <!-- Plugins brukt i app pom -->
-        <maven-jaxb2-plugin.version>0.15.2</maven-jaxb2-plugin.version>
-        <jaxb2-basics-runtime.version>0.13.1</jaxb2-basics-runtime.version>
-        <jaxb2-basics-annotate.version>1.1.0</jaxb2-basics-annotate.version>
-        <jaxb-runtime.version>2.3.7</jaxb-runtime.version>
+        <patrodyne-basicjaxb.version>2.1.1</patrodyne-basicjaxb.version>
+        <jaxb-runtime.version>4.0.4</jaxb-runtime.version>
         <!-- Overstyrer og nedgraderer H2 database versjon i test scope - inkompatibel flyway script.
         Ny versjon av H2 i Spring Boot 2.7.x se https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#h2-21 -->
         <h2.version>1.4.200</h2.version>
@@ -53,14 +52,19 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>no.nav.dok</groupId>
                 <artifactId>foerstesideschema</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
-                <version>${springdoc-openapi-ui.version}</version>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc-openapi-webmvc-ui.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.nav.dokmet</groupId>
@@ -75,9 +79,9 @@
             </dependency>
             <!-- Dependencies for CXF / jaxb -->
             <dependency>
-                <groupId>org.jvnet.jaxb2_commons</groupId>
-                <artifactId>jaxb2-basics-runtime</artifactId>
-                <version>${jaxb2-basics-runtime.version}</version>
+                <groupId>org.patrodyne.jvnet</groupId>
+                <artifactId>hisrc-basicjaxb-runtime</artifactId>
+                <version>${patrodyne-basicjaxb.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.nav.tjenester.metaforce</groupId>

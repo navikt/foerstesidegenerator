@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING;
+import static jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING;
 import static org.apache.wss4j.common.ConfigurationConstants.ACTION;
 import static org.apache.wss4j.common.ConfigurationConstants.PASSWORD_TYPE;
 import static org.apache.wss4j.common.ConfigurationConstants.PW_CALLBACK_REF;

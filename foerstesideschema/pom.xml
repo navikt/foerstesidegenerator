@@ -21,9 +21,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>${maven-jaxb2-plugin.version}</version>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
+				<version>${patrodyne-basicjaxb.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.glassfish.jaxb</groupId>
@@ -50,14 +50,14 @@
 							<strict>false</strict>
 							<plugins>
 								<plugin>
-									<groupId>org.jvnet.jaxb2_commons</groupId>
-									<artifactId>jaxb2-basics</artifactId>
-									<version>${jaxb2-basics-runtime.version}</version>
+									<groupId>org.patrodyne.jvnet</groupId>
+									<artifactId>hisrc-basicjaxb-plugins</artifactId>
+									<version>${patrodyne-basicjaxb.version}</version>
 								</plugin>
 								<plugin>
-									<groupId>org.jvnet.jaxb2_commons</groupId>
-									<artifactId>jaxb2-basics-annotate</artifactId>
-									<version>${jaxb2-basics-annotate.version}</version>
+									<groupId>org.patrodyne.jvnet</groupId>
+									<artifactId>hisrc-hyperjaxb-annox-plugin</artifactId>
+									<version>${patrodyne-basicjaxb.version}</version>
 								</plugin>
 							</plugins>
 							<args>

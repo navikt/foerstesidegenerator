@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype;
 import no.nav.foerstesidegenerator.api.v1.code.Spraakkode;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 

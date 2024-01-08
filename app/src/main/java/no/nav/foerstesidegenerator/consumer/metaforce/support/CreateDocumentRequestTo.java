@@ -3,7 +3,7 @@ package no.nav.foerstesidegenerator.consumer.metaforce.support;
 import lombok.Getter;
 import org.w3c.dom.Element;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @Getter
 public class CreateDocumentRequestTo {
