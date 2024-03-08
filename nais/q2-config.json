@@ -50,5 +50,5 @@
 			"cluster": "dev-fss",
 			"roles": ["foerstesidegenerator_les"]
 		}
-		]
+	]
 }
