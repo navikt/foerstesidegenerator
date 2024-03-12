@@ -43,6 +43,12 @@
 			"app": "hm-joark-sink",
 			"namespace": "teamdigihot",
 			"cluster": "dev-gcp"
+		},
+		{
+			"app": "skanmotreferansenr",
+			"namespace": "teamdokumenthandtering",
+			"cluster": "dev-fss",
+			"roles": ["foerstesidegenerator_les"]
 		}
 	]
 }
