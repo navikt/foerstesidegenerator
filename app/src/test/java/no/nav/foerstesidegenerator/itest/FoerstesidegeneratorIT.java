@@ -10,6 +10,7 @@ import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalExcept
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_PERSON;
+import static no.nav.foerstesidegenerator.rest.FoerstesideRestController.ROLE_FOERSTESIDEGENERATOR_LES;
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.calculateCheckDigit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -144,7 +146,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		Foersteside foersteside = getFoersteside();
 		String loepenummer = foersteside.getLoepenummer();
 
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
 
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 		assertNotNull(getResponse.getBody().getBruker(), "Bruker skal være satt");
@@ -163,6 +165,23 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	}
 
 	@Test
+	@DisplayName("GET førsteside - feil rolle - 401 Unauthorized")
+	void shouldGetForbiddenWhenHentFoerstesideGivenLoepenummerWithoutRole() {
+		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
+		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+
+		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
+		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
+		Foersteside foersteside = getFoersteside();
+		String loepenummer = foersteside.getLoepenummer();
+
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeadersWithTokenWithRole("invalid_role")), FoerstesideResponse.class);
+
+		assertEquals(HttpStatus.UNAUTHORIZED, getResponse.getStatusCode());
+	}
+
+	@Test
 	@DisplayName("GET førsteside - Ok (løpenummer med kontrollsiffer)")
 	void shouldHentFoerstesideGivenLoepenummerWithCheckDigit() {
 		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
@@ -177,7 +196,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		String checkDigit = calculateCheckDigit(loepenummer);
 		String loepenummerWithCheckDigit = loepenummer + checkDigit;
 
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
 
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 	}
@@ -196,7 +215,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		String loepenummer = foersteside.getLoepenummer();
 		assertThat(foersteside.getTema()).isEqualTo(FagomradeCode.BID.name());
 
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
 		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
 		assertNotNull(getResponse.getBody());
 		assertThat(getResponse.getBody().getTema()).isEqualTo(FagomradeCode.BID.name());
@@ -217,7 +236,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		String checkDigit = calculateCheckDigit(loepenummer);
 		String loepenummerWithWrongCheckDigit = loepenummer + modifyCheckDigit(checkDigit);
 
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithWrongCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithWrongCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
 
 		assertEquals(HttpStatus.BAD_REQUEST, getResponse.getStatusCode());
 	}
@@ -227,7 +246,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void shouldThrowExceptionWhenNoFoerstesideFoundForLoepenummer() {
 		String loepenummer = "1234567890000";
 
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeaders()), FoerstesideResponse.class);
+		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
 
 		assertEquals(NOT_FOUND, getResponse.getStatusCode());
 	}
@@ -294,5 +313,9 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertNotNull(response.getBody());
 		assertTrue(response.getBody().getMessage().startsWith("Kall mot Metaforce:GS_CreateDocument feilet teknisk for ikkeRedigerbarMalId=Foersteside"));
+	}
+
+	private HttpHeaders createHeadersWithValidRole() {
+		return createHeadersWithTokenWithRole(ROLE_FOERSTESIDEGENERATOR_LES);
 	}
 }

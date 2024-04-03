@@ -32,8 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
@@ -41,6 +41,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import static java.util.Collections.emptyMap;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ApplicationLocal.class, ApplicationTestConfig.class},
@@ -104,12 +105,13 @@ public abstract class AbstractIT {
 	}
 
 	private String getToken() {
-		return token("srvtest");
+		return getToken(emptyMap());
 	}
 
-	protected String token(String subject) {
+	protected String getToken(Map<String, Object> claims) {
 		String issuerId = "azurev2";
 		String audience = "skanmot";
+		String subject = "srvtest";
 		return server.issueToken(
 				issuerId,
 				"foerstesidegenerator",
@@ -118,10 +120,19 @@ public abstract class AbstractIT {
 						subject,
 						"JWT",
 						List.of(audience),
-						new HashMap<>(),
+						claims,
 						3600
 				)
 		).serialize();
+	}
+
+	protected HttpHeaders createHeadersWithTokenWithRole(String role) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getToken(Map.of("roles", role)));
+		headers.add("Nav-Consumer-Id", MDC_CONSUMER_ID);
+		headers.add("Nav-Callid", MDC_CALL_ID);
+		return headers;
 	}
 
 	protected HttpHeaders createHeaders() {

@@ -1,6 +1,7 @@
 package no.nav.foerstesidegenerator.exception;
 
 import no.nav.foerstesidegenerator.azure.AzureTokenException;
+import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +13,7 @@ import java.util.Map;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @ControllerAdvice
 public class RestInvalidExceptionHandler extends ResponseEntityExceptionHandler {
@@ -47,5 +49,10 @@ public class RestInvalidExceptionHandler extends ResponseEntityExceptionHandler 
 		logger.error("Feilet teknisk med feilmelding=" + e.getMessage(), e);
 		responseBody.put("message", e.getMessage());
 		return new ResponseEntity<>(responseBody, INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler({JwtTokenUnauthorizedException.class})
+	public ResponseEntity<Object> handleUnauthorizedException(JwtTokenUnauthorizedException jwtTokenUnauthorizedException) {
+		return new ResponseEntity<>(Map.of("message", jwtTokenUnauthorizedException.getMessage()), UNAUTHORIZED);
 	}
 }

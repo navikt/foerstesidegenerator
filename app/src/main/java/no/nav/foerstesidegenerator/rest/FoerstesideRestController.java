@@ -6,6 +6,7 @@ import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.service.FoerstesideService;
 import no.nav.security.token.support.core.api.Protected;
+import no.nav.security.token.support.core.api.ProtectedWithClaims;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Protected
 public class FoerstesideRestController {
 
+	public static final String ISSUER_AZUREV2 = "azurev2";
+	public static final String ROLE_FOERSTESIDEGENERATOR_LES = "foerstesidegenerator_les";
 	private final FoerstesideService foerstesideService;
 
 	public FoerstesideRestController(FoerstesideService foerstesideService) {
@@ -33,6 +36,7 @@ public class FoerstesideRestController {
 
 	@Transactional
 	@GetMapping(value = "/foersteside/{loepenummer}")
+	@ProtectedWithClaims(issuer = ISSUER_AZUREV2, claimMap = { "roles=" + ROLE_FOERSTESIDEGENERATOR_LES })
 	@ResponseBody
 	public FoerstesideResponse getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
 		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra løpenummer={}", loepenummer);
