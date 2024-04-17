@@ -1,5 +1,6 @@
 package no.nav.foerstesidegenerator.domain;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_3;
@@ -24,8 +25,13 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDE_OPPRETTET_AV;
+import static org.hibernate.annotations.CascadeType.DETACH;
+import static org.hibernate.annotations.CascadeType.MERGE;
+import static org.hibernate.annotations.CascadeType.PERSIST;
+import static org.hibernate.annotations.CascadeType.REMOVE;
 import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
+import lombok.Getter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -53,44 +59,32 @@ public class Foersteside {
 	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
 	private static final int MAX_COUNTING_UTHENTET = 9;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "foersteside")
-	@Cascade({CascadeType.PERSIST, CascadeType.MERGE, CascadeType.SAVE_UPDATE, CascadeType.DELETE, CascadeType.DETACH})
+	@Cascade({PERSIST, MERGE, PERSIST, REMOVE, DETACH})
 	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
+	@GeneratedValue(strategy = SEQUENCE, generator = SEQUENCE_NAME)
 	@SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
 	@Column(name = "foersteside_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideId;
+	@Getter
 	@Column(name = "loepenummer", nullable = false, updatable = false)
 	private String loepenummer;
 	@Column(name = "dato_opprettet", nullable = false, updatable = false)
 	private LocalDateTime datoOpprettet;
-	@Column(name = "uthentet", nullable = false, updatable = true)
+	@Getter
+	@Column(name = "uthentet", nullable = false)
 	private int uthentet;
-	@Column(name = "dato_uthentet", nullable = true, updatable = true)
+	@Getter
+	@Column(name = "dato_uthentet")
 	private LocalDateTime datoUthentet;
 
-	public Long getFoerstesideId() {
-		return foerstesideId;
-	}
-
-	public String getLoepenummer() {
-		return loepenummer;
-	}
 
 	public void setLoepenummer(String loepenummer) {
 		this.loepenummer = loepenummer;
 	}
 
-	public LocalDateTime getDatoOpprettet() {
-		return datoOpprettet;
-	}
-
 	public void setDatoOpprettet(LocalDateTime datoOpprettet) {
 		this.datoOpprettet = datoOpprettet;
-	}
-
-	public int getUthentet() {
-		return uthentet;
 	}
 
 	public void setUthentet(int uthentet) {
@@ -101,16 +95,8 @@ public class Foersteside {
 		if (uthentet < MAX_COUNTING_UTHENTET) uthentet++;
 	}
 
-	public LocalDateTime getDatoUthentet() {
-		return datoUthentet;
-	}
-
 	public void setDatoUthentet(LocalDateTime datoUthentet) {
 		this.datoUthentet = datoUthentet;
-	}
-
-	public Set<FoerstesideMetadata> getFoerstesideMetadata() {
-		return Collections.unmodifiableSet(foerstesideMetadata);
 	}
 
 	public void addFoerstesideMetadata(FoerstesideMetadata metadata) {
@@ -203,11 +189,6 @@ public class Foersteside {
 
 	public String getVedleggListe() {
 		return getValueForKey(VEDLEGG_LISTE);
-	}
-
-	public List<String> getVedleggListeAsList() {
-		String[] vedleggStringArray = delimitedListToStringArray(getVedleggListe(), ";");
-		return vedleggStringArray.length == 0 ? Collections.emptyList() : Arrays.asList(vedleggStringArray);
 	}
 
 	public String getDokumentlisteFoersteside() {

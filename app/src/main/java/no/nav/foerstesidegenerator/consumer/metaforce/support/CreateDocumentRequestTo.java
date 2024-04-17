@@ -25,13 +25,6 @@ public class CreateDocumentRequestTo {
 		this.printConfiguration = MetaforceDocumentType.PDF.value();
 	}
 
-	public CreateDocumentRequestTo(String metafile, String document, Element data, String printConfiguration) {
-		this.metafile = metafile;
-		this.document = document;
-		this.data = data;
-		this.printConfiguration = printConfiguration;
-	}
-
 	@Override
 	public String toString() {
 		return "CreateDocumentRequestTo{" +

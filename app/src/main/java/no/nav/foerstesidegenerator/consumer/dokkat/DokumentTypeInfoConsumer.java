@@ -50,7 +50,7 @@ public class DokumentTypeInfoConsumer {
 		this.tokenConsumer = tokenConsumer;
 	}
 
-	@Retryable(include = FoerstesideGeneratorTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
+	@Retryable(retryFor = FoerstesideGeneratorTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
 	@Cacheable(DOKMET_DOKUMENT_TYPE_INFO_CACHE)
 	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
 		HttpHeaders headers = createHeaders();

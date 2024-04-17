@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 @Entity
 @Table(name = FoerstesideMetadata.TABLE_NAME)
@@ -24,13 +25,16 @@ public class FoerstesideMetadata {
 	@Column(name = "foersteside_metadata_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideMetadataId;
 
+	@Getter
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "foersteside_id", nullable = false)
 	private Foersteside foersteside;
 
+	@Getter
 	@Column(name = "key")
 	private String key;
 
+	@Getter
 	@Column(name = "value")
 	private String value;
 
@@ -42,26 +46,6 @@ public class FoerstesideMetadata {
 		this.foersteside = foersteside;
 		this.key = key;
 		this.value = value;
-	}
-
-	public Long getFoerstesideMetadataId() {
-		return foerstesideMetadataId;
-	}
-
-	public Foersteside getFoersteside() {
-		return foersteside;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	public String getValue() {
-		return value;
 	}
 
 	public void setValue(String value) {

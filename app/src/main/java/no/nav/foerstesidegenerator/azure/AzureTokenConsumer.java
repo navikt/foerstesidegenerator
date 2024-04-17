@@ -34,7 +34,7 @@ public class AzureTokenConsumer {
 				.build();
 	}
 
-	@Retryable(include = AzureTokenException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
+	@Retryable(retryFor = AzureTokenException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
 	@Cacheable(AZURE_CLIENT_CREDENTIAL_TOKEN_CACHE)
 	public TokenResponse getClientCredentialToken(String scope) {
 		try {

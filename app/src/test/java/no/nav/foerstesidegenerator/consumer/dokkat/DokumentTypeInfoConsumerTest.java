@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,7 +50,7 @@ public class DokumentTypeInfoConsumerTest {
 	@Test
 	void shouldRunOK() {
 		DokumentTypeInfoToV4 response = createResponse();
-		ResponseEntity<DokumentTypeInfoToV4> responseEntity = new ResponseEntity<DokumentTypeInfoToV4>(response,HttpStatus.ACCEPTED);
+		ResponseEntity<DokumentTypeInfoToV4> responseEntity = new ResponseEntity<>(response,HttpStatus.ACCEPTED);
 		response.getDokumentProduksjonsInfo().setDistribusjonInfo(null);
 
 		when(restTemplate.exchange(
@@ -66,9 +65,9 @@ public class DokumentTypeInfoConsumerTest {
 		assertEquals(ARKIVSYSTEM, dokumentTypeInfoTo.getArkivsystem());
 		assertEquals(DOKUMENTTITTEL, dokumentTypeInfoTo.getDokumentTittel());
 		assertEquals(DOKUMENTKATEGORI, dokumentTypeInfoTo.getDokumentKategori());
-		assertEquals(MAL_ID, dokumentTypeInfoTo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId());
-		assertEquals(MAL_XSD_REF, dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalXsdReferanse());
-		assertEquals(MALFIL, dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalLogikkFil());
+		assertEquals(MAL_ID, dokumentTypeInfoTo.getDokumentProduksjonsInfo().ikkeRedigerbarMalId());
+		assertEquals(MAL_XSD_REF, dokumentTypeInfoTo.getDokumentProduksjonsInfo().malXsdReferanse());
+		assertEquals(MALFIL, dokumentTypeInfoTo.getDokumentProduksjonsInfo().malLogikkFil());
 	}
 
 	private DokumentTypeInfoToV4 createResponse() {

@@ -34,7 +34,7 @@ class MDCPopulationInterceptorTest {
     private HttpServletResponse servletResponse;
 
     @Test
-    public void validateToReturnStandardValues() throws Exception {
+    public void validateToReturnStandardValues() {
         doReturn(CALL_ID).when(servletRequest).getHeader("Nav-Callid");
         doReturn(APP_ID).when(servletRequest).getHeader("appId");
         doReturn(CONSUMER_ID).when(servletRequest).getHeader("nav-consumerid");
@@ -51,7 +51,7 @@ class MDCPopulationInterceptorTest {
     }
 
     @Test
-    public void shouldUseUserIdAsConsumerIdIfConsumerTokenIsNullAndUserIsServiceUser() throws Exception {
+    public void shouldUseUserIdAsConsumerIdIfConsumerTokenIsNullAndUserIsServiceUser() {
         when(servletRequest.getHeader(anyString())).thenAnswer(invocationOnMock -> {
             if (invocationOnMock.getArgument(0).equals(HttpHeaders.AUTHORIZATION)) {
                 return APP_TOKEN;
@@ -68,7 +68,7 @@ class MDCPopulationInterceptorTest {
 
 
     @Test
-    public void shouldReturnDefaultValues() throws Exception {
+    public void shouldReturnDefaultValues() {
         when(servletRequest.getHeader(anyString())).thenAnswer(invocationOnMock -> {
             if (invocationOnMock.getArgument(0).equals(HttpHeaders.AUTHORIZATION)) {
                 return APP_TOKEN;

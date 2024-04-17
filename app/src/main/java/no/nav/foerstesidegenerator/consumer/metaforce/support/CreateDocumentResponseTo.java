@@ -3,7 +3,6 @@ package no.nav.foerstesidegenerator.consumer.metaforce.support;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.apache.commons.lang3.ArrayUtils;
 
 import javax.xml.datatype.Duration;
 
@@ -20,29 +19,4 @@ public class CreateDocumentResponseTo {
 
 	private Duration executionTime;
 	private Duration executionTimeInternal;
-
-	public CreateDocumentResponseTo(byte[] documentData) {
-		this.docFormat = MetaforceDocumentType.NOTSET;
-		this.extension = null;
-		this.mimeType = null;
-		this.length = documentData.length;
-		this.documentData = ArrayUtils.clone(documentData);
-	}
-
-	public CreateDocumentResponseTo(byte[] documentData, MetaforceDocumentType docFormat,
-									String extension, String mimeType, int length) {
-		this.documentData = ArrayUtils.clone(documentData);
-		this.docFormat = docFormat;
-		this.extension = extension;
-		this.mimeType = mimeType;
-		this.length = length;
-	}
-
-	public void setExecutionTime(Duration executionTime) {
-		this.executionTime = executionTime;
-	}
-
-	public void setExecutionTimeInternal(Duration executionTimeInternal) {
-		this.executionTimeInternal = executionTimeInternal;
-	}
 }
