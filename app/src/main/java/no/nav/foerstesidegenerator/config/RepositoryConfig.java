@@ -1,8 +1,10 @@
 package no.nav.foerstesidegenerator.config;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.config.properties.DataSourceAdditionalProperties;
 import no.nav.foerstesidegenerator.repository.FoerstesideCounterRepository;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
+import oracle.jdbc.pool.OracleDataSource;
 import oracle.ucp.jdbc.PoolDataSource;
 import oracle.ucp.jdbc.PoolDataSourceFactory;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -20,6 +22,7 @@ import java.util.Properties;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+@Slf4j
 @EntityScan(basePackages = {"no.nav.foerstesidegenerator.domain"})
 @EnableJpaRepositories(basePackageClasses = {FoerstesideRepository.class, FoerstesideCounterRepository.class})
 @EnableTransactionManagement
@@ -37,14 +40,17 @@ public class RepositoryConfig {
 		poolDataSource.setURL(dataSourceProperties.getUrl());
 		poolDataSource.setUser(dataSourceProperties.getUsername());
 		poolDataSource.setPassword(dataSourceProperties.getPassword());
-		poolDataSource.setConnectionFactoryClassName(dataSourceProperties.getDriverClassName());
+		poolDataSource.setConnectionFactoryClassName(OracleDataSource.class.getName());
 
 		if (isOracleFastConnectionFailoverSupported(dataSourceProperties.getUrl(), dataSourceAdditionalProperties.getOnshosts())) {
 			poolDataSource.setFastConnectionFailoverEnabled(true);
-			poolDataSource.setONSConfiguration("nodes=" + dataSourceAdditionalProperties.getOnshosts());
+			String onsConfiguration = "nodes=" + dataSourceAdditionalProperties.getOnshosts();
+			poolDataSource.setONSConfiguration(onsConfiguration);
+			log.info("RepositoryConfig - Skrur på FCF/FAN. onsConfiguration={}", onsConfiguration);
 		} else {
 			poolDataSource.setFastConnectionFailoverEnabled(false);
 			poolDataSource.setONSConfiguration("");
+			log.info("RepositoryConfig - FCF/FAN er skrudd av");
 		}
 
 		Properties connProperties = new Properties();

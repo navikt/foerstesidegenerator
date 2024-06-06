@@ -33,10 +33,7 @@ fi
 if test -f /var/run/secrets/nais.io/foerstesidegeneratordb_config/ons_host;
 then
     export DATABASE_ONSHOSTS=$(cat /var/run/secrets/nais.io/foerstesidegeneratordb_config/ons_host)
-    export JAVA_OPTS="$JAVA_OPTS -Doracle.jdbc.fanEnabled=true"
     echo "Setting DATABASE_ONSHOSTS=$DATABASE_ONSHOSTS"
-else
-    export JAVA_OPTS="$JAVA_OPTS -Doracle.jdbc.fanEnabled=false"
 fi
 
 echo "Exporting appdynamics environment variables"
