@@ -42,6 +42,9 @@ public class RepositoryConfig {
 		if (isOracleFastConnectionFailoverSupported(dataSourceProperties.getUrl(), dataSourceAdditionalProperties.getOnshosts())) {
 			poolDataSource.setFastConnectionFailoverEnabled(true);
 			poolDataSource.setONSConfiguration("nodes=" + dataSourceAdditionalProperties.getOnshosts());
+		} else {
+			poolDataSource.setFastConnectionFailoverEnabled(false);
+			poolDataSource.setONSConfiguration("");
 		}
 
 		Properties connProperties = new Properties();
