@@ -9,8 +9,6 @@ spec:
   env:
     - name: AZURE_APP_TOKEN_URL
       value: {{AZURE_APP_TOKEN_URL}}
-    - name: SPRING_DATASOURCE_URL
-      value: {{ SPRING_DATASOURCE_URL }}
     - name: DOKUMENTTYPEINFO_URL
       value: {{ DOKUMENTTYPEINFO_URL }}
     - name: METAFORCEENDPOINT_URL
@@ -55,7 +53,9 @@ spec:
       - kvPath: {{ SRVFOERSTESIDEGENERATOR }}
         mountPath: /var/run/secrets/nais.io/srvfoerstesidegenerator
       - kvPath: {{ FOERSTESIDEGENERATORDB }}
-        mountPath: /var/run/secrets/nais.io/foerstesidegeneratorDB
+        mountPath: /var/run/secrets/nais.io/foerstesidegeneratordb_creds
+      - kvPath: {{ FOERSTESIDEGENERATORDB_CONFIG }}
+        mountPath: /var/run/secrets/nais.io/foerstesidegeneratordb_config
       - kvPath: {{ APPDYNAMICS }}
         mountPath: /var/run/secrets/nais.io/appdynamics
   azure:
