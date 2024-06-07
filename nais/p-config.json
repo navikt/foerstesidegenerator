@@ -6,7 +6,7 @@
 	"NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_ACCEPTED_AUDIENCE": "srvsoknadsveiviser,srvskanmotreferanse,srvfamilie-ks-opps,srvklage-dittnav,srvbidrag-ui",
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/prod/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/prod/creds/foerstesidegenerator_p-user",
-	"FOERSTESIDEGENERATORDB_CONFIG": "/oracle/data/dev/config/foerstesidegenerator_p",
+	"FOERSTESIDEGENERATORDB_CONFIG": "/oracle/data/prod/config/foerstesidegenerator_p",
 	"APPNAVN": "foerstesidegenerator",
 	"MIN_REPLICAS": 2,
 	"MAX_REPLICAS": 4,
