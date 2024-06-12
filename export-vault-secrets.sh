@@ -12,16 +12,28 @@ then
     export SERVICEUSER_PASSWORD=$(cat /var/run/secrets/nais.io/srvfoerstesidegenerator/password)
 fi
 
-if test -f /var/run/secrets/nais.io/foerstesidegeneratorDB/username;
+if test -f /var/run/secrets/nais.io/foerstesidegeneratordb_creds/username;
 then
     echo "Setting SPRING_DATASOURCE_USERNAME"
-    export SPRING_DATASOURCE_USERNAME=$(cat /var/run/secrets/nais.io/foerstesidegeneratorDB/username)
+    export SPRING_DATASOURCE_USERNAME=$(cat /var/run/secrets/nais.io/foerstesidegeneratordb_creds/username)
 fi
 
-if test -f /var/run/secrets/nais.io/foerstesidegeneratorDB/password;
+if test -f /var/run/secrets/nais.io/foerstesidegeneratordb_creds/password;
 then
     echo "Setting SPRING_DATASOURCE_PASSWORD"
-    export SPRING_DATASOURCE_PASSWORD=$(cat /var/run/secrets/nais.io/foerstesidegeneratorDB/password)
+    export SPRING_DATASOURCE_PASSWORD=$(cat /var/run/secrets/nais.io/foerstesidegeneratordb_creds/password)
+fi
+
+if test -f /var/run/secrets/nais.io/foerstesidegeneratordb_config/jdbc_url;
+then
+    export SPRING_DATASOURCE_URL=$(cat /var/run/secrets/nais.io/foerstesidegeneratordb_config/jdbc_url)
+    echo "Setting SPRING_DATASOURCE_URL=$SPRING_DATASOURCE_URL"
+fi
+
+if test -f /var/run/secrets/nais.io/foerstesidegeneratordb_config/ons_host;
+then
+    export DATABASE_ONSHOSTS=$(cat /var/run/secrets/nais.io/foerstesidegeneratordb_config/ons_host)
+    echo "Setting DATABASE_ONSHOSTS=$DATABASE_ONSHOSTS"
 fi
 
 echo "Exporting appdynamics environment variables"
