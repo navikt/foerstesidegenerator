@@ -71,7 +71,7 @@ public final class FoedselsnummerValidator {
 		if (pid != null) {
 			String value = StringUtils.deleteWhitespace(pid);
 			if (isValidCharacters(value) && isValidFnrLength(value)) {
-				boolean isValid = false;
+				boolean isValid;
 
 				// non-strict validation
 				if (acceptSpecialCircumstances) {
@@ -157,7 +157,7 @@ public final class FoedselsnummerValidator {
 		int k2 = parseInt(fnr.substring(10));
 
 		// control 1
-		int v1 = (3 * d1) + (7 * d2) + (6 * m1) + (1 * m2) + (8 * a1) + (9 * a2) + (4 * i1) + (5 * i2) + (2 * i3);
+		int v1 = (3 * d1) + (7 * d2) + (6 * m1) + (m2) + (8 * a1) + (9 * a2) + (4 * i1) + (5 * i2) + (2 * i3);
 
 		int tmp = v1 / 11;
 		int rest1 = v1 - (tmp * 11);
@@ -329,10 +329,10 @@ public final class FoedselsnummerValidator {
 		// DNR adjustment
 		if (isDnrDay(day)) {
 			day -= 40;
-			StringBuffer fnr = new StringBuffer(value);
+			StringBuilder fnr = new StringBuilder(value);
 
 			if (day < 10) {
-				fnr.replace(0, 2, "0" + Integer.toString(day));
+				fnr.replace(0, 2, "0" + day);
 			} else {
 				fnr.replace(0, 2, Integer.toString(day));
 			}
@@ -341,10 +341,10 @@ public final class FoedselsnummerValidator {
 		} else if (month > 20 && month <= 32) {
 			// BOST adjustments
 			month -= 20;
-			StringBuffer fnr = new StringBuffer(value);
+			StringBuilder fnr = new StringBuilder(value);
 
 			if (month < 10) {
-				fnr.replace(2, 4, "0" + Integer.toString(month));
+				fnr.replace(2, 4, "0" + month);
 			} else {
 				fnr.replace(2, 4, Integer.toString(month));
 			}

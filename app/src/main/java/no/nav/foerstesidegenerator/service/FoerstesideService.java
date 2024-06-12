@@ -85,8 +85,8 @@ public class FoerstesideService {
 		BrevdataType brevdata = metaforceBrevdataMapper.map(foersteside);
 
 		CreateDocumentRequestTo metaforceRequest = new CreateDocumentRequestTo(
-				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getMalLogikkFil(),
-				dokumentTypeInfoTo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId(),
+				dokumentTypeInfoTo.getDokumentProduksjonsInfo().malLogikkFil(),
+				dokumentTypeInfoTo.getDokumentProduksjonsInfo().ikkeRedigerbarMalId(),
 				XMLTransformer.transformXML(brevdata));
 
 		log.info("Mottatt kall til å generere førsteside med løpenummer={} vha metaforce", foersteside.getLoepenummer());

@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static no.nav.foerstesidegenerator.config.cache.CacheConfig.DOKMET_DOKUMENT_TYPE_INFO_CACHE;

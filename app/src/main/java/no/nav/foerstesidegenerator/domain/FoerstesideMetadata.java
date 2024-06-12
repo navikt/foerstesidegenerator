@@ -10,8 +10,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = FoerstesideMetadata.TABLE_NAME)
 public class FoerstesideMetadata {
 
@@ -42,26 +44,6 @@ public class FoerstesideMetadata {
 		this.foersteside = foersteside;
 		this.key = key;
 		this.value = value;
-	}
-
-	public Long getFoerstesideMetadataId() {
-		return foerstesideMetadataId;
-	}
-
-	public Foersteside getFoersteside() {
-		return foersteside;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	public String getValue() {
-		return value;
 	}
 
 	public void setValue(String value) {

@@ -38,7 +38,7 @@ public class FoerstesideCounterService {
                 return existingCounter.generateLoepenummer();
             } catch (ObjectOptimisticLockingFailureException lockingException) {
                 log.warn(lockingException.getMessage());
-                log.warn("Tråd {} venter på tur", Thread.currentThread().getId());
+                log.warn("Tråd {} venter på tur", Thread.currentThread().threadId());
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException interruptedException) {

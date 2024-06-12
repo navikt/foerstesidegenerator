@@ -20,10 +20,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ExtendWith(MockitoExtension.class)
 class ScheduledServiceTest {
 
-	private Foersteside foerstesideToMask = TestUtils.createFoersteside("1");
-	private Foersteside foerstesideToMaskOld = TestUtils.createFoersteside("2");
-	private Foersteside foersteside3MonthsPlus1Minute = TestUtils.createFoersteside("3");
-	private Foersteside foerstesideNow = TestUtils.createFoersteside("4");
+	private final Foersteside foerstesideToMask = TestUtils.createFoersteside("1");
+	private final Foersteside foerstesideToMaskOld = TestUtils.createFoersteside("2");
+	private final Foersteside foersteside3MonthsPlus1Minute = TestUtils.createFoersteside("3");
+	private final Foersteside foerstesideNow = TestUtils.createFoersteside("4");
 
 	@Mock
 	private FoerstesideRepository repository;
