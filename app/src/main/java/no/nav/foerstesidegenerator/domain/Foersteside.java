@@ -1,5 +1,24 @@
 package no.nav.foerstesidegenerator.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static jakarta.persistence.GenerationType.SEQUENCE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
@@ -15,6 +34,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_T
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.DOKUMENT_LISTE_FOERSTESIDE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDETYPE;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDE_OPPRETTET_AV;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NAV_SKJEMA_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.NETS_POSTBOKS;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.OVERSKRIFTSTITTEL;
@@ -24,34 +44,14 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.FOERSTESIDE_OPPRETTET_AV;
 import static org.hibernate.annotations.CascadeType.DETACH;
 import static org.hibernate.annotations.CascadeType.MERGE;
 import static org.hibernate.annotations.CascadeType.PERSIST;
-import static org.hibernate.annotations.CascadeType.REMOVE;
+import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
-import lombok.Getter;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @Entity
+@Getter
 @Table(name = Foersteside.TABLE_NAME)
 public class Foersteside {
 
@@ -59,22 +59,19 @@ public class Foersteside {
 	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
 	private static final int MAX_COUNTING_UTHENTET = 9;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "foersteside")
-	@Cascade({PERSIST, MERGE, PERSIST, REMOVE, DETACH})
+	@Cascade({PERSIST, MERGE, SAVE_UPDATE, CascadeType.DELETE, DETACH})
 	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 	@Id
 	@GeneratedValue(strategy = SEQUENCE, generator = SEQUENCE_NAME)
 	@SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
 	@Column(name = "foersteside_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideId;
-	@Getter
 	@Column(name = "loepenummer", nullable = false, updatable = false)
 	private String loepenummer;
 	@Column(name = "dato_opprettet", nullable = false, updatable = false)
 	private LocalDateTime datoOpprettet;
-	@Getter
 	@Column(name = "uthentet", nullable = false)
 	private int uthentet;
-	@Getter
 	@Column(name = "dato_uthentet")
 	private LocalDateTime datoUthentet;
 

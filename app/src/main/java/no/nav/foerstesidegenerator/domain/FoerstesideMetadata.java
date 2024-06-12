@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = FoerstesideMetadata.TABLE_NAME)
 public class FoerstesideMetadata {
 
@@ -25,16 +26,13 @@ public class FoerstesideMetadata {
 	@Column(name = "foersteside_metadata_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideMetadataId;
 
-	@Getter
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "foersteside_id", nullable = false)
 	private Foersteside foersteside;
 
-	@Getter
 	@Column(name = "key")
 	private String key;
 
-	@Getter
 	@Column(name = "value")
 	private String value;
 
