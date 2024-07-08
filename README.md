@@ -2,6 +2,10 @@
 Fellestjeneste som genererer en PDF-førsteside for skanning av papirsøknadene på nav.no. 
 Appen lagrer også metadata om brukeren og forsendelsen slik at de kommer med i arkivet når NAV mottar det innskannede dokumentet fra skanningleverandør (Iron Mountain).
 
+Appen tilbyr følgende tjenester med [dokumentasjon i Swagger](https://foerstesidegenerator.dev.intern.nav.no/swagger-ui/index.html).
+* Henting av førsteside gitt løpenummer
+* Generering av førsteside til skanning
+
 Mer informasjon om hvordan appen fungerer finner du på [Confluence-siden for Foerstesidegenerator](https://confluence.adeo.no/display/BOA/Foerstesidegenerator).
 
 ### Henvendelser
