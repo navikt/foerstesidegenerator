@@ -2,9 +2,7 @@ package no.nav.foerstesidegenerator.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -12,21 +10,23 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.SEQUENCE;
+
 @Entity
 @Getter
-@Table(name = FoerstesideMetadata.TABLE_NAME)
+@Table(name = "FOERSTESIDE_METADATA")
 public class FoerstesideMetadata {
 
-	public static final String TABLE_NAME = "FOERSTESIDE_METADATA";
-	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
+	private static final String SEQUENCE_NAME = "FOERSTESIDE_METADATA_SEQ";
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
+	@GeneratedValue(strategy = SEQUENCE, generator = SEQUENCE_NAME)
 	@SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
 	@Column(name = "foersteside_metadata_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideMetadataId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "foersteside_id", nullable = false)
 	private Foersteside foersteside;
 

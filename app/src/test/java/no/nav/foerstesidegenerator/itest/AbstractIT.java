@@ -1,7 +1,6 @@
 package no.nav.foerstesidegenerator.itest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.common.io.Resources;
 import no.nav.foerstesidegenerator.ApplicationLocal;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
@@ -11,9 +10,7 @@ import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.security.mock.oauth2.MockOAuth2Server;
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback;
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -26,7 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -42,10 +39,12 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static java.util.Collections.emptyMap;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {ApplicationLocal.class, ApplicationTestConfig.class},
-		webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+		classes = {ApplicationLocal.class, ApplicationTestConfig.class},
+		webEnvironment = RANDOM_PORT
+)
 @AutoConfigureWireMock(port = 0)
 @ActiveProfiles("itest")
 @AutoConfigureDataJpa
@@ -97,11 +96,10 @@ public abstract class AbstractIT {
 		foerstesideRepository.deleteAll();
 	}
 
-	@AfterEach
-	void tearDown() {
-		WireMock.reset();
-		WireMock.resetAllRequests();
-		WireMock.removeAllMappings();
+	protected static void commitAndBeginNewTransaction() {
+		TestTransaction.flagForCommit();
+		TestTransaction.end();
+		TestTransaction.start();
 	}
 
 	private String getToken() {

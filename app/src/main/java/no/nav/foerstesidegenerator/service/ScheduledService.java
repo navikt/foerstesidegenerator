@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
+
 @Slf4j
 @Component
 @EnableScheduling
@@ -24,16 +27,21 @@ public class ScheduledService {
 	@Transactional
 	@Scheduled(cron = "${maskering.fnr.rate}")
 	public void execute() {
-		List<Foersteside> foerstesiderDueForMaskeringBrukerId = foerstesideRepository.findFoerstesiderDueForMaskeringBrukerId();
-		if (!foerstesiderDueForMaskeringBrukerId.isEmpty()) {
-			foerstesiderDueForMaskeringBrukerId.forEach(Foersteside::clearBrukerId);
-			log.info("Foerstesidegenerator - schedulert jobb: Har maskert {} brukerIder", foerstesiderDueForMaskeringBrukerId.size());
+		log.info("Starter automatisk jobb for maskering av førstesidemetadata");
+
+		List<Foersteside> foerstesiderDerBrukerIdSkalMaskeres = foerstesideRepository.finnFoerstesiderSomSkalMaskeres(BRUKER_ID);
+
+		if (!foerstesiderDerBrukerIdSkalMaskeres.isEmpty()) {
+			foerstesiderDerBrukerIdSkalMaskeres.forEach(Foersteside::clearBrukerId);
+			log.info("Foerstesidegenerator - schedulert jobb: Har maskert brukerId-ene på {} førstesider", foerstesiderDerBrukerIdSkalMaskeres.size());
 		}
 
-		List<Foersteside> foerstesiderDueForMaskeringUkjentBrukerPersonInfo = foerstesideRepository.findFoerstesiderDueForMaskeringUkjentBrukerPersonInfo();
-		if (!foerstesiderDueForMaskeringUkjentBrukerPersonInfo.isEmpty()) {
-			foerstesiderDueForMaskeringUkjentBrukerPersonInfo.forEach(Foersteside::clearUkjentBrukerPersoninfo);
-			log.info("Foerstesidegenerator - schedulert jobb: Har maskert {} ukjent brukerInfo", foerstesiderDueForMaskeringUkjentBrukerPersonInfo.size());
+		List<Foersteside> foerstesiderDerUkjentBrukerPersoninfoSkalMaskeres = foerstesideRepository.finnFoerstesiderSomSkalMaskeres(UKJENT_BRUKER_PERSONINFO);
+		if (!foerstesiderDerUkjentBrukerPersoninfoSkalMaskeres.isEmpty()) {
+			foerstesiderDerUkjentBrukerPersoninfoSkalMaskeres.forEach(Foersteside::clearUkjentBrukerPersoninfo);
+			log.info("Foerstesidegenerator - schedulert jobb: Har maskert ukjent brukerinfo på {} førstesider", foerstesiderDerUkjentBrukerPersoninfoSkalMaskeres.size());
 		}
+
+		log.info("Avslutter automatisk jobb for maskering av førstesidemetadata");
 	}
 }

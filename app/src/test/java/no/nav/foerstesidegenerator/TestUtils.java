@@ -35,7 +35,6 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMM
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTSTED;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKODE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
-import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
 
 public class TestUtils {
@@ -52,6 +51,7 @@ public class TestUtils {
 	public static final String BRUKER_ID = "14036609142";
 	public static final String BRUKER_ID_INVALID = "00000000111";
 	public static final String BRUKER_PERSON = "PERSON";
+	public static final String UKJENT_BRUKER_PERSONINFO = "Anders And";
 
 	public static final String TEMA_FORELDREPENGER = "FOR";
 	public static final String BEHANDLINGSTEMA_AB1337 = "ab1337";
@@ -274,6 +274,10 @@ public class TestUtils {
 		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
 	}
 
+	public static Foersteside createFoerstesideWithUkjent(String loepenummer) {
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, UKJENT_BRUKER_PERSONINFO, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
+	}
+
 	public static Foersteside createFoerstesideWithTemaOKO(String loepenummer) {
 		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, "OKO", null, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
 	}
@@ -297,7 +301,7 @@ public class TestUtils {
 		createMetadata(foersteside, AVSENDER_NAVN, avsendernavn);
 		createMetadata(foersteside, MetadataConstants.BRUKER_ID, brukerid);
 		createMetadata(foersteside, BRUKER_TYPE, brukertype);
-		createMetadata(foersteside, UKJENT_BRUKER_PERSONINFO, ukjent);
+		createMetadata(foersteside, MetadataConstants.UKJENT_BRUKER_PERSONINFO, ukjent);
 		createMetadata(foersteside, TEMA, tema);
 		createMetadata(foersteside, BEHANDLINGSTEMA, BEHANDLINGSTEMA_AB1337);
 		createMetadata(foersteside, ARKIVTITTEL, TITTEL);

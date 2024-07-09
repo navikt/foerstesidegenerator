@@ -2,7 +2,6 @@ package no.nav.foerstesidegenerator.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -10,7 +9,6 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -19,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.GenerationType.SEQUENCE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
@@ -44,6 +43,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
+import static org.hibernate.annotations.CascadeType.DELETE;
 import static org.hibernate.annotations.CascadeType.DETACH;
 import static org.hibernate.annotations.CascadeType.MERGE;
 import static org.hibernate.annotations.CascadeType.PERSIST;
@@ -52,29 +52,33 @@ import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
 @Entity
 @Getter
-@Table(name = Foersteside.TABLE_NAME)
+@Table(name = "FOERSTESIDE")
 public class Foersteside {
 
-	static final String TABLE_NAME = "FOERSTESIDE";
-	private static final String SEQUENCE_NAME = TABLE_NAME + "_SEQ";
+	private static final String SEQUENCE_NAME = "FOERSTESIDE_SEQ";
 	private static final int MAX_COUNTING_UTHENTET = 9;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "foersteside")
-	@Cascade({PERSIST, MERGE, SAVE_UPDATE, CascadeType.DELETE, DETACH})
-	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
+
 	@Id
 	@GeneratedValue(strategy = SEQUENCE, generator = SEQUENCE_NAME)
 	@SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
 	@Column(name = "foersteside_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideId;
+
 	@Column(name = "loepenummer", nullable = false, updatable = false)
 	private String loepenummer;
+
 	@Column(name = "dato_opprettet", nullable = false, updatable = false)
 	private LocalDateTime datoOpprettet;
+
 	@Column(name = "uthentet", nullable = false)
 	private int uthentet;
+
 	@Column(name = "dato_uthentet")
 	private LocalDateTime datoUthentet;
 
+	@OneToMany(fetch = EAGER, mappedBy = "foersteside")
+	@Cascade({PERSIST, MERGE, SAVE_UPDATE, DELETE, DETACH})
+	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 
 	public void setLoepenummer(String loepenummer) {
 		this.loepenummer = loepenummer;
@@ -105,11 +109,18 @@ public class Foersteside {
 	// some helpers:
 
 	private String getValueForKey(String key) {
-		return foerstesideMetadata.stream().filter(a -> a.getKey().equals(key)).findFirst().map(FoerstesideMetadata::getValue).orElse(null);
+		return foerstesideMetadata.stream()
+				.filter(a -> a.getKey().equals(key))
+				.findFirst()
+				.map(FoerstesideMetadata::getValue)
+				.orElse(null);
 	}
 
 	private void setValueForKey(String key, String value) {
-		foerstesideMetadata.stream().filter(a -> a.getKey().equals(key)).findFirst().ifPresent(metadata -> metadata.setValue(value));
+		foerstesideMetadata.stream()
+				.filter(a -> a.getKey().equals(key))
+				.findFirst()
+				.ifPresent(metadata -> metadata.setValue(value));
 	}
 
 	public String getAdresselinje1() {
