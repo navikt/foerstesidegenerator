@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static java.time.LocalDateTime.now;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
@@ -21,9 +20,9 @@ class ScheduledServiceIT extends AbstractIT {
 	@Test
 	void skalSensurereBrukerId() {
 		var foerstesideSomSkalMaskeres = createFoersteside("1");
-		foerstesideSomSkalMaskeres.setDatoOpprettet(now().minusMonths(7));
+		foerstesideSomSkalMaskeres.setDatoOpprettet(ELDRE_ENN_6_MAANEDER);
 		var foerstesideSomIkkeSkalMaskeres = createFoersteside("2");
-		foerstesideSomIkkeSkalMaskeres.setDatoOpprettet(now().minusMonths(5));
+		foerstesideSomIkkeSkalMaskeres.setDatoOpprettet(NYERE_ENN_6_MAANEDER);
 
 		foerstesideRepository.saveAll(List.of(foerstesideSomSkalMaskeres, foerstesideSomIkkeSkalMaskeres));
 		commitAndBeginNewTransaction();
@@ -37,9 +36,9 @@ class ScheduledServiceIT extends AbstractIT {
 	@Test
 	void skalSensurereUkjentBrukerPersoninfo() {
 		var foerstesideSomSkalMaskeres = createFoerstesideWithUkjent("1");
-		foerstesideSomSkalMaskeres.setDatoOpprettet(now().minusMonths(7));
+		foerstesideSomSkalMaskeres.setDatoOpprettet(ELDRE_ENN_6_MAANEDER);
 		var foerstesideSomIkkeSkalMaskeres = createFoerstesideWithUkjent("2");
-		foerstesideSomIkkeSkalMaskeres.setDatoOpprettet(now().minusMonths(5));
+		foerstesideSomIkkeSkalMaskeres.setDatoOpprettet(NYERE_ENN_6_MAANEDER);
 
 		foerstesideRepository.saveAll(List.of(foerstesideSomSkalMaskeres, foerstesideSomIkkeSkalMaskeres));
 		commitAndBeginNewTransaction();

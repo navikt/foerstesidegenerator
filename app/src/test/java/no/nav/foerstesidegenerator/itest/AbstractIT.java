@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -57,6 +58,9 @@ public abstract class AbstractIT {
 
 	public static final String MDC_CALL_ID = UUID.randomUUID().toString();
 	public static final String MDC_CONSUMER_ID = "srvtest";
+
+	public static final LocalDateTime ELDRE_ENN_6_MAANEDER = LocalDateTime.now().minusMonths(6).minusDays(1);
+	public static final LocalDateTime NYERE_ENN_6_MAANEDER = LocalDateTime.now().minusMonths(6).plusDays(1);
 
 	@Autowired
 	protected TestRestTemplate testRestTemplate;

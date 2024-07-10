@@ -15,15 +15,14 @@ import java.util.List;
 
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
+import static no.nav.foerstesidegenerator.itest.AbstractIT.ELDRE_ENN_6_MAANEDER;
+import static no.nav.foerstesidegenerator.itest.AbstractIT.NYERE_ENN_6_MAANEDER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ContextConfiguration(classes = {RepositoryConfig.class})
 @ActiveProfiles("itest")
 class FoerstesideRepositoryTest {
-
-	private static final LocalDateTime ELDRE_ENN_6_MAANEDER = LocalDateTime.now().minusMonths(7);
-	private static final LocalDateTime NYERE_ENN_6_MAANEDER = LocalDateTime.now().minusMonths(5);
 
 	@Autowired
 	private FoerstesideRepository foerstesideRepository;

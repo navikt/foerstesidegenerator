@@ -14,12 +14,12 @@ public interface FoerstesideRepository extends CrudRepository<Foersteside, Long>
 
 	Optional<Foersteside> findByLoepenummer(String loepenummer);
 
-	@Query(value = """
-			select f.* from foersteside f
-				inner join foersteside_metadata fm on f.foersteside_id = fm.foersteside_id 
+	@Query("""
+			select f from Foersteside f
+				inner join FoerstesideMetadata fm on f.foerstesideId = fm.foersteside.foerstesideId
 				and fm.key = :metadataKeySomSkalMaskeres and fm.value is not null
-				where f.DATO_OPPRETTET < add_months(sysdate, -6)
-			""", nativeQuery = true)
+				where f.datoOpprettet < function('ADD_MONTHS', CURRENT_DATE, -6)
+			""")
 	List<Foersteside> finnFoerstesiderSomSkalMaskeres(@Param("metadataKeySomSkalMaskeres") String metadataKeySomSkalMaskeres);
 
 }
