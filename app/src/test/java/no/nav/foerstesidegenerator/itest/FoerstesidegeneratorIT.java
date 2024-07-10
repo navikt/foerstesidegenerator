@@ -5,7 +5,7 @@ import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
-import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
+import no.nav.foerstesidegenerator.exception.DokmetConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -260,8 +260,8 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	}
 
 	@Test
-	@DisplayName("POST førsteside - Dokkat returns 404 not found")
-	void shouldThrowExceptionIfDokkatReturns404NotFound() {
+	@DisplayName("POST førsteside - Dokmet returns 404 not found")
+	void shouldThrowExceptionIfDokmetReturns404NotFound() {
 		stubFor(get(urlPathMatching("/DOKUMENTTYPEINFO_V4(.*)"))
 				.willReturn(aResponse().withStatus(NOT_FOUND.value())
 						.withHeader("Content-Type", "application/json")
@@ -270,7 +270,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_ukjentbrukerpersoninfo.json");
 		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
 
-		ResponseEntity<DokkatConsumerFunctionalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, DokkatConsumerFunctionalException.class);
+		ResponseEntity<DokmetConsumerFunctionalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, DokmetConsumerFunctionalException.class);
 
 		assertEquals(NOT_FOUND, response.getStatusCode());
 		assertNotNull(response.getBody());
@@ -278,8 +278,8 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	}
 
 	@Test
-	@DisplayName("POST førsteside - Dokkat returns 500 internal server error")
-	void shouldThrowExceptionIfDokkatReturns500InternalServerError() {
+	@DisplayName("POST førsteside - Dokmet returns 500 internal server error")
+	void shouldThrowExceptionIfDokmetReturns500InternalServerError() {
 		stubFor(get(urlPathMatching("/DOKUMENTTYPEINFO_V4(.*)"))
 				.willReturn(aResponse().withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
 						.withHeader("Content-Type", "application/json")

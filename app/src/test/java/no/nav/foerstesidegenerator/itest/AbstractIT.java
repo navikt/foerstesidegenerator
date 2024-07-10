@@ -90,7 +90,7 @@ public abstract class AbstractIT {
 		stubFor(get(urlPathMatching("/DOKUMENTTYPEINFO_V4(.*)"))
 				.willReturn(aResponse().withStatus(HttpStatus.OK.value())
 						.withHeader("Content-Type", "application/json")
-						.withBodyFile("dokkat/happy-response.json")));
+						.withBodyFile("dokmet/happy-response.json")));
 
 		stubFor(post("/METAFORCE")
 				.willReturn(aResponse().withStatus(HttpStatus.OK.value())

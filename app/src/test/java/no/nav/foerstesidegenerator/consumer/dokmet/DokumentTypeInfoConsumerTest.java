@@ -1,10 +1,10 @@
-package no.nav.foerstesidegenerator.consumer.dokkat;
+package no.nav.foerstesidegenerator.consumer.dokmet;
 
 import no.nav.dokkat.api.tkat020.v4.DokumentProduksjonsInfoToV4;
 import no.nav.dokkat.api.tkat020.v4.DokumentTypeInfoToV4;
 import no.nav.foerstesidegenerator.azure.AzureTokenConsumer;
 import no.nav.foerstesidegenerator.azure.TokenResponse;
-import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
+import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentTypeInfoTo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

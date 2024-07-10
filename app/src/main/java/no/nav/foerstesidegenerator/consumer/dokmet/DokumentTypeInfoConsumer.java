@@ -1,14 +1,14 @@
-package no.nav.foerstesidegenerator.consumer.dokkat;
+package no.nav.foerstesidegenerator.consumer.dokmet;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokkat.api.tkat020.v4.DokumentProduksjonsInfoToV4;
 import no.nav.dokkat.api.tkat020.v4.DokumentTypeInfoToV4;
 import no.nav.foerstesidegenerator.azure.AzureTokenConsumer;
 import no.nav.foerstesidegenerator.azure.TokenResponse;
-import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentProduksjonsInfoTo;
-import no.nav.foerstesidegenerator.consumer.dokkat.to.DokumentTypeInfoTo;
-import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
-import no.nav.foerstesidegenerator.exception.DokkatConsumerTechnicalException;
+import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentProduksjonsInfoTo;
+import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentTypeInfoTo;
+import no.nav.foerstesidegenerator.exception.DokmetConsumerFunctionalException;
+import no.nav.foerstesidegenerator.exception.DokmetConsumerTechnicalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,10 +61,10 @@ public class DokumentTypeInfoConsumer {
 			response = restTemplate.exchange(this.dokumenttypeInfoUrl + "/" + dokumenttypeId, GET, request, DokumentTypeInfoToV4.class).getBody();
 			log.info("hentDokumenttypeInfo har hentet og cachet dokumenttypeinfo fra dokmet for dokumenttypeId={}", dokumenttypeId);
 		} catch (HttpClientErrorException e) {
-			throw new DokkatConsumerFunctionalException(String.format("TKAT020 feilet med statusKode=%s. Fant ingen dokumenttypeInfo med dokumenttypeId=%s. Feilmelding=%s",
+			throw new DokmetConsumerFunctionalException(String.format("TKAT020 feilet med statusKode=%s. Fant ingen dokumenttypeInfo med dokumenttypeId=%s. Feilmelding=%s",
 					e.getStatusCode(), dokumenttypeId, e.getResponseBodyAsString()), e);
 		} catch (HttpServerErrorException e) {
-			throw new DokkatConsumerTechnicalException(String.format("TKAT020 feilet teknisk med statusKode=%s, feilmelding=%s",
+			throw new DokmetConsumerTechnicalException(String.format("TKAT020 feilet teknisk med statusKode=%s, feilmelding=%s",
 					e.getStatusCode(), e.getResponseBodyAsString()), e);
 		}
 		return mapResponse(response);

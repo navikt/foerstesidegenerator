@@ -20,7 +20,7 @@ public class RestInvalidExceptionHandler extends ResponseEntityExceptionHandler 
 
 	@ExceptionHandler({InvalidRequestException.class, InvalidTemaException.class,
 			BrukerIdIkkeValidException.class, InvalidLoepenummerException.class,
-			DokkatConsumerFunctionalException.class})
+			DokmetConsumerFunctionalException.class})
 	public ResponseEntity<Object> handleBadRequestException(Exception e) {
 		Map<String, Object> responseBody = new HashMap<>();
 		logger.warn("Feilet funksjonell med feilmelding=" + e.getMessage(), e);

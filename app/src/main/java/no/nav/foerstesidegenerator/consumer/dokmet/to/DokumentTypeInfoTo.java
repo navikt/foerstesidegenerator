@@ -1,4 +1,4 @@
-package no.nav.foerstesidegenerator.consumer.dokkat.to;
+package no.nav.foerstesidegenerator.consumer.dokmet.to;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
