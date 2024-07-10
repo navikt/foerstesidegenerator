@@ -5,7 +5,7 @@ import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.consumer.dokmet.DokumentTypeInfoConsumer;
-import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentTypeInfoTo;
+import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentTypeInfo;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceBrevdataMapper;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceConsumer;
 import no.nav.foerstesidegenerator.consumer.metaforce.support.CreateDocumentRequestTo;
@@ -63,9 +63,9 @@ public class FoerstesideService {
 	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request, HttpHeaders headers) {
 		postFoerstesideRequestValidator.validate(request, headers);
 
-		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
+		DokumentTypeInfo dokumentTypeInfo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
 		Foersteside foersteside = incrementLoepenummerAndPersist(request, headers);
-		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfoTo);
+		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentTypeInfo);
 
 		log.info("Ny førsteside med løpenummer={} og dokumenttypeId={} har blitt generert vha Metaforce", foersteside.getLoepenummer(), FOERSTESIDE_DOKUMENTTYPE_ID);
 		return PostFoerstesideResponse.builder()
@@ -81,12 +81,12 @@ public class FoerstesideService {
 		return foersteside;
 	}
 
-	private CreateDocumentResponseTo genererPdfFraMetaforce(Foersteside foersteside, DokumentTypeInfoTo dokumentTypeInfoTo) {
+	private CreateDocumentResponseTo genererPdfFraMetaforce(Foersteside foersteside, DokumentTypeInfo dokumentTypeInfo) {
 		BrevdataType brevdata = metaforceBrevdataMapper.map(foersteside);
 
 		CreateDocumentRequestTo metaforceRequest = new CreateDocumentRequestTo(
-				dokumentTypeInfoTo.getDokumentProduksjonsInfo().malLogikkFil(),
-				dokumentTypeInfoTo.getDokumentProduksjonsInfo().ikkeRedigerbarMalId(),
+				dokumentTypeInfo.getDokumentProduksjonsInfo().malLogikkFil(),
+				dokumentTypeInfo.getDokumentProduksjonsInfo().ikkeRedigerbarMalId(),
 				XMLTransformer.transformXML(brevdata));
 
 		log.info("Mottatt kall til å generere førsteside med løpenummer={} vha metaforce", foersteside.getLoepenummer());

@@ -1,10 +1,10 @@
 package no.nav.foerstesidegenerator.consumer.dokmet;
 
-import no.nav.dokkat.api.tkat020.v4.DokumentProduksjonsInfoToV4;
-import no.nav.dokkat.api.tkat020.v4.DokumentTypeInfoToV4;
+import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.foerstesidegenerator.azure.AzureTokenConsumer;
 import no.nav.foerstesidegenerator.azure.TokenResponse;
-import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentTypeInfoTo;
+import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentTypeInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class DokumentTypeInfoConsumerTest {
@@ -49,38 +53,40 @@ public class DokumentTypeInfoConsumerTest {
 
 	@Test
 	void shouldRunOK() {
-		DokumentTypeInfoToV4 response = createResponse();
-		ResponseEntity<DokumentTypeInfoToV4> responseEntity = new ResponseEntity<>(response,HttpStatus.ACCEPTED);
+		DokumenttypeInfoTo response = createResponse();
+		ResponseEntity<DokumenttypeInfoTo> responseEntity = new ResponseEntity<>(response,HttpStatus.ACCEPTED);
 		response.getDokumentProduksjonsInfo().setDistribusjonInfo(null);
 
 		when(restTemplate.exchange(
 				anyString(),
 				any(HttpMethod.class),
 				any(HttpEntity.class),
-				eq(DokumentTypeInfoToV4.class))
+				eq(DokumenttypeInfoTo.class))
 		).thenReturn(responseEntity);
 
-		DokumentTypeInfoTo dokumentTypeInfoTo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE);
-		assertEquals(DOKTYPE, dokumentTypeInfoTo.getDokumentTypeId());
-		assertEquals(ARKIVSYSTEM, dokumentTypeInfoTo.getArkivsystem());
-		assertEquals(DOKUMENTTITTEL, dokumentTypeInfoTo.getDokumentTittel());
-		assertEquals(DOKUMENTKATEGORI, dokumentTypeInfoTo.getDokumentKategori());
-		assertEquals(MAL_ID, dokumentTypeInfoTo.getDokumentProduksjonsInfo().ikkeRedigerbarMalId());
-		assertEquals(MAL_XSD_REF, dokumentTypeInfoTo.getDokumentProduksjonsInfo().malXsdReferanse());
-		assertEquals(MALFIL, dokumentTypeInfoTo.getDokumentProduksjonsInfo().malLogikkFil());
+		DokumentTypeInfo dokumentTypeInfo = dokumentTypeInfoConsumer.hentDokumenttypeInfo(DOKTYPE);
+		assertEquals(DOKTYPE, dokumentTypeInfo.getDokumentTypeId());
+		assertEquals(ARKIVSYSTEM, dokumentTypeInfo.getArkivsystem());
+		assertEquals(DOKUMENTTITTEL, dokumentTypeInfo.getDokumentTittel());
+		assertEquals(DOKUMENTKATEGORI, dokumentTypeInfo.getDokumentKategori());
+		assertEquals(MAL_ID, dokumentTypeInfo.getDokumentProduksjonsInfo().ikkeRedigerbarMalId());
+		assertEquals(MAL_XSD_REF, dokumentTypeInfo.getDokumentProduksjonsInfo().malXsdReferanse());
+		assertEquals(MALFIL, dokumentTypeInfo.getDokumentProduksjonsInfo().malLogikkFil());
 	}
 
-	private DokumentTypeInfoToV4 createResponse() {
-		DokumentTypeInfoToV4 response = new DokumentTypeInfoToV4();
+	private DokumenttypeInfoTo createResponse() {
+		DokumenttypeInfoTo response = new DokumenttypeInfoTo();
 		response.setDokumenttypeId(DOKTYPE);
 		response.setArkivSystem(ARKIVSYSTEM);
 		response.setDokumentTittel(DOKUMENTTITTEL);
 		response.setDokumentKategori(DOKUMENTKATEGORI);
-		DokumentProduksjonsInfoToV4 dokumentProduksjonsInfoToV4 = new DokumentProduksjonsInfoToV4();
-		dokumentProduksjonsInfoToV4.setMalLogikkFil(MALFIL);
-		dokumentProduksjonsInfoToV4.setMalXsdReferanse(MAL_XSD_REF);
-		dokumentProduksjonsInfoToV4.setIkkeRedigerbarMalId(MAL_ID);
-		response.setDokumentProduksjonsInfo(dokumentProduksjonsInfoToV4);
+
+		DokumentProduksjonsInfoTo dokumentproduksjonsinfo = new DokumentProduksjonsInfoTo();
+		dokumentproduksjonsinfo.setMalLogikkFil(MALFIL);
+		dokumentproduksjonsinfo.setMalXsdReferanse(MAL_XSD_REF);
+		dokumentproduksjonsinfo.setIkkeRedigerbarMalId(MAL_ID);
+		response.setDokumentProduksjonsInfo(dokumentproduksjonsinfo);
+
 		return response;
 	}
 

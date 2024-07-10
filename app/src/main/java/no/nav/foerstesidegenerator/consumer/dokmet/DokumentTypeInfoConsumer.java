@@ -1,12 +1,12 @@
 package no.nav.foerstesidegenerator.consumer.dokmet;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.dokkat.api.tkat020.v4.DokumentProduksjonsInfoToV4;
-import no.nav.dokkat.api.tkat020.v4.DokumentTypeInfoToV4;
+import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.foerstesidegenerator.azure.AzureTokenConsumer;
 import no.nav.foerstesidegenerator.azure.TokenResponse;
-import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentProduksjonsInfoTo;
-import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentTypeInfoTo;
+import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentProduksjonsInfo;
+import no.nav.foerstesidegenerator.consumer.dokmet.to.DokumentTypeInfo;
 import no.nav.foerstesidegenerator.exception.DokmetConsumerFunctionalException;
 import no.nav.foerstesidegenerator.exception.DokmetConsumerTechnicalException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
@@ -52,13 +52,13 @@ public class DokumentTypeInfoConsumer {
 
 	@Retryable(retryFor = FoerstesideGeneratorTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 200))
 	@Cacheable(DOKMET_DOKUMENT_TYPE_INFO_CACHE)
-	public DokumentTypeInfoTo hentDokumenttypeInfo(final String dokumenttypeId) {
+	public DokumentTypeInfo hentDokumenttypeInfo(final String dokumenttypeId) {
 		HttpHeaders headers = createHeaders();
 
-		DokumentTypeInfoToV4 response;
+		DokumenttypeInfoTo response;
 		try {
 			HttpEntity<String> request = new HttpEntity<>(headers);
-			response = restTemplate.exchange(this.dokumenttypeInfoUrl + "/" + dokumenttypeId, GET, request, DokumentTypeInfoToV4.class).getBody();
+			response = restTemplate.exchange(this.dokumenttypeInfoUrl + "/" + dokumenttypeId, GET, request, DokumenttypeInfoTo.class).getBody();
 			log.info("hentDokumenttypeInfo har hentet og cachet dokumenttypeinfo fra dokmet for dokumenttypeId={}", dokumenttypeId);
 		} catch (HttpClientErrorException e) {
 			throw new DokmetConsumerFunctionalException(String.format("TKAT020 feilet med statusKode=%s. Fant ingen dokumenttypeInfo med dokumenttypeId=%s. Feilmelding=%s",
@@ -70,24 +70,24 @@ public class DokumentTypeInfoConsumer {
 		return mapResponse(response);
 	}
 
-	private DokumentTypeInfoTo mapResponse(final DokumentTypeInfoToV4 dokumentTypeInfo) {
+	private DokumentTypeInfo mapResponse(final DokumenttypeInfoTo dokumentTypeInfo) {
 		Assert.notNull(dokumentTypeInfo, "DokumentTypeInfo is null");
 
-		final DokumentProduksjonsInfoToV4 produksjonsInfoToV4 = dokumentTypeInfo.getDokumentProduksjonsInfo();
+		final DokumentProduksjonsInfoTo dokumentproduksjonsinfo = dokumentTypeInfo.getDokumentProduksjonsInfo();
 
-		final DokumentProduksjonsInfoTo dokumentProduksjonsInfoTo = DokumentProduksjonsInfoTo.builder()
-				.eksternVedlegg(produksjonsInfoToV4.getEksternVedlegg())
-				.vedlegg(produksjonsInfoToV4.getVedlegg())
-				.ikkeRedigerbarMalId(produksjonsInfoToV4.getIkkeRedigerbarMalId())
-				.malLogikkFil(produksjonsInfoToV4.getMalLogikkFil())
-				.malXsdReferanse(produksjonsInfoToV4.getMalXsdReferanse())
+		final DokumentProduksjonsInfo dokumentProduksjonsInfo = DokumentProduksjonsInfo.builder()
+				.eksternVedlegg(dokumentproduksjonsinfo.getEksternVedlegg())
+				.vedlegg(dokumentproduksjonsinfo.getVedlegg())
+				.ikkeRedigerbarMalId(dokumentproduksjonsinfo.getIkkeRedigerbarMalId())
+				.malLogikkFil(dokumentproduksjonsinfo.getMalLogikkFil())
+				.malXsdReferanse(dokumentproduksjonsinfo.getMalXsdReferanse())
 				.build();
 
-		return DokumentTypeInfoTo.builder()
+		return DokumentTypeInfo.builder()
 				.dokumentTypeId(dokumentTypeInfo.getDokumenttypeId())
 				.dokumentTittel(dokumentTypeInfo.getDokumentTittel())
 				.arkivsystem(dokumentTypeInfo.getArkivSystem())
-				.dokumentProduksjonsInfo(dokumentProduksjonsInfoTo)
+				.dokumentProduksjonsInfo(dokumentProduksjonsInfo)
 				.dokumentKategori(dokumentTypeInfo.getDokumentKategori())
 				.sensitivt(dokumentTypeInfo.getSensitivt())
 				.build();

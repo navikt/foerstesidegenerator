@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DokumentTypeInfoTo {
+public class DokumentTypeInfo {
 	private String dokumentTypeId;
 	private String dokumentTittel;
 	private String dokumentKategori;
@@ -20,6 +20,6 @@ public class DokumentTypeInfoTo {
 	private String arkivsystem;
 	private Boolean sensitivt;
 	private List<Pair<String, String>> tilleggsopplysninger;
-	private DokumentProduksjonsInfoTo dokumentProduksjonsInfo;
+	private DokumentProduksjonsInfo dokumentProduksjonsInfo;
 
 }
