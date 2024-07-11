@@ -37,6 +37,7 @@ public class ScheduledService {
 		}
 
 		List<Foersteside> foerstesiderDerUkjentBrukerPersoninfoSkalMaskeres = foerstesideRepository.finnFoerstesiderSomSkalMaskeres(UKJENT_BRUKER_PERSONINFO);
+
 		if (!foerstesiderDerUkjentBrukerPersoninfoSkalMaskeres.isEmpty()) {
 			foerstesiderDerUkjentBrukerPersoninfoSkalMaskeres.forEach(Foersteside::clearUkjentBrukerPersoninfo);
 			log.info("Foerstesidegenerator - schedulert jobb: Har maskert ukjent brukerinfo på {} førstesider", foerstesiderDerUkjentBrukerPersoninfoSkalMaskeres.size());

@@ -16,7 +16,7 @@ public interface FoerstesideRepository extends CrudRepository<Foersteside, Long>
 
 	@Query("""
 			select f from Foersteside f
-				inner join FoerstesideMetadata fm on f.foerstesideId = fm.foersteside.foerstesideId
+				join FoerstesideMetadata fm on f.foerstesideId = fm.foersteside.foerstesideId
 				and fm.key = :metadataKeySomSkalMaskeres and fm.value is not null
 				where f.datoOpprettet < function('ADD_MONTHS', CURRENT_DATE, -6)
 			""")
