@@ -14,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.transaction.TestTransaction;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -153,9 +152,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertEquals(BRUKER_ID, getResponse.getBody().getBruker().getBrukerId());
 		assertEquals(BRUKER_PERSON, getResponse.getBody().getBruker().getBrukerType().name());
 
-		TestTransaction.flagForCommit();
-		TestTransaction.end();
-		TestTransaction.start();
+		commitAndBeginNewTransaction();
 
 		foersteside = getFoersteside();
 		assertEquals(loepenummer, foersteside.getLoepenummer());
