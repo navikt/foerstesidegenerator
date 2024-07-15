@@ -28,7 +28,7 @@ public class DokmetConsumer {
 
 	public DokmetConsumer(FoerstesidegeneratorProperties foerstesidegeneratorProperties, WebClient webClient) {
 		this.webClient = webClient.mutate()
-				.baseUrl(foerstesidegeneratorProperties.getEndpoints().getDokmet().getUrl())
+				.baseUrl(foerstesidegeneratorProperties.getEndpoints().getDokmetUrl())
 				.filter(new NavHeadersFilter())
 				.defaultHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 				.build();

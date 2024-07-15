@@ -78,7 +78,6 @@ public abstract class AbstractIT {
 
 	@BeforeEach
 	void setUp() {
-		stubAzureToken();
 		foerstesideRepository.deleteAll();
 	}
 
@@ -145,14 +144,6 @@ public abstract class AbstractIT {
 		} else {
 			return String.valueOf(c1 + 1);
 		}
-	}
-
-	protected void stubAzureToken() {
-		stubFor(post("/azure_token")
-				.willReturn(aResponse()
-						.withStatus(OK.value())
-						.withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-						.withBodyFile("azure/token_response_dummy.json")));
 	}
 
 	protected void stubDokmet(String bodyFile) {

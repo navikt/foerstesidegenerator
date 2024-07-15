@@ -1,6 +1,5 @@
 {
 	"FOERSTESIDEGENERATOR_ENDPOINTS_DOKMET_URL": "https://dokmet.dev.intern.nav.no/rest/dokumenttypeinfo",
-	"FOERSTESIDEGENERATOR_ENDPOINTS_DOKMET_SCOPE": "api://dev-fss.teamdokumenthandtering.dokmet/.default",
 	"METAFORCEENDPOINT_URL": "https://app-q2.adeo.no/metaforce/Metaforce.Interact.GS_Webservice/Metaforce.Interact.Webservice.svc/ws2007HttpBindingGeneralService",
 	"NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_DISCOVERYURL": "https://security-token-service.nais.preprod.local/rest/v1/sts/.well-known/openid-configuration",
 	"NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_ACCEPTED_AUDIENCE": "srvsoknadsveiviser,srvskanmotreferanse,srvfamilie-ks-opps,srvklage-dittnav,srvbidrag-ui",

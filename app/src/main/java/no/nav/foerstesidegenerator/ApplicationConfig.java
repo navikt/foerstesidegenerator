@@ -1,6 +1,5 @@
 package no.nav.foerstesidegenerator;
 
-import no.nav.foerstesidegenerator.azure.AzureProperties;
 import no.nav.foerstesidegenerator.config.RepositoryConfig;
 import no.nav.foerstesidegenerator.config.properties.DataSourceAdditionalProperties;
 import no.nav.foerstesidegenerator.config.properties.FoerstesidegeneratorProperties;
@@ -15,7 +14,6 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @EnableConfigurationProperties({
 		ServiceuserAlias.class,
-		AzureProperties.class,
 		DataSourceAdditionalProperties.class,
 		FoerstesidegeneratorProperties.class
 })
