@@ -41,6 +41,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static java.util.Collections.emptyMap;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @SpringBootTest(
 		classes = {ApplicationLocal.class, ApplicationTestConfig.class},
@@ -73,6 +76,11 @@ public abstract class AbstractIT {
 
 	private final ObjectMapper mapper = new ObjectMapper();
 
+	@BeforeEach
+	void setUp() {
+		foerstesideRepository.deleteAll();
+	}
+
 	protected static String classpathToString(String path) {
 		return resourceUrlToString(Resources.getResource(path));
 	}
@@ -85,32 +93,21 @@ public abstract class AbstractIT {
 		}
 	}
 
-	@BeforeEach
-	void setUp() {
-		stubFor(get(urlPathMatching("/DOKUMENTTYPEINFO_V4(.*)"))
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value())
-						.withHeader("Content-Type", "application/json")
-						.withBodyFile("dokkat/happy-response.json")));
-
-		stubFor(post("/METAFORCE")
-				.willReturn(aResponse().withStatus(HttpStatus.OK.value())
-						.withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
-
-		stubAzureToken();
-		foerstesideRepository.deleteAll();
-	}
-
 	protected static void commitAndBeginNewTransaction() {
 		TestTransaction.flagForCommit();
 		TestTransaction.end();
 		TestTransaction.start();
 	}
 
-	private String getToken() {
+	protected String getToken() {
 		return getToken(emptyMap());
 	}
 
-	protected String getToken(Map<String, Object> claims) {
+	protected String getTokenWithClaims(String role) {
+		return getToken(Map.of("roles", role));
+	}
+
+	private String getToken(Map<String, Object> claims) {
 		String issuerId = "azurev2";
 		String audience = "skanmot";
 		String subject = "srvtest";
@@ -126,24 +123,6 @@ public abstract class AbstractIT {
 						3600
 				)
 		).serialize();
-	}
-
-	protected HttpHeaders createHeadersWithTokenWithRole(String role) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getToken(Map.of("roles", role)));
-		headers.add("Nav-Consumer-Id", MDC_CONSUMER_ID);
-		headers.add("Nav-Callid", MDC_CALL_ID);
-		return headers;
-	}
-
-	protected HttpHeaders createHeaders() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getToken());
-		headers.add("Nav-Consumer-Id", MDC_CONSUMER_ID);
-		headers.add("Nav-Callid", MDC_CALL_ID);
-		return headers;
 	}
 
 	protected PostFoerstesideRequest createPostRequest(String filepath) {
@@ -167,11 +146,32 @@ public abstract class AbstractIT {
 		}
 	}
 
-	protected void stubAzureToken() {
-		stubFor(post("/azure_token")
+	protected void stubDokmet(String bodyFile) {
+		stubFor(get(urlPathMatching("/rest/dokumenttypeinfo/[0-9]*"))
 				.willReturn(aResponse()
-						.withStatus(HttpStatus.OK.value())
-						.withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-						.withBodyFile("azure/token_response_dummy.json")));
+						.withStatus(OK.value())
+						.withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+						.withBodyFile(bodyFile)));
 	}
+
+	protected void stubDokmet(HttpStatus httpStatus) {
+		stubFor(get(urlPathMatching("/rest/dokumenttypeinfo/[0-9]*"))
+				.willReturn(aResponse()
+						.withStatus(httpStatus.value())));
+	}
+
+	protected void stubMetaforce() {
+		stubFor(post("/metaforce")
+				.willReturn(aResponse()
+						.withStatus(OK.value())
+						.withBodyFile("metaforce/metaforce_createDocument-happy.xml")));
+	}
+
+	protected void stubMetaforce(HttpStatus httpStatus) {
+		stubFor(post("/metaforce")
+				.willReturn(aResponse()
+						.withStatus(httpStatus.value())
+						.withBody("Something went wrong")));
+	}
+
 }

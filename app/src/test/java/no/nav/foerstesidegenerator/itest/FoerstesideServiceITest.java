@@ -22,6 +22,9 @@ public class FoerstesideServiceITest extends AbstractIT {
     @Test
     @DisplayName("Synkroniser alle genereringer av løpenummer")
     void createSeveralFoerstesider() throws Exception {
+        stubDokmet("dokmet/happy-response.json");
+        stubMetaforce();
+
         HttpHeaders defaultHeaders = new HttpHeaders();
         defaultHeaders.add("Nav-Consumer-Id", "MockConsumer");
 

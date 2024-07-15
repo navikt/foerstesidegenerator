@@ -1,0 +1,70 @@
+{
+  "dokumenttypeId": "000124",
+  "dokumentTittel": "Førsteside",
+  "dokumentType": "U",
+  "dokumentKategori": "VB",
+  "sensitivt": true,
+  "utledRegisterInfo": false,
+  "tema": null,
+  "behandlingstema": null,
+  "arkivSystem": "JOARK",
+  "artifaktId": null,
+  "dokumentProduksjonsInfo": {
+    "vedlegg": false,
+    "eksternVedlegg": false,
+    "ikkeRedigerbarMalId": "MF_000124",
+    "redigerbarMalId": null,
+    "malLogikkFil": "Foersteside",
+    "malXsdReferanse": "foerstesidebrev/foersteside_000124.xsd",
+    "spraakInfos": [],
+    "distribusjonInfo": {
+      "predefinertDistKanal": null,
+      "portoklasse": "B",
+      "sikkerhetsnivaa": 4,
+      "tosidigPrint": true,
+      "sentralPrintDokumentType": "NAV_STANDARD",
+      "konvoluttvinduType": "X",
+      "distribusjonVarsels": [
+        {
+          "varseltypeId": "SDP_000004",
+          "varselForDistribusjonKanal": "SDP",
+          "changeStamp": {
+            "opprettetAv": "srvdokkat",
+            "opprettetDato": "2024-01-18T10:31:59.241628",
+            "endretAv": null,
+            "endretDato": null
+          }
+        },
+        {
+          "varseltypeId": "DittNAV_000004",
+          "varselForDistribusjonKanal": "DITT_NAV",
+          "changeStamp": {
+            "opprettetAv": "srvdokkat",
+            "opprettetDato": "2024-01-18T10:31:59.244371",
+            "endretAv": null,
+            "endretDato": null
+          }
+        }
+      ],
+      "changeStamp": {
+        "opprettetAv": "srvdokkat",
+        "opprettetDato": "2024-01-18T10:31:59.234457",
+        "endretAv": null,
+        "endretDato": null
+      }
+    },
+    "changeStamp": {
+      "opprettetAv": "srvdokkat",
+      "opprettetDato": "2023-01-24T13:11:39.32355",
+      "endretAv": "srvdokkat",
+      "endretDato": "2024-01-18T10:31:59.25293"
+    }
+  },
+  "dokumentMottakInfo": null,
+  "changeStamp": {
+    "opprettetAv": "srvdokkat",
+    "opprettetDato": "2023-01-24T13:11:39.28831",
+    "endretAv": null,
+    "endretDato": null
+  }
+}

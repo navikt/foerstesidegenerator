@@ -1,318 +1,431 @@
 package no.nav.foerstesidegenerator.itest;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
-import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.Foersteside;
-import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
-import no.nav.foerstesidegenerator.exception.DokkatConsumerFunctionalException;
-import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorTechnicalException;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import static java.lang.String.format;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_PERSON;
+import static no.nav.foerstesidegenerator.constants.FoerstesidegeneratorConstants.NAV_CONSUMER_ID;
+import static no.nav.foerstesidegenerator.constants.NavHeadersFilter.NAV_CALLID;
+import static no.nav.foerstesidegenerator.domain.code.FagomradeCode.BID;
 import static no.nav.foerstesidegenerator.rest.FoerstesideRestController.ROLE_FOERSTESIDEGENERATOR_LES;
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.calculateCheckDigit;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+@Slf4j
 class FoerstesidegeneratorIT extends AbstractIT {
 
-	private final static String POST_URL = "/api/foerstesidegenerator/v1/foersteside";
-	private final static String GET_URL = "/api/foerstesidegenerator/v1/foersteside/";
+	private final static String OPPRETT_NY_FOERSTESIDE_URL = "/api/foerstesidegenerator/v1/foersteside";
+	private final static String HENT_FOERSTESIDE_URL = "/api/foerstesidegenerator/v1/foersteside/%s";
+	private static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
 
-	@Test
-	@DisplayName("POST førsteside - standard adresse")
-	void happyPathStandardAdresse() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
+	@Autowired
+	public WebTestClient webTestClient;
 
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+	@BeforeEach
+	public void setUp() {
+		super.setUp();
 
-		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
-
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
-
-		Foersteside foersteside = getFoersteside();
-
-		assertNull(foersteside.getAdresselinje1());
-		assertNull(foersteside.getAdresselinje2());
-		assertNull(foersteside.getAdresselinje3());
-		assertNull(foersteside.getPostnummer());
-		assertNull(foersteside.getPoststed());
-
-		assertEquals("4444", foersteside.getNetsPostboks());
-		assertEquals("99988812345", foersteside.getAvsenderId());
-		assertEquals("navn navnesen", foersteside.getAvsenderNavn());
-		assertEquals(BRUKER_ID, foersteside.getBrukerId());
-		assertEquals(BRUKER_PERSON, foersteside.getBrukerType());
-		assertNull(foersteside.getUkjentBrukerPersoninfo());
-		assertEquals("FOR", foersteside.getTema());
-		assertNull(foersteside.getBehandlingstema());
-		assertEquals("joark-tittel", foersteside.getArkivtittel());
-		assertEquals("NAV 13.37", foersteside.getNavSkjemaId());
-		assertEquals("tittel som printes", foersteside.getOverskriftstittel());
-		assertEquals("NB", foersteside.getSpraakkode());
-		assertEquals("SKJEMA", foersteside.getFoerstesidetype());
-		assertEquals("tittel 1;tittel 2", foersteside.getVedleggListe());
-		assertEquals("9999", foersteside.getEnhetsnummer());
-		assertEquals("GSAK", foersteside.getArkivsaksystem());
-		assertEquals("ref", foersteside.getArkivsaksnummer());
-		assertEquals("første tittel;andre tittel", foersteside.getDokumentlisteFoersteside());
-		assertEquals("srvtest", foersteside.getFoerstesideOpprettetAv());
+		stubDokmet("dokmet/happy-response.json");
+		stubMetaforce();
 	}
 
 	@Test
-	@DisplayName("POST førsteside - egendefinert adresse")
-	void happyPathEgendefinertAdresse() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_egendefinertadresse.json");
+	void skalOppretteNyFoerstesideMedStandardAdresse() {
+		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isCreated()
+			   	.expectBody(PostFoerstesideResponse.class)
+			   	.returnResult()
+			   	.getResponseBody();
 
-		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+		assertThat(response).isNotNull();
+		assertThat(response.getFoersteside()).isNotNull();
+		assertThat(response.getLoepenummer()).isNotNull();
 
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
+		assertThat(foerstesideRepository.findAll().iterator().hasNext()).isNotNull();
 
 		Foersteside foersteside = getFoersteside();
 
-		assertEquals("gateveien", foersteside.getAdresselinje1());
-		assertNull(foersteside.getAdresselinje2());
-		assertNull(foersteside.getAdresselinje3());
-		assertEquals("1234", foersteside.getPostnummer());
-		assertEquals("Oslo", foersteside.getPoststed());
+		assertThat(foersteside.getAdresselinje1()).isNull();
+		assertThat(foersteside.getAdresselinje2()).isNull();
+		assertThat(foersteside.getAdresselinje3()).isNull();
+		assertThat(foersteside.getPostnummer()).isNull();
+		assertThat(foersteside.getPoststed()).isNull();
+
+		assertThat(foersteside.getNetsPostboks()).isEqualTo("4444");
+		assertThat(foersteside.getAvsenderId()).isEqualTo("99988812345");
+		assertThat(foersteside.getAvsenderNavn()).isEqualTo("navn navnesen");
+		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID);
+		assertThat(foersteside.getBrukerType()).isEqualTo(BRUKER_PERSON);
+		assertThat(foersteside.getUkjentBrukerPersoninfo()).isNull();
+		assertThat(foersteside.getTema()).isEqualTo("FOR");
+		assertThat(foersteside.getBehandlingstema()).isNull();
+		assertThat(foersteside.getArkivtittel()).isEqualTo("joark-tittel");
+		assertThat(foersteside.getNavSkjemaId()).isEqualTo("NAV 13.37");
+		assertThat(foersteside.getOverskriftstittel()).isEqualTo("tittel som printes");
+		assertThat(foersteside.getSpraakkode()).isEqualTo("NB");
+		assertThat(foersteside.getFoerstesidetype()).isEqualTo("SKJEMA");
+		assertThat(foersteside.getVedleggListe()).isEqualTo("tittel 1;tittel 2");
+		assertThat(foersteside.getEnhetsnummer()).isEqualTo("9999");
+		assertThat(foersteside.getArkivsaksystem()).isEqualTo("GSAK");
+		assertThat(foersteside.getArkivsaksnummer()).isEqualTo("ref");
+		assertThat(foersteside.getDokumentlisteFoersteside()).isEqualTo("første tittel;andre tittel");
+		assertThat(foersteside.getFoerstesideOpprettetAv()).isEqualTo("srvtest");
 	}
 
 	@Test
-	@DisplayName("POST førsteside - UkjentBrukerPersoninfo")
-	void happyPathUkjentBrukerPersoninfo() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_ukjentbrukerpersoninfo.json");
+	void skalOppretteNyFoerstesideMedEgendefinertAdresse() {
+		var request = createPostRequest("__files/input/happypath_egendefinertadresse.json");
 
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isCreated()
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
 
-		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+		assertThat(response).isNotNull();
+		assertThat(response.getFoersteside()).isNotNull();
+		assertThat(response.getLoepenummer()).isNotNull();
 
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
+		assertThat(foerstesideRepository.findAll().iterator().hasNext()).isNotNull();
 
 		Foersteside foersteside = getFoersteside();
-		assertEquals("her kommer det masse info om personen på en linje", foersteside.getUkjentBrukerPersoninfo());
-		assertEquals("srvtest", foersteside.getFoerstesideOpprettetAv());
+
+		assertThat(foersteside.getAdresselinje1()).isEqualTo("gateveien");
+		assertThat(foersteside.getAdresselinje2()).isNull();
+		assertThat(foersteside.getAdresselinje3()).isNull();
+		assertThat(foersteside.getPostnummer()).isEqualTo("1234");
+		assertThat(foersteside.getPoststed()).isEqualTo("Oslo");
 	}
 
 	@Test
-	@DisplayName("POST førsteside - brukerId med mellomrom. Eksempel: 140366 09142")
-	void shouldOpprettFoerstesideWithNoSpaceBrukerIdWhenBrukerIdContainsSpace() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_brukerid_mellomrom.json");
+	void skalOppretteNyFoerstesideMedUkjentBrukerPersoninfo() {
+		var request = createPostRequest("__files/input/happypath_ukjentbrukerpersoninfo.json");
 
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isCreated()
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
 
-		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+		assertThat(response).isNotNull();
+		assertThat(response.getFoersteside()).isNotNull();
+		assertThat(response.getLoepenummer()).isNotNull();
 
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
 
 		Foersteside foersteside = getFoersteside();
-		assertEquals(BRUKER_ID, foersteside.getBrukerId());
-		assertEquals(BRUKER_PERSON, foersteside.getBrukerType());
-		assertNull(foersteside.getUkjentBrukerPersoninfo());
+		assertThat(foersteside.getUkjentBrukerPersoninfo()).isEqualTo("her kommer det masse info om personen på en linje");
+		assertThat(foersteside.getFoerstesideOpprettetAv()).isEqualTo("srvtest");
 	}
 
 	@Test
-	@DisplayName("GET førsteside - Ok")
-	void shouldHentFoerstesideGivenLoepenummer() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
-		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+	void skalOppretteNyFoerstesideMedBrukerIdUtenMellomromNaarBrukerIdIRequestHarMellomrom() {
+		var request = createPostRequest("__files/input/happypath_brukerid_mellomrom.json");
 
-		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isCreated()
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response).isNotNull();
+		assertThat(response.getFoersteside()).isNotNull();
+		assertThat(response.getLoepenummer()).isNotNull();
+
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
+
 		Foersteside foersteside = getFoersteside();
+		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID);
+		assertThat(foersteside.getBrukerType()).isEqualTo(BRUKER_PERSON);
+		assertThat(foersteside.getUkjentBrukerPersoninfo()).isNull();
+	}
+
+	@Test
+	void skalReturnereBadRequestForUgyldigBrukerId() {
+		var request = createPostRequest("__files/input/ugyldig_brukerid.json");
+
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isBadRequest()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response).contains("Validering av ident feilet.");
+	}
+
+	@Test
+	void skalHenteFoerstesideGittLoepenummer() {
+		var request = createPostRequest("__files/input/happypath_standardadresse.json");
+
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isCreated()
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response).isNotNull();
+		String loepenummer = response.getLoepenummer();
+
+		var foerstesideResponse = webTestClient.get()
+				.uri(format(HENT_FOERSTESIDE_URL, loepenummer))
+				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(FoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(foerstesideResponse).isNotNull();
+		assertThat(foerstesideResponse.getBruker()).isNotNull();
+		assertThat(foerstesideResponse.getBruker().getBrukerId()).isEqualTo(BRUKER_ID);
+		assertThat(foerstesideResponse.getBruker().getBrukerType().name()).isEqualTo(BRUKER_PERSON);
+
+		var foersteside = getFoersteside();
+		assertThat(foersteside.getLoepenummer()).isEqualTo(loepenummer);
+		assertThat(foersteside.getUthentet()).isEqualTo(1);
+		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID);
+		assertThat(foersteside.getDatoUthentet()).isNotNull();
+	}
+
+	@Test
+	void skalHenteFoerstesideGittLoepenummerMedKontrollsiffer() {
+		var request = createPostRequest("__files/input/happypath_standardadresse.json");
+
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isCreated()
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response).isNotNull();
+		var loepenummer = response.getLoepenummer();
+		String loepenummerWithCheckDigit = loepenummer + calculateCheckDigit(loepenummer);
+
+		webTestClient.get()
+				.uri(format(HENT_FOERSTESIDE_URL, loepenummerWithCheckDigit))
+				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
+				.exchange()
+				.expectStatus().isOk();
+	}
+
+	@Test
+	void skalHenteFoerstesideMedTemaBIDHvisTemaErOpprettetSomBID() {
+		var request = createPostRequest("__files/input/happypath_tema_bid.json");
+
+		webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isCreated();
+
+		assertThat(foerstesideRepository.findAll().iterator().hasNext()).isNotNull();
+		Foersteside foersteside = getFoersteside();
+
 		String loepenummer = foersteside.getLoepenummer();
+		assertThat(foersteside.getTema()).isEqualTo(BID.name());
 
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
+		var foerstesideResponse = webTestClient.get()
+				.uri(format(HENT_FOERSTESIDE_URL, loepenummer))
+				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(FoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
 
-		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
-		assertNotNull(getResponse.getBody().getBruker(), "Bruker skal være satt");
-		assertEquals(BRUKER_ID, getResponse.getBody().getBruker().getBrukerId());
-		assertEquals(BRUKER_PERSON, getResponse.getBody().getBruker().getBrukerType().name());
-
-		commitAndBeginNewTransaction();
-
-		foersteside = getFoersteside();
-		assertEquals(loepenummer, foersteside.getLoepenummer());
-		assertEquals(foersteside.getUthentet(), 1);
-		assertEquals(BRUKER_ID, foersteside.getBrukerId());
-		assertNotNull(foersteside.getDatoUthentet());
+		assertThat(foerstesideResponse).isNotNull();
+		assertThat(foerstesideResponse.getTema()).isEqualTo(BID.name());
 	}
 
 	@Test
-	@DisplayName("GET førsteside - feil rolle - 401 Unauthorized")
-	void shouldGetForbiddenWhenHentFoerstesideGivenLoepenummerWithoutRole() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
-		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+	void skalReturnereUnauthorizedVedHentingAvFoerstesideUtenRolle() {
+		var response = webTestClient.get()
+				.uri(format(HENT_FOERSTESIDE_URL, "123"))
+				.headers(headers -> getHeadersWithClaim(headers,"INVALID_ROLE"))
+				.exchange()
+				.expectStatus().isUnauthorized()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
 
-		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
-		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
-		Foersteside foersteside = getFoersteside();
-		String loepenummer = foersteside.getLoepenummer();
-
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeadersWithTokenWithRole("invalid_role")), FoerstesideResponse.class);
-
-		assertEquals(HttpStatus.UNAUTHORIZED, getResponse.getStatusCode());
+		assertThat(response).contains("Required claims not present in token. [roles=foerstesidegenerator_les]");
 	}
 
 	@Test
-	@DisplayName("GET førsteside - Ok (løpenummer med kontrollsiffer)")
-	void shouldHentFoerstesideGivenLoepenummerWithCheckDigit() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
-		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+	void skalReturnereBadRequestHvisLoepenummerIkkeValiderer() {
+		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
-		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
-		Foersteside foersteside = getFoersteside();
+		var foersteside = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isCreated()
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
 
-		String loepenummer = foersteside.getLoepenummer();
-		String checkDigit = calculateCheckDigit(loepenummer);
-		String loepenummerWithCheckDigit = loepenummer + checkDigit;
-
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
-
-		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
-	}
-
-	@Test
-	@DisplayName("GET førsteside tema BID - Ok (tema = BID)")
-	void shouldHentFoerstesideWithTemaBIDWhenTemaOpprettetAsBID() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_tema_bid.json");
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
-		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
-
-		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
-		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
-		Foersteside foersteside = getFoersteside();
-
-		String loepenummer = foersteside.getLoepenummer();
-		assertThat(foersteside.getTema()).isEqualTo(FagomradeCode.BID.name());
-
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
-		assertEquals(HttpStatus.OK, getResponse.getStatusCode());
-		assertNotNull(getResponse.getBody());
-		assertThat(getResponse.getBody().getTema()).isEqualTo(FagomradeCode.BID.name());
-	}
-
-	@Test
-	@DisplayName("GET førsteside - 400 Løpenummer validerer ikke")
-	void shouldThrowExceptionIfGivenLoepenummerDoesNotValidate() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_standardadresse.json");
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
-		ResponseEntity<PostFoerstesideResponse> postResponse = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
-
-		assertEquals(HttpStatus.CREATED, postResponse.getStatusCode());
-		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
-		Foersteside foersteside = getFoersteside();
-
-		String loepenummer = foersteside.getLoepenummer();
+		assertThat(foersteside).isNotNull();
+		var loepenummer = foersteside.getLoepenummer();
 		String checkDigit = calculateCheckDigit(loepenummer);
 		String loepenummerWithWrongCheckDigit = loepenummer + modifyCheckDigit(checkDigit);
 
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummerWithWrongCheckDigit, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
+		var response = webTestClient.get()
+				.uri(format(HENT_FOERSTESIDE_URL, loepenummerWithWrongCheckDigit))
+				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
+				.exchange()
+				.expectStatus().isBadRequest()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
 
-		assertEquals(HttpStatus.BAD_REQUEST, getResponse.getStatusCode());
+		assertThat(response).contains("Kontrollsiffer oppgitt er feil løpenummer");
 	}
 
 	@Test
-	@DisplayName("GET førsteside - 404 not found")
-	void shouldThrowExceptionWhenNoFoerstesideFoundForLoepenummer() {
+	void skalReturnereNotFoundHvisLoepenummerIkkeFinnes() {
 		String loepenummer = "1234567890000";
 
-		ResponseEntity<FoerstesideResponse> getResponse = testRestTemplate.exchange(GET_URL + loepenummer, HttpMethod.GET, new HttpEntity<>(createHeadersWithValidRole()), FoerstesideResponse.class);
+		var response = webTestClient.get()
+				.uri(format(HENT_FOERSTESIDE_URL, loepenummer))
+				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
+				.exchange()
+				.expectStatus().isNotFound()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
 
-		assertEquals(NOT_FOUND, getResponse.getStatusCode());
+		assertThat(response).contains(format("Kan ikke finne foersteside med loepenummer=%s", loepenummer));
 	}
 
 	@Test
-	@DisplayName("GET førsteside - 400 Bad Request")
-	void shouldThrowBadRequestExceptionWhenBrukerIdErUgyldig() {
-		PostFoerstesideRequest request = createPostRequest("__files/input/ugyldig_brukerid.json");
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+	void skalReturnereInternalServerErrorHvisDokmetReturnererNotFound() {
+		stubDokmet(NOT_FOUND);
+		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		ResponseEntity<PostFoerstesideResponse> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, PostFoerstesideResponse.class);
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().is5xxServerError()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
 
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+		assertThat(response).contains(format("Fant ingen dokumenttypeInfo med dokumenttypeId=%s", FOERSTESIDE_DOKUMENTTYPE_ID));
 	}
 
 	@Test
-	@DisplayName("POST førsteside - Dokkat returns 404 not found")
-	void shouldThrowExceptionIfDokkatReturns404NotFound() {
-		stubFor(get(urlPathMatching("/DOKUMENTTYPEINFO_V4(.*)"))
-				.willReturn(aResponse().withStatus(NOT_FOUND.value())
-						.withHeader("Content-Type", "application/json")
-						.withBody("Could not find dokumenttypeId: DOKTYPENOTFOUND in repository")));
+	void skalReturnereInternalServerErrorHvisDokmetReturnererInternalServerError() {
+		stubDokmet(INTERNAL_SERVER_ERROR);
+		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_ukjentbrukerpersoninfo.json");
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().is5xxServerError()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
 
-		ResponseEntity<DokkatConsumerFunctionalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, DokkatConsumerFunctionalException.class);
-
-		assertEquals(NOT_FOUND, response.getStatusCode());
-		assertNotNull(response.getBody());
-		assertTrue(response.getBody().getMessage().startsWith("TKAT020 feilet med statusKode=404 NOT_FOUND"));
+		assertThat(response).contains(format("Dokmet feilet teknisk for dokumenttypeId=%s", FOERSTESIDE_DOKUMENTTYPE_ID));
 	}
 
 	@Test
-	@DisplayName("POST førsteside - Dokkat returns 500 internal server error")
-	void shouldThrowExceptionIfDokkatReturns500InternalServerError() {
-		stubFor(get(urlPathMatching("/DOKUMENTTYPEINFO_V4(.*)"))
-				.willReturn(aResponse().withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
-						.withHeader("Content-Type", "application/json")
-						.withBody("Could not find dokumenttypeId: DOKTYPENOTFOUND in repository")));
+	void skalReturnereInternalServerErrorHvisDataManglerFraDokmet() {
+		stubDokmet("dokmet/tkat020-missing-dokumentproduksjonsinfo.json");
+		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_ukjentbrukerpersoninfo.json");
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().is5xxServerError()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
 
-		ResponseEntity<FoerstesideGeneratorTechnicalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, FoerstesideGeneratorTechnicalException.class);
-
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertNotNull(response.getBody());
-		assertTrue(response.getBody().getMessage().startsWith("TKAT020 feilet teknisk med statusKode=500 INTERNAL_SERVER_ERROR"));
+		assertThat(response).contains(format("Dokumentproduksjonsinfo mangler for dokument med dokumenttypeId=%s.", FOERSTESIDE_DOKUMENTTYPE_ID));
 	}
 
 	@Test
-	@DisplayName("POST førsteside - Metaforce returns 500 internal server error")
-	void shouldThrowExceptionIfMetaforceReturns500InternalServerError() {
-		stubFor(post("/METAFORCE")
-				.willReturn(aResponse().withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
-						.withBody("Something went wrong")));
+	void skalReturnereInternalServerErrorHvisMetaforceReturnererInternalServerError() {
+		stubMetaforce(INTERNAL_SERVER_ERROR);
+		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		PostFoerstesideRequest request = createPostRequest("__files/input/happypath_ukjentbrukerpersoninfo.json");
-		HttpEntity<PostFoerstesideRequest> requestHttpEntity = new HttpEntity<>(request, createHeaders());
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().is5xxServerError()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
 
-		ResponseEntity<FoerstesideGeneratorTechnicalException> response = testRestTemplate.postForEntity(POST_URL, requestHttpEntity, FoerstesideGeneratorTechnicalException.class);
-
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertNotNull(response.getBody());
-		assertTrue(response.getBody().getMessage().startsWith("Kall mot Metaforce:GS_CreateDocument feilet teknisk for ikkeRedigerbarMalId=Foersteside"));
+		assertThat(response).contains("Kall mot Metaforce:GS_CreateDocument feilet teknisk for ikkeRedigerbarMalId=Foersteside");
 	}
 
-	private HttpHeaders createHeadersWithValidRole() {
-		return createHeadersWithTokenWithRole(ROLE_FOERSTESIDEGENERATOR_LES);
+	private void getHeaders(HttpHeaders headers) {
+		headers.setBearerAuth(getToken());
+		setNavHeaders(headers);
 	}
+
+	private void getHeadersWithClaim(HttpHeaders headers, String role) {
+		headers.setBearerAuth(getTokenWithClaims(role));
+		setNavHeaders(headers);
+	}
+
+	private static void setNavHeaders(HttpHeaders headers) {
+		headers.add(NAV_CONSUMER_ID, MDC_CONSUMER_ID);
+		headers.add(NAV_CALLID, MDC_CALL_ID);
+	}
+
 }
