@@ -1,0 +1,20 @@
+{
+  "dokumenttypeId": "000124",
+  "dokumentTittel": "Førsteside",
+  "dokumentType": "U",
+  "dokumentKategori": "VB",
+  "sensitivt": true,
+  "utledRegisterInfo": false,
+  "tema": null,
+  "behandlingstema": null,
+  "arkivSystem": "JOARK",
+  "artifaktId": null,
+  "dokumentProduksjonsInfo": null,
+  "dokumentMottakInfo": null,
+  "changeStamp": {
+    "opprettetAv": "srvdokkat",
+    "opprettetDato": "2023-01-24T13:11:39.28831",
+    "endretAv": null,
+    "endretDato": null
+  }
+}
