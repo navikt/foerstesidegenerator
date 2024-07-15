@@ -98,10 +98,13 @@
 			<artifactId>joda-time</artifactId>
 		</dependency>
 
-		<!--prometheus-->
 		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>context-propagation</artifactId>
 		</dependency>
 
 		<!-- Caching -->
