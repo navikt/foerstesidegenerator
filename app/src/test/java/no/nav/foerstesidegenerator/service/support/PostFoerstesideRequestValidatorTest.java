@@ -24,6 +24,7 @@ import static no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem.PSAK;
 import static no.nav.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
 import static no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype.SKJEMA;
 import static no.nav.foerstesidegenerator.api.v1.code.Spraakkode.NB;
+import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -38,7 +39,7 @@ class PostFoerstesideRequestValidatorTest {
 	@BeforeAll
 	static void setup() {
 		defaultHeaders = new HttpHeaders();
-		defaultHeaders.add("Nav-Consumer-Id", "MockConsumer");
+		defaultHeaders.add(NAV_CONSUMER_ID, "MockConsumer");
 	}
 
 	@Test
@@ -166,13 +167,12 @@ class PostFoerstesideRequestValidatorTest {
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
 	}
 
-	@ParameterizedTest
-	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId", "nav-consumerid"})
-	void shouldValidateForCommonConsumerIdHeaders(String headerName) {
+	@Test
+	void shouldValidateForNavConsumerIdHeader() {
 		PostFoerstesideRequest request = createRequestWithAdresse();
 
 		HttpHeaders parameterizedHeader = new HttpHeaders();
-		parameterizedHeader.add(headerName, "MockConsumer");
+		parameterizedHeader.add(NAV_CONSUMER_ID, "MockConsumer");
 
 		assertDoesNotThrow(() -> validator.validate(request, parameterizedHeader));
 	}

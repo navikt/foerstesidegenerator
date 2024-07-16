@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import static java.lang.String.format;
 import static java.util.Objects.nonNull;
 import static no.nav.foerstesidegenerator.api.v1.code.BrukerType.ORGANISASJON;
+import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.service.support.FoedselsnummerValidator.isValidPid;
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
@@ -107,18 +108,10 @@ public class PostFoerstesideRequestValidator {
 	}
 
 	private void validateConsumerId(HttpHeaders headers) {
-		if (headers.containsKey("Nav-Consumer-Id")) {
+		if (headers.containsKey(NAV_CONSUMER_ID)) {
 			return;
 		}
-		if (headers.containsKey("x_consumerId")) {
-			return;
-		}
-		if (headers.containsKey("consumerId")) {
-			return;
-		}
-		if (headers.containsKey("nav-consumerid")) {
-			return;
-		}
+
 		throw new InvalidRequestException("Mangler Nav-Consumer-Id header");
 	}
 }

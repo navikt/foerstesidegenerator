@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
+import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FoerstesideServiceITest extends AbstractIT {
@@ -26,7 +27,7 @@ public class FoerstesideServiceITest extends AbstractIT {
         stubMetaforce();
 
         HttpHeaders defaultHeaders = new HttpHeaders();
-        defaultHeaders.add("Nav-Consumer-Id", "MockConsumer");
+        defaultHeaders.add(NAV_CONSUMER_ID, "MockConsumer");
 
         PostFoerstesideRequest request = TestUtils.createRequestWithAdresse();
 

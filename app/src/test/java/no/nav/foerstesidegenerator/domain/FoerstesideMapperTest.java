@@ -43,6 +43,7 @@ import static no.nav.foerstesidegenerator.TestUtils.createRequestWithNetsPostbok
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutBruker;
 import static no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype.NAV_INTERN;
+import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -61,7 +62,7 @@ class FoerstesideMapperTest {
 
 	@BeforeAll
 	static void setup() {
-		DEFAULT_HEADERS.add("Nav-Consumer-Id", "MockConsumer");
+		DEFAULT_HEADERS.add(NAV_CONSUMER_ID, "MockConsumer");
 	}
 
 	@Test
@@ -146,12 +147,10 @@ class FoerstesideMapperTest {
 		assertThat(domain.getTema()).isEqualTo(tema.name());
 	}
 
-	@ParameterizedTest
-	@ValueSource(strings = {"Nav-Consumer-Id", "x_consumerId", "consumerId"})
-	void shouldMapCommonConsumerIdHeadersToFoerstesideOpprettetAv(String headerName) {
-
+	@Test
+	void shouldMapNavConsumerIdHeaderToFoerstesideOpprettetAv() {
 		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.add(headerName, "MockConsumer");
+		requestHeaders.add(NAV_CONSUMER_ID, "MockConsumer");
 		PostFoerstesideRequest request = createRequestWithAdresse();
 
 		Foersteside domain = mapper.map(request, LOEPENUMMER, requestHeaders);
@@ -162,7 +161,7 @@ class FoerstesideMapperTest {
 
 	@ParameterizedTest
 	@ValueSource(strings = {"Nav-callid", "x-callid", "authorization"})
-	void otherHeadersShouldNotMapToFoerstesideOpprettetAv(String headerName) {
+	void shouldNotMapOtherHeadersToFoerstesideOpprettetAv(String headerName) {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.add(headerName, "MockConsumer");
 		PostFoerstesideRequest request = createRequestWithAdresse();
@@ -173,9 +172,9 @@ class FoerstesideMapperTest {
 	}
 
 	@Test
-	void emptyHeaderValueDoesNotMapOntoFoerstesideOpprettetAv() {
+	void shouldNotMapEmptyHeaderValueToFoerstesideOpprettetAv() {
 		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.add("Nav-Consumer-Id", "");
+		requestHeaders.add(NAV_CONSUMER_ID, "");
 		PostFoerstesideRequest request = createRequestWithAdresse();
 
 		Foersteside domain = mapper.map(request, LOEPENUMMER, requestHeaders);
@@ -186,7 +185,7 @@ class FoerstesideMapperTest {
 	@Test
 	void shouldThrowExceptionIfBrukerIdIsInvalid() {
 		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.add("Nav-Consumer-Id", "");
+		requestHeaders.add(NAV_CONSUMER_ID, "");
 		PostFoerstesideRequest request = createRequestWithInvalidBrukerId(BRUKER_ID_INVALID);
 
 		Foersteside map = mapper.map(request, LOEPENUMMER, requestHeaders);
