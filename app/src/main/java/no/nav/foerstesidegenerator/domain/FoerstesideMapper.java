@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import static java.lang.String.join;
 import static no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype.ETTERSENDELSE;
+import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_1;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_2;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ADRESSELINJE_3;
@@ -138,7 +139,7 @@ public class FoerstesideMapper {
 	}
 
 	private void mapOpprettetAv(Foersteside foersteside, HttpHeaders headers) {
-		Stream.of("Nav-Consumer-Id", "x_consumerId", "consumerId", "nav-consumerid")
+		Stream.of(NAV_CONSUMER_ID)
 				.filter(headers::containsKey)
 				.map(headers::get)
 				.findFirst()

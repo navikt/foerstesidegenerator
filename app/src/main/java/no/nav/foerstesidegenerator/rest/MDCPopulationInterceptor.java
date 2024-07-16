@@ -12,6 +12,8 @@ import java.util.UUID;
 import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CALL_ID;
 import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_USER_ID;
+import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CALLID;
+import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -19,17 +21,17 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Slf4j
 public class MDCPopulationInterceptor implements HandlerInterceptor {
 
-    private static final String CONSUMER_ID_FALLBACK = "Ukjent system";
+    public static final String CONSUMER_ID_FALLBACK = "Ukjent system";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         String callId = getHeaderValueFromRequest(request, UUID.randomUUID().toString(),
-                "Nav-Callid", "callId");
+                NAV_CALLID, "callId");
         addValueToMDC(MDC_CALL_ID, callId);
 
         String consumerId = getHeaderValueFromRequest(request, CONSUMER_ID_FALLBACK,
-                "Nav-Consumer-Id");
+                NAV_CONSUMER_ID);
         addValueToMDC(MDC_CONSUMER_ID, consumerId);
 
         final String authorizationHeader = request.getHeader(AUTHORIZATION);

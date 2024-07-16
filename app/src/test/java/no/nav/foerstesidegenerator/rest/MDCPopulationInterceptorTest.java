@@ -1,22 +1,27 @@
 package no.nav.foerstesidegenerator.rest;
 
-import no.nav.foerstesidegenerator.config.MDCConstants;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.MDC;
-import org.springframework.http.HttpHeaders;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CALL_ID;
+import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CONSUMER_ID;
+import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_USER_ID;
+import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CALLID;
+import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
+import static no.nav.foerstesidegenerator.rest.MDCPopulationInterceptor.CONSUMER_ID_FALLBACK;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
-
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @ExtendWith(MockitoExtension.class)
 class MDCPopulationInterceptorTest {
@@ -26,58 +31,60 @@ class MDCPopulationInterceptorTest {
     static final String CONSUMER_ID = "srvgosys-nais";
     static final String USER_ID = "Z990761";
     static final String CALL_ID = "47ecf346-23e9-4442-8a6d-05b48206ae0f";
-    static final String DEFAULT_ID = "foerstesidegenerator";
+
     @Mock
     private HttpServletRequest servletRequest;
     @Mock
     private HttpServletResponse servletResponse;
 
+    @InjectMocks
+    MDCPopulationInterceptor mdcPopulationInterceptor;
+
     @Test
     public void validateToReturnStandardValues() {
-        doReturn(CALL_ID).when(servletRequest).getHeader("Nav-Callid");
-        doReturn(CONSUMER_ID).when(servletRequest).getHeader("nav-consumerid");
-        doReturn(USER_TOKEN).when(servletRequest).getHeader(HttpHeaders.AUTHORIZATION);
+        doReturn(CALL_ID).when(servletRequest).getHeader(NAV_CALLID);
+        doReturn(CONSUMER_ID).when(servletRequest).getHeader(NAV_CONSUMER_ID);
+        doReturn(USER_TOKEN).when(servletRequest).getHeader(AUTHORIZATION);
 
-        MDCPopulationInterceptor interceptor = new MDCPopulationInterceptor();
-        interceptor.preHandle(servletRequest, servletResponse, null);
+        mdcPopulationInterceptor.preHandle(servletRequest, servletResponse, null);
 
         Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
-        assertEquals(CALL_ID, copyOfContextMap.get(MDCConstants.MDC_CALL_ID));
-        assertEquals(CONSUMER_ID, copyOfContextMap.get(MDCConstants.MDC_CONSUMER_ID));
-        assertEquals(USER_ID, copyOfContextMap.get(MDCConstants.MDC_USER_ID));
+        assertThat(copyOfContextMap.get(MDC_CALL_ID)).isEqualTo(CALL_ID);
+        assertThat(copyOfContextMap.get(MDC_CONSUMER_ID)).isEqualTo(CONSUMER_ID);
+        assertThat(copyOfContextMap.get(MDC_USER_ID)).isEqualTo(USER_ID);
     }
 
     @Test
     public void shouldUseUserIdAsConsumerIdIfConsumerTokenIsNullAndUserIsServiceUser() {
         when(servletRequest.getHeader(anyString())).thenAnswer(invocationOnMock -> {
-            if (invocationOnMock.getArgument(0).equals(HttpHeaders.AUTHORIZATION)) {
+            if (invocationOnMock.getArgument(0).equals(AUTHORIZATION)) {
                 return APP_TOKEN;
             }
             return null;
         });
-        MDCPopulationInterceptor interceptor = new MDCPopulationInterceptor();
-        interceptor.preHandle(servletRequest, servletResponse, null);
+
+        mdcPopulationInterceptor.preHandle(servletRequest, servletResponse, null);
 
         Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
-        assertEquals(DEFAULT_ID, copyOfContextMap.get(MDCConstants.MDC_CONSUMER_ID));
-        assertEquals(CONSUMER_ID, copyOfContextMap.get(MDCConstants.MDC_USER_ID));
+        assertThat(copyOfContextMap.get(MDC_CONSUMER_ID)).isEqualTo(CONSUMER_ID_FALLBACK);
+        assertThat(copyOfContextMap.get(MDC_USER_ID)).isEqualTo(CONSUMER_ID);
     }
 
 
     @Test
     public void shouldReturnDefaultValues() {
         when(servletRequest.getHeader(anyString())).thenAnswer(invocationOnMock -> {
-            if (invocationOnMock.getArgument(0).equals(HttpHeaders.AUTHORIZATION)) {
+            if (invocationOnMock.getArgument(0).equals(AUTHORIZATION)) {
                 return APP_TOKEN;
             }
             return null;
         });
-        doReturn(APP_TOKEN).when(servletRequest).getHeader(HttpHeaders.AUTHORIZATION);
+        doReturn(APP_TOKEN).when(servletRequest).getHeader(AUTHORIZATION);
 
-        MDCPopulationInterceptor interceptor = new MDCPopulationInterceptor();
-        interceptor.preHandle(servletRequest, servletResponse, null);
+        mdcPopulationInterceptor.preHandle(servletRequest, servletResponse, null);
+
         Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
-        assertEquals(DEFAULT_ID, copyOfContextMap.get(MDCConstants.MDC_CONSUMER_ID));
+        assertThat(copyOfContextMap.get(MDC_CONSUMER_ID)).isEqualTo(CONSUMER_ID_FALLBACK);
     }
 
 }
