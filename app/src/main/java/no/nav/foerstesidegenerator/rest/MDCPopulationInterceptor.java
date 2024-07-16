@@ -39,6 +39,7 @@ public class MDCPopulationInterceptor implements HandlerInterceptor {
             try {
                 final String bearerToken = authorizationHeader.split(" ")[1];
                 SignedJWT parsedToken = SignedJWT.parse(bearerToken);
+                // TODO: Fiks slik at det er NAV-ident som blir satt i userId
                 addValueToMDC(MDC_USER_ID, parsedToken.getJWTClaimsSet().getSubject());
             } catch (Exception e) {
                 // noop
