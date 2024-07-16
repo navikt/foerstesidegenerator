@@ -1,15 +1,14 @@
 package no.nav.foerstesidegenerator.rest;
 
 import com.nimbusds.jwt.SignedJWT;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
-import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_APP_ID;
 import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CALL_ID;
 import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_USER_ID;
@@ -29,9 +28,6 @@ public class MDCPopulationInterceptor implements HandlerInterceptor {
         String consumerId = getHeaderValueFromRequest(request, "foerstesidegenerator",
                 "nav-consumerid", "Nav-Consumer-Id", "x_consumerId", "consumerId");
         addValueToMDC(MDC_CONSUMER_ID, consumerId);
-
-        String appId = getHeaderValueFromRequest(request, "foerstesidegenerator", MDC_APP_ID);
-        addValueToMDC(MDC_APP_ID, appId);
 
         final String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (isNotBlank(authorizationHeader)) {
