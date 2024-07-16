@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static java.lang.String.join;
 import static no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype.ETTERSENDELSE;
@@ -139,15 +138,11 @@ public class FoerstesideMapper {
 	}
 
 	private void mapOpprettetAv(Foersteside foersteside, HttpHeaders headers) {
-		Stream.of(NAV_CONSUMER_ID)
-				.filter(headers::containsKey)
-				.map(headers::get)
-				.findFirst()
-				.ifPresent(header -> {
-					if (!header.isEmpty()) {
-						addMetadata(foersteside, FOERSTESIDE_OPPRETTET_AV, header.get(0));
-					}
-				});
+		var navConsumerId = headers.getFirst(NAV_CONSUMER_ID);
+
+		if (navConsumerId != null) {
+			addMetadata(foersteside, FOERSTESIDE_OPPRETTET_AV, navConsumerId);
+		}
 	}
 
 	private void addMetadata(Foersteside foersteside, String key, String value) {
