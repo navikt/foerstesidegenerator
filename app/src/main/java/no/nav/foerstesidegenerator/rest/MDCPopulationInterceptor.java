@@ -19,14 +19,17 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Slf4j
 public class MDCPopulationInterceptor implements HandlerInterceptor {
 
+    private static final String CONSUMER_ID_FALLBACK = "Ukjent system";
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+
         String callId = getHeaderValueFromRequest(request, UUID.randomUUID().toString(),
-                "Nav-Callid", "callId", "x_callId");
+                "Nav-Callid", "callId");
         addValueToMDC(MDC_CALL_ID, callId);
 
-        String consumerId = getHeaderValueFromRequest(request, "foerstesidegenerator",
-                "nav-consumerid", "Nav-Consumer-Id", "x_consumerId", "consumerId");
+        String consumerId = getHeaderValueFromRequest(request, CONSUMER_ID_FALLBACK,
+                "Nav-Consumer-Id");
         addValueToMDC(MDC_CONSUMER_ID, consumerId);
 
         final String authorizationHeader = request.getHeader(AUTHORIZATION);
