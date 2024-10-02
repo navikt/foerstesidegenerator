@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 
 import static java.lang.String.format;
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.validateLoepenummerWithCheckDigit;
+import static no.nav.foerstesidegenerator.util.SafeLoggingUtil.removeUnsafeChars;
 
 @Slf4j
 @Service
@@ -113,7 +114,10 @@ public class FoerstesideService {
 	}
 
 	private void validerLoepenummer(String loepenummer) {
-		if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT) {
+		if (!loepenummer.matches("[0-9]+")) {
+			log.warn("Løpenummer inneholder ugyldige tegn. Løpenummeret kan kun bestå av siffer. Filtrert løpenummer={}", removeUnsafeChars(loepenummer));
+			throw new InvalidLoepenummerException("Løpenummer inneholder ugyldige tegn");
+		} else if (loepenummer.length() < LOEPENUMMER_LENGTH || loepenummer.length() > LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT) {
 			log.warn("Løpenummer har ugyldig lengde. løpenummer={}", loepenummer);
 			throw new InvalidLoepenummerException("Løpenummer har ugyldig lengde");
 		} else if (loepenummer.length() == LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT && !validateLoepenummerWithCheckDigit(loepenummer)) {

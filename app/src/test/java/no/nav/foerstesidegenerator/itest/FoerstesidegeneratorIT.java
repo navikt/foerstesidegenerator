@@ -32,7 +32,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	public WebTestClient webTestClient;
 
 	@BeforeEach
-	public void setUpSubs() {
+	public void setUpStubs() {
 		stubDokmet("dokmet/happy-response.json");
 		stubMetaforce();
 	}
@@ -47,9 +47,9 @@ class FoerstesidegeneratorIT extends AbstractIT {
 				.bodyValue(request)
 				.exchange()
 				.expectStatus().isCreated()
-			   	.expectBody(PostFoerstesideResponse.class)
-			   	.returnResult()
-			   	.getResponseBody();
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
 
 		assertThat(response).isNotNull();
 		assertThat(response.getFoersteside()).isNotNull();
@@ -280,7 +280,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalReturnereUnauthorizedVedHentingAvFoerstesideUtenRolle() {
 		var response = webTestClient.get()
 				.uri(format(HENT_FOERSTESIDE_URL, "123"))
-				.headers(headers -> getHeadersWithClaim(headers,"INVALID_ROLE"))
+				.headers(headers -> getHeadersWithClaim(headers, "INVALID_ROLE"))
 				.exchange()
 				.expectStatus().isUnauthorized()
 				.expectBody(String.class)

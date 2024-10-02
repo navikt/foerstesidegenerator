@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static no.nav.foerstesidegenerator.util.SafeLoggingUtil.removeUnsafeChars;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/foerstesidegenerator/v1")
@@ -39,7 +41,7 @@ public class FoerstesideRestController {
 	@ProtectedWithClaims(issuer = ISSUER_AZUREV2, claimMap = { "roles=" + ROLE_FOERSTESIDEGENERATOR_LES })
 	@ResponseBody
 	public FoerstesideResponse getFoerstesideDataFromLoepenummer(@PathVariable String loepenummer) {
-		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra løpenummer={}", loepenummer);
+		log.info("Har mottatt GET-kall om å hente metadata om førsteside fra løpenummer={}", removeUnsafeChars(loepenummer));
 		return foerstesideService.getFoersteside(loepenummer);
 	}
 
