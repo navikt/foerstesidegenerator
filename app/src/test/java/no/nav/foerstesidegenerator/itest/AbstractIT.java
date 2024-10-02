@@ -19,9 +19,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEnti
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,7 +75,7 @@ public abstract class AbstractIT {
 	private final ObjectMapper mapper = new ObjectMapper();
 
 	@BeforeEach
-	void setUp() {
+	void cleanUp() {
 		foerstesideRepository.deleteAll();
 	}
 
