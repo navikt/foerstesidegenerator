@@ -1,6 +1,5 @@
 package no.nav.foerstesidegenerator.itest;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.Foersteside;
@@ -23,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-@Slf4j
 class FoerstesidegeneratorIT extends AbstractIT {
 
 	private final static String OPPRETT_NY_FOERSTESIDE_URL = "/api/foerstesidegenerator/v1/foersteside";
@@ -34,9 +32,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	public WebTestClient webTestClient;
 
 	@BeforeEach
-	public void setUp() {
-		super.setUp();
-
+	public void setUpStubs() {
 		stubDokmet("dokmet/happy-response.json");
 		stubMetaforce();
 	}
@@ -51,9 +47,9 @@ class FoerstesidegeneratorIT extends AbstractIT {
 				.bodyValue(request)
 				.exchange()
 				.expectStatus().isCreated()
-			   	.expectBody(PostFoerstesideResponse.class)
-			   	.returnResult()
-			   	.getResponseBody();
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
 
 		assertThat(response).isNotNull();
 		assertThat(response.getFoersteside()).isNotNull();
@@ -284,7 +280,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalReturnereUnauthorizedVedHentingAvFoerstesideUtenRolle() {
 		var response = webTestClient.get()
 				.uri(format(HENT_FOERSTESIDE_URL, "123"))
-				.headers(headers -> getHeadersWithClaim(headers,"INVALID_ROLE"))
+				.headers(headers -> getHeadersWithClaim(headers, "INVALID_ROLE"))
 				.exchange()
 				.expectStatus().isUnauthorized()
 				.expectBody(String.class)
