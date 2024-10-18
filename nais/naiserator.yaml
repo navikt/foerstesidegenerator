@@ -52,8 +52,6 @@ spec:
         mountPath: /var/run/secrets/nais.io/foerstesidegeneratordb_creds
       - kvPath: {{ FOERSTESIDEGENERATORDB_CONFIG }}
         mountPath: /var/run/secrets/nais.io/foerstesidegeneratordb_config
-      - kvPath: {{ APPDYNAMICS }}
-        mountPath: /var/run/secrets/nais.io/appdynamics
   azure:
     application:
       enabled: true
