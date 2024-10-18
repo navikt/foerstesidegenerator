@@ -1,4 +1,6 @@
 {
+	"APPNAVN": "foerstesidegenerator-q1",
+	"ENVIRONMENT": "q1",
 	"FOERSTESIDEGENERATOR_ENDPOINTS_DOKMET_URL": "https://dokmet-q1.dev.intern.nav.no/rest/dokumenttypeinfo",
 	"METAFORCEENDPOINT_URL": "https://app-q1.adeo.no/metaforce/Metaforce.Interact.GS_Webservice/Metaforce.Interact.Webservice.svc/ws2007HttpBindingGeneralService",
 	"NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_DISCOVERYURL": "https://security-token-service.nais.preprod.local/rest/v1/sts/.well-known/openid-configuration",
@@ -6,7 +8,6 @@
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/dev/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/dev/creds/foerstesidegenerator_q1-user",
 	"FOERSTESIDEGENERATORDB_CONFIG": "/oracle/data/dev/config/foerstesidegenerator_q1",
-	"APPNAVN": "foerstesidegenerator-q1",
 	"MIN_REPLICAS": 1,
 	"MAX_REPLICAS": 2,
 	"INGRESSES": [
@@ -15,7 +16,6 @@
 		"https://foerstesidegenerator-q1.dev.intern.nav.no",
 		"https://foerstesidegenerator-q1.dev-fss-pub.nais.io"
 	],
-	"APPDYNAMICS": "/apikey/appdynamics/dev",
 	"AZURE_IAC_RULES": [
 		{
 			"app": "soknadsveiviser",

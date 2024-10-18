@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
+        <version>3.3.4</version>
     </parent>
 
     <groupId>no.nav.dok</groupId>
@@ -27,10 +27,10 @@
         <metaforce-tjenestespesifikasjon.version>29-af3d66d</metaforce-tjenestespesifikasjon.version>
         <joda-time.version>2.12.7</joda-time.version>
 
-        <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
+        <logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
         <apache-cxf.version>4.0.4</apache-cxf.version>
         <commons-validator.version>1.9.0</commons-validator.version>
-        <token-support.version>5.0.1</token-support.version>
+        <token-support.version>5.0.5</token-support.version>
         <springdoc-openapi-webmvc-ui.version>2.6.0</springdoc-openapi-webmvc-ui.version>
         <context-propagation.version>1.1.1</context-propagation.version>
 
