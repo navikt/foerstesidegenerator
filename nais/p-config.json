@@ -1,4 +1,6 @@
 {
+	"APPNAVN": "foerstesidegenerator",
+	"ENVIRONMENT": "p",
 	"FOERSTESIDEGENERATOR_ENDPOINTS_DOKMET_URL": "https://dokmet.intern.nav.no/rest/dokumenttypeinfo",
 	"METAFORCEENDPOINT_URL": "https://app.adeo.no/metaforce/Metaforce.Interact.GS_Webservice/Metaforce.Interact.Webservice.svc/ws2007HttpBindingGeneralService",
 	"NO_NAV_SECURITY_JWT_ISSUER_RESTSTS_DISCOVERYURL": "https://security-token-service.nais.adeo.no/rest/v1/sts/.well-known/openid-configuration",
@@ -6,7 +8,6 @@
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/prod/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/prod/creds/foerstesidegenerator_p-user",
 	"FOERSTESIDEGENERATORDB_CONFIG": "/oracle/data/prod/config/foerstesidegenerator_p",
-	"APPNAVN": "foerstesidegenerator",
 	"MIN_REPLICAS": 2,
 	"MAX_REPLICAS": 4,
 	"INGRESSES": [
