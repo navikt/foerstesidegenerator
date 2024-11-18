@@ -6,9 +6,7 @@
   "sensitivt": true,
   "utledRegisterInfo": false,
   "tema": null,
-  "behandlingstema": null,
   "arkivSystem": "JOARK",
-  "artifaktId": null,
   "dokumentProduksjonsInfo": {
     "vedlegg": false,
     "eksternVedlegg": false,
@@ -26,21 +24,21 @@
       "konvoluttvinduType": "X",
       "distribusjonVarsels": [
         {
-          "varseltypeId": "SDP_000004",
-          "varselForDistribusjonKanal": "SDP",
+          "varseltypeId": "DittNAV_000004",
+          "varselForDistribusjonKanal": "DITT_NAV",
           "changeStamp": {
             "opprettetAv": "srvdokkat",
-            "opprettetDato": "2024-01-18T10:31:59.241628",
+            "opprettetDato": "2024-10-29T13:35:32.373104",
             "endretAv": null,
             "endretDato": null
           }
         },
         {
-          "varseltypeId": "DittNAV_000004",
-          "varselForDistribusjonKanal": "DITT_NAV",
+          "varseltypeId": "SDP_000004",
+          "varselForDistribusjonKanal": "SDP",
           "changeStamp": {
             "opprettetAv": "srvdokkat",
-            "opprettetDato": "2024-01-18T10:31:59.244371",
+            "opprettetDato": "2024-10-29T13:35:32.371741",
             "endretAv": null,
             "endretDato": null
           }
@@ -48,19 +46,18 @@
       ],
       "changeStamp": {
         "opprettetAv": "srvdokkat",
-        "opprettetDato": "2024-01-18T10:31:59.234457",
-        "endretAv": null,
-        "endretDato": null
+        "opprettetDato": "2024-10-29T13:35:32.369466",
+        "endretAv": "srvdokkat",
+        "endretDato": "2024-10-29T13:35:32.373415"
       }
     },
     "changeStamp": {
       "opprettetAv": "srvdokkat",
       "opprettetDato": "2023-01-24T13:11:39.32355",
       "endretAv": "srvdokkat",
-      "endretDato": "2024-01-18T10:31:59.25293"
+      "endretDato": "2024-10-29T13:35:32.373374"
     }
   },
-  "dokumentMottakInfo": null,
   "changeStamp": {
     "opprettetAv": "srvdokkat",
     "opprettetDato": "2023-01-24T13:11:39.28831",

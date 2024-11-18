@@ -23,7 +23,7 @@
     <properties>
         <java.version>21</java.version>
 
-        <dokmet-api.version>2024.07.03-08.19-0869620</dokmet-api.version>
+        <dokmet-api.version>2024.11.18-12.31-2a6bf20</dokmet-api.version>
         <metaforce-tjenestespesifikasjon.version>29-af3d66d</metaforce-tjenestespesifikasjon.version>
         <joda-time.version>2.12.7</joda-time.version>
 
