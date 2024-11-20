@@ -1,6 +1,7 @@
 package no.nav.foerstesidegenerator.api.v1;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype;
 import no.nav.foerstesidegenerator.api.v1.code.Spraakkode;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +23,15 @@ public class PostFoerstesideRequest {
 
 	@Schema(description = """
 			Målformen førstesiden skal produseres på.
-			   				
+			
 			Gyldige verdier er NB, NN og EN.
-			   				
+			
 			Default verdi er NB
 			""",
 			requiredMode = REQUIRED,
 			example = "NB")
 	@NotNull(message = "PostFoerstesideRequest mangler Spraakkode")
+	@Builder.Default
 	private Spraakkode spraakkode = NB;
 
 	@Schema(description = """
@@ -86,6 +87,7 @@ public class PostFoerstesideRequest {
 			Arkivtittel på et vedlegg som skal sendes inn, for eksempel "Terminbekreftelse" eller "Dokumentasjon av inntekt".
 			Tittel skal oppgis på norsk (bokmål).""",
 			example = "[Terminbekreftelse, Dokumentasjon av inntekt]")
+	@Builder.Default
 	private List<String> vedleggsliste = new ArrayList<>();
 
 	@Schema(description = """
@@ -108,6 +110,7 @@ public class PostFoerstesideRequest {
 			Tittel på et dokument som skal sendes inn, for eksempel "Søknad om foreldrepenger ved fødsel", "Terminbekreftelse" eller "Dokumentasjon av inntekt".
 			Titlene kan oppgis på brukers eget språk (bokmål, nynorsk eller engelsk)""",
 			example = "[Søknad om foreldrepenger ved fødsel, Terminbekreftelse, Dokumentasjon av inntekt]")
+	@Builder.Default
 	private List<String> dokumentlisteFoersteside = new ArrayList<>();
 
 	@NotNull(message = "PostFoerstesideRequest mangler Foerstesidetype")
