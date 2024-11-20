@@ -50,6 +50,7 @@ public class FoerstesideResponse {
 			Arkivtittel på et vedlegg som skal sendes inn, for eksempel "Terminbekreftelse" eller "Dokumentasjon av inntekt".
 			Tittel skal oppgis på norsk (bokmål).""",
 			example = "[Terminbekreftelse, Dokumentasjon av inntekt]")
+	@Builder.Default
 	private List<String> vedleggsliste = new ArrayList<>();
 
 	@Schema(description = """

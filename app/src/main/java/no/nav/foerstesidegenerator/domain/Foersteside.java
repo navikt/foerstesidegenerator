@@ -43,11 +43,10 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKO
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
-import static org.hibernate.annotations.CascadeType.DELETE;
 import static org.hibernate.annotations.CascadeType.DETACH;
 import static org.hibernate.annotations.CascadeType.MERGE;
 import static org.hibernate.annotations.CascadeType.PERSIST;
-import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
+import static org.hibernate.annotations.CascadeType.REMOVE;
 import static org.springframework.util.StringUtils.delimitedListToStringArray;
 
 @Entity
@@ -77,7 +76,7 @@ public class Foersteside {
 	private LocalDateTime datoUthentet;
 
 	@OneToMany(fetch = EAGER, mappedBy = "foersteside")
-	@Cascade({PERSIST, MERGE, SAVE_UPDATE, DELETE, DETACH})
+	@Cascade({PERSIST, MERGE, REMOVE, DETACH})
 	private final Set<FoerstesideMetadata> foerstesideMetadata = new HashSet<>();
 
 	public void setLoepenummer(String loepenummer) {
