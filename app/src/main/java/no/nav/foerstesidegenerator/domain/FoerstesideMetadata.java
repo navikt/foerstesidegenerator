@@ -30,10 +30,10 @@ public class FoerstesideMetadata {
 	@JoinColumn(name = "foersteside_id", nullable = false)
 	private Foersteside foersteside;
 
-	@Column(name = "key")
+	@Column(name = "key", nullable = false, length = 50)
 	private String key;
 
-	@Column(name = "value")
+	@Column(name = "value", length = 2000)
 	private String value;
 
 	public FoerstesideMetadata() {

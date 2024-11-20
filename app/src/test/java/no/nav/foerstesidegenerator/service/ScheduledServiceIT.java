@@ -28,6 +28,7 @@ class ScheduledServiceIT extends AbstractIT {
 		commitAndBeginNewTransaction();
 
 		scheduledService.execute();
+		commitAndBeginNewTransaction();
 
 		assertThat(foerstesideRepository.findByLoepenummer("1").get().getBrukerId()).isNull();
 		assertThat(foerstesideRepository.findByLoepenummer("2").get().getBrukerId()).isEqualTo(BRUKER_ID);
@@ -35,17 +36,18 @@ class ScheduledServiceIT extends AbstractIT {
 
 	@Test
 	void skalSensurereUkjentBrukerPersoninfo() {
-		var foerstesideSomSkalMaskeres = createFoerstesideWithUkjent("1");
+		var foerstesideSomSkalMaskeres = createFoerstesideWithUkjent("3");
 		foerstesideSomSkalMaskeres.setDatoOpprettet(ELDRE_ENN_6_MAANEDER);
-		var foerstesideSomIkkeSkalMaskeres = createFoerstesideWithUkjent("2");
+		var foerstesideSomIkkeSkalMaskeres = createFoerstesideWithUkjent("4");
 		foerstesideSomIkkeSkalMaskeres.setDatoOpprettet(NYERE_ENN_6_MAANEDER);
 
 		foerstesideRepository.saveAll(List.of(foerstesideSomSkalMaskeres, foerstesideSomIkkeSkalMaskeres));
 		commitAndBeginNewTransaction();
 
 		scheduledService.execute();
+		commitAndBeginNewTransaction();
 
-		assertThat(foerstesideRepository.findByLoepenummer("1").get().getUkjentBrukerPersoninfo()).isNull();
-		assertThat(foerstesideRepository.findByLoepenummer("2").get().getUkjentBrukerPersoninfo()).isEqualTo(UKJENT_BRUKER_PERSONINFO);
+		assertThat(foerstesideRepository.findByLoepenummer("3").get().getUkjentBrukerPersoninfo()).isNull();
+		assertThat(foerstesideRepository.findByLoepenummer("4").get().getUkjentBrukerPersoninfo()).isEqualTo(UKJENT_BRUKER_PERSONINFO);
 	}
 }
