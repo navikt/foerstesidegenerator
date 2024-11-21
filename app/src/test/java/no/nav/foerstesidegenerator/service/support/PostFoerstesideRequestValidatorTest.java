@@ -10,13 +10,11 @@ import no.nav.foerstesidegenerator.exception.InvalidTemaException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
-import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseAndNetsPostboks;
@@ -74,7 +72,7 @@ class PostFoerstesideRequestValidatorTest {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()
 				.spraakkode(NB)
 				.bruker(Bruker.builder()
-						.brukerId(BRUKER_ID)
+						.brukerId(BRUKER_ID_PERSON)
 						.brukerType(PERSON).build())
 				.build();
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
