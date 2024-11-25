@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
 import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
-import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.CONSUMER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.ENHET_9999;
 import static no.nav.foerstesidegenerator.TestUtils.NAVN;
@@ -45,7 +45,7 @@ class GetFoerstesideResponseMapperTest {
 
 		assertEquals(AVSENDER, response.getAvsender().getAvsenderId());
 		assertEquals(NAVN, response.getAvsender().getAvsenderNavn());
-		assertEquals(BRUKER_ID, response.getBruker().getBrukerId());
+		assertEquals(BRUKER_ID_PERSON, response.getBruker().getBrukerId());
 		assertEquals(PERSON, response.getBruker().getBrukerType());
 		assertEquals(TEMA_FORELDREPENGER, response.getTema());
 		assertEquals(BEHANDLINGSTEMA_AB1337, response.getBehandlingstema());

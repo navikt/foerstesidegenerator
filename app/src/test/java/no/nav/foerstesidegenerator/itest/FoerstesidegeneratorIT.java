@@ -10,7 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static java.lang.String.format;
-import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_PERSON;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CALLID;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
@@ -68,7 +68,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertThat(foersteside.getNetsPostboks()).isEqualTo("4444");
 		assertThat(foersteside.getAvsenderId()).isEqualTo("99988812345");
 		assertThat(foersteside.getAvsenderNavn()).isEqualTo("navn navnesen");
-		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID);
+		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
 		assertThat(foersteside.getBrukerType()).isEqualTo(BRUKER_PERSON);
 		assertThat(foersteside.getUkjentBrukerPersoninfo()).isNull();
 		assertThat(foersteside.getTema()).isEqualTo("FOR");
@@ -161,7 +161,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
 
 		Foersteside foersteside = getFoersteside();
-		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID);
+		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
 		assertThat(foersteside.getBrukerType()).isEqualTo(BRUKER_PERSON);
 		assertThat(foersteside.getUkjentBrukerPersoninfo()).isNull();
 	}
@@ -211,13 +211,13 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		assertThat(foerstesideResponse).isNotNull();
 		assertThat(foerstesideResponse.getBruker()).isNotNull();
-		assertThat(foerstesideResponse.getBruker().getBrukerId()).isEqualTo(BRUKER_ID);
+		assertThat(foerstesideResponse.getBruker().getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
 		assertThat(foerstesideResponse.getBruker().getBrukerType().name()).isEqualTo(BRUKER_PERSON);
 
 		var foersteside = getFoersteside();
 		assertThat(foersteside.getLoepenummer()).isEqualTo(loepenummer);
 		assertThat(foersteside.getUthentet()).isEqualTo(1);
-		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID);
+		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
 		assertThat(foersteside.getDatoUthentet()).isNotNull();
 	}
 

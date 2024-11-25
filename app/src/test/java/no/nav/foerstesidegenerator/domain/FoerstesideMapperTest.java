@@ -20,8 +20,8 @@ import org.springframework.http.HttpHeaders;
 import static no.nav.foerstesidegenerator.TestUtils.ADR_LINJE_1;
 import static no.nav.foerstesidegenerator.TestUtils.AVSENDER;
 import static no.nav.foerstesidegenerator.TestUtils.BEHANDLINGSTEMA_AB1337;
-import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_INVALID;
+import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_1;
 import static no.nav.foerstesidegenerator.TestUtils.DOKUMENT_2;
 import static no.nav.foerstesidegenerator.TestUtils.ENHET_9999;
@@ -79,7 +79,7 @@ class FoerstesideMapperTest {
 		assertNull(domain.getNetsPostboks());
 		assertEquals(AVSENDER, domain.getAvsenderId());
 		assertEquals(NAVN, domain.getAvsenderNavn());
-		assertEquals(BRUKER_ID, domain.getBrukerId());
+		assertEquals(BRUKER_ID_PERSON, domain.getBrukerId());
 		assertEquals(BrukerType.PERSON.name(), domain.getBrukerType());
 		assertNull(domain.getUkjentBrukerPersoninfo());
 		assertEquals(TEMA_FORELDREPENGER, domain.getTema());
@@ -199,7 +199,7 @@ class FoerstesideMapperTest {
 
 		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
 
-		assertEquals(BRUKER_ID, domain.getBrukerId());
+		assertEquals(BRUKER_ID_PERSON, domain.getBrukerId());
 		assertEquals(BrukerType.PERSON.name(), domain.getBrukerType());
 		assertNull(domain.getUkjentBrukerPersoninfo());
 	}

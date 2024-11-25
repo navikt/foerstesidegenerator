@@ -9,7 +9,6 @@ import no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem;
 import no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
-import no.nav.foerstesidegenerator.domain.code.MetadataConstants;
 
 import java.util.Arrays;
 
@@ -23,6 +22,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTIT
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_TYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.DOKUMENT_LISTE_FOERSTESIDE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ENHETSNUMMER;
@@ -35,6 +35,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTNUMM
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.POSTSTED;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.SPRAAKKODE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.TEMA;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_BRUKER_PERSONINFO;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.VEDLEGG_LISTE;
 
 public class TestUtils {
@@ -48,10 +49,10 @@ public class TestUtils {
 	public static final String AVSENDER = "avsenderId";
 	public static final String NAVN = "Navn";
 
-	public static final String BRUKER_ID = "14036609142";
+	public static final String BRUKER_ID_PERSON = "14036609142";
 	public static final String BRUKER_ID_INVALID = "00000000111";
 	public static final String BRUKER_PERSON = "PERSON";
-	public static final String UKJENT_BRUKER_PERSONINFO = "Anders And";
+	public static final String UKJENT_BRUKER_PERSONINFO_PERSON = "Anders And";
 
 	public static final String TEMA_FORELDREPENGER = "FOR";
 	public static final String BEHANDLINGSTEMA_AB1337 = "ab1337";
@@ -97,7 +98,7 @@ public class TestUtils {
 						.avsenderId(AVSENDER)
 						.avsenderNavn(NAVN).build())
 				.bruker(Bruker.builder()
-						.brukerId(BRUKER_ID)
+						.brukerId(BRUKER_ID_PERSON)
 						.brukerType(PERSON).build())
 				.ukjentBrukerPersoninfo(null)
 				.tema(TEMA_FORELDREPENGER)
@@ -128,7 +129,7 @@ public class TestUtils {
 						.avsenderId(AVSENDER)
 						.avsenderNavn(NAVN).build())
 				.bruker(Bruker.builder()
-						.brukerId(BRUKER_ID)
+						.brukerId(BRUKER_ID_PERSON)
 						.brukerType(PERSON).build())
 				.ukjentBrukerPersoninfo(null)
 				.tema(TEMA_FORELDREPENGER)
@@ -155,7 +156,7 @@ public class TestUtils {
 						.avsenderId(AVSENDER)
 						.avsenderNavn(NAVN).build())
 				.bruker(Bruker.builder()
-						.brukerId(BRUKER_ID)
+						.brukerId(BRUKER_ID_PERSON)
 						.brukerType(PERSON).build())
 				.ukjentBrukerPersoninfo(ukjent)
 				.tema(tema)
@@ -217,7 +218,7 @@ public class TestUtils {
 						.poststed(poststed).build())
 				.netsPostboks(null)
 				.bruker(Bruker.builder()
-						.brukerId(BRUKER_ID)
+						.brukerId(BRUKER_ID_PERSON)
 						.brukerType(PERSON).build())
 				.arkivtittel(TITTEL)
 				.vedleggsliste(Arrays.asList(VEDLEGG_1, VEDLEGG_2))
@@ -271,19 +272,19 @@ public class TestUtils {
 	}
 
 	public static Foersteside createFoersteside(String loepenummer) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoerstesideWithUkjent(String loepenummer) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, UKJENT_BRUKER_PERSONINFO, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, UKJENT_BRUKER_PERSONINFO_PERSON, AVSENDER_ID, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoerstesideWithTemaOKO(String loepenummer) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, "OKO", null, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, "OKO", null, AVSENDER_ID, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoersteside(String loepenummer, String netspostboks) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, netspostboks, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, netspostboks, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoerstesideWithoutAvsenderAndBruker(String loepenummer) {
@@ -299,9 +300,9 @@ public class TestUtils {
 		createMetadata(foersteside, NETS_POSTBOKS, nets);
 		createMetadata(foersteside, AVSENDER_ID, avsenderId);
 		createMetadata(foersteside, AVSENDER_NAVN, avsendernavn);
-		createMetadata(foersteside, MetadataConstants.BRUKER_ID, brukerid);
+		createMetadata(foersteside, BRUKER_ID, brukerid);
 		createMetadata(foersteside, BRUKER_TYPE, brukertype);
-		createMetadata(foersteside, MetadataConstants.UKJENT_BRUKER_PERSONINFO, ukjent);
+		createMetadata(foersteside, UKJENT_BRUKER_PERSONINFO, ukjent);
 		createMetadata(foersteside, TEMA, tema);
 		createMetadata(foersteside, BEHANDLINGSTEMA, BEHANDLINGSTEMA_AB1337);
 		createMetadata(foersteside, ARKIVTITTEL, TITTEL);

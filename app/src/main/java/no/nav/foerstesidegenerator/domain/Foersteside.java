@@ -63,7 +63,7 @@ public class Foersteside {
 	@Column(name = "foersteside_id", unique = true, nullable = false, updatable = false)
 	private Long foerstesideId;
 
-	@Column(name = "loepenummer", nullable = false, updatable = false)
+	@Column(name = "loepenummer", nullable = false, updatable = false, length = 24, unique = true)
 	private String loepenummer;
 
 	@Column(name = "dato_opprettet", nullable = false, updatable = false)
@@ -113,13 +113,6 @@ public class Foersteside {
 				.findFirst()
 				.map(FoerstesideMetadata::getValue)
 				.orElse(null);
-	}
-
-	private void setValueForKey(String key, String value) {
-		foerstesideMetadata.stream()
-				.filter(a -> a.getKey().equals(key))
-				.findFirst()
-				.ifPresent(metadata -> metadata.setValue(value));
 	}
 
 	public String getAdresselinje1() {
@@ -221,14 +214,6 @@ public class Foersteside {
 
 	public String getFoerstesideOpprettetAv() {
 		return getValueForKey(FOERSTESIDE_OPPRETTET_AV);
-	}
-
-	public void clearBrukerId() {
-		setValueForKey(BRUKER_ID, null);
-	}
-
-	public void clearUkjentBrukerPersoninfo() {
-		setValueForKey(UKJENT_BRUKER_PERSONINFO, null);
 	}
 
 }
