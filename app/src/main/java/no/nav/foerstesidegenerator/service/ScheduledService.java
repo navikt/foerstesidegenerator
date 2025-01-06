@@ -27,8 +27,9 @@ public class ScheduledService {
 	@Transactional
 	@Scheduled(cron = "${maskering.fnr.rate}")
 	public void execute() {
-		log.info("Sjekker om denne podden er leader for maskering av førstedata");
+		log.info("Sjekker om denne podden er leader for maskering av førstesidemetadata");
 		if (leaderElectionConsumer.isLeader()) {
+			log.info("Denne podden er leader.");
 			log.info("Starter automatisk jobb for maskering av førstesidemetadata");
 
 			masker(BRUKER_ID);
@@ -36,7 +37,7 @@ public class ScheduledService {
 
 			log.info("Avslutter automatisk jobb for maskering av førstesidemetadata");
 		} else {
-			log.info("Denne podden er ikke leader. Kjører ikke mskering av førstedata på denne podden.");
+			log.info("Denne podden er ikke leader. Kjører ikke maskering av førstesidemetadata på denne podden.");
 		}
 	}
 
