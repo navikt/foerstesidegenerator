@@ -8,7 +8,7 @@
 	"SRVFOERSTESIDEGENERATOR": "/serviceuser/data/dev/srvfoerstesidegenerator",
 	"FOERSTESIDEGENERATORDB": "/oracle/data/dev/creds/foerstesidegenerator_q2-user",
 	"FOERSTESIDEGENERATORDB_CONFIG": "/oracle/data/dev/config/foerstesidegenerator_q2",
-	"MIN_REPLICAS": 1,
+	"MIN_REPLICAS": 2,
 	"MAX_REPLICAS": 2,
 	"INGRESSES": [
 		"https://foerstesidegenerator-q2.nais.preprod.local",
