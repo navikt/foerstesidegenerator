@@ -25,6 +25,7 @@ class ScheduledServiceIT extends AbstractIT {
 
 	@Test
 	void skalMaskereBrukerId() {
+		stubLeaderElection();
 		var foerstesideSomSkalMaskeres = createFoersteside("1");
 		foerstesideSomSkalMaskeres.setDatoOpprettet(ELDRE_ENN_6_MAANEDER);
 		var foerstesideSomIkkeSkalMaskeres = createFoersteside("2");
@@ -44,6 +45,7 @@ class ScheduledServiceIT extends AbstractIT {
 
 	@Test
 	void skalMaskereUkjentBrukerPersoninfo() {
+		stubLeaderElection();
 		var foerstesideSomSkalMaskeres = createFoerstesideWithUkjent("3");
 		foerstesideSomSkalMaskeres.setDatoOpprettet(ELDRE_ENN_6_MAANEDER);
 		var foerstesideSomIkkeSkalMaskeres = createFoerstesideWithUkjent("4");

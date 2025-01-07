@@ -1,6 +1,7 @@
 package no.nav.foerstesidegenerator.service;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.foerstesidegenerator.consumer.lederelection.LeaderElectionConsumer;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,20 +17,24 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_B
 public class ScheduledService {
 
 	private final FoerstesideRepository foerstesideRepository;
+	private final LeaderElectionConsumer leaderElectionConsumer;
 
-	public ScheduledService(final FoerstesideRepository foerstesideRepository) {
+	public ScheduledService(final FoerstesideRepository foerstesideRepository, LeaderElectionConsumer leaderElectionConsumer) {
 		this.foerstesideRepository = foerstesideRepository;
+		this.leaderElectionConsumer = leaderElectionConsumer;
 	}
 
 	@Transactional
 	@Scheduled(cron = "${maskering.fnr.rate}")
 	public void execute() {
-		log.info("Starter automatisk jobb for maskering av førstesidemetadata");
+		if (leaderElectionConsumer.isLeader()) {
+			log.info("Starter automatisk jobb for maskering av førstesidemetadata");
 
-		masker(BRUKER_ID);
-		masker(UKJENT_BRUKER_PERSONINFO);
+			masker(BRUKER_ID);
+			masker(UKJENT_BRUKER_PERSONINFO);
 
-		log.info("Avslutter automatisk jobb for maskering av førstesidemetadata");
+			log.info("Avslutter automatisk jobb for maskering av førstesidemetadata");
+		}
 	}
 
 	private void masker(String metadataKey) {

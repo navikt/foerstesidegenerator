@@ -2,6 +2,7 @@ package no.nav.foerstesidegenerator.itest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
+import lombok.SneakyThrows;
 import no.nav.foerstesidegenerator.ApplicationLocal;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.domain.Foersteside;
@@ -10,6 +11,7 @@ import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.security.mock.oauth2.MockOAuth2Server;
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback;
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
@@ -25,7 +27,9 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -150,6 +154,17 @@ public abstract class AbstractIT {
 						.withStatus(OK.value())
 						.withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 						.withBodyFile(bodyFile)));
+	}
+
+	@SneakyThrows
+	protected void stubLeaderElection() {
+		stubFor(get("/leaderelection")
+				.willReturn(aResponse()
+						.withStatus(OK.value())
+						.withHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
+						.withBody("""
+								{"name":"%s","last_update":"2023-12-13T09:46:08Z"}
+								""".formatted(InetAddress.getLocalHost().getHostName()))));
 	}
 
 	protected void stubDokmet(HttpStatus httpStatus) {
