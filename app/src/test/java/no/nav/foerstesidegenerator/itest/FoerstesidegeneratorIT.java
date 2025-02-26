@@ -406,7 +406,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 				.returnResult()
 				.getResponseBody();
 
-		assertThat(response).contains("Kall mot Metaforce:GS_CreateDocument feilet teknisk for ikkeRedigerbarMalId=Foersteside");
+		assertThat(response).contains("Kall mot Metaforce:GS_CreateDocument feilet teknisk for ikkeRedigerbarMalId=MF_000124");
 	}
 
 	private void getHeaders(HttpHeaders headers) {
