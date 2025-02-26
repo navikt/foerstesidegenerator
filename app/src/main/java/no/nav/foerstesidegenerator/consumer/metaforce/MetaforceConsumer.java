@@ -50,7 +50,7 @@ public class MetaforceConsumer {
 			log.error("Metaforce:GS_CreateDocument feilet med feilmelding={}", e.getMessage());
 			throw new MetaforceTechnicalException(format("Kall mot %s feilet teknisk for ikkeRedigerbarMalId=%s.%s",
 					processCalled,
-					createDocumentRequestTo.getMetafile(),
+					createDocumentRequestTo.getDocument(),
 					documentReturn != null ? " ErrorDescription: " + documentReturn.getErrorDescription() : ""), e);
 		}
 	}
