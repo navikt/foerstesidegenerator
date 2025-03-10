@@ -85,7 +85,7 @@ public class TestUtils {
 				.build();
 	}
 
-	private static PostFoerstesideRequest.PostFoerstesideRequestBuilder createBaseRequest() {
+	public static PostFoerstesideRequest.PostFoerstesideRequestBuilder createBaseRequest() {
 		return PostFoerstesideRequest.builder()
 				.adresse(Adresse.builder()
 						.adresselinje1(ADR_LINJE_1)

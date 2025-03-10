@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
+import static no.nav.foerstesidegenerator.TestUtils.createBaseRequest;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseAndNetsPostboks;
@@ -23,6 +24,8 @@ import static no.nav.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
 import static no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype.SKJEMA;
 import static no.nav.foerstesidegenerator.api.v1.code.Spraakkode.NB;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
+import static no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator.ARKIVTITTEL_MAX_LENGTH;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -135,6 +138,17 @@ class PostFoerstesideRequestValidatorTest {
 		PostFoerstesideRequest request = createRequestWithTema(null);
 
 		assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
+	}
+
+	@Test
+	void shouldThrowExceptionIfLongArkivtittel() {
+		int faktiskAntallTegn = ARKIVTITTEL_MAX_LENGTH + 1;
+		PostFoerstesideRequest request = createBaseRequest()
+				.arkivtittel("a".repeat(faktiskAntallTegn))
+				.build();
+
+		InvalidRequestException exception = assertThrows(InvalidRequestException.class, () -> validator.validate(request, defaultHeaders));
+		assertThat(exception.getMessage()).isEqualTo("Arkivtittel kan ha maks lengde på %d tegn. Faktisk lengde=%d".formatted(ARKIVTITTEL_MAX_LENGTH, faktiskAntallTegn));
 	}
 
 	@Test

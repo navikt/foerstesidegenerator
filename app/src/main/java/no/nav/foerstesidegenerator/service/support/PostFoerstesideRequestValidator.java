@@ -26,6 +26,7 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
 @Component
 public class PostFoerstesideRequestValidator {
 
+	public static final int ARKIVTITTEL_MAX_LENGTH = 500;
 	private static final Pattern BRUKER_ID_ORGANISASJON_REGEX = Pattern.compile("[0-9]{9}");
 
 	public void validate(PostFoerstesideRequest request, HttpHeaders headers) {
@@ -34,12 +35,16 @@ public class PostFoerstesideRequestValidator {
 				validateBruker(request);
 			}
 			validateRequiredFields(request);
-
+			validateArkivtittel(request.getArkivtittel());
 			validateAdresseAndNetsPostboks(request.getNetsPostboks(), request.getAdresse());
-
 			validateTema(request.getTema());
-
 			validateConsumerId(headers);
+		}
+	}
+
+	private void validateArkivtittel(String arkivtittel) {
+		if(arkivtittel != null && arkivtittel.length() > ARKIVTITTEL_MAX_LENGTH) {
+			throw new InvalidRequestException("Arkivtittel kan ha maks lengde på %d tegn. Faktisk lengde=%d".formatted(ARKIVTITTEL_MAX_LENGTH, arkivtittel.length()));
 		}
 	}
 
