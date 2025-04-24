@@ -10,6 +10,8 @@ import no.nav.foerstesidegenerator.exception.InvalidTemaException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.createBaseRequest;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
+import static no.nav.foerstesidegenerator.TestUtils.createRequestWithBrukerId;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseAndNetsPostboks;
 import static no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem.PSAK;
@@ -46,6 +49,19 @@ class PostFoerstesideRequestValidatorTest {
 	@Test
 	void shouldValidateOk() {
 		PostFoerstesideRequest request = createRequestWithAdresse();
+
+		assertDoesNotThrow(() -> validator.validate(request, defaultHeaders));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"01117400200", // fnr
+			"58088349006", // dnr
+			"13442157949", // hnr
+			"02239969375", // npid
+	})
+	void shouldValidateOkIdents(String brukerId) {
+		PostFoerstesideRequest request = createRequestWithBrukerId(brukerId);
 
 		assertDoesNotThrow(() -> validator.validate(request, defaultHeaders));
 	}
