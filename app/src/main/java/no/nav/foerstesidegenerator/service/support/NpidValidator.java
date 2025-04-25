@@ -20,7 +20,7 @@ public final class NpidValidator {
 			return false;
 		}
 
-		if (!isNumeric(ident) && ident.length() == 11) {
+		if (!isNumeric(ident) || ident.length() != 11) {
 			return false;
 		}
 
