@@ -19,6 +19,7 @@ import static java.util.Objects.nonNull;
 import static no.nav.foerstesidegenerator.api.v1.code.BrukerType.ORGANISASJON;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.service.support.FoedselsnummerValidator.isValidPid;
+import static no.nav.foerstesidegenerator.service.support.NpidValidator.isValidNpid;
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
@@ -60,7 +61,11 @@ public class PostFoerstesideRequestValidator {
 
 	private boolean isBrukerIdValid(Bruker bruker) {
 		if (BrukerType.PERSON.equals(bruker.getBrukerType())) {
-			return isValidPid(bruker.getBrukerId(), true);
+			boolean validPid = isValidPid(bruker.getBrukerId(), true);
+			if(!validPid) {
+				return isValidNpid(bruker.getBrukerId());
+			}
+			return validPid;
 		} else if (ORGANISASJON.equals(bruker.getBrukerType())) {
 			return BRUKER_ID_ORGANISASJON_REGEX.matcher(bruker.getBrukerId()).matches();
 		}
