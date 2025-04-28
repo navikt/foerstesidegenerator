@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Avsender {
 
-	@Schema(description = "Avsenders fødselsnummer eller personnummer",
+	@Schema(description = "Avsenders fødselsnummer eller personnummer. Kan kun inneholde siffer",
 			example = "01234567890")
 	private String avsenderId;
 

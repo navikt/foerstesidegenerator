@@ -9,16 +9,12 @@ import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
 import no.nav.foerstesidegenerator.exception.InvalidTemaException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
 import java.util.List;
@@ -267,7 +263,7 @@ class PostFoerstesideRequestValidatorTest {
 
 		assertThatExceptionOfType(InvalidRequestException.class)
 				.isThrownBy(() -> validator.validate(request, defaultHeaders))
-				.withMessage("%s kan kun inneholde tall. Mottatt verdi=%s", felt, ulovligVerdi);
+				.withMessage("%s kan kun inneholde siffer. Mottatt verdi=%s", felt, ulovligVerdi);
 	}
 
 	private static Stream<Arguments> shouldThrowExceptionOnIkkeTallVerdi() {
@@ -296,7 +292,7 @@ class PostFoerstesideRequestValidatorTest {
 
 		assertThatExceptionOfType(InvalidRequestException.class)
 				.isThrownBy(() -> validator.validate(request, defaultHeaders))
-				.withMessage("ArkivSaksnummer kan kun inneholde tall og/eller bokstaver. Mottatt verdi=%s", ulovligVerdi);
+				.withMessage("Arkivsaksnummer kan kun inneholde siffer og/eller bokstaver. Mottatt verdi=%s", ulovligVerdi);
 	}
 
 	@ParameterizedTest
@@ -308,7 +304,7 @@ class PostFoerstesideRequestValidatorTest {
 
 		assertThatExceptionOfType(InvalidRequestException.class)
 				.isThrownBy(() -> validator.validate(request, defaultHeaders))
-				.withMessage("Behandlingstema må være på formatet 'To bokstaver, så fire tall'. Eksempel: AB1234. Mottatt verdi=%s", behandlingstema);
+				.withMessage("Behandlingstema må være på formatet 'To bokstaver, så fire tall'. Eksempel: ab1234. Mottatt verdi=%s", behandlingstema);
 	}
 
 	@ParameterizedTest

@@ -1,13 +1,12 @@
 package no.nav.foerstesidegenerator.api.v1;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem;
-
-import jakarta.validation.constraints.NotNull;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
@@ -26,10 +25,9 @@ public class Arkivsak {
 	private Arkivsaksystem arkivsaksystem;
 
 	@NotNull(message = "Arkivsak mangler arkivsaksnummer")
-	@Schema(description = "Saksnummeret i GSAK eller PSAK",
+	@Schema(description = "Saksnummeret i GSAK eller PSAK. Kan kun inneholde siffer og bokstaver",
 			requiredMode = REQUIRED,
 			example = "abc123456")
 	private String arkivsaksnummer;
-
 
 }

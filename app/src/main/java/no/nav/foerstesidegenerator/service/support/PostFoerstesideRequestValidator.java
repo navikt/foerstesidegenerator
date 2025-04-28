@@ -33,13 +33,13 @@ public class PostFoerstesideRequestValidator {
 	public static final int ARKIVTITTEL_MAX_LENGTH = 500;
 	private static final Pattern BRUKER_ID_ORGANISASJON_REGEX = Pattern.compile("[0-9]{9}");
 
-	private static final Pattern NUMMER_REGEX = Pattern.compile("^[0-9]+$"); //Kun tall
-	private static final Pattern NUMMER_OG_BOKSTAVER_REGEX = Pattern.compile("^[0-9A-Za-zÆØÅæøå]+$"); //Kun tall og bokstaver
-	private static final Pattern BEHANDLINGSTEMA_REGEX = Pattern.compile("^[A-Za-zÆØÅæøå]{2}[0-9]{4}$"); //To bokstaver, så fire tall
-	private static final Pattern NAV_SKJEMA_ID_REGEX = Pattern.compile("^[A-Za-zÆØÅæøå0-9 .-]+$"); //Kun bokstaver og tall, mellomrom, punktum og bindestrek
+	private static final Pattern NUMMER_REGEX = Pattern.compile("^[0-9]+$"); //Kun siffer
+	private static final Pattern SIFFER_OG_BOKSTAVER_REGEX = Pattern.compile("^[0-9A-Za-zÆØÅæøå]+$"); //Kun siffer og bokstaver
+	private static final Pattern BEHANDLINGSTEMA_REGEX = Pattern.compile("^[A-Za-z]{2}[0-9]{4}$"); //To bokstaver, så fire siffer
+	private static final Pattern NAV_SKJEMA_ID_REGEX = Pattern.compile("^[A-Za-z0-9 .-]+$"); //Kun bokstaver og siffer, mellomrom, punktum og bindestrek
 
 	//Basert på frekvensen av tegn i metadata
-	private static final Pattern LOVLIGE_TEGN_REGEX = Pattern.compile("^[\\p{L}\\p{N}\\p{Zs}\\-./;()\":,–_'?&+’%#•@»«§]+$"); //L: bokstaver, N: nummer, Z: separatorer
+	private static final Pattern LOVLIGE_TEGN_REGEX = Pattern.compile("^[\\p{L}\\p{N}\\p{Zs}\\-./;()\":,–_'?&+’%#•@»«§]+$"); //L: bokstaver, N: siffer, Z: separatorer
 
 	public void validate(PostFoerstesideRequest request, HttpHeaders headers) {
 		if (request != null) {
@@ -61,7 +61,7 @@ public class PostFoerstesideRequestValidator {
 			validateDokumentliste(request.getDokumentlisteFoersteside(), "dokumentlisteFoersteside");
 			validateOverskriftstittel(request.getOverskriftstittel());
 			validateEnhetsnummer(request.getEnhetsnummer());
-			validateArkvisak(request.getArkivsak());
+			validateArkivsak(request.getArkivsak());
 		}
 	}
 
@@ -126,8 +126,8 @@ public class PostFoerstesideRequestValidator {
 			throw new InvalidRequestException("NETS-postboks og/eller Adresse må være satt");
 		}
 
-		if (inneholderIkkeBareNummer(netsPostboks)) {
-			throw new InvalidRequestException("NETS-postboks kan kun inneholde tall. Mottatt verdi=%s".formatted(netsPostboks));
+		if (inneholderIkkeBareSiffer(netsPostboks)) {
+			throw new InvalidRequestException("NETS-postboks kan kun inneholde siffer. Mottatt verdi=%s".formatted(netsPostboks));
 		}
 	}
 
@@ -145,8 +145,8 @@ public class PostFoerstesideRequestValidator {
 			if (inneholderUlovligeTegn(adresse.getAdresselinje3())) {
 				throw new InvalidRequestException("Adresselinje3 inneholder ulovlige tegn. Mottatt verdi=%s".formatted(adresse.getAdresselinje3()));
 			}
-			if (inneholderIkkeBareNummer(adresse.getPostnummer())) {
-				throw new InvalidRequestException("Postnummer kan kun inneholde tall. Mottatt verdi=%s".formatted(adresse.getPostnummer()));
+			if (inneholderIkkeBareSiffer(adresse.getPostnummer())) {
+				throw new InvalidRequestException("Postnummer kan kun inneholde siffer. Mottatt verdi=%s".formatted(adresse.getPostnummer()));
 			}
 			if (inneholderUlovligeTegn(adresse.getPoststed())) {
 				throw new InvalidRequestException("Poststed inneholder ulovlige tegn. Mottatt verdi=%s".formatted(adresse.getPoststed()));
@@ -174,17 +174,17 @@ public class PostFoerstesideRequestValidator {
 		throw new InvalidRequestException("Mangler Nav-Consumer-Id header");
 	}
 
-	private void validateArkvisak(Arkivsak arkivsak) {
+	private void validateArkivsak(Arkivsak arkivsak) {
 		if (arkivsak != null) {
-			if (isNotBlank(arkivsak.getArkivsaksnummer()) && !NUMMER_OG_BOKSTAVER_REGEX.matcher(arkivsak.getArkivsaksnummer()).matches()) {
-				throw new InvalidRequestException("ArkivSaksnummer kan kun inneholde tall og/eller bokstaver. Mottatt verdi=%s".formatted(arkivsak.getArkivsaksnummer()));
+			if (isNotBlank(arkivsak.getArkivsaksnummer()) && !SIFFER_OG_BOKSTAVER_REGEX.matcher(arkivsak.getArkivsaksnummer()).matches()) {
+				throw new InvalidRequestException("Arkivsaksnummer kan kun inneholde siffer og/eller bokstaver. Mottatt verdi=%s".formatted(arkivsak.getArkivsaksnummer()));
 			}
 		}
 	}
 
 	private void validateEnhetsnummer(String enhetsnummer) {
-		if (inneholderIkkeBareNummer(enhetsnummer)) {
-			throw new InvalidRequestException("Enhetsnummer kan kun inneholde tall. Mottatt verdi=%s".formatted(enhetsnummer));
+		if (inneholderIkkeBareSiffer(enhetsnummer)) {
+			throw new InvalidRequestException("Enhetsnummer kan kun inneholde siffer. Mottatt verdi=%s".formatted(enhetsnummer));
 		}
 	}
 
@@ -206,8 +206,8 @@ public class PostFoerstesideRequestValidator {
 
 	private void validateAvsender(Avsender avsender) {
 		if (avsender != null) {
-			if (inneholderIkkeBareNummer(avsender.getAvsenderId())) {
-				throw new InvalidRequestException("AvsenderId kan kun inneholde tall. Mottatt verdi=%s".formatted(avsender.getAvsenderId()));
+			if (inneholderIkkeBareSiffer(avsender.getAvsenderId())) {
+				throw new InvalidRequestException("AvsenderId kan kun inneholde siffer. Mottatt verdi=%s".formatted(avsender.getAvsenderId()));
 			}
 			if (inneholderUlovligeTegn(avsender.getAvsenderNavn())) {
 				throw new InvalidRequestException("AvsenderNavn inneholder ulovlige tegn. Mottatt verdi=%s".formatted(avsender.getAvsenderNavn()));
@@ -226,7 +226,7 @@ public class PostFoerstesideRequestValidator {
 	private void validateBehandlingstema(String behandlingstema) {
 		if (isNotBlank(behandlingstema)) {
 			if (!BEHANDLINGSTEMA_REGEX.matcher(behandlingstema).matches()) {
-				throw new InvalidRequestException("Behandlingstema må være på formatet 'To bokstaver, så fire tall'. Eksempel: AB1234. Mottatt verdi=%s".formatted(behandlingstema));
+				throw new InvalidRequestException("Behandlingstema må være på formatet 'To bokstaver, så fire tall'. Eksempel: ab1234. Mottatt verdi=%s".formatted(behandlingstema));
 			}
 		}
 	}
@@ -241,7 +241,7 @@ public class PostFoerstesideRequestValidator {
 		return isNotBlank(verdi) && !LOVLIGE_TEGN_REGEX.matcher(verdi).matches();
 	}
 
-	private boolean inneholderIkkeBareNummer(String verdi) {
+	private boolean inneholderIkkeBareSiffer(String verdi) {
 		return isNotBlank(verdi) && !NUMMER_REGEX.matcher(verdi).matches();
 	}
 }

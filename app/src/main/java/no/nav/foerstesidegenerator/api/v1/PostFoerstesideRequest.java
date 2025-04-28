@@ -41,7 +41,7 @@ public class PostFoerstesideRequest {
 	private Adresse adresse;
 
 	@Schema(description = """
-			Postboksen hos hovedskanningleverandør (idag NETS) som dokumentene skal sendes til.
+			Postboksen hos hovedskanningleverandør (idag NETS) som dokumentene skal sendes til. Kan kun inneholde siffer.
 			"NB: Dersom adresse ikke er oppgitt, er postboks påkrevd, og vil bli brukt til å generere en korrekt adresse.
 			""",
 			example = "1234")
@@ -123,7 +123,7 @@ public class PostFoerstesideRequest {
 	private Foerstesidetype foerstesidetype;
 
 	@Schema(description = """
-			NAV-enheten som dokumentene skal rutes til for journalføring og/eller saksbehandling.
+			NAV-enheten som dokumentene skal rutes til for journalføring og/eller saksbehandling. Kan kun inneholde siffer.
 			Feltet skal kun benyttes dersom det er behov for å overstyre fagsystemets egne rutingregler. Dette kan feks være dersom avsender vet bedre enn NAV hvilken enhet som skal motta dokumentene.
 			""",
 			example = "9999")
