@@ -46,7 +46,7 @@ public class TestUtils {
 
 	public static final String NETS = "8899";
 
-	public static final String AVSENDER = "avsenderId";
+	public static final String AVSENDER = "12345678901";
 	public static final String NAVN = "Navn";
 
 	public static final String BRUKER_ID_PERSON = "14036609142";
@@ -272,19 +272,19 @@ public class TestUtils {
 	}
 
 	public static Foersteside createFoersteside(String loepenummer) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, null, AVSENDER, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoerstesideWithUkjent(String loepenummer) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, UKJENT_BRUKER_PERSONINFO_PERSON, AVSENDER_ID, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, TEMA_FORELDREPENGER, UKJENT_BRUKER_PERSONINFO_PERSON, AVSENDER, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoerstesideWithTemaOKO(String loepenummer) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, "OKO", null, AVSENDER_ID, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, null, "OKO", null, AVSENDER, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoersteside(String loepenummer, String netspostboks) {
-		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, netspostboks, TEMA_FORELDREPENGER, null, AVSENDER_ID, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
+		return createFoersteside(loepenummer, ADR_LINJE_1, POSTNR, OSLO, netspostboks, TEMA_FORELDREPENGER, null, AVSENDER, NAVN, BRUKER_ID_PERSON, BRUKER_PERSON);
 	}
 
 	public static Foersteside createFoerstesideWithoutAvsenderAndBruker(String loepenummer) {
