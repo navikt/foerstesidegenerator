@@ -34,6 +34,11 @@
 			"cluster": "dev-gcp"
 		},
 		{
+			"app": "brev-administrasjon-q2",
+			"namespace": "isa",
+			"cluster": "dev-gcp"
+		},
+		{
 			"app": "hm-joark-sink",
 			"namespace": "teamdigihot",
 			"cluster": "dev-gcp"
