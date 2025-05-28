@@ -27,8 +27,11 @@ public class CacheConfig {
 		SimpleCacheManager manager = new SimpleCacheManager();
 		manager.setCaches(List.of(
 				new CaffeineCache(DOKMET_CACHE, Caffeine.newBuilder()
-						.expireAfterWrite(1, DAYS).build())
-		));
+						.expireAfterWrite(1, DAYS)
+						.recordStats()
+						.build())
+				)
+		);
 		return manager;
 	}
 }
