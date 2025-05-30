@@ -11,7 +11,6 @@
 	"MIN_REPLICAS": 1,
 	"MAX_REPLICAS": 2,
 	"INGRESSES": [
-		"https://foerstesidegenerator-q2.nais.preprod.local",
 		"https://foerstesidegenerator-q2.dev.adeo.no",
 		"https://foerstesidegenerator-q2.dev.intern.nav.no",
 		"https://foerstesidegenerator.dev.intern.nav.no",
