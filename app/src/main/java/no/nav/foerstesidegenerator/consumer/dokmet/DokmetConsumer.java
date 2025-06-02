@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import java.util.function.Consumer;
-
 import static java.lang.String.format;
 import static no.nav.foerstesidegenerator.config.cache.CacheConfig.DOKMET_CACHE;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -45,7 +43,7 @@ public class DokmetConsumer {
 				.retrieve()
 				.bodyToMono(DokumenttypeInfoTo.class)
 				.mapNotNull(this::mapResponse)
-				.doOnError(handleError(dokumenttypeId))
+				.onErrorMap(error -> mapErrorHentDokumentproduksjonsinfo(error, dokumenttypeId))
 				.block();
 
 		log.info("hentDokumentproduksjonsinfo har hentet dokumentproduksjonsinfo for dokumenttypeId={}", dokumenttypeId);
@@ -64,21 +62,19 @@ public class DokmetConsumer {
 		);
 	}
 
-	private Consumer<Throwable> handleError(String dokumenttypeId) {
-		return error -> {
-			if (error instanceof WebClientResponseException response && response.getStatusCode().is4xxClientError()) {
-				throw new DokmetFunctionalException(format("Dokmet feilet med statuskode=%s. Fant ingen dokumenttypeInfo med dokumenttypeId=%s. Feilmelding=%s",
-						response.getStatusCode(),
-						dokumenttypeId,
-						response.getResponseBodyAsString()),
-						error);
-			} else {
-				throw new DokmetTechnicalException(format("Dokmet feilet teknisk for dokumenttypeId=%s med feilmelding=%s",
-						dokumenttypeId,
-						error.getMessage()),
-						error);
-			}
-		};
+	private Throwable mapErrorHentDokumentproduksjonsinfo(Throwable error, String dokumenttypeId) {
+		if (error instanceof WebClientResponseException response && response.getStatusCode().is4xxClientError()) {
+			throw new DokmetFunctionalException(format("Dokmet feilet med statuskode=%s for dokumenttypeId=%s. Feilmelding=%s",
+					response.getStatusCode(),
+					dokumenttypeId,
+					response.getResponseBodyAsString()),
+					error);
+		} else {
+			throw new DokmetTechnicalException(format("Dokmet feilet teknisk for dokumenttypeId=%s med feilmelding=%s",
+					dokumenttypeId,
+					error.getMessage()),
+					error);
+		}
 	}
 
 	private boolean manglerDokumentproduksjonsinfo(DokumenttypeInfoTo response) {

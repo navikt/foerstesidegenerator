@@ -93,10 +93,6 @@
 			<groupId>no.nav.tjenester.metaforce</groupId>
 			<artifactId>metaforce-general-service-tjenestespesifikasjon</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>io.micrometer</groupId>

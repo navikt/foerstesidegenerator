@@ -81,3 +81,6 @@ spec:
       runtime: java
       destinations:
         - id: "elastic-apm"
+    logging:
+      destinations:
+        - id: elastic
