@@ -20,7 +20,6 @@ import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.c
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 class FoerstesidegeneratorIT extends AbstractIT {
 
@@ -339,7 +338,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 	@Test
 	void skalReturnereInternalServerErrorHvisDokmetReturnererNotFound() {
-		stubDokmet(NOT_FOUND);
+		stubDokmetNotFound();
 		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
 		var response = webTestClient.post()
@@ -352,7 +351,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 				.returnResult()
 				.getResponseBody();
 
-		assertThat(response).contains(format("Fant ingen dokumenttypeInfo med dokumenttypeId=%s", FOERSTESIDE_DOKUMENTTYPE_ID));
+		assertThat(response).contains(format("Fant ikke dokumenttypeId=%s", FOERSTESIDE_DOKUMENTTYPE_ID));
 	}
 
 	@Test

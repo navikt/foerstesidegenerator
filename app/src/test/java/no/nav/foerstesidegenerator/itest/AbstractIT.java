@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,6 +43,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static java.util.Collections.emptyMap;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -171,6 +171,17 @@ public abstract class AbstractIT {
 		stubFor(get(urlPathMatching("/rest/dokumenttypeinfo/[0-9]*"))
 				.willReturn(aResponse()
 						.withStatus(httpStatus.value())));
+	}
+
+	protected void stubDokmetNotFound() {
+		stubFor(get(urlPathMatching("/rest/dokumenttypeinfo/[0-9]*"))
+				.willReturn(aResponse()
+						.withBody("""
+								{"timestamp":"2025-05-30T12:13:49.587+00:00","status":404,"error":"Not Found","message":"Fant ikke dokumenttypeId=000124","path":"/rest/basicauth/dokumenttypeinfo/000124"}
+								""")
+						.withStatus(NOT_FOUND.value())
+				)
+		);
 	}
 
 	protected void stubMetaforce() {

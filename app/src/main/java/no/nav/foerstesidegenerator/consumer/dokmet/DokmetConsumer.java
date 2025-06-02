@@ -64,7 +64,7 @@ public class DokmetConsumer {
 
 	private Throwable mapErrorHentDokumentproduksjonsinfo(Throwable error, String dokumenttypeId) {
 		if (error instanceof WebClientResponseException response && response.getStatusCode().is4xxClientError()) {
-			throw new DokmetFunctionalException(format("Dokmet feilet med statuskode=%s. Fant ingen dokumenttypeInfo med dokumenttypeId=%s. Feilmelding=%s",
+			throw new DokmetFunctionalException(format("Dokmet feilet med statuskode=%s for dokumenttypeId=%s. Feilmelding=%s",
 					response.getStatusCode(),
 					dokumenttypeId,
 					response.getResponseBodyAsString()),
