@@ -39,7 +39,8 @@ public class PostFoerstesideRequestValidator {
 	private static final Pattern NAV_SKJEMA_ID_REGEX = Pattern.compile("^[A-Za-z0-9 .-]+$"); //Kun bokstaver og siffer, mellomrom, punktum og bindestrek
 
 	//Basert på frekvensen av tegn i metadata
-	private static final Pattern LOVLIGE_TEGN_REGEX = Pattern.compile("^[\\p{L}\\p{N}\\p{Zs}\\n\\t\\-./;()\":,–_'?&+’%#•@»«§]+$"); //L: bokstaver, N: siffer, Z: separatorer, \n: linjeskift, \t: tab
+	private static final String LOVLIGE_TEGN = "[\\p{L}\\p{N}\\p{Zs}\\n\\t\\-./;()\":,–_'?&+’%#•@»«§]"; //L: bokstaver, N: siffer, Z: separatorer, \n: linjeskift, \t: tab
+	private static final Pattern LOVLIGE_TEGN_REGEX = Pattern.compile("^" + LOVLIGE_TEGN + "+$");
 
 	public void validate(PostFoerstesideRequest request, HttpHeaders headers) {
 		if (request != null) {
@@ -233,8 +234,16 @@ public class PostFoerstesideRequestValidator {
 
 	private void validateUkjentBrukerPersoninfo(String ukjentBrukerPersoninfo) {
 		if (inneholderUlovligeTegn(ukjentBrukerPersoninfo)) {
-			throw new InvalidRequestException("UkjentBrukerPersoninfo inneholder ulovlige tegn. Mottatt verdi=%s".formatted(ukjentBrukerPersoninfo));
+			String ulovligeTegn = sensurerLovligeTegn(ukjentBrukerPersoninfo);
+
+			throw new InvalidRequestException("UkjentBrukerPersoninfo inneholder %s ulovlig(e) tegn=[%s]".formatted(ulovligeTegn.length(), ulovligeTegn));
 		}
+	}
+
+	private static String sensurerLovligeTegn(String ukjentBrukerPersoninfo) {
+		Pattern pattern  = Pattern.compile(LOVLIGE_TEGN);
+
+		return pattern.matcher(ukjentBrukerPersoninfo).replaceAll("");
 	}
 
 	private boolean inneholderUlovligeTegn(String verdi) {

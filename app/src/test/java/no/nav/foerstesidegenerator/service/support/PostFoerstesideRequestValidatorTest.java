@@ -248,8 +248,7 @@ class PostFoerstesideRequestValidatorTest {
 				Arguments.of(createBaseRequest().overskriftstittel(tegn).build(), "Tittel", tegn),
 				Arguments.of(createBaseRequest().vedleggsliste(List.of(tegn)).build(), "Ett eller flere vedlegg i vedleggsliste", "[%s]".formatted(tegn)),
 				Arguments.of(createBaseRequest().dokumentlisteFoersteside(List.of(tegn)).build(), "Ett eller flere vedlegg i dokumentlisteFoersteside", "[%s]".formatted(tegn)),
-				Arguments.of(createBaseRequest().avsender(Avsender.builder().avsenderNavn(tegn).build()).build(), "AvsenderNavn", tegn),
-				Arguments.of(createBaseRequest().ukjentBrukerPersoninfo(tegn).build(), "UkjentBrukerPersoninfo", tegn)
+				Arguments.of(createBaseRequest().avsender(Avsender.builder().avsenderNavn(tegn).build()).build(), "AvsenderNavn", tegn)
 		));
 	}
 
@@ -318,4 +317,26 @@ class PostFoerstesideRequestValidatorTest {
 				.isThrownBy(() -> validator.validate(request, defaultHeaders))
 				.withMessage("NAV-skjemaId kan kun inneholde bokstaver, tall, mellomrom, punktum og bindestrek. Mottatt verdi=%s", navSkjemaId);
 	}
+
+	@ParameterizedTest
+	@MethodSource
+	public void shouldThrowExceptionOnInvalidUkjentBrukerPersoninfo(String ukjentBrukerPersoninfo, String expectedMessage) {
+		PostFoerstesideRequest request = createBaseRequest()
+				.ukjentBrukerPersoninfo(ukjentBrukerPersoninfo)
+				.build();
+
+		assertThatExceptionOfType(InvalidRequestException.class)
+				.isThrownBy(() -> validator.validate(request, defaultHeaders))
+				.withMessage(expectedMessage);
+	}
+
+	private static Stream<Arguments> shouldThrowExceptionOnInvalidUkjentBrukerPersoninfo() {
+		return Stream.of(
+				Arguments.of("Anders Andersen\u202C\u200F, Geithus 1234 Alta Norway.", "UkjentBrukerPersoninfo inneholder 2 ulovlig(e) tegn=[\u202C\u200F]"),
+				Arguments.of("Lars Geir Testesen |, Kuhus 12c , 0172 Oslo, Norway.", "UkjentBrukerPersoninfo inneholder 1 ulovlig(e) tegn=[|]"),
+				Arguments.of("Andreej van Schani — van Olden , Haarsleb 24 4131ST Gerr  The netherlands.", "UkjentBrukerPersoninfo inneholder 1 ulovlig(e) tegn=[—]"),
+				Arguments.of("Frederich Babao, Mekaniker Hærrs gate 11D، Bergen,  Geirsvåg, Norge .", "UkjentBrukerPersoninfo inneholder 1 ulovlig(e) tegn=[،]")
+		);
+	}
+
 }
