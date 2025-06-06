@@ -47,6 +47,11 @@
 			"namespace": "teamdokumenthandtering",
 			"cluster": "dev-fss",
 			"roles": ["foerstesidegenerator_les"]
-		}
+		},
+		{
+			"app": "yrkesskade-brevutsending",
+			"namespace": "yrkesskade",
+			"cluster": "dev-gcp"
+		},
 	]
 }
