@@ -53,5 +53,10 @@
 			"namespace": "yrkesskade",
 			"cluster": "dev-gcp"
 		},
+		{
+			"app": "bidrag-bidragskalkulator-api",
+			"namespace": "bidrag",
+			"cluster": "dev-gcp"
+		}
 	]
 }
