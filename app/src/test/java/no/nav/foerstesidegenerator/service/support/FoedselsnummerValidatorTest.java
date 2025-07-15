@@ -4,6 +4,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static no.nav.foerstesidegenerator.service.support.FoedselsnummerValidator.isValidPid;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FoedselsnummerValidatorTest {
@@ -28,4 +29,14 @@ class FoedselsnummerValidatorTest {
 		final boolean validPid = isValidPid(hnr);
 		assertTrue(validPid);
 	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"01117400001", "011174 00000"})
+	void shouldValidateFnrSpecialCircumstance(String fnr) {
+		final boolean validPidNoSpecialCircumstance = isValidPid(fnr, false);
+		assertFalse(validPidNoSpecialCircumstance);
+		final boolean validPid = isValidPid(fnr, true);
+		assertTrue(validPid);
+	}
+
 }
