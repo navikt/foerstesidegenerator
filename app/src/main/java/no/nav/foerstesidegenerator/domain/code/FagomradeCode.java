@@ -7,6 +7,8 @@ public enum FagomradeCode {
 	AAR,
 	/** Ajourhold - Grunnopplysninger */
 	AGR,
+	/** Aktivitetsplan med dialoger */
+	AKT,
 	/** Arbeidsrådgivning psykologtester */
 	ARP,
 	/** Arbeidsrådgivning skjermet */
@@ -83,18 +85,22 @@ public enum FagomradeCode {
 	OPP,
 	/** Øvrig */
 	OVR,
+	/** Innsyn */
+	PAI,
 	/** Pensjon */
 	PEN,
 	/** Permittering og masseoppsigelser */
 	PER,
+	/** Innsyn etter personopplysningsloven */
+	POI,
 	/** Rehabilitering */
 	REH,
 	/** Rekruttering og Stilling */
 	REK,
-	/** Rettferdsvederlag */
-	RVE,
 	/** Retting av personopplysninger */
 	RPO,
+	/** Rettferdsvederlag */
+	RVE,
 	/** Sanksjon - Arbeidsgiver */
 	SAA,
 	/** Saksomkostning */
@@ -117,20 +123,23 @@ public enum FagomradeCode {
 	TRK,
 	/** Trygdeavgift */
 	TRY,
-	/** Tilleggsstønad arbeidsøkere */
-	TSR,
 	/** Tilleggsstønad */
 	TSO,
-	/** Uføreytelser */
-	UFO,
+	/** Tilleggsstønad arbeidsøkere */
+	TSR,
 	/** Unntak fra medlemskap */
 	UFM,
+	/** Uføreytelser */
+	UFO,
 	/** Ukjent */
 	UKJ,
+	/** Ungdomsprogramytelsen */
+	UNG,
 	/** Ventelønn */
 	VEN,
 	/** Yrkesrettet attføring */
 	YRA,
 	/** Yrkesskade / Menerstatning */
 	YRK
+
 }
