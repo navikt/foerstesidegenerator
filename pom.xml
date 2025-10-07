@@ -42,7 +42,7 @@
 
         <!-- Plugins brukt i app pom -->
         <patrodyne-basicjaxb.version>2.2.1</patrodyne-basicjaxb.version>
-        <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
+        <jaxb-runtime.version>4.0.6</jaxb-runtime.version>
 
         <!-- Overstyrer og nedgraderer H2 database versjon i test scope - inkompatibel flyway script.
         Ny versjon av H2 i Spring Boot 2.7.x se https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#h2-21 -->
