@@ -30,7 +30,7 @@
         <apache-cxf.version>4.1.2</apache-cxf.version>
         <commons-validator.version>1.10.0</commons-validator.version>
         <token-support.version>5.0.30</token-support.version>
-        <springdoc-openapi-webmvc-ui.version>2.8.8</springdoc-openapi-webmvc-ui.version>
+        <springdoc-openapi-webmvc-ui.version>2.8.13</springdoc-openapi-webmvc-ui.version>
         <context-propagation.version>1.1.3</context-propagation.version>
 
         <!-- Test -->
