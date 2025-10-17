@@ -26,7 +26,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @EntityScan(basePackages = {"no.nav.foerstesidegenerator.domain"})
 @EnableJpaRepositories(basePackageClasses = {FoerstesideRepository.class, FoerstesideCounterRepository.class})
 @EnableTransactionManagement
-@EnableConfigurationProperties(DataSourceProperties.class)
 @Configuration
 public class RepositoryConfig {
 
