@@ -2,14 +2,18 @@ package no.nav.foerstesidegenerator;
 
 import no.nav.foerstesidegenerator.config.RepositoryConfig;
 import no.nav.foerstesidegenerator.config.properties.DataSourceAdditionalProperties;
+import no.nav.foerstesidegenerator.config.properties.FileSystemBasedPropertySourceFactory;
 import no.nav.foerstesidegenerator.config.properties.FoerstesidegeneratorProperties;
 import no.nav.foerstesidegenerator.config.properties.ServiceuserAlias;
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @EnableConfigurationProperties({
@@ -20,8 +24,18 @@ import org.springframework.context.annotation.Import;
 @Import(value = {
 		RepositoryConfig.class
 })
+@PropertySource(value = "${VAULT_BASE_PATH}", factory = FileSystemBasedPropertySourceFactory.class)
 @EnableAutoConfiguration
 @EnableAspectJAutoProxy
 @EnableJwtTokenValidation(ignore = {"org.springframework", "org.springdoc"})
 public class ApplicationConfig {
+
+	@Bean
+	public DataSourceProperties dataSourceProperties(DataSourceAdditionalProperties additionalProperties) {
+		var dataSourceProperties =new DataSourceProperties();
+		dataSourceProperties.setUrl(additionalProperties.getJdbcUrl());
+		dataSourceProperties.setUsername(additionalProperties.getCreds().getUsername());
+		dataSourceProperties.setPassword(additionalProperties.getCreds().getPassword());
+		return dataSourceProperties;
+	}
 }

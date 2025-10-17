@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.validation.constraints.NotEmpty;
 
 @Data
-@ConfigurationProperties("serviceuser")
+@ConfigurationProperties("srvfoerstesidegenerator")
 @Validated
 public class ServiceuserAlias {
 	@NotEmpty
