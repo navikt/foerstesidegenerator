@@ -8,7 +8,7 @@ metadata:
 spec:
   env:
     - name: VAULT_BASE_PATH
-      value: /var/run/secrets/nais.io
+      value: file:/var/run/secrets/nais.io
     - name: FOERSTESIDEGENERATOR_ENDPOINTS_DOKMET_URL
       value: {{ FOERSTESIDEGENERATOR_ENDPOINTS_DOKMET_URL }}
     - name: METAFORCEENDPOINT_URL

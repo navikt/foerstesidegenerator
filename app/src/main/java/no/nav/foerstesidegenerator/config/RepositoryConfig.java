@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.Properties;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -33,15 +34,16 @@ public class RepositoryConfig {
 
 	@Bean
 	@Primary
-	DataSource dataSource(final DataSourceProperties dataSourceProperties,
+	DataSource dataSource(final Optional<DataSourceProperties> dataSourceProperties,
 						  final DataSourceAdditionalProperties dataSourceAdditionalProperties) throws SQLException {
 		PoolDataSource poolDataSource = PoolDataSourceFactory.getPoolDataSource();
-		poolDataSource.setURL(dataSourceProperties.getUrl());
-		poolDataSource.setUser(dataSourceProperties.getUsername());
-		poolDataSource.setPassword(dataSourceProperties.getPassword());
+		String url = dataSourceProperties.map(DataSourceProperties::getUrl).isPresent() ? dataSourceProperties.map(DataSourceProperties::getUrl).get() : dataSourceAdditionalProperties.getJdbcUrl();
+		poolDataSource.setURL(url);
+		poolDataSource.setUser(dataSourceProperties.map(DataSourceProperties::getUsername).isPresent() ? dataSourceProperties.map(DataSourceProperties::getUsername).get() : dataSourceAdditionalProperties.getCreds().getUsername());
+		poolDataSource.setPassword(dataSourceProperties.map(DataSourceProperties::getPassword).isPresent() ? dataSourceProperties.map(DataSourceProperties::getPassword).get() : dataSourceAdditionalProperties.getCreds().getPassword());
 		poolDataSource.setConnectionFactoryClassName(OracleDataSource.class.getName());
 
-		if (isOracleFastConnectionFailoverSupported(dataSourceProperties.getUrl(), dataSourceAdditionalProperties.getOnshosts())) {
+		if (isOracleFastConnectionFailoverSupported(url, dataSourceAdditionalProperties.getOnshosts())) {
 			poolDataSource.setFastConnectionFailoverEnabled(true);
 			String onsConfiguration = "nodes=" + dataSourceAdditionalProperties.getOnshosts();
 			poolDataSource.setONSConfiguration(onsConfiguration);
