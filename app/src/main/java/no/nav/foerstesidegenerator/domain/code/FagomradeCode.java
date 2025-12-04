@@ -15,6 +15,8 @@ public enum FagomradeCode {
 	ARS,
 	/** Barnetrygd */
 	BAR,
+	/** Barnebortføring */
+	BBF,
 	/** Bidrag */
 	BID,
 	/** Bidrag innkreving */
@@ -77,6 +79,8 @@ public enum FagomradeCode {
 	MOB,
 	/** Skanning */
 	MOT,
+	/** Oljepionerene */
+	OLJ,
 	/** Omsorgspenger, Pleiepenger og opplæringspenger */
 	OMS,
 	/** Oppfølging */
