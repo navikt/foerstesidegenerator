@@ -34,7 +34,7 @@
         <context-propagation.version>1.2.0</context-propagation.version>
 
         <!-- Test -->
-        <spring-cloud-contract-wiremock.version>4.3.0</spring-cloud-contract-wiremock.version>
+        <spring-cloud-contract-wiremock.version>5.0.2</spring-cloud-contract-wiremock.version>
         <datasource-proxy-spring-boot-starter.version>1.12.0</datasource-proxy-spring-boot-starter.version>
 
         <!-- Plugins -->
