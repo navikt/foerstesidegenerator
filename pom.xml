@@ -1,186 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.10</version>
-    </parent>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.2</version>
+	</parent>
 
-    <groupId>no.nav.dok</groupId>
-    <artifactId>foerstesidegenerator</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+	<groupId>no.nav.dok</groupId>
+	<artifactId>foerstesidegenerator</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-    <modules>
-        <module>app</module>
-        <module>foerstesideschema</module>
-    </modules>
+	<modules>
+		<module>app</module>
+		<module>foerstesideschema</module>
+	</modules>
 
-    <properties>
-        <java.version>25</java.version>
+	<properties>
+		<java.version>25</java.version>
 
-        <dokmet-api.version>2025.04.29-15.21-2c96c87</dokmet-api.version>
-        <metaforce-tjenestespesifikasjon.version>35-6ab698b</metaforce-tjenestespesifikasjon.version>
+		<dokmet-api.version>2026.02.10-14.17-f2427df</dokmet-api.version>
+		<metaforce-tjenestespesifikasjon.version>44-7d14e70</metaforce-tjenestespesifikasjon.version>
 
-        <logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
-        <apache-cxf.version>4.1.4</apache-cxf.version>
-        <commons-validator.version>1.10.1</commons-validator.version>
-        <token-support.version>5.0.40</token-support.version>
-        <springdoc-openapi-webmvc-ui.version>2.8.14</springdoc-openapi-webmvc-ui.version>
-        <context-propagation.version>1.2.0</context-propagation.version>
+		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
+		<apache-cxf.version>4.2.0</apache-cxf.version>
+		<commons-validator.version>1.10.1</commons-validator.version>
+		<token-support.version>6.0.2</token-support.version>
+		<springdoc-openapi-webmvc-ui.version>3.0.1</springdoc-openapi-webmvc-ui.version>
 
-        <!-- Test -->
-        <spring-cloud-contract-wiremock.version>4.3.0</spring-cloud-contract-wiremock.version>
-        <datasource-proxy-spring-boot-starter.version>1.12.0</datasource-proxy-spring-boot-starter.version>
+		<!-- Test -->
+		<wiremock-spring-boot.version>4.0.9</wiremock-spring-boot.version>
+		<datasource-proxy-spring-boot-starter.version>2.0.0</datasource-proxy-spring-boot-starter.version>
 
-        <!-- Plugins -->
-        <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
+		<!-- Plugins -->
+		<maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
 
-        <!-- Plugins brukt i app pom -->
-        <patrodyne-basicjaxb.version>2.2.1</patrodyne-basicjaxb.version>
-        <jaxb-runtime.version>4.0.6</jaxb-runtime.version>
+		<!-- Plugins brukt i app pom -->
+		<patrodyne-basicjaxb.version>2.2.1</patrodyne-basicjaxb.version>
+		<jaxb-runtime.version>4.0.6</jaxb-runtime.version>
 
-        <!-- Overstyrer og nedgraderer H2 database versjon i test scope - inkompatibel flyway script.
-        Ny versjon av H2 i Spring Boot 2.7.x se https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#h2-21 -->
-        <h2.version>1.4.200</h2.version>
-    </properties>
+		<!-- Overstyrer og nedgraderer H2 database versjon i test scope - inkompatibel flyway script.
+		Ny versjon av H2 i Spring Boot 2.7.x se https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#h2-21 -->
+		<h2.version>1.4.200</h2.version>
+	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>no.nav.dok</groupId>
-                <artifactId>foerstesideschema</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>${springdoc-openapi-webmvc-ui.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.dokmet</groupId>
-                <artifactId>api</artifactId>
-                <version>${dokmet-api.version}</version>
-            </dependency>
-            <!--Security-->
-            <dependency>
-                <groupId>no.nav.security</groupId>
-                <artifactId>token-validation-spring</artifactId>
-                <version>${token-support.version}</version>
-            </dependency>
-            <!-- Dependencies for CXF / jaxb -->
-            <dependency>
-                <groupId>org.patrodyne.jvnet</groupId>
-                <artifactId>hisrc-basicjaxb-runtime</artifactId>
-                <version>${patrodyne-basicjaxb.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.tjenester.metaforce</groupId>
-                <artifactId>metaforce-general-service-tjenestespesifikasjon</artifactId>
-                <version>${metaforce-tjenestespesifikasjon.version}</version>
-            </dependency>
-            <!-- CXF -->
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-bom</artifactId>
-                <version>${apache-cxf.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>no.nav.dok</groupId>
+				<artifactId>foerstesideschema</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc-openapi-webmvc-ui.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.dokmet</groupId>
+				<artifactId>api</artifactId>
+				<version>${dokmet-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.security</groupId>
+				<artifactId>token-validation-spring</artifactId>
+				<version>${token-support.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-runtime</artifactId>
+				<version>${patrodyne-basicjaxb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.tjenester.metaforce</groupId>
+				<artifactId>metaforce-general-service-tjenestespesifikasjon</artifactId>
+				<version>${metaforce-tjenestespesifikasjon.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-bom</artifactId>
+				<version>${apache-cxf.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-validator</groupId>
+				<artifactId>commons-validator</artifactId>
+				<version>${commons-validator.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-beanutils</groupId>
+						<artifactId>commons-beanutils</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>net.logstash.logback</groupId>
+				<artifactId>logstash-logback-encoder</artifactId>
+				<version>${logstash-logback-encoder.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>commons-validator</groupId>
-                <artifactId>commons-validator</artifactId>
-                <version>${commons-validator.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-beanutils</groupId>
-                        <artifactId>commons-beanutils</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <!-- Logging -->
-            <dependency>
-                <groupId>net.logstash.logback</groupId>
-                <artifactId>logstash-logback-encoder</artifactId>
-                <version>${logstash-logback-encoder.version}</version>
-            </dependency>
+			<!-- Test -->
+			<dependency>
+				<groupId>org.wiremock.integrations</groupId>
+				<artifactId>wiremock-spring-boot</artifactId>
+				<version>${wiremock-spring-boot.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.security</groupId>
+				<artifactId>token-validation-spring-test</artifactId>
+				<version>${token-support.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.github.gavlyukovskiy</groupId>
+				<artifactId>datasource-proxy-spring-boot-starter</artifactId>
+				<version>${datasource-proxy-spring-boot-starter.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>context-propagation</artifactId>
-                <version>${context-propagation.version}</version>
-            </dependency>
-
-            <!-- Test -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-contract-wiremock</artifactId>
-                <version>${spring-cloud-contract-wiremock.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>no.nav.security</groupId>
-                <artifactId>token-validation-spring-test</artifactId>
-                <version>${token-support.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.github.gavlyukovskiy</groupId>
-                <artifactId>datasource-proxy-spring-boot-starter</artifactId>
-                <version>${datasource-proxy-spring-boot-starter.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-toolchains-plugin</artifactId>
-                <version>${maven-toolchains-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>toolchain</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <toolchains>
-                        <jdk>
-                            <version>${java.version}</version>
-                            <vendor>openjdk</vendor>
-                        </jdk>
-                    </toolchains>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-toolchains-plugin</artifactId>
+				<version>${maven-toolchains-plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>toolchain</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<toolchains>
+						<jdk>
+							<version>${java.version}</version>
+							<vendor>openjdk</vendor>
+						</jdk>
+					</toolchains>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

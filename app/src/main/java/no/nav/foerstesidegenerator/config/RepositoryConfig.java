@@ -7,9 +7,9 @@ import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import oracle.jdbc.pool.OracleDataSource;
 import oracle.ucp.jdbc.PoolDataSource;
 import oracle.ucp.jdbc.PoolDataSourceFactory;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceProperties;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -56,7 +56,7 @@ public class RepositoryConfig {
 		Properties connProperties = new Properties();
 		connProperties.setProperty("oracle.net.CONNECT_TIMEOUT", "3000");
 		connProperties.setProperty("oracle.jdbc.thinForceDNSLoadBalancing", "true");
-//		// Optimizing UCP behaviour https://docs.oracle.com/database/121/JJUCP/optimize.htm#JJUCP8143
+		// Optimizing UCP behaviour https://docs.oracle.com/database/121/JJUCP/optimize.htm#JJUCP8143
 		poolDataSource.setInitialPoolSize(STATISK_POOL_SIZE);
 		poolDataSource.setMinPoolSize(STATISK_POOL_SIZE);
 		poolDataSource.setMaxPoolSize(STATISK_POOL_SIZE);
