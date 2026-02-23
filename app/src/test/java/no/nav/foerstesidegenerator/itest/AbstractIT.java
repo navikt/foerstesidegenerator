@@ -16,9 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.AutoConfigureDataJpa;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.jpa.test.autoconfigure.AutoConfigureTestEntityManager;
-import org.springframework.boot.resttestclient.TestRestTemplate;
-import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
-import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.http.HttpHeaders;
@@ -58,8 +55,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
-@AutoConfigureTestRestTemplate
-@AutoConfigureRestTestClient
 @AutoConfigureWebTestClient
 @Transactional
 @EnableMockOAuth2Server
@@ -70,9 +65,6 @@ public abstract class AbstractIT {
 
 	public static final LocalDateTime ELDRE_ENN_6_MAANEDER = LocalDateTime.now().minusMonths(6).minusDays(1);
 	public static final LocalDateTime NYERE_ENN_6_MAANEDER = LocalDateTime.now().minusMonths(6).plusDays(1);
-
-	@Autowired
-	protected TestRestTemplate testRestTemplate;
 
 	@Autowired
 	protected FoerstesideRepository foerstesideRepository;
