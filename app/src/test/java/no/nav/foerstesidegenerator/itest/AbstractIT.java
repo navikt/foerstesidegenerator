@@ -55,7 +55,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "10s")
 @Transactional
 @EnableMockOAuth2Server
 public abstract class AbstractIT {
