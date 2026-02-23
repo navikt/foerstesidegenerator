@@ -29,7 +29,7 @@ public class FoerstesideCounter {
     private short version;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = SEQUENCE_NAME)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
     @SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
     @Column(name = "foerstesidecounter_id", unique = true, nullable = false, updatable = false)
     private Long foerstesideId;
