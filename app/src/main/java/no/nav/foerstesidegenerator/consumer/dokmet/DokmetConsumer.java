@@ -7,8 +7,7 @@ import no.nav.foerstesidegenerator.constants.NavHeadersFilter;
 import no.nav.foerstesidegenerator.exception.DokmetFunctionalException;
 import no.nav.foerstesidegenerator.exception.DokmetTechnicalException;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
+import org.springframework.resilience.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -33,7 +32,7 @@ public class DokmetConsumer {
 	}
 
 	@Cacheable(DOKMET_CACHE)
-	@Retryable(retryFor = DokmetTechnicalException.class, maxAttempts = 5, backoff = @Backoff(delay = 1000))
+	@Retryable(includes = DokmetTechnicalException.class, maxRetries = 5, delay = 1000)
 	public Dokumentproduksjonsinfo hentDokumentproduksjonsinfo(final String dokumenttypeId) {
 		log.info("hentDokumentproduksjonsinfo henter dokumentproduksjonsinfo for dokumenttypeId={}", dokumenttypeId);
 

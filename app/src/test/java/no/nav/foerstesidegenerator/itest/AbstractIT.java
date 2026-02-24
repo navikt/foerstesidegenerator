@@ -11,20 +11,19 @@ import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.security.mock.oauth2.MockOAuth2Server;
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback;
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
-import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.data.jpa.test.autoconfigure.AutoConfigureDataJpa;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.jpa.test.autoconfigure.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
+import org.wiremock.spring.EnableWireMock;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -51,14 +50,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 		classes = {ApplicationLocal.class, ApplicationTestConfig.class},
 		webEnvironment = RANDOM_PORT
 )
-@AutoConfigureWireMock(port = 0)
+@EnableWireMock
 @ActiveProfiles("itest")
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
+@AutoConfigureWebTestClient(timeout = "10s")
 @Transactional
 @EnableMockOAuth2Server
-@AutoConfigureCache
 public abstract class AbstractIT {
 
 	public static final String MDC_CALL_ID = UUID.randomUUID().toString();
@@ -66,9 +65,6 @@ public abstract class AbstractIT {
 
 	public static final LocalDateTime ELDRE_ENN_6_MAANEDER = LocalDateTime.now().minusMonths(6).minusDays(1);
 	public static final LocalDateTime NYERE_ENN_6_MAANEDER = LocalDateTime.now().minusMonths(6).plusDays(1);
-
-	@Autowired
-	protected TestRestTemplate testRestTemplate;
 
 	@Autowired
 	protected FoerstesideRepository foerstesideRepository;

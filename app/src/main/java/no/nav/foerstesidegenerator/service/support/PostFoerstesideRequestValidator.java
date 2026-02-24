@@ -168,7 +168,7 @@ public class PostFoerstesideRequestValidator {
 	}
 
 	private void validateConsumerId(HttpHeaders headers) {
-		if (headers.containsKey(NAV_CONSUMER_ID)) {
+		if (headers.containsHeader(NAV_CONSUMER_ID)) {
 			return;
 		}
 

@@ -12,6 +12,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import static java.lang.String.format;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_PERSON;
+import static no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem.GSAK;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CALLID;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.domain.code.FagomradeCode.BID;
@@ -71,7 +72,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertThat(foersteside.getBrukerType()).isEqualTo(BRUKER_PERSON);
 		assertThat(foersteside.getUkjentBrukerPersoninfo()).isNull();
 		assertThat(foersteside.getTema()).isEqualTo("FOR");
-		assertThat(foersteside.getBehandlingstema()).isNull();
+		assertThat(foersteside.getBehandlingstema()).isEqualTo("ab1234");
 		assertThat(foersteside.getArkivtittel()).isEqualTo("joark-tittel");
 		assertThat(foersteside.getNavSkjemaId()).isEqualTo("NAV 13.37");
 		assertThat(foersteside.getOverskriftstittel()).isEqualTo("tittel som printes");
@@ -209,9 +210,20 @@ class FoerstesidegeneratorIT extends AbstractIT {
 				.getResponseBody();
 
 		assertThat(foerstesideResponse).isNotNull();
+		assertThat(foerstesideResponse.getAvsender().getAvsenderId()).isEqualTo("99988812345");
+		assertThat(foerstesideResponse.getAvsender().getAvsenderNavn()).isEqualTo("navn navnesen");
 		assertThat(foerstesideResponse.getBruker()).isNotNull();
 		assertThat(foerstesideResponse.getBruker().getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
 		assertThat(foerstesideResponse.getBruker().getBrukerType().name()).isEqualTo(BRUKER_PERSON);
+		assertThat(foerstesideResponse.getTema()).isEqualTo("FOR");
+		assertThat(foerstesideResponse.getBehandlingstema()).isEqualTo("ab1234");
+		assertThat(foerstesideResponse.getArkivtittel()).isEqualTo("joark-tittel");
+		assertThat(foerstesideResponse.getVedleggsliste()).containsExactlyInAnyOrder("tittel 1", "tittel 2");
+		assertThat(foerstesideResponse.getNavSkjemaId()).isEqualTo("NAV 13.37");
+		assertThat(foerstesideResponse.getEnhetsnummer()).isEqualTo("9999");
+		assertThat(foerstesideResponse.getArkivsak().getArkivsaksystem()).isEqualTo(GSAK);
+		assertThat(foerstesideResponse.getArkivsak().getArkivsaksnummer()).isEqualTo("ref");
+		assertThat(foerstesideResponse.getFoerstesideOpprettetAv()).isEqualTo("srvtest");
 
 		var foersteside = getFoersteside();
 		assertThat(foersteside.getLoepenummer()).isEqualTo(loepenummer);
