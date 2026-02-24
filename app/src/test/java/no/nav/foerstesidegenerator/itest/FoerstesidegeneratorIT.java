@@ -161,9 +161,37 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertTrue(foerstesideRepository.findAll().iterator().hasNext());
 
 		Foersteside foersteside = getFoersteside();
+		assertThat(foersteside.getSpraakkode()).isEqualTo("NN");
 		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
 		assertThat(foersteside.getBrukerType()).isEqualTo(BRUKER_PERSON);
 		assertThat(foersteside.getUkjentBrukerPersoninfo()).isNull();
+	}
+
+	@Test
+	void skalOppretteNyFoerstesideSpraakodeNullOgVedleggDokumentListeNull() {
+		var request = createPostRequest("__files/input/happypath_spraak_lister_null.json");
+
+		var response = webTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(this::getHeaders)
+				.bodyValue(request)
+				.exchange()
+				.expectStatus().isCreated()
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response).isNotNull();
+		assertThat(response.getFoersteside()).isNotNull();
+		assertThat(response.getLoepenummer()).isNotNull();
+
+		assertThat(foerstesideRepository.findAll().iterator().hasNext()).isNotNull();
+
+		Foersteside foersteside = getFoersteside();
+
+		assertThat(foersteside.getSpraakkode()).isEqualTo("NB");
+		assertThat(foersteside.getVedleggListe()).isNull();
+		assertThat(foersteside.getDokumentlisteFoersteside()).isNull();
 	}
 
 	@Test
