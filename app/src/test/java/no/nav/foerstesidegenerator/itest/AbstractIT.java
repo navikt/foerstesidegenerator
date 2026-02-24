@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
 import lombok.SneakyThrows;
 import no.nav.foerstesidegenerator.ApplicationLocal;
-import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
@@ -123,12 +122,8 @@ public abstract class AbstractIT {
 		).serialize();
 	}
 
-	protected PostFoerstesideRequest createPostRequest(String filepath) {
-		try {
-			return mapper.readValue(classpathToString(filepath), PostFoerstesideRequest.class);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not convert filepath to PostFoerstesideRequest");
-		}
+	protected String createPostRequest(String filepath) {
+		return classpathToString(filepath);
 	}
 
 	Foersteside getFoersteside() {

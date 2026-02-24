@@ -5,6 +5,8 @@ import no.nav.foerstesidegenerator.api.v1.PostFoerstesideResponse;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -21,6 +23,7 @@ import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.c
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 class FoerstesidegeneratorIT extends AbstractIT {
 
@@ -167,9 +170,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertThat(foersteside.getUkjentBrukerPersoninfo()).isNull();
 	}
 
-	@Test
-	void skalOppretteNyFoerstesideSpraakodeNullOgVedleggDokumentListeNull() {
-		var request = createPostRequest("__files/input/happypath_spraak_lister_null.json");
+	@ParameterizedTest
+	@ValueSource(strings = {"happypath_spraak_lister_null.json", "happypath_spraak_lister_notset.json"})
+	void skalOppretteNyFoerstesideSpraakodeNullOgVedleggDokumentListeNull(String json) {
+		var request = createPostRequest("__files/input/" + json);
 
 		var response = webTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
@@ -451,6 +455,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	private void getHeaders(HttpHeaders headers) {
 		headers.setBearerAuth(getToken());
 		setNavHeaders(headers);
+		headers.setContentType(APPLICATION_JSON);
 	}
 
 	private void getHeadersWithClaim(HttpHeaders headers, String role) {
