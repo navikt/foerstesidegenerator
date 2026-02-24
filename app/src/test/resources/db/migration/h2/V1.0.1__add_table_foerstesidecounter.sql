@@ -1,0 +1,9 @@
+CREATE TABLE FOERSTESIDECOUNTER
+(
+    foerstesidecounter_id NUMBER(19)    PRIMARY KEY,
+    dato                  NUMBER(8)     UNIQUE,
+    antall                NUMBER(7)     NOT NULL,
+    versjon               NUMBER(5)     NOT NULL
+);
+
+CREATE SEQUENCE FOERSTESIDECOUNTER_SEQ START WITH 1000 INCREMENT BY 1 NOMAXVALUE NOCYCLE NOCACHE;

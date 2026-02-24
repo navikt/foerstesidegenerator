@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.2</version>
+		<version>4.0.3</version>
 	</parent>
 
 	<groupId>no.nav.dok</groupId>
@@ -42,10 +42,6 @@
 		<!-- Plugins brukt i app pom -->
 		<patrodyne-basicjaxb.version>2.2.1</patrodyne-basicjaxb.version>
 		<jaxb-runtime.version>4.0.6</jaxb-runtime.version>
-
-		<!-- Overstyrer og nedgraderer H2 database versjon i test scope - inkompatibel flyway script.
-		Ny versjon av H2 i Spring Boot 2.7.x se https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#h2-21 -->
-		<h2.version>1.4.200</h2.version>
 	</properties>
 
 	<dependencyManagement>

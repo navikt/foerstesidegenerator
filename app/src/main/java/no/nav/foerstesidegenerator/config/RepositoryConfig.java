@@ -12,7 +12,7 @@ import org.springframework.boot.jdbc.autoconfigure.DataSourceProperties;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -27,13 +27,13 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @EnableJpaRepositories(basePackageClasses = {FoerstesideRepository.class, FoerstesideCounterRepository.class})
 @EnableTransactionManagement
 @EnableConfigurationProperties(DataSourceProperties.class)
+@Profile("nais")
 @Configuration
 public class RepositoryConfig {
 
 	private static final int STATISK_POOL_SIZE = 20;
 
 	@Bean
-	@Primary
 	DataSource dataSource(final DataSourceProperties dataSourceProperties,
 						  final DataSourceAdditionalProperties dataSourceAdditionalProperties) throws SQLException {
 		PoolDataSource poolDataSource = PoolDataSourceFactory.getPoolDataSource();

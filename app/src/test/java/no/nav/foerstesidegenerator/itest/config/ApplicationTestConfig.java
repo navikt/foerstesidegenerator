@@ -1,23 +1,26 @@
 package no.nav.foerstesidegenerator.itest.config;
 
+import jakarta.xml.ws.soap.SOAPBinding;
 import no.nav.foerstesidegenerator.config.properties.ServiceuserAlias;
 import no.nav.foerstesidegenerator.consumer.metaforce.config.CxfTimeoutOutInterceptor;
 import no.nav.foerstesidegenerator.consumer.metaforce.config.MetaforceTimeouts;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import se.metaforce.services.IGeneralService;
 
-import jakarta.xml.ws.soap.SOAPBinding;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+@Import(value = {RepositoryTestConfig.class, LocalTestCacheConfig.class})
 @Profile("itest")
+@TestConfiguration
 public class ApplicationTestConfig {
 
 	/**
@@ -25,6 +28,7 @@ public class ApplicationTestConfig {
 	 * This allows us to use http instead of https when connecting to the mocked endpoint.
 	 */
 	@Bean
+	@Primary
 	public IGeneralService metaforcews(@Value("${metaforceendpoint_url}") String endpointurl,
 									   final ServiceuserAlias serviceuserAlias,
 									   final MetaforceTimeouts timeouts) {
@@ -47,4 +51,5 @@ public class ApplicationTestConfig {
 		return props;
 	}
 }
+
 
