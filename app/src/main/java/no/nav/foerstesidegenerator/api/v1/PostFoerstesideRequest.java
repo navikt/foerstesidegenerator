@@ -1,11 +1,14 @@
 package no.nav.foerstesidegenerator.api.v1;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.jackson.Jacksonized;
 import no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype;
 import no.nav.foerstesidegenerator.api.v1.code.Spraakkode;
 
@@ -19,6 +22,7 @@ import static no.nav.foerstesidegenerator.api.v1.code.Spraakkode.NB;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Jacksonized
 public class PostFoerstesideRequest {
 
 	@Schema(description = """
@@ -29,9 +33,11 @@ public class PostFoerstesideRequest {
 			Default verdi er NB
 			""",
 			requiredMode = REQUIRED,
+			defaultValue = "NB",
 			example = "NB")
 	@NotNull(message = "PostFoerstesideRequest mangler Spraakkode")
 	@Builder.Default
+	@JsonSetter(nulls = Nulls.SKIP)
 	private Spraakkode spraakkode = NB;
 
 	@Schema(description = """
@@ -88,6 +94,7 @@ public class PostFoerstesideRequest {
 			Tittel skal oppgis på norsk (bokmål).""",
 			example = "[Terminbekreftelse, Dokumentasjon av inntekt]")
 	@Builder.Default
+	@JsonSetter(nulls = Nulls.SKIP)
 	private List<String> vedleggsliste = new ArrayList<>();
 
 	@Schema(description = """
@@ -111,6 +118,7 @@ public class PostFoerstesideRequest {
 			Titlene kan oppgis på brukers eget språk (bokmål, nynorsk eller engelsk)""",
 			example = "[Søknad om foreldrepenger ved fødsel, Terminbekreftelse, Dokumentasjon av inntekt]")
 	@Builder.Default
+	@JsonSetter(nulls = Nulls.SKIP)
 	private List<String> dokumentlisteFoersteside = new ArrayList<>();
 
 	@NotNull(message = "PostFoerstesideRequest mangler Foerstesidetype")

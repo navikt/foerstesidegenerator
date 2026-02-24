@@ -6,24 +6,18 @@
     "avsenderNavn": "navn navnesen"
   },
   "bruker": {
-    "brukerId": "140366 09142",
+    "brukerId": "14036609142",
     "brukerType": "PERSON"
   },
   "ukjentBrukerPersoninfo": null,
   "tema": "FOR",
-  "behandlingstema": null,
+  "behandlingstema": "ab1234",
   "arkivtittel": "joark-tittel",
-  "vedleggsliste": [
-    "tittel 1",
-    "tittel 2"
-  ],
+  "vedleggsliste": null,
   "navSkjemaId": "NAV 13.37",
   "overskriftstittel": "tittel som printes",
-  "dokumentlisteFoersteside": [
-    "første tittel",
-    "andre tittel"
-  ],
-  "spraakkode": "NN",
+  "dokumentlisteFoersteside": null,
+  "spraakkode": null,
   "foerstesidetype": "SKJEMA",
   "enhetsnummer": "9999",
   "arkivsak": {
