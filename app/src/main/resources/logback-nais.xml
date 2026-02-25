@@ -24,4 +24,9 @@
 		<appender-ref ref="applikasjonslogg"/>
 	</logger>
 
+	<logger name="org.flywaydb" level="INFO" additivity="false">
+		<appender-ref ref="applikasjonslogg"/>
+	</logger>
+
+
 </included>

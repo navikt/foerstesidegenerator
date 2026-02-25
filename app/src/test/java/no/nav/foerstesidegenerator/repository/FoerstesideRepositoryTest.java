@@ -1,11 +1,12 @@
 package no.nav.foerstesidegenerator.repository;
 
-import no.nav.foerstesidegenerator.config.RepositoryConfig;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
+import no.nav.foerstesidegenerator.itest.config.RepositoryTestConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.transaction.TestTransaction;
@@ -19,8 +20,9 @@ import static no.nav.foerstesidegenerator.itest.AbstractIT.ELDRE_ENN_6_MAANEDER;
 import static no.nav.foerstesidegenerator.itest.AbstractIT.NYERE_ENN_6_MAANEDER;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@ContextConfiguration(classes = {RepositoryConfig.class})
+@DataJpaTest(showSql = false)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ContextConfiguration(classes = {RepositoryTestConfig.class})
 @ActiveProfiles("itest")
 class FoerstesideRepositoryTest {
 

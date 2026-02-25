@@ -1,9 +1,7 @@
 package no.nav.foerstesidegenerator.itest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
 import lombok.SneakyThrows;
-import no.nav.foerstesidegenerator.ApplicationLocal;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.itest.config.ApplicationTestConfig;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
@@ -13,7 +11,6 @@ import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.AutoConfigureDataJpa;
-import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.jpa.test.autoconfigure.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
@@ -46,13 +43,12 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @SpringBootTest(
-		classes = {ApplicationLocal.class, ApplicationTestConfig.class},
+		classes = {ApplicationTestConfig.class},
 		webEnvironment = RANDOM_PORT
 )
 @EnableWireMock
 @ActiveProfiles("itest")
 @AutoConfigureDataJpa
-@AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @AutoConfigureWebTestClient(timeout = "10s")
 @Transactional
@@ -70,8 +66,6 @@ public abstract class AbstractIT {
 
 	@Autowired
 	private MockOAuth2Server server;
-
-	private final ObjectMapper mapper = new ObjectMapper();
 
 	@BeforeEach
 	void cleanUp() {
