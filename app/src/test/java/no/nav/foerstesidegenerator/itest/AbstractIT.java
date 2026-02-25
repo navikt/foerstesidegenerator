@@ -12,12 +12,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.AutoConfigureDataJpa;
 import org.springframework.boot.jpa.test.autoconfigure.AutoConfigureTestEntityManager;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.transaction.TestTransaction;
+import org.springframework.test.web.servlet.client.RestTestClient;
 import org.springframework.transaction.annotation.Transactional;
 import org.wiremock.spring.EnableWireMock;
 
@@ -28,7 +29,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -50,12 +50,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @ActiveProfiles("itest")
 @AutoConfigureDataJpa
 @AutoConfigureTestEntityManager
-@AutoConfigureWebTestClient(timeout = "10s")
+@AutoConfigureRestTestClient
 @Transactional
 @EnableMockOAuth2Server
 public abstract class AbstractIT {
 
-	public static final String MDC_CALL_ID = UUID.randomUUID().toString();
 	public static final String MDC_CONSUMER_ID = "srvtest";
 
 	public static final LocalDateTime ELDRE_ENN_6_MAANEDER = LocalDateTime.now().minusMonths(6).minusDays(1);
@@ -63,6 +62,9 @@ public abstract class AbstractIT {
 
 	@Autowired
 	protected FoerstesideRepository foerstesideRepository;
+
+	@Autowired
+	protected RestTestClient restTestClient;
 
 	@Autowired
 	private MockOAuth2Server server;

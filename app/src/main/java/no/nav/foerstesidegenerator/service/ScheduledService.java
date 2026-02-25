@@ -1,7 +1,7 @@
 package no.nav.foerstesidegenerator.service;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.foerstesidegenerator.consumer.lederelection.LeaderElectionConsumer;
+import no.nav.foerstesidegenerator.consumer.lederelection.LeaderElectionService;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,17 +17,18 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.UKJENT_B
 public class ScheduledService {
 
 	private final FoerstesideRepository foerstesideRepository;
-	private final LeaderElectionConsumer leaderElectionConsumer;
+	private final LeaderElectionService leaderElectionService;
 
-	public ScheduledService(final FoerstesideRepository foerstesideRepository, LeaderElectionConsumer leaderElectionConsumer) {
+	public ScheduledService(FoerstesideRepository foerstesideRepository,
+							LeaderElectionService leaderElectionService) {
 		this.foerstesideRepository = foerstesideRepository;
-		this.leaderElectionConsumer = leaderElectionConsumer;
+		this.leaderElectionService = leaderElectionService;
 	}
 
 	@Transactional
 	@Scheduled(cron = "${maskering.fnr.rate}")
 	public void execute() {
-		if (leaderElectionConsumer.isLeader()) {
+		if (leaderElectionService.isLeader()) {
 			log.info("Starter automatisk jobb for maskering av førstesidemetadata");
 
 			masker(BRUKER_ID);

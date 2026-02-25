@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideResponse;
-import no.nav.foerstesidegenerator.consumer.dokmet.DokmetConsumer;
+import no.nav.foerstesidegenerator.consumer.dokmet.DokmetService;
 import no.nav.foerstesidegenerator.consumer.dokmet.Dokumentproduksjonsinfo;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceBrevdataMapper;
 import no.nav.foerstesidegenerator.consumer.metaforce.MetaforceConsumer;
@@ -15,7 +15,6 @@ import no.nav.foerstesidegenerator.domain.Foersteside;
 import no.nav.foerstesidegenerator.domain.FoerstesideMapper;
 import no.nav.foerstesidegenerator.exception.FoerstesideNotFoundException;
 import no.nav.foerstesidegenerator.exception.InvalidLoepenummerException;
-import no.nav.foerstesidegenerator.exception.ManglerDokumentproduksjonsinfoException;
 import no.nav.foerstesidegenerator.repository.FoerstesideRepository;
 import no.nav.foerstesidegenerator.service.support.FoerstesideResponseMapper;
 import no.nav.foerstesidegenerator.service.support.PostFoerstesideRequestValidator;
@@ -33,7 +32,6 @@ import static no.nav.foerstesidegenerator.util.SafeLoggingUtil.removeUnsafeChars
 @Service
 public class FoerstesideService {
 
-	private static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
 	private static final int LOEPENUMMER_LENGTH = 13;
 	private static final int LOEPENUMMER_LENGTH_WITH_CHECK_DIGIT = 14;
 
@@ -41,7 +39,7 @@ public class FoerstesideService {
 	private final FoerstesideMapper foerstesideMapper;
 	private final FoerstesideRepository foerstesideRepository;
 	private final FoerstesideResponseMapper foerstesideResponseMapper;
-	private final DokmetConsumer dokmetConsumer;
+	private final DokmetService dokmetService;
 	private final MetaforceConsumer metaforceConsumer;
 	private final MetaforceBrevdataMapper metaforceBrevdataMapper;
 	private final FoerstesideCounterService foerstesideCounterService;
@@ -50,14 +48,14 @@ public class FoerstesideService {
 							  final FoerstesideMapper foerstesideMapper,
 							  final FoerstesideRepository foerstesideRepository,
 							  final FoerstesideResponseMapper foerstesideResponseMapper,
-							  final DokmetConsumer dokmetConsumer,
+							  DokmetService dokmetService,
 							  final FoerstesideCounterService foerstesideCounterService,
 							  final MetaforceConsumer metaforceConsumer) {
 		this.postFoerstesideRequestValidator = postFoerstesideRequestValidator;
 		this.foerstesideMapper = foerstesideMapper;
 		this.foerstesideRepository = foerstesideRepository;
 		this.foerstesideResponseMapper = foerstesideResponseMapper;
-		this.dokmetConsumer = dokmetConsumer;
+		this.dokmetService = dokmetService;
 		this.metaforceConsumer = metaforceConsumer;
 		this.foerstesideCounterService = foerstesideCounterService;
 		this.metaforceBrevdataMapper = new MetaforceBrevdataMapper();
@@ -66,15 +64,11 @@ public class FoerstesideService {
 	public PostFoerstesideResponse createFoersteside(PostFoerstesideRequest request, HttpHeaders headers) {
 		postFoerstesideRequestValidator.validate(request, headers);
 
-		Dokumentproduksjonsinfo dokumentproduksjonsinfo = dokmetConsumer.hentDokumentproduksjonsinfo(FOERSTESIDE_DOKUMENTTYPE_ID);
-		if (dokumentproduksjonsinfo == null) {
-			throw new ManglerDokumentproduksjonsinfoException(format("Dokumentproduksjonsinfo mangler for dokument med dokumenttypeId=%s.", FOERSTESIDE_DOKUMENTTYPE_ID));
-		}
-
+		Dokumentproduksjonsinfo dokumentproduksjonsinfo = dokmetService.hentDokumentproduksjonsinfo();
 		Foersteside foersteside = incrementLoepenummerAndPersist(request, headers);
 		CreateDocumentResponseTo document = genererPdfFraMetaforce(foersteside, dokumentproduksjonsinfo);
 
-		log.info("Ny førsteside med løpenummer={} og dokumenttypeId={} har blitt generert vha Metaforce", foersteside.getLoepenummer(), FOERSTESIDE_DOKUMENTTYPE_ID);
+		log.info("Ny førsteside med løpenummer={} har blitt generert", foersteside.getLoepenummer());
 		return PostFoerstesideResponse.builder()
 				.foersteside(document.getDocumentData().clone())
 				.loepenummer(foersteside.getLoepenummer())
@@ -102,8 +96,6 @@ public class FoerstesideService {
 
 	public FoerstesideResponse getFoersteside(String loepenummer) {
 		validerLoepenummer(loepenummer);
-		log.info("Løpenummer={} validert ok", loepenummer);
-
 		Foersteside domain = foerstesideRepository.findByLoepenummer(loepenummer.substring(0, LOEPENUMMER_LENGTH))
 				.orElseThrow(() -> new FoerstesideNotFoundException(format("Kan ikke finne foersteside med loepenummer=%s", loepenummer)));
 		FoerstesideResponse response = foerstesideResponseMapper.map(domain);

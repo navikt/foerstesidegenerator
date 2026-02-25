@@ -11,10 +11,8 @@ import org.slf4j.MDC;
 
 import java.util.Map;
 
-import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CALL_ID;
 import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.config.MDCConstants.MDC_USER_ID;
-import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CALLID;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.rest.MDCPopulationInterceptor.CONSUMER_ID_FALLBACK;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +28,6 @@ class MDCPopulationInterceptorTest {
     static final String USER_TOKEN = "Bearer eyAidHlwIjogIkpXVCIsICJraWQiOiAiaG9ReWxXNDZpYWoyY1VjN3d4TFF2b3pLVTMwPSIsICJhbGciOiAiUlMyNTYiIH0.eyAiYXRfaGFzaCI6ICJoelZmd0djWjZSVHJiSE0zZnFoMm13IiwgInN1YiI6ICJaOTkwNzYxIiwgImF1ZGl0VHJhY2tpbmdJZCI6ICI5MzczMzZjNC0yM2FmLTRkYTMtODk2ZS02OGNjNGU4NDAyZjgtOTA1ODYyIiwgImlzcyI6ICJodHRwczovL2lzc28tdC5hZGVvLm5vOjQ0My9pc3NvL29hdXRoMiIsICJ0b2tlbk5hbWUiOiAiaWRfdG9rZW4iLCAiYXVkIjogImlkYS10IiwgImNfaGFzaCI6ICI2eEpnamxOUENuOHAtbklOMHE5bmVRIiwgIm9yZy5mb3JnZXJvY2sub3BlbmlkY29ubmVjdC5vcHMiOiAiNDg1Mjg3YzItZjFlNC00Njg2LTliODYtYjE5ZjVlMmFmNjJhIiwgImF6cCI6ICJpZGEtdCIsICJhdXRoX3RpbWUiOiAxNTUzODUxMTE1LCAicmVhbG0iOiAiLyIsICJleHAiOiAxNTUzODU0NzE2LCAidG9rZW5UeXBlIjogIkpXVFRva2VuIiwgImlhdCI6IDE1NTM4NTExMTYgfQ.stf6Ta_TLeiIDQgw3nYcvNx-jDeMnSDioV96nLghE4rorvrf2Eyexkk1J0DYx2lDLFCrfX1Q1ERTxpO32qKvzbKfpQjAng_L4tUOeNtYKgmsIzWzxS_AHxi1HqtlJouCmVqPOfwHsK31qMgDOim55iZMC9bmnhdOzC7WkuNNp5vOnzFgJbeglwu3OYgv5AUqxxq9lw-TiFozwAct866qNsp0C6FNTfm1svFW9wFGpvmWHj0fe1II1HGGILdA5kr8qksdu-dmccN0nY0M2xt7ejK_Sqp5xu_OVp58jMVyDo57_u4hb9bBd1jy2bJIDMDRFuyOkeLG0AvAbYsHFmC5PA";
     static final String CONSUMER_ID = "srvgosys-nais";
     static final String USER_ID = "Z990761";
-    static final String CALL_ID = "47ecf346-23e9-4442-8a6d-05b48206ae0f";
 
     @Mock
     private HttpServletRequest servletRequest;
@@ -42,14 +39,12 @@ class MDCPopulationInterceptorTest {
 
     @Test
     public void validateToReturnStandardValues() {
-        doReturn(CALL_ID).when(servletRequest).getHeader(NAV_CALLID);
         doReturn(CONSUMER_ID).when(servletRequest).getHeader(NAV_CONSUMER_ID);
         doReturn(USER_TOKEN).when(servletRequest).getHeader(AUTHORIZATION);
 
         mdcPopulationInterceptor.preHandle(servletRequest, servletResponse, null);
 
         Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
-        assertThat(copyOfContextMap.get(MDC_CALL_ID)).isEqualTo(CALL_ID);
         assertThat(copyOfContextMap.get(MDC_CONSUMER_ID)).isEqualTo(CONSUMER_ID);
         assertThat(copyOfContextMap.get(MDC_USER_ID)).isEqualTo(USER_ID);
     }
