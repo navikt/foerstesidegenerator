@@ -389,7 +389,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 				.returnResult()
 				.getResponseBody();
 
-		assertThat(response).contains(format("Fant ikke dokumenttypeId=%s", FOERSTESIDE_DOKUMENTTYPE_ID));
+		assertThat(response).contains(format("Dokmet feilet teknisk for dokumenttypeId=%s", FOERSTESIDE_DOKUMENTTYPE_ID));
 	}
 
 	@Test

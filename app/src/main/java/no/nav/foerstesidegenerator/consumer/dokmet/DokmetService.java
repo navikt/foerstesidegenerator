@@ -5,7 +5,7 @@ import no.nav.foerstesidegenerator.exception.DokmetTechnicalException;
 import no.nav.foerstesidegenerator.exception.ManglerDokumentproduksjonsinfoException;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientResponseException;
 
 import static java.lang.String.format;
 import static no.nav.foerstesidegenerator.config.cache.CacheConfig.DOKMET_CACHE;
@@ -25,7 +25,7 @@ public class DokmetService {
 		try {
 			DokumenttypeInfoTo dokumenttypeInfo = dokmetClient.getDokumenttypeInfo(FOERSTESIDE_DOKUMENTTYPE_ID);
 			return mapResponse(dokumenttypeInfo);
-		} catch (HttpServerErrorException e) {
+		} catch (RestClientResponseException e) {
 			throw new DokmetTechnicalException("Dokmet feilet teknisk for dokumenttypeId=" + FOERSTESIDE_DOKUMENTTYPE_ID, e);
 		}
 	}
