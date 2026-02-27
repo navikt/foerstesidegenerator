@@ -7,15 +7,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static java.lang.String.format;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_PERSON;
 import static no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem.GSAK;
-import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CALLID;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.domain.code.FagomradeCode.BID;
 import static no.nav.foerstesidegenerator.rest.FoerstesideRestController.ROLE_FOERSTESIDEGENERATOR_LES;
@@ -31,9 +28,6 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	private final static String HENT_FOERSTESIDE_URL = "/api/foerstesidegenerator/v1/foersteside/%s";
 	private static final String FOERSTESIDE_DOKUMENTTYPE_ID = "000124";
 
-	@Autowired
-	public WebTestClient webTestClient;
-
 	@BeforeEach
 	public void setUpStubs() {
 		stubDokmet("dokmet/happy-response.json");
@@ -44,10 +38,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalOppretteNyFoerstesideMedStandardAdresse() {
 		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isCreated()
 				.expectBody(PostFoerstesideResponse.class)
@@ -93,10 +87,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalOppretteNyFoerstesideMedEgendefinertAdresse() {
 		var request = createPostRequest("__files/input/happypath_egendefinertadresse.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isCreated()
 				.expectBody(PostFoerstesideResponse.class)
@@ -122,10 +116,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalOppretteNyFoerstesideMedUkjentBrukerPersoninfo() {
 		var request = createPostRequest("__files/input/happypath_ukjentbrukerpersoninfo.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isCreated()
 				.expectBody(PostFoerstesideResponse.class)
@@ -147,10 +141,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalOppretteNyFoerstesideMedBrukerIdUtenMellomromNaarBrukerIdIRequestHarMellomrom() {
 		var request = createPostRequest("__files/input/happypath_brukerid_mellomrom.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isCreated()
 				.expectBody(PostFoerstesideResponse.class)
@@ -175,10 +169,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalOppretteNyFoerstesideSpraakodeNullOgVedleggDokumentListeNull(String json) {
 		var request = createPostRequest("__files/input/" + json);
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isCreated()
 				.expectBody(PostFoerstesideResponse.class)
@@ -202,10 +196,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalReturnereBadRequestForUgyldigBrukerId() {
 		var request = createPostRequest("__files/input/ugyldig_brukerid.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isBadRequest()
 				.expectBody(String.class)
@@ -219,10 +213,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalHenteFoerstesideGittLoepenummer() {
 		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isCreated()
 				.expectBody(PostFoerstesideResponse.class)
@@ -232,7 +226,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertThat(response).isNotNull();
 		String loepenummer = response.getLoepenummer();
 
-		var foerstesideResponse = webTestClient.get()
+		var foerstesideResponse = restTestClient.get()
 				.uri(format(HENT_FOERSTESIDE_URL, loepenummer))
 				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
 				.exchange()
@@ -268,10 +262,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalHenteFoerstesideGittLoepenummerMedKontrollsiffer() {
 		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isCreated()
 				.expectBody(PostFoerstesideResponse.class)
@@ -282,7 +276,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		var loepenummer = response.getLoepenummer();
 		String loepenummerWithCheckDigit = loepenummer + calculateCheckDigit(loepenummer);
 
-		webTestClient.get()
+		restTestClient.get()
 				.uri(format(HENT_FOERSTESIDE_URL, loepenummerWithCheckDigit))
 				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
 				.exchange()
@@ -293,10 +287,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalHenteFoerstesideMedTemaBIDHvisTemaErOpprettetSomBID() {
 		var request = createPostRequest("__files/input/happypath_tema_bid.json");
 
-		webTestClient.post()
+		restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isCreated();
 
@@ -306,7 +300,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		String loepenummer = foersteside.getLoepenummer();
 		assertThat(foersteside.getTema()).isEqualTo(BID.name());
 
-		var foerstesideResponse = webTestClient.get()
+		var foerstesideResponse = restTestClient.get()
 				.uri(format(HENT_FOERSTESIDE_URL, loepenummer))
 				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
 				.exchange()
@@ -321,7 +315,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 	@Test
 	void skalReturnereUnauthorizedVedHentingAvFoerstesideUtenRolle() {
-		var response = webTestClient.get()
+		var response = restTestClient.get()
 				.uri(format(HENT_FOERSTESIDE_URL, "123"))
 				.headers(headers -> getHeadersWithClaim(headers, "INVALID_ROLE"))
 				.exchange()
@@ -337,10 +331,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalReturnereBadRequestHvisLoepenummerIkkeValiderer() {
 		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		var foersteside = webTestClient.post()
+		var foersteside = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().isCreated()
 				.expectBody(PostFoerstesideResponse.class)
@@ -352,7 +346,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		String checkDigit = calculateCheckDigit(loepenummer);
 		String loepenummerWithWrongCheckDigit = loepenummer + modifyCheckDigit(checkDigit);
 
-		var response = webTestClient.get()
+		var response = restTestClient.get()
 				.uri(format(HENT_FOERSTESIDE_URL, loepenummerWithWrongCheckDigit))
 				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
 				.exchange()
@@ -368,7 +362,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 	void skalReturnereNotFoundHvisLoepenummerIkkeFinnes() {
 		String loepenummer = "1234567890000";
 
-		var response = webTestClient.get()
+		var response = restTestClient.get()
 				.uri(format(HENT_FOERSTESIDE_URL, loepenummer))
 				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
 				.exchange()
@@ -385,17 +379,17 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		stubDokmetNotFound();
 		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().is5xxServerError()
 				.expectBody(String.class)
 				.returnResult()
 				.getResponseBody();
 
-		assertThat(response).contains(format("Fant ikke dokumenttypeId=%s", FOERSTESIDE_DOKUMENTTYPE_ID));
+		assertThat(response).contains(format("Dokmet feilet teknisk for dokumenttypeId=%s", FOERSTESIDE_DOKUMENTTYPE_ID));
 	}
 
 	@Test
@@ -403,10 +397,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		stubDokmet(INTERNAL_SERVER_ERROR);
 		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().is5xxServerError()
 				.expectBody(String.class)
@@ -421,10 +415,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		stubDokmet("dokmet/tkat020-missing-dokumentproduksjonsinfo.json");
 		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().is5xxServerError()
 				.expectBody(String.class)
@@ -439,10 +433,10 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		stubMetaforce(INTERNAL_SERVER_ERROR);
 		var request = createPostRequest("__files/input/happypath_standardadresse.json");
 
-		var response = webTestClient.post()
+		var response = restTestClient.post()
 				.uri(OPPRETT_NY_FOERSTESIDE_URL)
 				.headers(this::getHeaders)
-				.bodyValue(request)
+				.body(request)
 				.exchange()
 				.expectStatus().is5xxServerError()
 				.expectBody(String.class)
@@ -465,7 +459,6 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 	private static void setNavHeaders(HttpHeaders headers) {
 		headers.add(NAV_CONSUMER_ID, MDC_CONSUMER_ID);
-		headers.add(NAV_CALLID, MDC_CALL_ID);
 	}
 
 }
