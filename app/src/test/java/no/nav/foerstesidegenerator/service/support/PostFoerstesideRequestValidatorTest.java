@@ -75,8 +75,9 @@ class PostFoerstesideRequestValidatorTest {
 	void shouldThrowSanitizedExceptionWhenBrukerIdInvalid(String brukerId, String expectedBrukerIdMessage) {
 		PostFoerstesideRequest request = createRequestWithBrukerId(brukerId);
 
-		BrukerIdIkkeValidException brukerIdIkkeValidException = assertThrows(BrukerIdIkkeValidException.class, () -> validator.validate(request, defaultHeaders));
-		assertThat(brukerIdIkkeValidException.getMessage()).contains("Validering av ident feilet. brukerId=" + expectedBrukerIdMessage + ", brukerType=PERSON. Kunne ikke opprette førsteside.");
+		assertThatExceptionOfType(BrukerIdIkkeValidException.class)
+				.isThrownBy(() -> validator.validate(request, defaultHeaders))
+				.withMessage("Validering av ident feilet. brukerId=" + expectedBrukerIdMessage + ", brukerType=PERSON. Kunne ikke opprette førsteside.");
 	}
 
 	private static Stream<Arguments> shouldThrowSanitizedExceptionWhenBrukerIdInvalid() {
