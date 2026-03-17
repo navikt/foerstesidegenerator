@@ -23,6 +23,7 @@ import static no.nav.foerstesidegenerator.api.v1.code.BrukerType.ORGANISASJON;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.service.support.FoedselsnummerValidator.isValidPid;
 import static no.nav.foerstesidegenerator.service.support.NpidValidator.isValidNpid;
+import static no.nav.foerstesidegenerator.util.SafeLoggingUtil.removeUnsafeChars;
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
@@ -80,8 +81,7 @@ public class PostFoerstesideRequestValidator {
 		if (!isBrukerIdValid(request.getBruker())) {
 			String brukerId = request.getBruker().getBrukerId();
 			BrukerType brukerType = request.getBruker().getBrukerType();
-			String feilmelding = format("Validering av ident feilet. brukerId=%s, brukerType=%s. Kunne ikke opprette førsteside.", brukerId, brukerType);
-			log.warn(feilmelding);
+			String feilmelding = format("Validering av ident feilet. brukerId=%s, brukerType=%s. Kunne ikke opprette førsteside.", removeUnsafeChars(brukerId, 11), brukerType);
 			throw new BrukerIdIkkeValidException(feilmelding);
 		}
 	}
@@ -89,7 +89,7 @@ public class PostFoerstesideRequestValidator {
 	private boolean isBrukerIdValid(Bruker bruker) {
 		if (BrukerType.PERSON.equals(bruker.getBrukerType())) {
 			boolean validPid = isValidPid(bruker.getBrukerId(), true);
-			if(!validPid) {
+			if (!validPid) {
 				return isValidNpid(bruker.getBrukerId());
 			}
 			return validPid;
@@ -241,7 +241,7 @@ public class PostFoerstesideRequestValidator {
 	}
 
 	private static String sensurerLovligeTegn(String ukjentBrukerPersoninfo) {
-		Pattern pattern  = Pattern.compile(LOVLIGE_TEGN);
+		Pattern pattern = Pattern.compile(LOVLIGE_TEGN);
 
 		return pattern.matcher(ukjentBrukerPersoninfo).replaceAll("");
 	}
