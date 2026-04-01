@@ -40,7 +40,7 @@
 		<maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
 
 		<!-- Plugins brukt i app pom -->
-		<patrodyne-basicjaxb.version>2.2.1</patrodyne-basicjaxb.version>
+		<patrodyne-basicjaxb.version>3.0.0</patrodyne-basicjaxb.version>
 		<jaxb-runtime.version>4.0.7</jaxb-runtime.version>
 	</properties>
 
