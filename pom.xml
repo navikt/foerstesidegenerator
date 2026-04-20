@@ -30,7 +30,7 @@
 		<apache-cxf.version>4.2.0</apache-cxf.version>
 		<commons-validator.version>1.10.1</commons-validator.version>
 		<token-support.version>6.0.2</token-support.version>
-		<springdoc-openapi-webmvc-ui.version>3.0.2</springdoc-openapi-webmvc-ui.version>
+		<springdoc-openapi-webmvc-ui.version>3.0.3</springdoc-openapi-webmvc-ui.version>
 
 		<!-- Test -->
 		<wiremock-spring-boot.version>4.2.1</wiremock-spring-boot.version>
