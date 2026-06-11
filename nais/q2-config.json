@@ -57,6 +57,11 @@
 			"app": "bidrag-bidragskalkulator-api",
 			"namespace": "bidrag",
 			"cluster": "dev-gcp"
+		},
+		{
+			"app": "skribenten-backend",
+			"namespace": "pensjonsbrev",
+			"cluster": "dev-gcp"
 		}
 	]
 }
