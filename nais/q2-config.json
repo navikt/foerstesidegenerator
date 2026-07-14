@@ -62,6 +62,11 @@
 			"app": "skribenten-backend",
 			"namespace": "pensjonsbrev",
 			"cluster": "dev-gcp"
-		}
+		},
+        {
+            "app": "su-se-bakover",
+            "namespace": "supstonad",
+            "cluster": "dev-gcp"
+        }
 	]
 }
