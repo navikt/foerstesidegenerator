@@ -27,7 +27,7 @@
 		<metaforce-tjenestespesifikasjon.version>44-7d14e70</metaforce-tjenestespesifikasjon.version>
 
 		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
-		<apache-cxf.version>4.2.2</apache-cxf.version>
+		<apache-cxf.version>4.2.3</apache-cxf.version>
 		<commons-validator.version>1.11.0</commons-validator.version>
 		<token-support.version>6.0.2</token-support.version>
 		<springdoc-openapi-webmvc-ui.version>3.0.3</springdoc-openapi-webmvc-ui.version>
