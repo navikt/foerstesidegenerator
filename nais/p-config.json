@@ -60,11 +60,16 @@
 			"namespace": "pensjonsbrev",
 			"cluster": "prod-gcp"
 		},
-        {
-          "app": "su-se-bakover",
-          "namespace": "supstonad",
-          "cluster": "prod-gcp"
-        }
+		{
+			"app": "su-se-bakover",
+			"namespace": "supstonad",
+			"cluster": "prod-gcp"
+		},
+		{
+			"app": "bidrag-frontend",
+			"namespace": "bidrag",
+			"cluster": "prod-gcp"
+		}
 	]
 }
 

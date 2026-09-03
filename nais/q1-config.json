@@ -35,10 +35,15 @@
 			"namespace": "bidrag",
 			"cluster": "dev-gcp"
 		},
-        {
-          "app": "su-se-bakover",
-          "namespace": "supstonad",
-          "cluster": "dev-gcp"
-        }
+		{
+			"app": "su-se-bakover",
+			"namespace": "supstonad",
+			"cluster": "dev-gcp"
+		},
+		{
+			"app": "bidrag-frontend-q1",
+			"namespace": "bidrag",
+			"cluster": "dev-gcp"
+		}
 	]
 }
