@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType;
+
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.NOT_REQUIRED;
 
 @Builder
 @Getter
@@ -15,6 +18,11 @@ public class Avsender {
 	@Schema(description = "Avsenders fødselsnummer eller personnummer. Kan kun inneholde siffer",
 			example = "01234567890")
 	private String avsenderId;
+
+	@Schema(description = "Type identifikator for avsender",
+			example = "FNR",
+			requiredMode = NOT_REQUIRED)
+	private AvsenderIdType avsenderIdType;
 
 	@Schema(description = "Navn på avsender",
 			example = "Per Hansen")

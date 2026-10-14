@@ -5,6 +5,7 @@ import no.nav.foerstesidegenerator.api.v1.Avsender;
 import no.nav.foerstesidegenerator.api.v1.Bruker;
 import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
 import no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem;
+import no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType;
 import no.nav.foerstesidegenerator.api.v1.code.BrukerType;
 import no.nav.foerstesidegenerator.domain.Foersteside;
 import org.springframework.stereotype.Component;
@@ -45,11 +46,13 @@ public class FoerstesideResponseMapper {
 	private Avsender mapAvsender(Foersteside domain) {
 		String avsenderId = domain.getAvsenderId();
 		String avsenderNavn = domain.getAvsenderNavn();
-		if (isEmpty(avsenderId) && isEmpty(avsenderNavn)) {
+		String avsenderIdType = domain.getAvsenderIdType();
+		if (isEmpty(avsenderId) && isEmpty(avsenderNavn) && isEmpty(avsenderIdType)) {
 			return null;
 		}
 		return Avsender.builder()
 				.avsenderId(avsenderId)
+				.avsenderIdType(avsenderIdType == null ? null : AvsenderIdType.valueOf(avsenderIdType))
 				.avsenderNavn(avsenderNavn)
 				.build();
 	}

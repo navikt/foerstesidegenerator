@@ -26,6 +26,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAK
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID_TYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
@@ -141,6 +142,10 @@ public class Foersteside {
 
 	public String getAvsenderId() {
 		return getValueForKey(AVSENDER_ID);
+	}
+
+	public String getAvsenderIdType() {
+		return getValueForKey(AVSENDER_ID_TYPE);
 	}
 
 	public String getAvsenderNavn() {

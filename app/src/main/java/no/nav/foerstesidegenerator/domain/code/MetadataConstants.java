@@ -9,6 +9,7 @@ public final class MetadataConstants {
 	public static final String POSTSTED = "poststed";
 	public static final String NETS_POSTBOKS = "netsPostboks";
 	public static final String AVSENDER_ID = "avsenderId";
+	public static final String AVSENDER_ID_TYPE = "avsenderIdType";
 	public static final String AVSENDER_NAVN = "avsenderNavn";
 	public static final String BRUKER_ID = "brukerId";
 	public static final String BRUKER_TYPE = "brukerType";
