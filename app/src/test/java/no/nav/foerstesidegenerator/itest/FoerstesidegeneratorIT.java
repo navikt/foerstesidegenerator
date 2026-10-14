@@ -2,19 +2,26 @@ package no.nav.foerstesidegenerator.itest;
 
 import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideResponse;
+import no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType;
 import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
+
+import java.time.LocalDateTime;
 
 import static java.lang.String.format;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_PERSON;
+import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
 import static no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem.GSAK;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.domain.code.FagomradeCode.BID;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID_TYPE;
 import static no.nav.foerstesidegenerator.rest.FoerstesideRestController.ROLE_FOERSTESIDEGENERATOR_LES;
 import static no.nav.foerstesidegenerator.service.support.LuhnCheckDigitHelper.calculateCheckDigit;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -237,6 +244,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		assertThat(foerstesideResponse).isNotNull();
 		assertThat(foerstesideResponse.getAvsender().getAvsenderId()).isEqualTo("99988812345");
+		assertThat(foerstesideResponse.getAvsender().getAvsenderIdType()).isNull();
 		assertThat(foerstesideResponse.getAvsender().getAvsenderNavn()).isEqualTo("navn navnesen");
 		assertThat(foerstesideResponse.getBruker()).isNotNull();
 		assertThat(foerstesideResponse.getBruker().getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
@@ -256,6 +264,31 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertThat(foersteside.getUthentet()).isEqualTo(1);
 		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
 		assertThat(foersteside.getDatoUthentet()).isNotNull();
+	}
+
+	@ParameterizedTest
+	@EnumSource(AvsenderIdType.class)
+	void skalHenteAvsenderIdTypeFraMetadata(AvsenderIdType avsenderIdType) {
+		commitAndBeginNewTransaction();
+
+		var foersteside = createFoersteside("2234567890000");
+		foersteside.setDatoOpprettet(LocalDateTime.now());
+		foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, AVSENDER_ID_TYPE, avsenderIdType.name()));
+		foerstesideRepository.save(foersteside);
+
+		commitAndBeginNewTransaction();
+
+		var response = restTestClient.get()
+				.uri(format(HENT_FOERSTESIDE_URL, foersteside.getLoepenummer()))
+				.headers(headers -> getHeadersWithClaim(headers, ROLE_FOERSTESIDEGENERATOR_LES))
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(FoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response).isNotNull();
+		assertThat(response.getAvsender().getAvsenderIdType()).isEqualTo(avsenderIdType);
 	}
 
 	@Test

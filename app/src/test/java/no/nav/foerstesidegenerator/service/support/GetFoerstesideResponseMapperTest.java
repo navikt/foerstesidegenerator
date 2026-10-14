@@ -2,9 +2,15 @@ package no.nav.foerstesidegenerator.service.support;
 
 
 import no.nav.foerstesidegenerator.api.v1.FoerstesideResponse;
+import no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType;
 import no.nav.foerstesidegenerator.domain.Foersteside;
+import no.nav.foerstesidegenerator.domain.FoerstesideMetadata;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -27,7 +33,9 @@ import static no.nav.foerstesidegenerator.TestUtils.createFoerstesideWithTemaOKO
 import static no.nav.foerstesidegenerator.TestUtils.createFoerstesideWithoutAvsenderAndBruker;
 import static no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem.PSAK;
 import static no.nav.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -44,6 +52,7 @@ class GetFoerstesideResponseMapperTest {
 		FoerstesideResponse response = mapper.map(foersteside);
 
 		assertEquals(AVSENDER, response.getAvsender().getAvsenderId());
+		assertNull(response.getAvsender().getAvsenderIdType());
 		assertEquals(NAVN, response.getAvsender().getAvsenderNavn());
 		assertEquals(BRUKER_ID_PERSON, response.getBruker().getBrukerId());
 		assertEquals(PERSON, response.getBruker().getBrukerType());
@@ -66,6 +75,21 @@ class GetFoerstesideResponseMapperTest {
 
 		assertNull(response.getAvsender());
 		assertNull(response.getBruker());
+	}
+
+	@ParameterizedTest
+	@EnumSource(AvsenderIdType.class)
+	@NullSource
+	void shouldMapAvsenderIdTypeFromMetadata(AvsenderIdType avsenderIdType) {
+		var foersteside = createFoersteside("123456789");
+		foersteside.addFoerstesideMetadata(new FoerstesideMetadata(foersteside, AVSENDER_ID_TYPE,
+				avsenderIdType == null ? null : avsenderIdType.name()));
+
+		var response = mapper.map(foersteside);
+
+		assertThat(response.getAvsender().getAvsenderIdType()).isEqualTo(avsenderIdType);
+		assertThat(response.getAvsender().getAvsenderId()).isEqualTo(AVSENDER);
+		assertThat(response.getAvsender().getAvsenderNavn()).isEqualTo(NAVN);
 	}
 
 	@Test
