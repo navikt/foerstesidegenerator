@@ -28,6 +28,11 @@
 			"cluster": "dev-fss"
 		},
 		{
+			"app": "familie-integrasjoner",
+			"namespace": "teamfamilie",
+			"cluster": "dev-gcp"
+		},
+		{
 			"app": "forstesidegenerator-q2",
 			"namespace": "isa",
 			"cluster": "dev-gcp"
