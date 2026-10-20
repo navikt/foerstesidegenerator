@@ -25,6 +25,11 @@
 			"cluster": "prod-fss"
 		},
 		{
+			"app": "familie-integrasjoner",
+			"namespace": "teamfamilie",
+			"cluster": "prod-gcp"
+		},
+		{
 			"app": "forstesidegenerator",
 			"namespace": "isa",
 			"cluster": "prod-gcp"
@@ -72,4 +77,3 @@
 		}
 	]
 }
-

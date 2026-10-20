@@ -21,11 +21,6 @@
 			"cluster": "dev-gcp"
 		},
 		{
-			"app": "familie-integrasjoner",
-			"namespace": "teamfamilie",
-			"cluster": "dev-fss"
-		},
-		{
 			"app": "hm-joark-sink",
 			"namespace": "teamdigihot",
 			"cluster": "dev-gcp"
