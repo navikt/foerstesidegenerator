@@ -15,11 +15,11 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.NOT_REQUIR
 @AllArgsConstructor
 public class Avsender {
 
-	@Schema(description = "Avsenders fødselsnummer eller personnummer. Kan kun inneholde siffer",
+	@Schema(description = "Identifikator for avsender. Formatet skal samsvare med avsenderIdType.",
 			example = "01234567890")
 	private String avsenderId;
 
-	@Schema(description = "Type identifikator for avsender",
+	@Schema(description = "Sier hvilken type identifikator som er benyttet i avsenderID.",
 			example = "FNR",
 			requiredMode = NOT_REQUIRED)
 	private AvsenderIdType avsenderIdType;

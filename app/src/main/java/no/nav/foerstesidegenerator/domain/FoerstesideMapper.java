@@ -23,6 +23,7 @@ import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAK
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVSAKSYSTEM;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.ARKIVTITTEL;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID;
+import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID_TYPE;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_NAVN;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BEHANDLINGSTEMA;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.BRUKER_ID;
@@ -111,6 +112,7 @@ public class FoerstesideMapper {
 
 	private void mapAvsender(Foersteside foersteside, Avsender avsender) {
 		addMetadata(foersteside, AVSENDER_ID, avsender.getAvsenderId());
+		addMetadata(foersteside, AVSENDER_ID_TYPE, avsender.getAvsenderIdType() == null ? null : avsender.getAvsenderIdType().name());
 		addMetadata(foersteside, AVSENDER_NAVN, avsender.getAvsenderNavn());
 	}
 

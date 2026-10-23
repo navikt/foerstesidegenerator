@@ -6,6 +6,7 @@ import no.nav.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.foerstesidegenerator.api.v1.Avsender;
 import no.nav.foerstesidegenerator.api.v1.Bruker;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType;
 import no.nav.foerstesidegenerator.api.v1.code.BrukerType;
 import no.nav.foerstesidegenerator.domain.code.FagomradeCode;
 import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
@@ -26,6 +27,7 @@ import static no.nav.foerstesidegenerator.service.support.NpidValidator.isValidN
 import static no.nav.foerstesidegenerator.util.SafeLoggingUtil.removeUnsafeChars;
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
+import static org.hibernate.internal.util.StringHelper.isBlank;
 
 @Slf4j
 @Component
@@ -33,6 +35,9 @@ public class PostFoerstesideRequestValidator {
 
 	public static final int ARKIVTITTEL_MAX_LENGTH = 500;
 	private static final Pattern BRUKER_ID_ORGANISASJON_REGEX = Pattern.compile("[0-9]{9}");
+	private static final Pattern FNR_PATTERN = Pattern.compile("^\\d{11}$");
+	private static final Pattern ORGNR_PATTERN = Pattern.compile("^\\d{9}$");
+	private static final Pattern HPRNR_PATTERN = Pattern.compile("^(?:\\d{7}|\\d{9})$");
 
 	private static final Pattern NUMMER_REGEX = Pattern.compile("^[0-9]+$"); //Kun siffer
 	private static final Pattern SIFFER_OG_BOKSTAVER_REGEX = Pattern.compile("^[0-9A-Za-zÆØÅæøå]+$"); //Kun siffer og bokstaver
@@ -207,11 +212,40 @@ public class PostFoerstesideRequestValidator {
 
 	private void validateAvsender(Avsender avsender) {
 		if (avsender != null) {
-			if (inneholderIkkeBareSiffer(avsender.getAvsenderId())) {
-				throw new InvalidRequestException("AvsenderId kan kun inneholde siffer. Mottatt verdi=%s".formatted(avsender.getAvsenderId()));
+			final String avsenderId = avsender.getAvsenderId();
+			final AvsenderIdType avsenderIdType = avsender.getAvsenderIdType();
+
+			if (inneholderIkkeBareSiffer(avsenderId)) {
+				throw new InvalidRequestException("AvsenderId kan kun inneholde siffer. Mottatt verdi=%s".formatted(avsenderId));
 			}
 			if (inneholderUlovligeTegn(avsender.getAvsenderNavn())) {
 				throw new InvalidRequestException("AvsenderNavn inneholder ulovlige tegn. Mottatt verdi=%s".formatted(avsender.getAvsenderNavn()));
+			}
+			if (isBlank(avsenderId) && avsenderIdType != null) {
+				throw new InvalidRequestException("Mottok avsenderIdType=%s, men ingen avsenderId".formatted(avsenderIdType));
+			}
+			if (avsenderIdType != null && isNotBlank(avsenderId)) {
+				validateAvsenderIdType(avsenderId, avsenderIdType);
+			}
+		}
+	}
+
+	private static void validateAvsenderIdType(String avsenderId, AvsenderIdType avsenderIdType) {
+		switch (avsenderIdType) {
+			case FNR -> {
+				if (!FNR_PATTERN.matcher(avsenderId).matches()) {
+					throw new InvalidRequestException("Mottok avsenderIdType FNR men feil antall siffer i avsenderId. Forventer 11 siffer, mottok=%s".formatted(avsenderId.length()));
+				}
+			}
+			case ORGNR -> {
+				if (!ORGNR_PATTERN.matcher(avsenderId).matches()) {
+					throw new InvalidRequestException("Mottok avsenderIdType ORGNR men feil antall siffer i avsenderId. Forventer 9 siffer, mottok=%s".formatted(avsenderId.length()));
+				}
+			}
+			case HPRNR -> {
+				if (!HPRNR_PATTERN.matcher(avsenderId).matches()) {
+					throw new InvalidRequestException("Mottok avsenderIdType HPRNR men feil antall siffer i avsenderId. Forventer 7 eller 9 siffer, mottok=%s".formatted(avsenderId.length()));
+				}
 			}
 		}
 	}
