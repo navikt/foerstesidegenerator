@@ -1,8 +1,10 @@
 package no.nav.foerstesidegenerator.domain;
 
 import no.nav.foerstesidegenerator.TestUtils;
+import no.nav.foerstesidegenerator.api.v1.Avsender;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
 import no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem;
+import no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType;
 import no.nav.foerstesidegenerator.api.v1.code.BrukerType;
 import no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype;
 import no.nav.foerstesidegenerator.api.v1.code.Spraakkode;
@@ -35,6 +37,7 @@ import static no.nav.foerstesidegenerator.TestUtils.TEMA_FORELDREPENGER;
 import static no.nav.foerstesidegenerator.TestUtils.TITTEL;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_1;
 import static no.nav.foerstesidegenerator.TestUtils.VEDLEGG_2;
+import static no.nav.foerstesidegenerator.TestUtils.createBaseRequest;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestEttersendelse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithAdresse;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithBrukerId;
@@ -95,6 +98,21 @@ class FoerstesideMapperTest {
 		assertEquals(Arkivsaksystem.PSAK.name(), domain.getArkivsaksystem());
 		assertEquals(SAK_REF, domain.getArkivsaksnummer());
 		assertEquals("MockConsumer", domain.getFoerstesideOpprettetAv());
+	}
+
+	@ParameterizedTest
+	@EnumSource(AvsenderIdType.class)
+	void shouldMapAvsenderIdType(AvsenderIdType avsenderIdType) {
+		PostFoerstesideRequest request = createBaseRequest()
+				.avsender(Avsender.builder()
+						.avsenderId(AVSENDER)
+						.avsenderIdType(avsenderIdType)
+						.build())
+				.build();
+
+		Foersteside domain = mapper.map(request, LOEPENUMMER, DEFAULT_HEADERS);
+
+		assertEquals(avsenderIdType.name(), domain.getAvsenderIdType());
 	}
 
 	@Test

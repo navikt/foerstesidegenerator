@@ -5,6 +5,7 @@ import no.nav.foerstesidegenerator.api.v1.Arkivsak;
 import no.nav.foerstesidegenerator.api.v1.Avsender;
 import no.nav.foerstesidegenerator.api.v1.Bruker;
 import no.nav.foerstesidegenerator.api.v1.PostFoerstesideRequest;
+import no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType;
 import no.nav.foerstesidegenerator.exception.BrukerIdIkkeValidException;
 import no.nav.foerstesidegenerator.exception.FoerstesideGeneratorFunctionalException;
 import no.nav.foerstesidegenerator.exception.InvalidRequestException;
@@ -29,6 +30,9 @@ import static no.nav.foerstesidegenerator.TestUtils.createRequestWithBrukerId;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithTema;
 import static no.nav.foerstesidegenerator.TestUtils.createRequestWithoutAdresseAndNetsPostboks;
 import static no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem.PSAK;
+import static no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType.FNR;
+import static no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType.HPRNR;
+import static no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType.ORGNR;
 import static no.nav.foerstesidegenerator.api.v1.code.BrukerType.PERSON;
 import static no.nav.foerstesidegenerator.api.v1.code.Foerstesidetype.SKJEMA;
 import static no.nav.foerstesidegenerator.api.v1.code.Spraakkode.NB;
@@ -68,6 +72,86 @@ class PostFoerstesideRequestValidatorTest {
 		PostFoerstesideRequest request = createRequestWithBrukerId(brukerId);
 
 		assertDoesNotThrow(() -> validator.validate(request, defaultHeaders));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void shouldValidateAvsenderId(AvsenderIdType avsenderIdType, String avsenderId) {
+		PostFoerstesideRequest request = createBaseRequest()
+				.avsender(Avsender.builder()
+						.avsenderId(avsenderId)
+						.avsenderIdType(avsenderIdType)
+						.build())
+				.build();
+
+		assertDoesNotThrow(() -> validator.validate(request, defaultHeaders));
+	}
+
+	private static Stream<Arguments> shouldValidateAvsenderId() {
+		return Stream.of(
+				Arguments.of(FNR, "12345678901"),
+				Arguments.of(ORGNR, "123456789"),
+				Arguments.of(HPRNR, "1234567"),
+				Arguments.of(HPRNR, "123456789")
+		);
+	}
+
+	@Test
+	void shouldValidateAvsenderIdWithoutType() {
+		PostFoerstesideRequest request = createBaseRequest()
+				.avsender(Avsender.builder()
+						.avsenderId("12345678901")
+						.build())
+				.build();
+
+		assertDoesNotThrow(() -> validator.validate(request, defaultHeaders));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void shouldRejectAvsenderIdThatDoesNotMatchItsType(AvsenderIdType avsenderIdType, String avsenderId, String expectedMessage) {
+		PostFoerstesideRequest request = createBaseRequest()
+				.avsender(Avsender.builder()
+						.avsenderId(avsenderId)
+						.avsenderIdType(avsenderIdType)
+						.build())
+				.build();
+
+		assertThatExceptionOfType(InvalidRequestException.class)
+				.isThrownBy(() -> validator.validate(request, defaultHeaders))
+				.withMessage(expectedMessage);
+	}
+
+	private static Stream<Arguments> shouldRejectAvsenderIdThatDoesNotMatchItsType() {
+		return Stream.of(
+				Arguments.of(FNR, "1234567890", "Mottok avsenderIdType FNR men feil antall siffer i avsenderId. Forventer 11 siffer, mottok=10"),
+				Arguments.of(ORGNR, "12345678", "Mottok avsenderIdType ORGNR men feil antall siffer i avsenderId. Forventer 9 siffer, mottok=8"),
+				Arguments.of(HPRNR, "123456", "Mottok avsenderIdType HPRNR men feil antall siffer i avsenderId. Forventer 7 eller 9 siffer, mottok=6"),
+				Arguments.of(HPRNR, "12345678", "Mottok avsenderIdType HPRNR men feil antall siffer i avsenderId. Forventer 7 eller 9 siffer, mottok=8")
+		);
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void shouldRejectAvsenderIdTypeWithoutAvsenderId(AvsenderIdType avsenderIdType, String avsenderId) {
+		PostFoerstesideRequest request = createBaseRequest()
+				.avsender(Avsender.builder()
+						.avsenderId(avsenderId)
+						.avsenderIdType(avsenderIdType)
+						.build())
+				.build();
+
+		assertThatExceptionOfType(InvalidRequestException.class)
+				.isThrownBy(() -> validator.validate(request, defaultHeaders))
+				.withMessage("Mottok avsenderIdType=%s, men ingen avsenderId".formatted(avsenderIdType));
+	}
+
+	private static Stream<Arguments> shouldRejectAvsenderIdTypeWithoutAvsenderId() {
+		return Stream.of(
+				Arguments.of(FNR, null),
+				Arguments.of(ORGNR, ""),
+				Arguments.of(HPRNR, "   ")
+		);
 	}
 
 	@ParameterizedTest
