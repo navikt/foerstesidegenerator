@@ -3,6 +3,7 @@
   "netsPostboks": "4444",
   "avsender": {
     "avsenderId": "99988812345",
+    "avsenderIdType": "FNR",
     "avsenderNavn": "navn navnesen"
   },
   "bruker": {
