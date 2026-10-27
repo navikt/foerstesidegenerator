@@ -119,6 +119,9 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertThat(foersteside.getAdresselinje3()).isNull();
 		assertThat(foersteside.getPostnummer()).isEqualTo("1234");
 		assertThat(foersteside.getPoststed()).isEqualTo("Oslo");
+		assertThat(foersteside.getAvsenderId()).isEqualTo("99988812345");
+		assertThat(foersteside.getAvsenderIdType()).isNull();
+		assertThat(foersteside.getAvsenderNavn()).isEqualTo("navn navnesen");
 	}
 
 	@Test

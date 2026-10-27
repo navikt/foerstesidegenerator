@@ -37,7 +37,7 @@ public class PostFoerstesideRequestValidator {
 	private static final Pattern BRUKER_ID_ORGANISASJON_REGEX = Pattern.compile("[0-9]{9}");
 	private static final Pattern FNR_PATTERN = Pattern.compile("^\\d{11}$");
 	private static final Pattern ORGNR_PATTERN = Pattern.compile("^\\d{9}$");
-	private static final Pattern HPRNR_PATTERN = Pattern.compile("^(?:\\d{7}|\\d{9})$");
+	private static final Pattern HPRNR_PATTERN = Pattern.compile("^\\d{7,9}$");
 
 	private static final Pattern NUMMER_REGEX = Pattern.compile("^[0-9]+$"); //Kun siffer
 	private static final Pattern SIFFER_OG_BOKSTAVER_REGEX = Pattern.compile("^[0-9A-Za-zÆØÅæøå]+$"); //Kun siffer og bokstaver
@@ -244,7 +244,7 @@ public class PostFoerstesideRequestValidator {
 			}
 			case HPRNR -> {
 				if (!HPRNR_PATTERN.matcher(avsenderId).matches()) {
-					throw new InvalidRequestException("Mottok avsenderIdType HPRNR men feil antall siffer i avsenderId. Forventer 7 eller 9 siffer, mottok=%s".formatted(avsenderId.length()));
+					throw new InvalidRequestException("Mottok avsenderIdType HPRNR men feil antall siffer i avsenderId. Forventer 7-9 siffer, mottok=%s".formatted(avsenderId.length()));
 				}
 			}
 		}

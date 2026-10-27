@@ -92,6 +92,7 @@ class PostFoerstesideRequestValidatorTest {
 				Arguments.of(FNR, "12345678901"),
 				Arguments.of(ORGNR, "123456789"),
 				Arguments.of(HPRNR, "1234567"),
+				Arguments.of(HPRNR, "12345678"),
 				Arguments.of(HPRNR, "123456789")
 		);
 	}
@@ -126,8 +127,8 @@ class PostFoerstesideRequestValidatorTest {
 		return Stream.of(
 				Arguments.of(FNR, "1234567890", "Mottok avsenderIdType FNR men feil antall siffer i avsenderId. Forventer 11 siffer, mottok=10"),
 				Arguments.of(ORGNR, "12345678", "Mottok avsenderIdType ORGNR men feil antall siffer i avsenderId. Forventer 9 siffer, mottok=8"),
-				Arguments.of(HPRNR, "123456", "Mottok avsenderIdType HPRNR men feil antall siffer i avsenderId. Forventer 7 eller 9 siffer, mottok=6"),
-				Arguments.of(HPRNR, "12345678", "Mottok avsenderIdType HPRNR men feil antall siffer i avsenderId. Forventer 7 eller 9 siffer, mottok=8")
+				Arguments.of(HPRNR, "123456", "Mottok avsenderIdType HPRNR men feil antall siffer i avsenderId. Forventer 7-9 siffer, mottok=6"),
+				Arguments.of(HPRNR, "1234567891", "Mottok avsenderIdType HPRNR men feil antall siffer i avsenderId. Forventer 7-9 siffer, mottok=10")
 		);
 	}
 

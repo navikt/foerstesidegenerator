@@ -19,7 +19,7 @@ public class Avsender {
 			example = "01234567890")
 	private String avsenderId;
 
-	@Schema(description = "Sier hvilken type identifikator som er benyttet i avsenderID.",
+	@Schema(description = "Hvilken type identifikator som er benyttet i avsenderId.",
 			example = "FNR",
 			requiredMode = NOT_REQUIRED)
 	private AvsenderIdType avsenderIdType;
