@@ -112,8 +112,10 @@ public class FoerstesideMapper {
 
 	private void mapAvsender(Foersteside foersteside, Avsender avsender) {
 		addMetadata(foersteside, AVSENDER_ID, avsender.getAvsenderId());
-		addMetadata(foersteside, AVSENDER_ID_TYPE, avsender.getAvsenderIdType() == null ? null : avsender.getAvsenderIdType().name());
 		addMetadata(foersteside, AVSENDER_NAVN, avsender.getAvsenderNavn());
+		if(avsender.getAvsenderIdType() != null){
+			addMetadata(foersteside, AVSENDER_ID_TYPE, avsender.getAvsenderIdType().name());
+		}
 	}
 
 	private void mapBruker(Foersteside foersteside, Bruker bruker) {
