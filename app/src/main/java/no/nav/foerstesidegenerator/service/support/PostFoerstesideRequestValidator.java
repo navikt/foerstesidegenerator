@@ -211,22 +211,24 @@ public class PostFoerstesideRequestValidator {
 	}
 
 	private void validateAvsender(Avsender avsender) {
-		if (avsender != null) {
-			final String avsenderId = avsender.getAvsenderId();
-			final AvsenderIdType avsenderIdType = avsender.getAvsenderIdType();
+		if (avsender == null) {
+			return;
+		}
 
-			if (inneholderIkkeBareSiffer(avsenderId)) {
-				throw new InvalidRequestException("AvsenderId kan kun inneholde siffer. Mottatt verdi=%s".formatted(avsenderId));
-			}
-			if (inneholderUlovligeTegn(avsender.getAvsenderNavn())) {
-				throw new InvalidRequestException("AvsenderNavn inneholder ulovlige tegn. Mottatt verdi=%s".formatted(avsender.getAvsenderNavn()));
-			}
-			if (isBlank(avsenderId) && avsenderIdType != null) {
-				throw new InvalidRequestException("Mottok avsenderIdType=%s, men ingen avsenderId".formatted(avsenderIdType));
-			}
-			if (avsenderIdType != null && isNotBlank(avsenderId)) {
-				validateAvsenderIdType(avsenderId, avsenderIdType);
-			}
+		final String avsenderId = avsender.getAvsenderId();
+		final AvsenderIdType avsenderIdType = avsender.getAvsenderIdType();
+
+		if (inneholderIkkeBareSiffer(avsenderId)) {
+			throw new InvalidRequestException("AvsenderId kan kun inneholde siffer. Mottatt verdi=%s".formatted(avsenderId));
+		}
+		if (inneholderUlovligeTegn(avsender.getAvsenderNavn())) {
+			throw new InvalidRequestException("AvsenderNavn inneholder ulovlige tegn. Mottatt verdi=%s".formatted(avsender.getAvsenderNavn()));
+		}
+		if (isBlank(avsenderId) && avsenderIdType != null) {
+			throw new InvalidRequestException("Mottok avsenderIdType=%s, men ingen avsenderId".formatted(avsenderIdType));
+		}
+		if (avsenderIdType != null && isNotBlank(avsenderId)) {
+			validateAvsenderIdType(avsenderId, avsenderIdType);
 		}
 	}
 
