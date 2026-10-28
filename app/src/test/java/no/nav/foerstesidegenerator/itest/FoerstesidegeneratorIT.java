@@ -19,6 +19,7 @@ import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_PERSON;
 import static no.nav.foerstesidegenerator.TestUtils.createFoersteside;
 import static no.nav.foerstesidegenerator.api.v1.code.Arkivsaksystem.GSAK;
+import static no.nav.foerstesidegenerator.api.v1.code.AvsenderIdType.FNR;
 import static no.nav.foerstesidegenerator.constants.NavHeaders.NAV_CONSUMER_ID;
 import static no.nav.foerstesidegenerator.domain.code.FagomradeCode.BID;
 import static no.nav.foerstesidegenerator.domain.code.MetadataConstants.AVSENDER_ID_TYPE;
@@ -71,6 +72,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		assertThat(foersteside.getNetsPostboks()).isEqualTo("4444");
 		assertThat(foersteside.getAvsenderId()).isEqualTo("99988812345");
+		assertThat(foersteside.getAvsenderIdType()).isEqualTo("FNR");
 		assertThat(foersteside.getAvsenderNavn()).isEqualTo("navn navnesen");
 		assertThat(foersteside.getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
 		assertThat(foersteside.getBrukerType()).isEqualTo(BRUKER_PERSON);
@@ -117,6 +119,9 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertThat(foersteside.getAdresselinje3()).isNull();
 		assertThat(foersteside.getPostnummer()).isEqualTo("1234");
 		assertThat(foersteside.getPoststed()).isEqualTo("Oslo");
+		assertThat(foersteside.getAvsenderId()).isEqualTo("99988812345");
+		assertThat(foersteside.getAvsenderIdType()).isNull();
+		assertThat(foersteside.getAvsenderNavn()).isEqualTo("navn navnesen");
 	}
 
 	@Test
@@ -244,7 +249,7 @@ class FoerstesidegeneratorIT extends AbstractIT {
 
 		assertThat(foerstesideResponse).isNotNull();
 		assertThat(foerstesideResponse.getAvsender().getAvsenderId()).isEqualTo("99988812345");
-		assertThat(foerstesideResponse.getAvsender().getAvsenderIdType()).isNull();
+		assertThat(foerstesideResponse.getAvsender().getAvsenderIdType()).isEqualTo(FNR);
 		assertThat(foerstesideResponse.getAvsender().getAvsenderNavn()).isEqualTo("navn navnesen");
 		assertThat(foerstesideResponse.getBruker()).isNotNull();
 		assertThat(foerstesideResponse.getBruker().getBrukerId()).isEqualTo(BRUKER_ID_PERSON);
