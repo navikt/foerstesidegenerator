@@ -13,6 +13,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Locale;
 
 import static java.lang.String.format;
 import static no.nav.foerstesidegenerator.TestUtils.BRUKER_ID_PERSON;
@@ -202,6 +204,38 @@ class FoerstesidegeneratorIT extends AbstractIT {
 		assertThat(foersteside.getSpraakkode()).isEqualTo("NB");
 		assertThat(foersteside.getVedleggListe()).isNull();
 		assertThat(foersteside.getDokumentlisteFoersteside()).isNull();
+	}
+
+	@Test
+	void skalOppretteNyFoerstesideMedAcceptLanguage11Elementer() {
+		var request = createPostRequest("__files/input/happypath_ukjentbrukerpersoninfo.json");
+
+		var response = restTestClient.post()
+				.uri(OPPRETT_NY_FOERSTESIDE_URL)
+				.headers(httpHeaders -> {
+					getHeaders(httpHeaders);
+					httpHeaders.setAcceptLanguage(List.of(new Locale.LanguageRange("nb-NO"),
+							new Locale.LanguageRange("nn-NO", 0.9),
+							new Locale.LanguageRange("no", 0.9),
+							new Locale.LanguageRange("en-US", 0.8),
+							new Locale.LanguageRange("en-GB", 0.8),
+							new Locale.LanguageRange("en", 0.7),
+							new Locale.LanguageRange("sv-SE", 0.6),
+							new Locale.LanguageRange("da-DK", 0.5),
+							new Locale.LanguageRange("de-DE", 0.4),
+							new Locale.LanguageRange("fr-FR", 0.3),
+							new Locale.LanguageRange("es-ES", 0.2)));
+				})
+				.body(request)
+				.exchange()
+				.expectStatus().isCreated()
+				.expectBody(PostFoerstesideResponse.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response).isNotNull();
+		assertThat(response.getFoersteside()).isNotNull();
+		assertThat(response.getLoepenummer()).isNotNull();
 	}
 
 	@Test
