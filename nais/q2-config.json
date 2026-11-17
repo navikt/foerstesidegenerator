@@ -77,6 +77,11 @@
 			"app": "bidrag-frontend-q2",
 			"namespace": "bidrag",
 			"cluster": "dev-gcp"
+		},
+		{
+			"app": "klage-dittnav-api",
+			"namespace": "klage",
+			"cluster": "dev-gcp"
 		}
 	]
 }
