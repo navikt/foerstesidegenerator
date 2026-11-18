@@ -69,13 +69,18 @@
 			"cluster": "dev-gcp"
 		},
 		{
-				"app": "su-se-bakover",
-				"namespace": "supstonad",
-				"cluster": "dev-gcp"
+			"app": "su-se-bakover",
+			"namespace": "supstonad",
+			"cluster": "dev-gcp"
 		},
 		{
 			"app": "bidrag-frontend-q2",
 			"namespace": "bidrag",
+			"cluster": "dev-gcp"
+		},
+		{
+			"app": "klage-dittnav-api",
+			"namespace": "klage",
 			"cluster": "dev-gcp"
 		}
 	]
